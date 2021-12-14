@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Calendar from '../screens/Calendar';
 import Home from '../screens/Home';
 import Category from '../screens/Category';
+import Drawers from './Drawers';
 
 const Tab = createBottomTabNavigator();
 
@@ -52,7 +53,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={Drawers}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
             return (
