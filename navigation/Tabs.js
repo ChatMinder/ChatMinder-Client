@@ -2,6 +2,9 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Calendar from '../screens/Calendar';
+import Home from '../screens/Home';
+import Category from '../screens/Category';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,12 +35,14 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="Category"
-        component={}
+        component={Category}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Ionicons
-                name="ios-file-tray-full-outline"
+                name={
+                  focused ? `ios-file-tray-full` : `ios-file-tray-full-outline`
+                }
                 color={color}
                 size={size}
               />
@@ -47,12 +52,12 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Home"
-        component={}
+        component={Home}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Ionicons
-                name={}
+                name={focused ? `md-home` : `md-home-outline`}
                 color={color}
                 size={size}
               />
@@ -62,12 +67,12 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Calendar"
-        component={}
+        component={Calendar}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Ionicons
-                name={}
+                name={focused ? `ios-calendar` : `ios-calendar-outline`}
                 color={color}
                 size={size}
               />
