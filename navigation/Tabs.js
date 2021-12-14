@@ -37,7 +37,7 @@ const Tabs = () => {
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Ionicons
-                name={}
+                name="ios-file-tray-full-outline"
                 color={color}
                 size={size}
               />
