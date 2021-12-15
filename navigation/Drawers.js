@@ -1,6 +1,5 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
 import Home from '../screens/Home';
 import Category1 from '../screens/categories/Category1';
 import Category2 from '../screens/categories/Category2';

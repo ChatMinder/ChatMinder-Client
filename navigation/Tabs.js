@@ -52,9 +52,10 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Home"
+        name="TabHome"
         component={Drawers}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Ionicons
