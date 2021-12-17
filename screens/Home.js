@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import Search from '../components/Search';
 
 const Home = ({ navigation: { setOptions } }) => {
+
   useEffect(() => {
     setOptions({
       headerRight: () => <Search />,
