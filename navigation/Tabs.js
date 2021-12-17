@@ -1,16 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Calendar from '../screens/Calendar';
-import Home from '../screens/Home';
 import Category from '../screens/Category';
 import Drawers from './Drawers';
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const isDark = useColorScheme() === 'dark';
   return (
     <Tab.Navigator
       sceneContainerStyle={{
@@ -35,7 +32,7 @@ const Tabs = () => {
       }}
     >
       <Tab.Screen
-        name="Category"
+        name="카테고리"
         component={Category}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
@@ -52,7 +49,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="TabHome"
+        name="메인"
         component={Drawers}
         options={{
           headerShown: false,
@@ -68,7 +65,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Calendar"
+        name="캘린더"
         component={Calendar}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
