@@ -10,6 +10,7 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
   return (
     <Tab.Navigator
+    initialRouteName='메인'
       sceneContainerStyle={{
         backgroundColor: 'white',
       }}
@@ -52,6 +53,7 @@ const Tabs = () => {
         name="메인"
         component={Drawers}
         options={{
+          
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             return (
