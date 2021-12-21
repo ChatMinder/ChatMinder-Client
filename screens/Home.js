@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
+import { addMemo } from '../shared/reducer';
 
 const Home = ({ navigation: { setOptions } }) => {
   const {
@@ -18,11 +19,14 @@ const Home = ({ navigation: { setOptions } }) => {
     },
   });
 
-  const [memoText, setMemoText] = useState('');
+  const dispatch = useDispatch();
+  const abc = useSelector((state) => state);
+  console.log(abc);
 
-  const onSubmit = () => {
-    alert('submitted');
+  const onSubmit = (data) => {
+    dispatch(addMemo(data.category, data.memo));
   };
+  //이거 disaptch
 
   useEffect(() => {
     setOptions({
