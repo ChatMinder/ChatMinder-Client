@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
-import { addMemo } from '../shared/reducer';
+import { addMemo, setCategory } from '../shared/reducer.js';
 
 const Home = ({ navigation: { setOptions } }) => {
   const {
@@ -23,10 +23,14 @@ const Home = ({ navigation: { setOptions } }) => {
   const abc = useSelector((state) => state);
   console.log(abc);
 
+  // const onCategorySelected = (categoryName) => {
+  //   dispatch(setCategory(categoryName));
+  // };
+
   const onSubmit = (data) => {
+    dispatch(setCategory(data.category));
     dispatch(addMemo(data.category, data.memo));
   };
-  //이거 disaptch
 
   useEffect(() => {
     setOptions({
@@ -46,6 +50,7 @@ const Home = ({ navigation: { setOptions } }) => {
             onChangeText={(value) => onChange(value)}
             value={value}
             placeholder="카테고리"
+            // onEndEditing={() => onCategorySelected(value)}
           />
         )}
         name="category"
