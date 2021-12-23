@@ -34,27 +34,27 @@ export default function reducer(state = initialState, action) {
           ? tempState[0][tempState[0].length - 1].categoryID + 1
           : 1;
 
-      // const index0 = [
-      //   // ...tempState[0],
-      //   {
-      //     categoryID: newCategoryID,
-      //     categoryName: action.categoryName,
-      //     memos: [],
-      //     categoryColor: '',
-      //   },
-      // ];
+      const index0 = tempState[0]
+        ? [
+            ...tempState[0],
+            {
+              categoryID: newCategoryID,
+              categoryName: action.categoryName,
+              memos: [],
+              categoryColor: '',
+            },
+          ]
+        : [
+            {
+              categoryID: newCategoryID,
+              categoryName: action.categoryName,
+              memos: [],
+              categoryColor: '',
+            },
+          ];
 
       //기존에 메모가 있을 경우
       if (tempState.length > 1) {
-        const index0 = [
-          ...tempState[0],
-          {
-            categoryID: newCategoryID,
-            categoryName: action.categoryName,
-            memos: [],
-            categoryColor: '',
-          },
-        ];
         //기존 state의 index0을 삭제하고, 새로운 index0을 넣어 return
         tempState.shift();
         return [index0, ...tempState];
@@ -62,14 +62,6 @@ export default function reducer(state = initialState, action) {
 
       //처음 메모를 추가할 경우
       else {
-        const index0 = [
-          {
-            categoryID: newCategoryID,
-            categoryName: action.categoryName,
-            memos: [],
-            categoryColor: '',
-          },
-        ];
         return [index0];
       }
     }
