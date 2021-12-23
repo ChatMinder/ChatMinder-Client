@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const Category1 = () => {
+const gatherLink = () => {
   return (
     <View>
-      <Text>Category1</Text>
+      <Text>링크 모아보기</Text>
     </View>
   );
 };
 
-export default Category1;
+export default gatherLink;

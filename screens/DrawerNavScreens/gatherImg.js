@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const Category3 = () => {
+const gatherImg = () => {
   return (
     <View>
-      <Text>Category3</Text>
+      <Text>이미지 모아보기</Text>
     </View>
   );
 };
 
-export default Category3;
+export default gatherImg;
