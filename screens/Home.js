@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
-import { addMemo, setCategory } from '../shared/reducer.js';
+import { addCategory, addMemo, setMemoInCategory } from '../shared/reducer.js';
 
 const Home = ({ navigation: { setOptions } }) => {
   const {
@@ -28,8 +28,9 @@ const Home = ({ navigation: { setOptions } }) => {
   // };
 
   const onSubmit = (data) => {
-    dispatch(setCategory(data.category));
+    dispatch(addCategory(data.category));
     dispatch(addMemo(data.category, data.memo));
+    // dispatch(setMemoInCategory(data.category));
   };
 
   useEffect(() => {
