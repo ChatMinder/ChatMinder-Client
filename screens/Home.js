@@ -22,10 +22,7 @@ const Home = ({ navigation: { setOptions } }) => {
   const dispatch = useDispatch();
   const abc = useSelector((state) => state);
   console.log(abc);
-
-  // const onCategorySelected = (categoryName) => {
-  //   dispatch(setCategory(categoryName));
-  // };
+  // console.log(abc[0]);
 
   const onSubmit = (data) => {
     dispatch(addCategory(data.category));

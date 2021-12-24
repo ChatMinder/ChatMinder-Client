@@ -43,7 +43,7 @@ export default function reducer(state = initialState, action) {
               categoryName: action.categoryName,
               memos: [],
               categoryColor: '',
-              setMemoInThis: false,
+              setMemoInThis: true,
             },
           ]
         : [
@@ -52,7 +52,7 @@ export default function reducer(state = initialState, action) {
               categoryName: action.categoryName,
               memos: [],
               categoryColor: '',
-              setMemoInThis: false,
+              setMemoInThis: true,
             },
           ];
 
@@ -96,7 +96,18 @@ export default function reducer(state = initialState, action) {
       ];
     }
     case SET_MEMO_IN_CATEGORY: {
-      // categoryIDToSetMemo로 해당 카테고리에 가서 memos에 state.length-1의 메모 id 추가해 준 거 리턴
+      // setMemoInThis가 true인 객체에서 memos에 state.length-1의 메모 id 추가해 준 거 리턴
+      // 해당 setMemoInThis값 false로 바꾸고
+      const tempState = state;
+      tempState[0].map((element) => {
+        if (element.setMemoInThis) {
+          element.memos = [
+            ...element.memos,
+            tempState[tempState.length - 1].memoID,
+          ];
+        }
+        element.setMemoInThis = false;
+      });
       return [...state];
     }
     default:
