@@ -30,7 +30,7 @@ const Home = ({ navigation: { setOptions } }) => {
   const onSubmit = (data) => {
     dispatch(addCategory(data.category));
     dispatch(addMemo(data.category, data.memo));
-    // dispatch(setMemoInCategory(data.category));
+    dispatch(setMemoInCategory(data.category));
   };
 
   useEffect(() => {

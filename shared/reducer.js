@@ -21,7 +21,9 @@ export const setMemoInCategory = (categoryName) => ({
 //초기 상태 선언
 //각 요소가 객체로 이뤄진 배열 형태의 state
 const initialState = [];
-let categoryIDToSetMemo = 0;
+
+//새 메모의 category가 기존의 것과 중복되는지의 여부를 담는 변수
+let categoryExist = false;
 
 //리듀서 선언
 export default function reducer(state = initialState, action) {
@@ -41,6 +43,7 @@ export default function reducer(state = initialState, action) {
               categoryName: action.categoryName,
               memos: [],
               categoryColor: '',
+              setMemoInThis: false,
             },
           ]
         : [
@@ -49,22 +52,25 @@ export default function reducer(state = initialState, action) {
               categoryName: action.categoryName,
               memos: [],
               categoryColor: '',
+              setMemoInThis: false,
             },
           ];
 
       //기존에 메모가 있을 경우
       if (tempState.length > 1) {
-        //기존 category에서 같은 이름의 category가 있는지 검사, categoryIDToSetMemo 변수에 categoryID 추가
+        //기존 category에서 같은 이름의 category가 있는지 검사
         tempState[0].map((element) => {
           if (element.categoryName === action.categoryName) {
-            categoryIDToSetMemo = element.categoryID;
+            categoryExist = true;
+            element.setMemoInThis = true;
           }
         });
-        //반복문을 돌고 categoryIDToSetMemo값이 존재하면(기존과 같은 카테고리가 있으면) state 변하지 X
-        if (categoryIDToSetMemo !== 0) {
-          return [...state];
+        //기존과 같은 카테고리가 있으면 state에서 그대로 리턴
+        if (categoryExist) {
+          categoryExist = false;
+          return [...tempState];
         }
-        categoryIDToSetMemo = newCategoryID;
+
         //기존 state의 index0을 삭제하고, 새로운 index0을 넣어 return
         tempState.shift();
         return [index0, ...tempState];
@@ -72,7 +78,6 @@ export default function reducer(state = initialState, action) {
 
       //처음 메모를 추가할 경우
       else {
-        categoryIDToSetMemo = newCategoryID;
         return [index0];
       }
     }
@@ -92,9 +97,7 @@ export default function reducer(state = initialState, action) {
     }
     case SET_MEMO_IN_CATEGORY: {
       // categoryIDToSetMemo로 해당 카테고리에 가서 memos에 state.length-1의 메모 id 추가해 준 거 리턴
-      const categoryIDOfNewMemo = categoryIDToSetMemo;
-      categoryIDToSetMemo = 0;
-      return [];
+      return [...state];
     }
     default:
       return state;
