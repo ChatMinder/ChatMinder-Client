@@ -28,6 +28,7 @@ let categoryExist = false;
 //리듀서 선언
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    //입력받은 카테고리가 중복되는 카테고리인지 판별해 index0에 카테고리 추가
     case ADD_CATEGORY: {
       const tempState = state;
       const newCategoryID =
@@ -81,6 +82,7 @@ export default function reducer(state = initialState, action) {
         return [index0];
       }
     }
+    //메모 객체 추가
     case ADD_MEMO: {
       //새로 추가될 메모에게 ID 부여 : 첫 메모면 1, 이후면 그 전 메모의 ID+1
       const newMemoID =
@@ -88,13 +90,16 @@ export default function reducer(state = initialState, action) {
       return [
         ...state,
         {
+          categoryName: action.categoryName,
           memoID: newMemoID,
           memoText: action.memoText,
-          categoryID: action.categoryName,
-          categoryName: action.categoryName,
+          isImg: '',
+          isLink: false,
+          isMarked: false,
         },
       ];
     }
+    //카테고리 객체 내부의 memos 배열 속에 memoID 추가
     case SET_MEMO_IN_CATEGORY: {
       // setMemoInThis가 true인 객체에서 memos에 state.length-1의 메모 id 추가해 준 거 리턴
       // 해당 setMemoInThis값 false로 바꾸고
