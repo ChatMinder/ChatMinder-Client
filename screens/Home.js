@@ -4,10 +4,16 @@ import Search from '../components/Search';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import MemoInputForm from '../components/MemoInputForm';
+import MemoItem from '../components/MemoItem';
 
 const Home = ({ navigation: { setOptions } }) => {
   const memoObj = useSelector((state) => state);
   console.log(memoObj);
+
+  const onDeletePress = () => {
+    alert('delete');
+    //API 삭제 로직 넣기
+  };
 
   useEffect(() => {
     setOptions({
@@ -19,29 +25,12 @@ const Home = ({ navigation: { setOptions } }) => {
     <View>
       <Text>Home</Text>
       {memoObj.map(
-        (memo) =>
-          memo.memoText && (
-            <MemoWrapper key={memo.memoID}>
-              <Text>{memo.categoryName}</Text>
-              <MemoContainer>
-                <Text>{memo.memoText}</Text>
-              </MemoContainer>
-            </MemoWrapper>
-          )
+        (memo) => memo.memoText && <MemoItem memo={memo} key={memo.momoID} />
       )}
 
       <MemoInputForm />
     </View>
   );
 };
-
-const MemoWrapper = styled.View`
-  margin: 16px;
-  border: 1px dashed gray;
-`;
-
-const MemoContainer = styled.View`
-  background: skyblue;
-`;
 
 export default Home;
