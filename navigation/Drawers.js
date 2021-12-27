@@ -6,6 +6,7 @@ import gatherLink from '../screens/DrawerNavScreens/gatherLink';
 import gatherText from '../screens/DrawerNavScreens/gatherText';
 import gatherMarked from '../screens/DrawerNavScreens/gatherMarked';
 import gatherDeleted from '../screens/DrawerNavScreens/gatherDeleted';
+import detailText from '../screens/DrawerNavScreens/detailText';
 
 const Drawer = createDrawerNavigator();
 
@@ -18,6 +19,7 @@ const Drawers = () => {
       <Drawer.Screen name="텍스트 모아보기" component={gatherText} />
       <Drawer.Screen name="북마크한 메모" component={gatherMarked} />
       <Drawer.Screen name="삭제한 메모" component={gatherDeleted} />
+      <Drawer.Screen name="detailText" component={detailText} />
     </Drawer.Navigator>
   );
 };

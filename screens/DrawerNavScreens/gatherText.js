@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, Text, View, StyleSheet, Image } from 'react-native';
+import { TextInput, Text, View, StyleSheet, Image, Button } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import palette from '../../palette/palette';
 import Search from '../../components/Search';
@@ -51,7 +51,7 @@ const CategoryBox = styled.View`
   align-items: center;
 `;
 
-const gatherText = () => {
+const gatherText = ({ navigation }) => {
   const value = useSelector((state) => state);
   console.log('value: ', value);
 
@@ -81,6 +81,15 @@ const gatherText = () => {
                 <BookmarkItem source={empty} />
               )}
             </CategoryBox>
+            <Button
+              title="상세보기"
+              onPress={() => {
+                navigation.navigate('detailText', {
+                  id: memo.memoID,
+                  memoText: memo.memoText,
+                });
+              }}
+            />
           </TextItem>
         ))}
       </TextBox>
