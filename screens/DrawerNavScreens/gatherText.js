@@ -27,7 +27,7 @@ const CommonCenter = css`
 `;
 
 const TextBox = styled.View`
-  ${CommonCenter}
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
@@ -35,16 +35,20 @@ const TextBox = styled.View`
 const TextItem = styled.View`
   ${CommonCenter}
   border: black 1px solid;
-  width: 80%;
-  margin-bottom: 3%;
+  width: 40%;
+  margin: 0 3% 3%;
+  padding: 5px;
 `;
 
 const BookmarkItem = styled.Image`
   width: 10px;
   height: 10px;
-  position: relative;
-  left: 95%;
-  bottom: 5px;
+`;
+
+const CategoryBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const gatherText = () => {
@@ -69,11 +73,14 @@ const gatherText = () => {
         {value.slice(1).map((memo) => (
           <TextItem key={memo.memoID}>
             <Text>{memo.memoText}</Text>
-            {memo.isMarked ? (
-              <BookmarkItem source={fulled} />
-            ) : (
-              <BookmarkItem source={empty} />
-            )}
+            <CategoryBox>
+              <Text>{memo.categoryName}</Text>
+              {memo.isMarked ? (
+                <BookmarkItem source={fulled} />
+              ) : (
+                <BookmarkItem source={empty} />
+              )}
+            </CategoryBox>
           </TextItem>
         ))}
       </TextBox>
