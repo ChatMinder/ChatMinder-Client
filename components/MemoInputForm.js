@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { addCategory, addMemo, setMemoInCategory } from '../shared/reducer.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
 
 const MemoInputForm = () => {
   const dispatch = useDispatch();
+  const memoObj = useSelector((state) => state);
+
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
   const {
     control,
@@ -29,8 +31,13 @@ const MemoInputForm = () => {
   return (
     <Wrapper>
       {isShpBtnToggled && (
-        <>
-          <Controller
+        <ShpItemContainer horizontal={true}>
+          {memoObj[0].map((category) => (
+            <EachCategoryBtn>
+              <Text>{category.categoryName}</Text>
+            </EachCategoryBtn>
+          ))}
+          {/* <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <InputCategory
@@ -42,10 +49,10 @@ const MemoInputForm = () => {
             )}
             name="category"
             // rules={{ required: true }}
-          />
-        </>
+          /> */}
+        </ShpItemContainer>
       )}
-      <MemoInputWrapper>
+      <MemoInputContainer>
         <ShpBtn onPress={() => setIsShpBtnToggled(!isShpBtnToggled)} />
         <Controller
           control={control}
@@ -64,7 +71,7 @@ const MemoInputForm = () => {
         <View>
           <Submit title="Submit" onPress={handleSubmit(onSubmit)} />
         </View>
-      </MemoInputWrapper>
+      </MemoInputContainer>
     </Wrapper>
   );
 };
@@ -74,11 +81,19 @@ const Wrapper = styled.View`
   background: #f6f6f7;
 `;
 
+const ShpItemContainer = styled.ScrollView`
+  flex-direction: row;
+  border: 1px solid black;
+`;
+const EachCategoryBtn = styled.TouchableOpacity`
+  background: orange;
+  margin: 0 10px;
+`;
 const InputCategory = styled.TextInput`
   border: 1px solid red;
 `;
 
-const MemoInputWrapper = styled.View`
+const MemoInputContainer = styled.View`
   flex-direction: row;
 `;
 const ShpBtn = styled.TouchableOpacity`
@@ -86,12 +101,10 @@ const ShpBtn = styled.TouchableOpacity`
   height: 16px;
   background: purple;
 `;
-
 const InputMemo = styled.TextInput`
   border: 1px solid green;
   width: 80%;
 `;
-
 const Submit = styled.TouchableOpacity`
   width: 16px;
   height: 16px;
