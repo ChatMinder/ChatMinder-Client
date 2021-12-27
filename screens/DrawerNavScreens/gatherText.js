@@ -13,6 +13,8 @@ const fulled = require('../../assets/fulledBookmark.png');
 
 const InputItem = styled.TextInput`
   background-color: ${palette.gray};
+  width: 90%;
+  padding-left: 10px;
 `;
 
 const ButtonBox = styled.View`
@@ -35,10 +37,6 @@ const TextItem = styled.View`
   border: black 1px solid;
   width: 80%;
   margin-bottom: 3%;
-`;
-
-const BookmarkBox = styled.View`
-  justify-content: flex-end;
 `;
 
 const BookmarkItem = styled.Image`
