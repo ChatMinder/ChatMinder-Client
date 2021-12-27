@@ -85,13 +85,12 @@ export default function reducer(state = initialState, action) {
     //메모 객체 추가
     case ADD_MEMO: {
       //새로 추가될 메모에게 ID 부여 : 첫 메모면 1, 이후면 그 전 메모의 ID+1
-      const newMemoID =
-        state.length === 1 ? 1 : state[state.length - 1].memoID + 1;
+      const timestamp = new Date().getTime();
       return [
         ...state,
         {
           categoryName: action.categoryName,
-          memoID: newMemoID,
+          memoID: timestamp,
           memoText: action.memoText,
           isImg: '',
           isLink: false,
@@ -102,7 +101,6 @@ export default function reducer(state = initialState, action) {
     //카테고리 객체 내부의 memos 배열 속에 memoID 추가
     case SET_MEMO_IN_CATEGORY: {
       // setMemoInThis가 true인 객체에서 memos에 state.length-1의 메모 id 추가해 준 거 리턴
-      // 해당 setMemoInThis값 false로 바꾸고
       const tempState = state;
       tempState[0].map((element) => {
         if (element.setMemoInThis) {
