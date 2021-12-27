@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, Text, View, StyleSheet } from 'react-native';
+import { TextInput, Text, View, StyleSheet, Image } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import palette from '../../palette/palette';
 import Search from '../../components/Search';
@@ -7,6 +7,9 @@ import Search from '../../components/Search';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+
+const empty = require('../../assets/emptyBookmark.png');
+const fulled = require('../../assets/fulledBookmark.png');
 
 const InputItem = styled.TextInput`
   background-color: ${palette.gray};
@@ -19,12 +22,12 @@ const ButtonBox = styled.View`
 
 const CommonCenter = css`
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 `;
 
 const TextBox = styled.View`
   ${CommonCenter}
+  justify-content: center;
+  align-items: center;
 `;
 
 const TextItem = styled.View`
@@ -32,6 +35,18 @@ const TextItem = styled.View`
   border: black 1px solid;
   width: 80%;
   margin-bottom: 3%;
+`;
+
+const BookmarkBox = styled.View`
+  justify-content: flex-end;
+`;
+
+const BookmarkItem = styled.Image`
+  width: 10px;
+  height: 10px;
+  position: relative;
+  left: 95%;
+  bottom: 5px;
 `;
 
 const gatherText = () => {
@@ -54,8 +69,13 @@ const gatherText = () => {
       </ButtonBox>
       <TextBox>
         {value.slice(1).map((memo) => (
-          <TextItem>
-            <Text key={memo.memoID}>{memo.memoText}</Text>
+          <TextItem key={memo.memoID}>
+            <Text>{memo.memoText}</Text>
+            {memo.isMarked ? (
+              <BookmarkItem source={fulled} />
+            ) : (
+              <BookmarkItem source={empty} />
+            )}
           </TextItem>
         ))}
       </TextBox>
