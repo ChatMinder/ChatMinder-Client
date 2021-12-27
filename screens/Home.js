@@ -38,7 +38,17 @@ const Home = ({ navigation: { setOptions } }) => {
   return (
     <View>
       <Text>Home</Text>
-
+      {memoObj.map(
+        (memo) =>
+          memo.memoText && (
+            <MemoWrapper key={memo.memoID}>
+              <Text>{memo.categoryName}</Text>
+              <MemoContainer>
+                <Text>{memo.memoText}</Text>
+              </MemoContainer>
+            </MemoWrapper>
+          )
+      )}
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -74,7 +84,14 @@ const Home = ({ navigation: { setOptions } }) => {
   );
 };
 
-const MemoContainer = styled.View``;
+const MemoWrapper = styled.View`
+  margin: 16px;
+  border: 1px dashed gray;
+`;
+
+const MemoContainer = styled.View`
+  background: skyblue;
+`;
 
 const InputCategory = styled.TextInput`
   border: 1px solid red;
