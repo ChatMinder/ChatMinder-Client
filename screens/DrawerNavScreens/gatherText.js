@@ -87,6 +87,8 @@ const gatherText = ({ navigation }) => {
                 navigation.navigate('detailText', {
                   id: memo.memoID,
                   memoText: memo.memoText,
+                  categoryName: memo.categoryName,
+                  isMarked: memo.isMarked,
                 });
               }}
             />
