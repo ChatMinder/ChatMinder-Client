@@ -20,8 +20,8 @@ const Home = ({ navigation: { setOptions } }) => {
   });
 
   const dispatch = useDispatch();
-  const abc = useSelector((state) => state);
-  console.log(abc);
+  const memoObj = useSelector((state) => state);
+  console.log(memoObj);
 
   const onSubmit = (data) => {
     dispatch(addCategory(data.category));
@@ -73,6 +73,8 @@ const Home = ({ navigation: { setOptions } }) => {
     </View>
   );
 };
+
+const MemoContainer = styled.View``;
 
 const InputCategory = styled.TextInput`
   border: 1px solid red;
