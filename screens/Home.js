@@ -22,15 +22,27 @@ const Home = ({ navigation: { setOptions } }) => {
   });
 
   return (
-    <View>
-      <Text>Home</Text>
-      {memoObj.map(
-        (memo) => memo.memoText && <MemoItem memo={memo} key={memo.momoID} />
-      )}
-
-      <MemoInputForm />
-    </View>
+    <Wrapper>
+      <MemoContainer>
+        {memoObj.map(
+          (memo) => memo.memoText && <MemoItem memo={memo} key={memo.momoID} />
+        )}
+      </MemoContainer>
+      <InputContainer>
+        <MemoInputForm />
+      </InputContainer>
+    </Wrapper>
   );
 };
+
+const MemoContainer = styled.ScrollView`
+  border: 3px solid gold;
+`;
+
+const InputContainer = styled.View``;
+
+const Wrapper = styled.View`
+  height: 100%;
+`;
 
 export default Home;
