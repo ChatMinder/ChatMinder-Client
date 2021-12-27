@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, Text, View, StyleSheet, Image, Button } from 'react-native';
+import {
+  TextInput,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  Button,
+  TouchableHighlight,
+} from 'react-native';
 import styled, { css } from 'styled-components/native';
 import palette from '../../palette/palette';
 import Search from '../../components/Search';
@@ -35,7 +43,7 @@ const TextBox = styled.View`
 const TextItem = styled.View`
   ${CommonCenter}
   border: black 1px solid;
-  width: 40%;
+  width: 90%;
   margin: 0 3% 3%;
   padding: 5px;
 `;
@@ -71,28 +79,29 @@ const gatherText = ({ navigation }) => {
       </ButtonBox>
       <TextBox>
         {value.slice(1).map((memo) => (
-          <TextItem key={memo.memoID}>
-            <Text>{memo.memoText}</Text>
-            <CategoryBox>
-              <Text>{memo.categoryName}</Text>
-              {memo.isMarked ? (
-                <BookmarkItem source={fulled} />
-              ) : (
-                <BookmarkItem source={empty} />
-              )}
-            </CategoryBox>
-            <Button
-              title="상세보기"
-              onPress={() => {
-                navigation.navigate('detailText', {
-                  id: memo.memoID,
-                  memoText: memo.memoText,
-                  categoryName: memo.categoryName,
-                  isMarked: memo.isMarked,
-                });
-              }}
-            />
-          </TextItem>
+          <TouchableHighlight
+            key={memo.memoID}
+            onPress={() => {
+              navigation.navigate('detailText', {
+                id: memo.memoID,
+                memoText: memo.memoText,
+                categoryName: memo.categoryName,
+                isMarked: memo.isMarked,
+              });
+            }}
+          >
+            <TextItem>
+              <Text>{memo.memoText}</Text>
+              <CategoryBox>
+                <Text>{memo.categoryName}</Text>
+                {memo.isMarked ? (
+                  <BookmarkItem source={fulled} />
+                ) : (
+                  <BookmarkItem source={empty} />
+                )}
+              </CategoryBox>
+            </TextItem>
+          </TouchableHighlight>
         ))}
       </TextBox>
     </View>
