@@ -70,6 +70,10 @@ const gatherText = ({ navigation }) => {
   //   console.log(memos);
   // }, [memos]);
 
+  const handleDelete = () => {
+    console.log('삭제');
+  };
+
   return (
     <View>
       <Text>텍스트 모아보기</Text>
@@ -89,6 +93,7 @@ const gatherText = ({ navigation }) => {
                 isMarked: memo.isMarked,
               });
             }}
+            onLongPress={() => handleDelete()}
           >
             <TextItem>
               <Text>{memo.memoText}</Text>
