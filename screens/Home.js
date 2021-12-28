@@ -2,31 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import Search from '../components/Search';
 import styled from 'styled-components/native';
-import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form';
-import { addCategory, addMemo, setMemoInCategory } from '../shared/reducer.js';
+import MemoInputForm from '../components/MemoInputForm';
+import MemoItem from '../components/MemoItem';
+import MemoDate from '../components/MemoDate';
+import moment from 'moment';
 
 const Home = ({ navigation: { setOptions } }) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      category: '',
-      memo: '',
-    },
-  });
-
-  const dispatch = useDispatch();
-  const abc = useSelector((state) => state);
-  console.log(abc);
-
-  const onSubmit = (data) => {
-    dispatch(addCategory(data.category));
-    dispatch(addMemo(data.category, data.memo));
-    dispatch(setMemoInCategory(data.category));
+  const memoObj = useSelector((state) => state);
+  const onDeletePress = () => {
+    alert('delete');
+    //API 메모 삭제 로직 넣기
   };
 
   useEffect(() => {
@@ -36,52 +22,38 @@ const Home = ({ navigation: { setOptions } }) => {
   });
 
   return (
-    <View>
-      <Text>Home</Text>
-
-      <Controller
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <InputCategory
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-            value={value}
-            placeholder="카테고리"
-            // onEndEditing={() => onCategorySelected(value)}
-          />
+    <Wrapper>
+      <MemoContainer>
+        {memoObj.map(
+          (memo, index) =>
+            memo.memoID && (
+              <MemoItemWrapper key={memo.memoID}>
+                {moment.unix(memoObj[index - 1].memoID).format('YYYY-MM-DD') !==
+                  moment.unix(memo.memoID).format('YYYY-MM-DD') && (
+                  <MemoDate memoID={memo.memoID} />
+                )}
+                <MemoItem memo={memo} />
+              </MemoItemWrapper>
+            )
         )}
-        name="category"
-        // rules={{ required: true }}
-      />
-      <Controller
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <InputMemo
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-            value={value}
-            placeholder="메모"
-          />
-        )}
-        name="memo"
-        rules={{ required: true }}
-      />
-      {errors.memo && <Text>This is required.</Text>}
-      <View>
-        <Submit title="Submit" onPress={handleSubmit(onSubmit)} />
-      </View>
-    </View>
+      </MemoContainer>
+      <InputContainer>
+        <MemoInputForm />
+      </InputContainer>
+    </Wrapper>
   );
 };
 
-const InputCategory = styled.TextInput`
-  border: 1px solid red;
+const MemoContainer = styled.ScrollView`
+  border: 3px solid gold;
 `;
 
-const InputMemo = styled.TextInput`
-  border: 1px solid green;
-`;
+const MemoItemWrapper = styled.View``;
 
-const Submit = styled.Button``;
+const InputContainer = styled.View``;
+
+const Wrapper = styled.View`
+  height: 100%;
+`;
 
 export default Home;

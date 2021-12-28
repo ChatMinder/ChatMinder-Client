@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 // 액션 타입 정의
 const ADD_CATEGORY = 'ADD_CATEGORY';
 const ADD_MEMO = 'ADD_MEMO';
@@ -20,7 +22,101 @@ export const setMemoInCategory = (categoryName) => ({
 
 //초기 상태 선언
 //각 요소가 객체로 이뤄진 배열 형태의 state
-const initialState = [];
+// const initialState = [];
+
+//테스트용 더미 데이터
+const initialState = [
+  [
+    {
+      categoryColor: '',
+      categoryID: 1,
+      categoryName: '과제',
+      memos: [1640579001552, 1640579008194, 1640614413272],
+    },
+    {
+      categoryColor: '',
+      categoryID: 2,
+      categoryName: '준비물',
+      memos: [1640579010766, 1640614272078],
+    },
+    {
+      categoryColor: '',
+      categoryID: 3,
+      categoryName: '먹을거',
+      memos: [1640579012666],
+    },
+    {
+      categoryColor: '',
+      categoryID: 4,
+      categoryName: '',
+      memos: [1640614414223, 1640614416422],
+    },
+  ],
+  {
+    categoryName: '과제',
+    memoID: 1638668525,
+    memoText: '프론트엔드 과제',
+    isImg: '',
+    isLink: false,
+    isMarked: false,
+  },
+  {
+    categoryName: '과제',
+    memoID: 1638668925,
+    memoText: '교양 과제',
+    isImg: '',
+    isLink: false,
+    isMarked: false,
+  },
+  {
+    categoryName: '준비물',
+    memoID: 1638668926,
+    memoText: '물로켓',
+    isImg: '',
+    isLink: false,
+    isMarked: false,
+  },
+  {
+    categoryName: '먹을거',
+    memoID: 1640668525,
+    memoText: '오사쯔',
+    isImg: '',
+    isLink: false,
+    isMarked: false,
+  },
+  {
+    categoryName: '준비물',
+    memoID: 1640668601,
+    memoText: '고무동력기',
+    isImg: '',
+    isLink: false,
+    isMarked: false,
+  },
+  {
+    categoryName: '과제',
+    memoID: 1640668658,
+    memoText: '자료구조 과제',
+    isImg: '',
+    isLink: false,
+    isMarked: false,
+  },
+  {
+    categoryName: '',
+    memoID: 1640668659,
+    memoText: '빈 카테고리',
+    isImg: '',
+    isLink: false,
+    isMarked: false,
+  },
+  {
+    categoryName: '',
+    memoID: 1640668670,
+    memoText: '빈 카테고리 캬캬',
+    isImg: '',
+    isLink: false,
+    isMarked: false,
+  },
+];
 
 //새 메모의 category가 기존의 것과 중복되는지의 여부를 담는 변수
 let categoryExist = false;
@@ -85,13 +181,12 @@ export default function reducer(state = initialState, action) {
     //메모 객체 추가
     case ADD_MEMO: {
       //새로 추가될 메모에게 ID 부여 : 첫 메모면 1, 이후면 그 전 메모의 ID+1
-      const newMemoID =
-        state.length === 1 ? 1 : state[state.length - 1].memoID + 1;
+      const timestamp = moment().unix();
       return [
         ...state,
         {
           categoryName: action.categoryName,
-          memoID: newMemoID,
+          memoID: timestamp,
           memoText: action.memoText,
           isImg: '',
           isLink: false,
@@ -102,7 +197,6 @@ export default function reducer(state = initialState, action) {
     //카테고리 객체 내부의 memos 배열 속에 memoID 추가
     case SET_MEMO_IN_CATEGORY: {
       // setMemoInThis가 true인 객체에서 memos에 state.length-1의 메모 id 추가해 준 거 리턴
-      // 해당 setMemoInThis값 false로 바꾸고
       const tempState = state;
       tempState[0].map((element) => {
         if (element.setMemoInThis) {
