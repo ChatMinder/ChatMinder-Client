@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import MemoInputForm from '../components/MemoInputForm';
 import MemoItem from '../components/MemoItem';
 import MemoDate from '../components/MemoDate';
+import moment from 'moment';
 
 const Home = ({ navigation: { setOptions } }) => {
   const memoObj = useSelector((state) => state);
@@ -24,10 +25,13 @@ const Home = ({ navigation: { setOptions } }) => {
     <Wrapper>
       <MemoContainer>
         {memoObj.map(
-          (memo) =>
+          (memo, index) =>
             memo.memoID && (
               <MemoItemWrapper key={memo.memoID}>
-                <MemoDate memoID={memo.memoID} />
+                {moment.unix(memoObj[index - 1].memoID).format('YYYY-MM-DD') !==
+                  moment.unix(memo.memoID).format('YYYY-MM-DD') && (
+                  <MemoDate memoID={memo.memoID} />
+                )}
                 <MemoItem memo={memo} />
               </MemoItemWrapper>
             )

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 // 액션 타입 정의
 const ADD_CATEGORY = 'ADD_CATEGORY';
 const ADD_MEMO = 'ADD_MEMO';
@@ -52,7 +54,7 @@ const initialState = [
   ],
   {
     categoryName: '과제',
-    memoID: 1640579001552,
+    memoID: 1638668525,
     memoText: '프론트엔드 과제',
     isImg: '',
     isLink: false,
@@ -60,7 +62,7 @@ const initialState = [
   },
   {
     categoryName: '과제',
-    memoID: 1640579008194,
+    memoID: 1638668925,
     memoText: '교양 과제',
     isImg: '',
     isLink: false,
@@ -68,7 +70,7 @@ const initialState = [
   },
   {
     categoryName: '준비물',
-    memoID: 1640579010766,
+    memoID: 1638668926,
     memoText: '물로켓',
     isImg: '',
     isLink: false,
@@ -76,7 +78,7 @@ const initialState = [
   },
   {
     categoryName: '먹을거',
-    memoID: 1640579012666,
+    memoID: 1640668525,
     memoText: '오사쯔',
     isImg: '',
     isLink: false,
@@ -84,7 +86,7 @@ const initialState = [
   },
   {
     categoryName: '준비물',
-    memoID: 1640614272078,
+    memoID: 1640668601,
     memoText: '고무동력기',
     isImg: '',
     isLink: false,
@@ -92,7 +94,7 @@ const initialState = [
   },
   {
     categoryName: '과제',
-    memoID: 1640614413272,
+    memoID: 1640668658,
     memoText: '자료구조 과제',
     isImg: '',
     isLink: false,
@@ -100,7 +102,7 @@ const initialState = [
   },
   {
     categoryName: '',
-    memoID: 1640614414223,
+    memoID: 1640668659,
     memoText: '빈 카테고리',
     isImg: '',
     isLink: false,
@@ -108,7 +110,7 @@ const initialState = [
   },
   {
     categoryName: '',
-    memoID: 1640614416422,
+    memoID: 1640668670,
     memoText: '빈 카테고리 캬캬',
     isImg: '',
     isLink: false,
@@ -179,7 +181,7 @@ export default function reducer(state = initialState, action) {
     //메모 객체 추가
     case ADD_MEMO: {
       //새로 추가될 메모에게 ID 부여 : 첫 메모면 1, 이후면 그 전 메모의 ID+1
-      const timestamp = new Date().getTime();
+      const timestamp = moment().unix();
       return [
         ...state,
         {
