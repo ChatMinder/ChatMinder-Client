@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity, Text, SafeAreaView, ScrollView } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '../screens/Home';
 import gatherImg from '../screens/DrawerNavScreens/gatherImg';
@@ -11,14 +12,47 @@ import detailText from '../screens/DrawerNavScreens/detailText';
 const Drawer = createDrawerNavigator();
 
 const Drawers = () => {
+  const CustomDrawerContent = (props) => (
+    <SafeAreaView>
+      <ScrollView>
+        <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
+          <Text>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('gatherImg')}
+        >
+          <Text>이미지 모아보기</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('gatherLink')}
+        >
+          <Text>링크 모아보기</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('gatherText')}
+        >
+          <Text>텍스트 모아보기</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('gatherMarked')}
+        >
+          <Text>북마크한 메모</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
+  );
+
   return (
-    <Drawer.Navigator initialRouteName="Home">
+    <Drawer.Navigator
+      initialRouteName="Home"
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+    >
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="이미지 모아보기" component={gatherImg} />
-      <Drawer.Screen name="링크 모아보기" component={gatherLink} />
-      <Drawer.Screen name="텍스트 모아보기" component={gatherText} />
-      <Drawer.Screen name="북마크한 메모" component={gatherMarked} />
-      <Drawer.Screen name="삭제한 메모" component={gatherDeleted} />
+      <Drawer.Screen name="gatherImg" component={gatherImg} />
+      <Drawer.Screen name="gatherLink" component={gatherLink} />
+      <Drawer.Screen name="gatherText" component={gatherText} />
+      <Drawer.Screen name="gatherMarked" component={gatherMarked} />
+      <Drawer.Screen name="gatherDeleted" component={gatherDeleted} />
       <Drawer.Screen name="detailText" component={detailText} />
     </Drawer.Navigator>
   );
