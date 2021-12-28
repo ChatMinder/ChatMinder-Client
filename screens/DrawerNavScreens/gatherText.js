@@ -62,10 +62,15 @@ const CategoryBox = styled.View`
 
 const gatherText = ({ navigation }) => {
   const value = useSelector((state) => state);
-  // console.log('value: ', value);
+  //console.log('value: ', value);
   const dispatch = useDispatch();
 
   const [memos, setMemos] = useState(value.slice(1));
+
+  // useEffect(() => {
+  //   setMemos(value.slice(1));
+  //   console.log('memos:', memos);
+  // }, [memos]);
 
   const handleDelete = (id) => {
     Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
@@ -93,7 +98,7 @@ const gatherText = ({ navigation }) => {
           <TouchableHighlight
             key={memo.memoID}
             onPress={() => {
-              navigation.navigate('detailText', {
+              navigation.push('detailText', {
                 id: memo.memoID,
                 memoText: memo.memoText,
                 categoryName: memo.categoryName,
