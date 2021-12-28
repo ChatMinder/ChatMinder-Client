@@ -33,7 +33,7 @@ const MemoInputForm = () => {
       {isShpBtnToggled && (
         <ShpItemContainer horizontal={true}>
           {memoObj[0].map((category) => (
-            <EachCategoryBtn>
+            <EachCategoryBtn key={category.categoryID}>
               <Text>{category.categoryName}</Text>
             </EachCategoryBtn>
           ))}

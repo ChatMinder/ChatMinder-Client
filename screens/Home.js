@@ -5,14 +5,13 @@ import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import MemoInputForm from '../components/MemoInputForm';
 import MemoItem from '../components/MemoItem';
+import MemoDate from '../components/MemoDate';
 
 const Home = ({ navigation: { setOptions } }) => {
   const memoObj = useSelector((state) => state);
-  console.log(memoObj);
-
   const onDeletePress = () => {
     alert('delete');
-    //API 삭제 로직 넣기
+    //API 메모 삭제 로직 넣기
   };
 
   useEffect(() => {
@@ -25,7 +24,13 @@ const Home = ({ navigation: { setOptions } }) => {
     <Wrapper>
       <MemoContainer>
         {memoObj.map(
-          (memo) => memo.memoText && <MemoItem memo={memo} key={memo.momoID} />
+          (memo) =>
+            memo.memoID && (
+              <MemoItemWrapper key={memo.memoID}>
+                <MemoDate memoID={memo.memoID} />
+                <MemoItem memo={memo} />
+              </MemoItemWrapper>
+            )
         )}
       </MemoContainer>
       <InputContainer>
@@ -38,6 +43,8 @@ const Home = ({ navigation: { setOptions } }) => {
 const MemoContainer = styled.ScrollView`
   border: 3px solid gold;
 `;
+
+const MemoItemWrapper = styled.View``;
 
 const InputContainer = styled.View``;
 
