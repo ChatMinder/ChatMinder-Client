@@ -61,17 +61,13 @@ const CategoryBox = styled.View`
 
 const gatherText = ({ navigation }) => {
   const value = useSelector((state) => state);
-  console.log('value: ', value);
+  // console.log('value: ', value);
+  const dispatch = useDispatch();
 
-  const [memos, setMemos] = useState([]);
+  const [memos, setMemos] = useState(value.slice(1));
 
-  // useEffect(() => {
-  //   setMemos(value.slice(1));
-  //   console.log(memos);
-  // }, [memos]);
-
-  const handleDelete = () => {
-    console.log('삭제');
+  const handleDelete = (id) => {
+    setMemos(memos.filter((memo) => memo.memoID !== id));
   };
 
   return (
@@ -82,7 +78,7 @@ const gatherText = ({ navigation }) => {
         <Search />
       </ButtonBox>
       <TextBox>
-        {value.slice(1).map((memo) => (
+        {memos.map((memo) => (
           <TouchableHighlight
             key={memo.memoID}
             onPress={() => {
@@ -93,7 +89,7 @@ const gatherText = ({ navigation }) => {
                 isMarked: memo.isMarked,
               });
             }}
-            onLongPress={() => handleDelete()}
+            onLongPress={() => handleDelete(memo.memoID)}
           >
             <TextItem>
               <Text>{memo.memoText}</Text>
