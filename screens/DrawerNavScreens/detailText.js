@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import styled from 'styled-components/native';
 
 const empty = require('../../assets/emptyBookmark.png');
@@ -10,7 +10,7 @@ const BookmarkItem = styled.Image`
   height: 10px;
 `;
 
-const detailText = ({ route }) => {
+const detailText = ({ route, navigation }) => {
   console.log(route);
 
   return (
@@ -22,6 +22,7 @@ const detailText = ({ route }) => {
         <BookmarkItem source={empty} />
       )}
       <Text>{route.params.memoText}</Text>
+      {/* <Button title="Go back" onPress={() => navigation.goBack('gatherText')} /> */}
     </View>
   );
 };

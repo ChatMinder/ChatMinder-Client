@@ -39,12 +39,13 @@ const TextBox = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 const TextItem = styled.View`
   ${CommonCenter}
   border: black 1px solid;
-  width: 90%;
+  width: 200px;
   margin: 0 3% 3%;
   padding: 5px;
 `;
@@ -67,10 +68,9 @@ const gatherText = ({ navigation }) => {
 
   const [memos, setMemos] = useState(value.slice(1));
 
-  // useEffect(() => {
-  //   setMemos(value.slice(1));
-  //   console.log('memos:', memos);
-  // }, [memos]);
+  useEffect(() => {
+    setMemos(memos);
+  }, [memos]);
 
   const handleDelete = (id) => {
     Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
@@ -98,7 +98,7 @@ const gatherText = ({ navigation }) => {
           <TouchableHighlight
             key={memo.memoID}
             onPress={() => {
-              navigation.push('detailText', {
+              navigation.navigate('detailText', {
                 id: memo.memoID,
                 memoText: memo.memoText,
                 categoryName: memo.categoryName,
