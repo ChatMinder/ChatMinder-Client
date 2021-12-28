@@ -7,6 +7,7 @@ import {
   Image,
   Button,
   TouchableHighlight,
+  Alert,
 } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import palette from '../../palette/palette';
@@ -67,7 +68,17 @@ const gatherText = ({ navigation }) => {
   const [memos, setMemos] = useState(value.slice(1));
 
   const handleDelete = (id) => {
-    setMemos(memos.filter((memo) => memo.memoID !== id));
+    Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
+      {
+        text: '취소',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: '삭제',
+        onPress: () => setMemos(memos.filter((memo) => memo.memoID !== id)),
+      },
+    ]);
   };
 
   return (
