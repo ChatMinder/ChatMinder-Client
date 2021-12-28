@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, SafeAreaView, ScrollView } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import styled, { css } from 'styled-components/native';
 import Home from '../screens/Home';
 import gatherImg from '../screens/DrawerNavScreens/gatherImg';
 import gatherLink from '../screens/DrawerNavScreens/gatherLink';
@@ -11,32 +12,42 @@ import detailText from '../screens/DrawerNavScreens/detailText';
 
 const Drawer = createDrawerNavigator();
 
+const MeueItem = styled.Text`
+  margin-left: 5%;
+  margin-bottom: 5%;
+  ${(props) =>
+    props.marginTop &&
+    css`
+      margin-top: 5%;
+    `}
+`;
+
 const Drawers = () => {
   const CustomDrawerContent = (props) => (
     <SafeAreaView>
       <ScrollView>
         <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
-          <Text>Home</Text>
+          <MeueItem marginTop>Home</MeueItem>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('gatherImg')}
         >
-          <Text>이미지 모아보기</Text>
+          <MeueItem>이미지 모아보기</MeueItem>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('gatherLink')}
         >
-          <Text>링크 모아보기</Text>
+          <MeueItem>링크 모아보기</MeueItem>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('gatherText')}
         >
-          <Text>텍스트 모아보기</Text>
+          <MeueItem>텍스트 모아보기</MeueItem>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('gatherMarked')}
         >
-          <Text>북마크한 메모</Text>
+          <MeueItem>북마크한 메모</MeueItem>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
