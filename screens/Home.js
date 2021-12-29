@@ -28,6 +28,7 @@ const Home = ({ navigation: { setOptions } }) => {
           (memo, index) =>
             memo.memoID && (
               <MemoItemWrapper key={memo.memoID}>
+                {/* 전 메모와 날짜가 다르면 메모 작성 날짜 렌더링 */}
                 {moment.unix(memoObj[index - 1].memoID).format('YYYY-MM-DD') !==
                   moment.unix(memo.memoID).format('YYYY-MM-DD') && (
                   <MemoDate memoID={memo.memoID} />
