@@ -52,6 +52,10 @@ const TextItem = styled.View`
   padding: 5px;
 `;
 
+const TextItems = styled.View`
+  flex-direction: row;
+`;
+
 const BookmarkItem = styled.Image`
   width: 10px;
   height: 10px;
@@ -61,6 +65,10 @@ const CategoryBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+const DateItem = styled.View`
+  width: 100%;
 `;
 
 const gatherText = ({ navigation }) => {
@@ -101,22 +109,18 @@ const gatherText = ({ navigation }) => {
       <TextBox>
         {memos.map((memo, index) => (
           <>
-            {index !== 0 ? (
-              moment.unix(value[index - 1].memoID).format('YYYY-MM-DD') !==
-              moment.unix(memo.memoID).format('YYYY-MM-DD') ? (
-                <View />
+            <DateItem>
+              {index !== 0 ? (
+                moment.unix(value[index - 1].memoID).format('YYYY-MM-DD') !==
+                moment.unix(memo.memoID).format('YYYY-MM-DD') ? (
+                  <View />
+                ) : (
+                  <MemoDate memoID={memo.memoID} />
+                )
               ) : (
                 <MemoDate memoID={memo.memoID} />
-              )
-            ) : (
-              <MemoDate memoID={memo.memoID} />
-            )}
-            {/* {moment.unix(value[index - 1].memoID).format('YYYY-MM-DD') !==
-            moment.unix(memo.memoID).format('YYYY-MM-DD') ? (
-              <Text>없음</Text>
-            ) : ( */}
-            {/* <MemoDate memoID={memo.memoID} /> */}
-            {/* )} */}
+              )}
+            </DateItem>
             <TouchableHighlight
               key={memo.memoID}
               onPress={() => {
