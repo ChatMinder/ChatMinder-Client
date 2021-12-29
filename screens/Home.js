@@ -20,16 +20,35 @@ const Home = ({ navigation: { setOptions } }) => {
     //API 메모 삭제 로직 넣기
   };
 
+  const [isSearchToggled, setIsSearchToggled] = useState(false);
+
   useEffect(() => {
-    setOptions({
-      headerRight: () => (
-        <Container>
-          <Ionicons name="search" color="black" size={20} />
-          <SearchInput onChangeText={onSearchChange} />
-        </Container>
-      ),
-    });
-  });
+    isSearchToggled
+      ? setOptions({
+          headerTitle: () => (
+            <Container>
+              <Ionicons name="search" color="black" size={20} />
+              <SearchInput
+                onChangeText={onSearchChange}
+                placeholder="내용, 태그 검색"
+              />
+            </Container>
+          ),
+          headerRight: () => (
+            <Container onPress={() => setIsSearchToggled(!isSearchToggled)}>
+              <Text>취소</Text>
+            </Container>
+          ),
+        })
+      : setOptions({
+          headerTitle: () => <Text>Home</Text>,
+          headerRight: () => (
+            <Container onPress={() => setIsSearchToggled(!isSearchToggled)}>
+              <Ionicons name="search" color="black" size={20} />
+            </Container>
+          ),
+        });
+  }, [isSearchToggled]);
 
   return (
     <Wrapper>
@@ -58,9 +77,11 @@ const Home = ({ navigation: { setOptions } }) => {
 
 const Container = styled.TouchableOpacity`
   margin: 15px;
+  flex-direction: row;
 `;
 const SearchInput = styled.TextInput`
   border: 1px solid red;
+  width: 200px;
 `;
 
 const MemoContainer = styled.ScrollView`
