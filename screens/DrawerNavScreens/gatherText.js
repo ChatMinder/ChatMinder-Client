@@ -22,12 +22,6 @@ import { useSelector } from 'react-redux';
 const empty = require('../../shared/assets/emptyBookmark.png');
 const fulled = require('../../shared/assets/fulledBookmark.png');
 
-const InputItem = styled.TextInput`
-  background-color: ${palette.gray};
-  width: 90%;
-  padding-left: 10px;
-`;
-
 const ButtonBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -41,19 +35,18 @@ const Container = styled.View`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+
   border: blue 1px solid;
 `;
 
 const TextBox = styled.View`
   border: blue 1px solid;
+  width: 40%;
 `;
 
 const TextItem = styled.View`
   ${CommonCenter}
   border: black 1px solid;
-  width: 200px;
-  margin: 0 3% 3%;
   padding: 5px;
 `;
 
@@ -62,10 +55,10 @@ const BookmarkItem = styled.Image`
   height: 10px;
 `;
 
-const CategoryBox = styled.View`
+const BookmarkBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
 `;
 
 const DateItem = styled.View`
@@ -109,7 +102,6 @@ const gatherText = ({ navigation }) => {
     ]);
   };
 
-  //console.log(moment.unix(memoObj[0].memoID).format('YYYY-MM-DD'));
   return (
     <View>
       <Text>텍스트 모아보기</Text>
@@ -132,30 +124,29 @@ const gatherText = ({ navigation }) => {
                     <MemoDate memoID={memo.memoID} />
                   )}
                 </DateItem>
-                <TouchableHighlight
-                  key={memo.memoID}
-                  onPress={() => {
-                    navigation.navigate('detailText', {
-                      id: memo.memoID,
-                      memoText: memo.memoText,
-                      categoryName: memo.categoryName,
-                      isMarked: memo.isMarked,
-                    });
-                  }}
-                  onLongPress={() => handleDelete(memo.memoID)}
-                >
-                  <TextItem>
-                    <Text>{memo.memoText}</Text>
-                    <CategoryBox>
+                <BookmarkBox>
+                  <TouchableHighlight
+                    onPress={() => {
+                      navigation.navigate('detailText', {
+                        id: memo.memoID,
+                        memoText: memo.memoText,
+                        categoryName: memo.categoryName,
+                        isMarked: memo.isMarked,
+                      });
+                    }}
+                    onLongPress={() => handleDelete(memo.memoID)}
+                  >
+                    <TextItem>
+                      <Text>{memo.memoText}</Text>
                       <Text>{memo.categoryName}</Text>
-                      {memo.isMarked ? (
-                        <BookmarkItem source={fulled} />
-                      ) : (
-                        <BookmarkItem source={empty} />
-                      )}
-                    </CategoryBox>
-                  </TextItem>
-                </TouchableHighlight>
+                    </TextItem>
+                  </TouchableHighlight>
+                  {memo.isMarked ? (
+                    <BookmarkItem source={fulled} />
+                  ) : (
+                    <BookmarkItem source={empty} />
+                  )}
+                </BookmarkBox>
               </TextBox>
             )
         )}
