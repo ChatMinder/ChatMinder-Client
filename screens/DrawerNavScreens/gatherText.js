@@ -70,6 +70,10 @@ const SearchInput = styled.TextInput`
   width: 200px;
 `;
 
+const Temp = styled.TouchableHighlight`
+  border: 1px solid red;
+`;
+
 const gatherText = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
   //console.log('memoObj: ', memoObj);
@@ -141,11 +145,17 @@ const gatherText = ({ navigation }) => {
                       <Text>{memo.categoryName}</Text>
                     </TextItem>
                   </TouchableHighlight>
-                  {memo.isMarked ? (
-                    <BookmarkItem source={fulled} />
-                  ) : (
-                    <BookmarkItem source={empty} />
-                  )}
+                  <Temp
+                    onPress={() => {
+                      console.log('북마크');
+                    }}
+                  >
+                    {memo.isMarked ? (
+                      <BookmarkItem source={fulled} />
+                    ) : (
+                      <BookmarkItem source={empty} />
+                    )}
+                  </Temp>
                 </BookmarkBox>
               </TextBox>
             )
