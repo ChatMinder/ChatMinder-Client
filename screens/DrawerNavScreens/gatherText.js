@@ -13,6 +13,8 @@ import styled, { css } from 'styled-components/native';
 import palette from '../../shared/palette';
 import Search from '../../shared/components/Search';
 // import InputBox from '../../components/InputBox';
+import MemoDate from '../../shared/components/MemoDate';
+import moment from 'moment';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -63,10 +65,13 @@ const CategoryBox = styled.View`
 
 const gatherText = ({ navigation }) => {
   const value = useSelector((state) => state);
-  //console.log('value: ', value);
+  console.log('value: ', value);
   const dispatch = useDispatch();
-
-  const [memos, setMemos] = useState(value.slice(1));
+  // value.slice(1)
+  const [memos, setMemos] = useState(
+    value.filter((element, index) => index > 0)
+  );
+  //console.log(moment.unix(value[1].memoID).format('YYYY-MM-DD'));
 
   useEffect(() => {
     setMemos(memos);
@@ -94,31 +99,49 @@ const gatherText = ({ navigation }) => {
         <Search />
       </ButtonBox>
       <TextBox>
-        {memos.map((memo) => (
-          <TouchableHighlight
-            key={memo.memoID}
-            onPress={() => {
-              navigation.navigate('detailText', {
-                id: memo.memoID,
-                memoText: memo.memoText,
-                categoryName: memo.categoryName,
-                isMarked: memo.isMarked,
-              });
-            }}
-            onLongPress={() => handleDelete(memo.memoID)}
-          >
-            <TextItem>
-              <Text>{memo.memoText}</Text>
-              <CategoryBox>
-                <Text>{memo.categoryName}</Text>
-                {memo.isMarked ? (
-                  <BookmarkItem source={fulled} />
-                ) : (
-                  <BookmarkItem source={empty} />
-                )}
-              </CategoryBox>
-            </TextItem>
-          </TouchableHighlight>
+        {memos.map((memo, index) => (
+          <>
+            {index !== 0 ? (
+              moment.unix(value[index - 1].memoID).format('YYYY-MM-DD') !==
+              moment.unix(memo.memoID).format('YYYY-MM-DD') ? (
+                <View />
+              ) : (
+                <MemoDate memoID={memo.memoID} />
+              )
+            ) : (
+              <MemoDate memoID={memo.memoID} />
+            )}
+            {/* {moment.unix(value[index - 1].memoID).format('YYYY-MM-DD') !==
+            moment.unix(memo.memoID).format('YYYY-MM-DD') ? (
+              <Text>없음</Text>
+            ) : ( */}
+            {/* <MemoDate memoID={memo.memoID} /> */}
+            {/* )} */}
+            <TouchableHighlight
+              key={memo.memoID}
+              onPress={() => {
+                navigation.navigate('detailText', {
+                  id: memo.memoID,
+                  memoText: memo.memoText,
+                  categoryName: memo.categoryName,
+                  isMarked: memo.isMarked,
+                });
+              }}
+              onLongPress={() => handleDelete(memo.memoID)}
+            >
+              <TextItem>
+                <Text>{memo.memoText}</Text>
+                <CategoryBox>
+                  <Text>{memo.categoryName}</Text>
+                  {memo.isMarked ? (
+                    <BookmarkItem source={fulled} />
+                  ) : (
+                    <BookmarkItem source={empty} />
+                  )}
+                </CategoryBox>
+              </TextItem>
+            </TouchableHighlight>
+          </>
         ))}
       </TextBox>
     </View>
