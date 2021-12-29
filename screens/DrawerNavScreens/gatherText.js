@@ -10,15 +10,15 @@ import {
   Alert,
 } from 'react-native';
 import styled, { css } from 'styled-components/native';
-import palette from '../../palette/palette';
-import Search from '../../components/Search';
+import palette from '../../shared/palette';
+import Search from '../../shared/components/Search';
 // import InputBox from '../../components/InputBox';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-const empty = require('../../assets/emptyBookmark.png');
-const fulled = require('../../assets/fulledBookmark.png');
+const empty = require('../../shared/assets/emptyBookmark.png');
+const fulled = require('../../shared/assets/fulledBookmark.png');
 
 const InputItem = styled.TextInput`
   background-color: ${palette.gray};
