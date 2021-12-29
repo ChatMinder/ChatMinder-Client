@@ -73,13 +73,17 @@ const DateItem = styled.View`
 
 const gatherText = ({ navigation }) => {
   const value = useSelector((state) => state);
-  console.log('value: ', value);
+  //console.log('value: ', value);
   const dispatch = useDispatch();
   // value.slice(1)
   const [memos, setMemos] = useState(
     value.filter((element, index) => index > 0)
   );
-  //console.log(moment.unix(value[1].memoID).format('YYYY-MM-DD'));
+
+  // console.log(
+  //   'filter2',
+  //   memos.filter((e) => e.memoText === '빈 카테고리')
+  // );
 
   useEffect(() => {
     setMemos(memos);

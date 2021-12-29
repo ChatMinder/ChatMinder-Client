@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, Button, View, Input } from 'react-native';
+import { Text, Button, View, Input, Image } from 'react-native';
 import styled from 'styled-components/native';
 import Modal from 'react-native-modal';
 
@@ -7,6 +7,9 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { TextInput } from 'react-native-gesture-handler';
 import palette from '../shared/palette';
+
+const trashcan = require('../shared/assets/trashcan.png');
+const settings = require('../shared/assets/settings.png');
 
 const ButtonBox = styled.View`
   flex-direction: row;
@@ -46,20 +49,36 @@ const InputBox = styled.TextInput`
 const ColorBox = styled.View`
   border: 1px solid gray;
   width: 100%;
+  flex-direction: row;
+  justify-content: center;
   flex-wrap: wrap;
+  padding: 1% 3%;
 `;
 
 const ColorItem = styled.View`
   border-radius: 50px;
-  width: 40px;
-  height: 40px;
-  background-color: #fa7931;
+  width: 45px;
+  height: 45px;
+  background-color: ${(props) =>
+    props.backgroundColor || `${palette.lightGreen}`};
+  margin: 0 2% 2% 0;
 `;
 
 const CategoryItem = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
   margin: 0 2% 1%;
   background-color: ${(props) =>
     props.backgroundColor || `${palette.lightGreen}`};
+`;
+
+const ImgBox = styled.View`
+  flex-direction: row;
+`;
+
+const ImgItem = styled.Image`
+  width: 15px;
+  height: 15px;
 `;
 
 const Category = () => {
@@ -93,6 +112,10 @@ const Category = () => {
       {value[0].map((category) => (
         <CategoryItem key={category.categoryID}>
           <Text>{category.categoryName}</Text>
+          <ImgBox>
+            <ImgItem source={trashcan} />
+            <ImgItem source={settings} />
+          </ImgBox>
         </CategoryItem>
       ))}
       <StyledSafeAreaView>
