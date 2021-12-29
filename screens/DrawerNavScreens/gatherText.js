@@ -12,7 +12,7 @@ import {
 import styled, { css } from 'styled-components/native';
 import palette from '../../shared/palette';
 import Search from '../../shared/components/Search';
-// import InputBox from '../../components/InputBox';
+import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
 
@@ -37,11 +37,16 @@ const CommonCenter = css`
   flex-direction: column;
 `;
 
-const TextBox = styled.View`
-  flex-direction: row;
+const Container = styled.View`
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  border: blue 1px solid;
+`;
+
+const TextBox = styled.View`
+  border: blue 1px solid;
 `;
 
 const TextItem = styled.View`
@@ -50,10 +55,6 @@ const TextItem = styled.View`
   width: 200px;
   margin: 0 3% 3%;
   padding: 5px;
-`;
-
-const TextItems = styled.View`
-  flex-direction: row;
 `;
 
 const BookmarkItem = styled.Image`
@@ -71,13 +72,18 @@ const DateItem = styled.View`
   width: 100%;
 `;
 
+const SearchInput = styled.TextInput`
+  border: 1px solid red;
+  width: 200px;
+`;
+
 const gatherText = ({ navigation }) => {
-  const value = useSelector((state) => state);
-  //console.log('value: ', value);
+  const memoObj = useSelector((state) => state);
+  //console.log('memoObj: ', memoObj);
   const dispatch = useDispatch();
-  // value.slice(1)
+  const [onSearchChange, renderState] = useSearch(memoObj);
   const [memos, setMemos] = useState(
-    value.filter((element, index) => index > 0)
+    memoObj.filter((element, index) => index > 0)
   );
 
   // console.log(
@@ -85,9 +91,9 @@ const gatherText = ({ navigation }) => {
   //   memos.filter((e) => e.memoText === '빈 카테고리')
   // );
 
-  useEffect(() => {
-    setMemos(memos);
-  }, [memos]);
+  // useEffect(() => {
+  //   setMemos(memos);
+  // }, []);
 
   const handleDelete = (id) => {
     Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
@@ -103,55 +109,57 @@ const gatherText = ({ navigation }) => {
     ]);
   };
 
+  //console.log(moment.unix(memoObj[0].memoID).format('YYYY-MM-DD'));
   return (
     <View>
       <Text>텍스트 모아보기</Text>
       <ButtonBox>
-        <InputItem placeholder="검색어를 입력해주세요" />
-        <Search />
+        <SearchInput
+          onChangeText={onSearchChange}
+          placeholder="내용, 태그 검색"
+        />
       </ButtonBox>
-      <TextBox>
-        {memos.map((memo, index) => (
-          <>
-            <DateItem>
-              {index !== 0 ? (
-                moment.unix(value[index - 1].memoID).format('YYYY-MM-DD') !==
-                moment.unix(memo.memoID).format('YYYY-MM-DD') ? (
-                  <View />
-                ) : (
-                  <MemoDate memoID={memo.memoID} />
-                )
-              ) : (
-                <MemoDate memoID={memo.memoID} />
-              )}
-            </DateItem>
-            <TouchableHighlight
-              key={memo.memoID}
-              onPress={() => {
-                navigation.navigate('detailText', {
-                  id: memo.memoID,
-                  memoText: memo.memoText,
-                  categoryName: memo.categoryName,
-                  isMarked: memo.isMarked,
-                });
-              }}
-              onLongPress={() => handleDelete(memo.memoID)}
-            >
-              <TextItem>
-                <Text>{memo.memoText}</Text>
-                <CategoryBox>
-                  <Text>{memo.categoryName}</Text>
-                  {memo.isMarked ? (
-                    <BookmarkItem source={fulled} />
-                  ) : (
-                    <BookmarkItem source={empty} />
+      <Container>
+        {renderState.map(
+          (memo, index) =>
+            memo.memoID && (
+              <TextBox key={memo.memoID}>
+                <DateItem>
+                  {moment
+                    .unix(renderState[index - 1].memoID)
+                    .format('YYYY-MM-DD') !==
+                    moment.unix(memo.memoID).format('YYYY-MM-DD') && (
+                    <MemoDate memoID={memo.memoID} />
                   )}
-                </CategoryBox>
-              </TextItem>
-            </TouchableHighlight>
-          </>
-        ))}
-      </TextBox>
+                </DateItem>
+                <TouchableHighlight
+                  key={memo.memoID}
+                  onPress={() => {
+                    navigation.navigate('detailText', {
+                      id: memo.memoID,
+                      memoText: memo.memoText,
+                      categoryName: memo.categoryName,
+                      isMarked: memo.isMarked,
+                    });
+                  }}
+                  onLongPress={() => handleDelete(memo.memoID)}
+                >
+                  <TextItem>
+                    <Text>{memo.memoText}</Text>
+                    <CategoryBox>
+                      <Text>{memo.categoryName}</Text>
+                      {memo.isMarked ? (
+                        <BookmarkItem source={fulled} />
+                      ) : (
+                        <BookmarkItem source={empty} />
+                      )}
+                    </CategoryBox>
+                  </TextItem>
+                </TouchableHighlight>
+              </TextBox>
+            )
+        )}
+      </Container>
     </View>
   );
 };

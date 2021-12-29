@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { TextInput } from 'react-native-gesture-handler';
 import palette from '../shared/palette';
+import useSearch from '../shared/hooks/useSearch';
 
 const trashcan = require('../shared/assets/trashcan.png');
 const settings = require('../shared/assets/settings.png');
@@ -93,8 +94,9 @@ const ImgItem = styled.Image`
 const CloseButton = styled.TouchableOpacity``;
 
 const Category = () => {
-  const value = useSelector((state) => state);
-  //console.log('value: ', value);
+  const memoObj = useSelector((state) => state);
+  //console.log('memoObj: ', memoObj);
+  const [onSearchChange, renderState] = useSearch(memoObj);
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [colors, setColors] = useState([
@@ -120,7 +122,7 @@ const Category = () => {
         <Text>태그</Text>
         <Button title="+ 태그추가" onPress={toggleModal} />
       </ButtonBox>
-      {value[0].map((category) => (
+      {memoObj[0].map((category) => (
         <CategoryItem key={category.categoryID}>
           <Text>{category.categoryName}</Text>
           <ImgBox>
