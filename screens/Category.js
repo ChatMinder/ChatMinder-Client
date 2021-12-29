@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Text, Button, View, Input, Image } from 'react-native';
+import {
+  Text,
+  Button,
+  View,
+  Input,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import styled from 'styled-components/native';
 import Modal from 'react-native-modal';
 
@@ -10,10 +17,13 @@ import palette from '../shared/palette';
 
 const trashcan = require('../shared/assets/trashcan.png');
 const settings = require('../shared/assets/settings.png');
+const cancel = require('../shared/assets/cancel.png');
 
 const ButtonBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  padding: 2%;
 `;
 
 const StyledSafeAreaView = styled.SafeAreaView`
@@ -47,7 +57,6 @@ const InputBox = styled.TextInput`
 `;
 
 const ColorBox = styled.View`
-  border: 1px solid gray;
   width: 100%;
   flex-direction: row;
   justify-content: center;
@@ -80,6 +89,8 @@ const ImgItem = styled.Image`
   width: 15px;
   height: 15px;
 `;
+
+const CloseButton = styled.TouchableOpacity``;
 
 const Category = () => {
   const value = useSelector((state) => state);
@@ -125,7 +136,12 @@ const Category = () => {
         >
           <StyledModalContainer>
             <StyledModalGradeWrapper>
-              <StyledModalGradeText>제목</StyledModalGradeText>
+              <ButtonBox>
+                <StyledModalGradeText>제목</StyledModalGradeText>
+                <CloseButton onPress={toggleModal}>
+                  <ImgItem source={cancel} />
+                </CloseButton>
+              </ButtonBox>
               <InputBox placeholder="제목을 입력해주세요" />
               <StyledModalGradeText>태그 컬러</StyledModalGradeText>
               <ColorBox>
