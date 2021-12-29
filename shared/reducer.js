@@ -55,7 +55,7 @@ const initialState = [
   {
     categoryName: '과제',
     memoID: 1638668525,
-    memoText: 'hey',
+    memoText: '프론트엔드 과제',
     isImg: '',
     isLink: false,
     isMarked: false,

@@ -2,31 +2,31 @@ import React, { useEffect, useState } from 'react';
 
 const useSearch = (memoObj) => {
   const [searchText, setSearchText] = useState('');
-  const [renderMemos, setRenderMemos] = useState(memoObj);
-  const [tempMemos, setTempMemos] = useState(memoObj.slice(1));
+  const [memoArr, setMemoArr] = useState(memoObj);
+  const [renderState, setRenderState] = useState(memoObj);
+  const categoryArr = memoObj[0];
 
-  // useEffect(() => {
-  //   setRenderMemos([...memoObj]);
-  // }, [memoObj]);
-
-  //검색 시 renderMemos를 수정해 주는 useEffect
+  //검색 시 memoArr를 수정해 주는 useEffect - memoObj에서 index0을 잘라내고 진행
   useEffect(() => {
-    setTempMemos(
-      tempMemos.filter((item) => item.memoText.includes(searchText))
+    setMemoArr(
+      memoObj
+        .slice(1)
+        .filter((item) =>
+          item.memoText.toLowerCase().includes(searchText.toLowerCase())
+        )
     );
-    console.log(searchText);
   }, [searchText]);
 
+  //memoArr이 수정될 시 index0을 다시 붙여서 renderState를 반환
   useEffect(() => {
-    setRenderMemos([memoObj[0], ...tempMemos]);
-    console.log(renderMemos);
-  }, [tempMemos]);
+    setRenderState([categoryArr, ...memoArr]);
+  }, [memoArr]);
 
   const onSearchChange = (text) => {
     setSearchText(text);
   };
 
-  return [onSearchChange, renderMemos];
+  return [onSearchChange, renderState];
 };
 
 export default useSearch;

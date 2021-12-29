@@ -14,7 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const Home = ({ navigation: { setOptions } }) => {
   const memoObj = useSelector((state) => state);
-  const [onSearchChange, renderMemos] = useSearch(memoObj);
+  const [onSearchChange, renderState] = useSearch(memoObj);
   const onDeletePress = () => {
     alert('delete');
     //API 메모 삭제 로직 넣기
@@ -34,12 +34,12 @@ const Home = ({ navigation: { setOptions } }) => {
   return (
     <Wrapper>
       <MemoContainer>
-        {renderMemos.map(
+        {renderState.map(
           (memo, index) =>
             memo.memoID && (
               <MemoItemWrapper key={memo.memoID}>
                 {moment
-                  .unix(renderMemos[index - 1].memoID)
+                  .unix(renderState[index - 1].memoID)
                   .format('YYYY-MM-DD') !==
                   moment.unix(memo.memoID).format('YYYY-MM-DD') && (
                   <MemoDate memoID={memo.memoID} />
