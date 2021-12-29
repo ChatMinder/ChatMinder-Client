@@ -3,6 +3,7 @@ import { TouchableOpacity, Text, SafeAreaView, ScrollView } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styled, { css } from 'styled-components/native';
 import Home from '../screens/Home';
+import LogIn from '../screens/LogIn';
 import gatherImg from '../screens/DrawerNavScreens/gatherImg';
 import gatherLink from '../screens/DrawerNavScreens/gatherLink';
 import gatherText from '../screens/DrawerNavScreens/gatherText';
@@ -55,9 +56,10 @@ const Drawers = () => {
 
   return (
     <Drawer.Navigator
-      initialRouteName="Home"
+      initialRouteName="LogIn"
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
+      <Drawer.Screen name="LogIn" component={LogIn} />
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="gatherImg" component={gatherImg} />
       <Drawer.Screen name="gatherLink" component={gatherLink} />
