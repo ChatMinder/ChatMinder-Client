@@ -84,10 +84,15 @@ const Wrapper = styled.View`
 const ShpItemContainer = styled.ScrollView`
   flex-direction: row;
   border: 1px solid black;
+  padding: 16px 0px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: #f6f6f7;
 `;
 const EachCategoryBtn = styled.TouchableOpacity`
   background: orange;
-  margin: 0 10px;
+  padding: 8px;
+  margin-left: 12px;
 `;
 const InputCategory = styled.TextInput`
   border: 1px solid red;
@@ -95,6 +100,8 @@ const InputCategory = styled.TextInput`
 
 const MemoInputContainer = styled.View`
   flex-direction: row;
+  background: #f6f6f7;
+  margin-bottom: 22px;
 `;
 const ShpBtn = styled.TouchableOpacity`
   width: 16px;
@@ -104,6 +111,7 @@ const ShpBtn = styled.TouchableOpacity`
 const InputMemo = styled.TextInput`
   border: 1px solid green;
   width: 80%;
+  background: #ffffff;
 `;
 const Submit = styled.TouchableOpacity`
   width: 16px;

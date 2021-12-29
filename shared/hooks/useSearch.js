@@ -11,8 +11,10 @@ const useSearch = (memoObj) => {
     setMemoArr(
       memoObj
         .slice(1)
-        .filter((item) =>
-          item.memoText.toLowerCase().includes(searchText.toLowerCase())
+        .filter(
+          (item) =>
+            item.memoText.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.categoryName.toLowerCase().includes(searchText.toLowerCase())
         )
     );
   }, [searchText]);
