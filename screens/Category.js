@@ -6,6 +6,7 @@ import Modal from 'react-native-modal';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { TextInput } from 'react-native-gesture-handler';
+import palette from '../shared/palette';
 
 const ButtonBox = styled.View`
   flex-direction: row;
@@ -44,13 +45,21 @@ const InputBox = styled.TextInput`
 
 const ColorBox = styled.View`
   border: 1px solid gray;
+  width: 100%;
+  flex-wrap: wrap;
 `;
 
 const ColorItem = styled.View`
   border-radius: 50px;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-color: #fa7931;
+`;
+
+const CategoryItem = styled.View`
+  margin: 0 2% 1%;
+  background-color: ${(props) =>
+    props.backgroundColor || `${palette.lightGreen}`};
 `;
 
 const Category = () => {
@@ -58,6 +67,18 @@ const Category = () => {
   //console.log('value: ', value);
 
   const [isModalVisible, setModalVisible] = useState(false);
+  const [colors, setColors] = useState([
+    { id: 0, colorValue: `${palette.blue}`, colorName: 'blue' },
+    { id: 1, colorValue: `${palette.lightBlue}`, colorName: 'lightBlue' },
+    { id: 2, colorValue: `${palette.lightGreen}`, colorName: 'lightGreen' },
+    { id: 3, colorValue: `${palette.green}`, colorName: 'green' },
+    { id: 4, colorValue: `${palette.blueGreen}`, colorName: 'blueGreen' },
+    { id: 5, colorValue: `${palette.purple}`, colorName: 'purple' },
+    { id: 6, colorValue: `${palette.pink}`, colorName: 'pink' },
+    { id: 7, colorValue: `${palette.orange}`, colorName: 'orange' },
+    { id: 8, colorValue: `${palette.lightOrange}`, colorName: 'lightOrange' },
+    { id: 9, colorValue: `${palette.yellow}`, colorName: 'yellow' },
+  ]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -70,7 +91,9 @@ const Category = () => {
         <Button title="+ 태그추가" onPress={toggleModal} />
       </ButtonBox>
       {value[0].map((category) => (
-        <Text key={category.categoryID}>{category.categoryName}</Text>
+        <CategoryItem key={category.categoryID}>
+          <Text>{category.categoryName}</Text>
+        </CategoryItem>
       ))}
       <StyledSafeAreaView>
         <Modal
@@ -83,7 +106,12 @@ const Category = () => {
               <InputBox placeholder="제목을 입력해주세요" />
               <StyledModalGradeText>태그 컬러</StyledModalGradeText>
               <ColorBox>
-                <ColorItem />
+                {colors.map((color) => (
+                  <ColorItem
+                    key={color.id}
+                    backgroundColor={color.colorValue}
+                  />
+                ))}
               </ColorBox>
             </StyledModalGradeWrapper>
             <Button title="완료" onPress={toggleModal} />
