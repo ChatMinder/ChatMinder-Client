@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import Search from '../components/Search';
+import Search from '../shared/components/Search';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
-import MemoInputForm from '../components/MemoInputForm';
-import MemoItem from '../components/MemoItem';
-import MemoDate from '../components/MemoDate';
+import MemoInputForm from '../shared/components/MemoInputForm';
+import MemoItem from '../shared/components/MemoItem';
+import MemoDate from '../shared/components/MemoDate';
 import moment from 'moment';
 
 const Home = ({ navigation: { setOptions } }) => {

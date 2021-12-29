@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { addCategory, addMemo, setMemoInCategory } from '../shared/reducer.js';
+import { addCategory, addMemo, setMemoInCategory } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
