@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import moment from 'moment';
+import {
+  CategoryItem,
+  TextBox,
+  ImgBox,
+  ImgItem,
+} from '../shared/styles/CategoryStyle';
+
+const settings = require('../shared/assets/settings.png');
+const trashcan = require('../shared/assets/trashcan.png');
 
 LocaleConfig.locales['fr'] = {
   monthNames: [
@@ -118,11 +127,23 @@ const CalendarPage = () => {
         />
       </CalenderBox>
       <PlanBox>
-        <Text>일정</Text>
         {planObj.map((plan) => (
-          <CalenderBox key={plan.memoID}>
-            <Text>{plan.memoText}</Text>
-          </CalenderBox>
+          <CategoryItem key={plan.memoID}>
+            <TextBox>
+              <Text> {plan.memoText}</Text>
+            </TextBox>
+            <ImgBox>
+              <TouchableOpacity
+              // onPress={() => {
+              // }}
+              >
+                <ImgItem source={settings} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <ImgItem source={trashcan} />
+              </TouchableOpacity>
+            </ImgBox>
+          </CategoryItem>
         ))}
       </PlanBox>
     </View>
