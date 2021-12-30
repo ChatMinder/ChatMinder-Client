@@ -15,6 +15,12 @@ import { useSelector } from 'react-redux';
 import { TextInput } from 'react-native-gesture-handler';
 import palette from '../shared/palette';
 import useSearch from '../shared/hooks/useSearch';
+import {
+  CategoryItem,
+  TextBox,
+  ImgBox,
+  ImgItem,
+} from '../shared/styles/CategoryStyle';
 
 const trashcan = require('../shared/assets/trashcan.png');
 const settings = require('../shared/assets/settings.png');
@@ -42,7 +48,6 @@ const StyledModalContainer = styled.View`
   border-radius: 10px;
 `;
 
-// 모달창 내에서 버튼으로 활용되지 않는 타이틀 부분은 View 만듬
 const StyledModalGradeWrapper = styled.View`
   flex: 1;
   width: 320px;
@@ -72,30 +77,6 @@ const ColorItem = styled.View`
   background-color: ${(props) =>
     props.backgroundColor || `${palette.lightGreen}`};
   margin: 0 2% 2% 0;
-`;
-
-const CategoryItem = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 0 2% 1%;
-  background-color: ${(props) =>
-    props.backgroundColor || `${palette.lightGreen}`};
-`;
-
-const ImgBox = styled.View`
-  flex-direction: row;
-  width: 10%;
-  justify-content: space-around;
-`;
-
-const ImgItem = styled.Image`
-  width: 15px;
-  height: 15px;
-`;
-
-const TextBox = styled.TouchableOpacity`
-  border: 1px red solid;
-  width: 80%;
 `;
 
 const CloseButton = styled.TouchableOpacity``;

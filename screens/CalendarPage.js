@@ -56,7 +56,6 @@ const CalenderBox = styled.View`
 const PlanBox = styled.View`
   border: 1px solid red;
   width: 100%;
-  height: 300px;
 `;
 
 const CalendarPage = () => {
