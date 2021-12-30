@@ -122,8 +122,11 @@ const Category = () => {
         <Text>태그</Text>
         <Button title="+ 태그추가" onPress={toggleModal} />
       </ButtonBox>
-      {memoObj[0].map((category) => (
-        <CategoryItem key={category.categoryID}>
+      {memoObj[0].map((category, index) => (
+        <CategoryItem
+          key={category.categoryID}
+          backgroundColor={colors[index].colorValue}
+        >
           <Text>{category.categoryName}</Text>
           <ImgBox>
             <ImgItem source={trashcan} />
