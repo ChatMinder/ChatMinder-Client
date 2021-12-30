@@ -24,7 +24,7 @@ const PlanBox = styled.View`
   width: 100%;
 `;
 
-const CalendarPage = () => {
+const CalendarPage = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
   const [markedDates, setMarkedDates] = useState(null);
   const [dates, setDates] = useState({
@@ -100,6 +100,7 @@ const CalendarPage = () => {
         ))}
 
         <TouchableOpacity
+          onPress={() => navigation.navigate('CalenderDaily')}
           style={{
             alignItems: 'flex-end',
           }}
