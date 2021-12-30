@@ -70,7 +70,7 @@ const SearchInput = styled.TextInput`
   width: 200px;
 `;
 
-const Temp = styled.TouchableHighlight`
+const BookmarkButton = styled.TouchableHighlight`
   border: 1px solid red;
 `;
 
@@ -145,7 +145,7 @@ const gatherText = ({ navigation }) => {
                       <Text>{memo.categoryName}</Text>
                     </TextItem>
                   </TouchableHighlight>
-                  <Temp
+                  <BookmarkButton
                     onPress={() => {
                       console.log('북마크');
                     }}
@@ -155,7 +155,7 @@ const gatherText = ({ navigation }) => {
                     ) : (
                       <BookmarkItem source={empty} />
                     )}
-                  </Temp>
+                  </BookmarkButton>
                 </BookmarkBox>
               </TextBox>
             )

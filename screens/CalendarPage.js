@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components/native';
+import moment from 'moment';
 
 LocaleConfig.locales['fr'] = {
   monthNames: [
@@ -46,26 +49,45 @@ LocaleConfig.locales['fr'] = {
 };
 LocaleConfig.defaultLocale = 'fr';
 
+const CalenderBox = styled.View`
+  border: 1px solid black;
+`;
+
+const PlanBox = styled.View`
+  border: 1px solid red;
+  width: 100%;
+`;
+
 const CalendarPage = () => {
-  const [markedDates, setMarkedDates] = React.useState(null);
-  const [dates, setDates] = React.useState(['2021-12-05', '2021-12-20']);
+  const memoObj = useSelector((state) => state);
+  const [markedDates, setMarkedDates] = useState(null);
+  const [dates, setDates] = useState({
+    markedDates: memoObj
+      .map((memo, index) => moment.unix(memo.memoID).format('YYYY-MM-DD'))
+      .filter((element, index) => index > 0),
+    marked: null,
+  });
 
   function addDates() {
-    let obj = dates.reduce(
+    let obj = dates.markedDates.reduce(
       (c, v) =>
         Object.assign(c, {
           [v]: { marked: true, dotColor: 'red' },
         }),
       {}
     );
-    console.log(obj);
+    console.log('obj', obj);
     setMarkedDates(obj);
   }
+
+  // const handleDot = ()=>{
+  //   memoObj.map((memo, index) => moment.unix(memo.memoID).format('YYYY-MM-DD'))
+  // }
 
   return (
     <View>
       <Text>캘린더</Text>
-      <View>
+      <CalenderBox>
         <Calendar
           onDayPress={(day) => {
             addDates();
@@ -82,7 +104,13 @@ const CalendarPage = () => {
             },
           }}
         />
-      </View>
+      </CalenderBox>
+      <PlanBox>
+        <Text>일정</Text>
+        {memoObj.map((memo, index) => {
+          <Text>{moment.unix(memo.memoID).format('YYYY-MM-DD')}</Text>;
+        })}
+      </PlanBox>
     </View>
   );
 };

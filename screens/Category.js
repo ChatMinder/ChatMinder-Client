@@ -84,6 +84,8 @@ const CategoryItem = styled.View`
 
 const ImgBox = styled.View`
   flex-direction: row;
+  width: 10%;
+  justify-content: space-around;
 `;
 
 const ImgItem = styled.Image`
@@ -91,12 +93,18 @@ const ImgItem = styled.Image`
   height: 15px;
 `;
 
+const TextBox = styled.TouchableOpacity`
+  border: 1px red solid;
+  width: 80%;
+`;
+
 const CloseButton = styled.TouchableOpacity``;
 
 const Category = () => {
   const memoObj = useSelector((state) => state);
   //console.log('memoObj: ', memoObj);
-  const [onSearchChange, renderState] = useSearch(memoObj);
+
+  const [title, setTitle] = useState('');
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [colors, setColors] = useState([
@@ -112,7 +120,7 @@ const Category = () => {
     { id: 9, colorValue: `${palette.yellow}`, colorName: 'yellow' },
   ]);
 
-  const toggleModal = () => {
+  const toggleModal = ({ navigation }) => {
     setModalVisible(!isModalVisible);
   };
 
@@ -120,17 +128,34 @@ const Category = () => {
     <Wrapper>
       <ButtonBox>
         <Text>태그</Text>
-        <Button title="+ 태그추가" onPress={toggleModal} />
+        <Button
+          title="+ 태그추가"
+          onPress={() => {
+            setTitle('');
+            toggleModal();
+          }}
+        />
       </ButtonBox>
       {memoObj[0].map((category, index) => (
         <CategoryItem
           key={category.categoryID}
           backgroundColor={colors[index].colorValue}
         >
-          <Text>{category.categoryName}</Text>
+          <TextBox>
+            <Text>{category.categoryName}</Text>
+          </TextBox>
           <ImgBox>
-            <ImgItem source={trashcan} />
-            <ImgItem source={settings} />
+            <TouchableOpacity
+              onPress={() => {
+                toggleModal();
+                setTitle(category.categoryName);
+              }}
+            >
+              <ImgItem source={settings} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <ImgItem source={trashcan} />
+            </TouchableOpacity>
           </ImgBox>
         </CategoryItem>
       ))}
@@ -147,14 +172,20 @@ const Category = () => {
                   <ImgItem source={cancel} />
                 </CloseButton>
               </ButtonBox>
-              <InputBox placeholder="제목을 입력해주세요" />
+              <InputBox
+                placeholder="제목을 입력해주세요"
+                onChangeText={(text) => setTitle(text)}
+                value={title}
+              />
               <StyledModalGradeText>태그 컬러</StyledModalGradeText>
               <ColorBox>
                 {colors.map((color) => (
-                  <ColorItem
+                  <TouchableOpacity
                     key={color.id}
-                    backgroundColor={color.colorValue}
-                  />
+                    onPress={() => console.log(color.colorName)}
+                  >
+                    <ColorItem backgroundColor={color.colorValue} />
+                  </TouchableOpacity>
                 ))}
               </ColorBox>
             </StyledModalGradeWrapper>
