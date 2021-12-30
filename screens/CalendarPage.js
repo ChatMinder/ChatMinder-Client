@@ -15,6 +15,104 @@ import {
 const settings = require('../shared/assets/settings.png');
 const trashcan = require('../shared/assets/trashcan.png');
 
+const CalenderBox = styled.View`
+  border: 1px solid black;
+`;
+
+const PlanBox = styled.View`
+  border: 1px solid red;
+  width: 100%;
+`;
+
+const CalendarPage = () => {
+  const memoObj = useSelector((state) => state);
+  const [markedDates, setMarkedDates] = useState(null);
+  const [dates, setDates] = useState({
+    markedDates: memoObj
+      .map((memo, index) => moment.unix(memo.memoID).format('YYYY-MM-DD'))
+      .filter((element, index) => index > 0),
+    marked: null,
+  });
+
+  const [planObj, setPlanObj] = useState([]);
+
+  useEffect(() => {
+    dotDates();
+    console.log('plan:', planObj);
+  }, [planObj]);
+
+  function dotDates() {
+    let obj = dates.markedDates.reduce(
+      (c, v) =>
+        Object.assign(c, {
+          [v]: { marked: true, dotColor: 'red' },
+        }),
+      {}
+    );
+    setMarkedDates(obj);
+  }
+
+  const handlePlan = (day) => {
+    const dotDate = memoObj
+      .filter((element, index) => index > 0)
+      .filter(
+        (e) => moment.unix(e.memoID).format('YYYY-MM-DD') === day.dateString
+      );
+    setPlanObj(dotDate);
+  };
+
+  return (
+    <View>
+      <Text>캘린더</Text>
+      <CalenderBox>
+        <Calendar
+          onDayPress={(day) => {
+            handlePlan(day);
+          }}
+          markedDates={markedDates}
+          theme={{
+            'stylesheet.calendar.header': {
+              dayTextAtIndex0: {
+                color: 'red',
+              },
+              dayTextAtIndex6: {
+                color: 'blue',
+              },
+            },
+          }}
+        />
+      </CalenderBox>
+      <PlanBox>
+        {planObj.map((plan) => (
+          <CategoryItem key={plan.memoID}>
+            <TextBox>
+              <Text> {plan.memoText}</Text>
+            </TextBox>
+            <ImgBox>
+              <TouchableOpacity>
+                <ImgItem source={settings} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <ImgItem source={trashcan} />
+              </TouchableOpacity>
+            </ImgBox>
+          </CategoryItem>
+        ))}
+
+        <TouchableOpacity
+          style={{
+            alignItems: 'flex-end',
+          }}
+        >
+          <Text>이 날 메모 모아보기</Text>
+        </TouchableOpacity>
+      </PlanBox>
+    </View>
+  );
+};
+
+export default CalendarPage;
+
 LocaleConfig.locales['fr'] = {
   monthNames: [
     'Janvier',
@@ -57,109 +155,3 @@ LocaleConfig.locales['fr'] = {
   today: "Aujourd'hui",
 };
 LocaleConfig.defaultLocale = 'fr';
-
-const CalenderBox = styled.View`
-  border: 1px solid black;
-`;
-
-const PlanBox = styled.View`
-  border: 1px solid red;
-  width: 100%;
-`;
-
-const gatherPage = styled.View`
-  justify-content: flex-end;
-`;
-
-const CalendarPage = () => {
-  const memoObj = useSelector((state) => state);
-  const [markedDates, setMarkedDates] = useState(null);
-  const [dates, setDates] = useState({
-    markedDates: memoObj
-      .map((memo, index) => moment.unix(memo.memoID).format('YYYY-MM-DD'))
-      .filter((element, index) => index > 0),
-    marked: null,
-  });
-
-  const [planObj, setPlanObj] = useState([]);
-
-  useEffect(() => {
-    dotDates();
-    console.log('plan:', planObj);
-  }, [planObj]);
-
-  function dotDates() {
-    let obj = dates.markedDates.reduce(
-      (c, v) =>
-        Object.assign(c, {
-          [v]: { marked: true, dotColor: 'red' },
-        }),
-      {}
-    );
-    setMarkedDates(obj);
-  }
-
-  const handlePlan = (day) => {
-    const dotDate = memoObj
-      .filter((element, index) => index > 0)
-      .filter(
-        (e) => moment.unix(e.memoID).format('YYYY-MM-DD') === day.dateString
-      );
-    setPlanObj(dotDate);
-    //console.log('plan:', planObj);
-  };
-
-  return (
-    <View>
-      <Text>캘린더</Text>
-      <CalenderBox>
-        <Calendar
-          onDayPress={(day) => {
-            handlePlan(day);
-          }}
-          markedDates={markedDates}
-          theme={{
-            'stylesheet.calendar.header': {
-              dayTextAtIndex0: {
-                color: 'red',
-              },
-              dayTextAtIndex6: {
-                color: 'blue',
-              },
-            },
-          }}
-        />
-      </CalenderBox>
-      <PlanBox>
-        {planObj.map((plan) => (
-          <CategoryItem key={plan.memoID}>
-            <TextBox>
-              <Text> {plan.memoText}</Text>
-            </TextBox>
-            <ImgBox>
-              <TouchableOpacity
-              // onPress={() => {
-              // }}
-              >
-                <ImgItem source={settings} />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <ImgItem source={trashcan} />
-              </TouchableOpacity>
-            </ImgBox>
-          </CategoryItem>
-        ))}
-
-        <TouchableOpacity
-          style={{
-            alignItems: 'flex-end',
-          }}
-        >
-          <Text>이 날 메모 모아보기</Text>
-        </TouchableOpacity>
-      </PlanBox>
-    </View>
-  );
-};
-
-export default CalendarPage;

@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Calendar from '../screens/CalendarPage';
 import Category from '../screens/Category';
+
 import Drawers from './Drawers';
 
 const Tab = createBottomTabNavigator();

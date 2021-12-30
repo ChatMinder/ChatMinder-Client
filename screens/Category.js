@@ -8,78 +8,23 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import styled from 'styled-components/native';
-import Modal from 'react-native-modal';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { TextInput } from 'react-native-gesture-handler';
 import palette from '../shared/palette';
-import useSearch from '../shared/hooks/useSearch';
+
 import {
   CategoryItem,
   TextBox,
   ImgBox,
   ImgItem,
+  ButtonBox,
 } from '../shared/styles/CategoryStyle';
+
+import ModalItem from '../shared/components/Modaltem';
 
 const trashcan = require('../shared/assets/trashcan.png');
 const settings = require('../shared/assets/settings.png');
-const cancel = require('../shared/assets/cancel.png');
-
-const ButtonBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2%;
-`;
-
-const StyledSafeAreaView = styled.SafeAreaView`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StyledModalContainer = styled.View`
-  flex-direction: column;
-  align-items: center;
-  width: 320px;
-  height: 220px;
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 10px;
-`;
-
-const StyledModalGradeWrapper = styled.View`
-  flex: 1;
-  width: 320px;
-  justify-content: center;
-`;
-
-const StyledModalGradeText = styled.Text`
-  font-size: 15px;
-`;
-
-const InputBox = styled.TextInput`
-  border: 1px solid gray;
-`;
-
-const ColorBox = styled.View`
-  width: 100%;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 1% 3%;
-`;
-
-const ColorItem = styled.View`
-  border-radius: 50px;
-  width: 45px;
-  height: 45px;
-  background-color: ${(props) =>
-    props.backgroundColor || `${palette.lightGreen}`};
-  margin: 0 2% 2% 0;
-`;
-
-const CloseButton = styled.TouchableOpacity``;
 
 const Category = () => {
   const memoObj = useSelector((state) => state);
@@ -101,7 +46,7 @@ const Category = () => {
     { id: 9, colorValue: `${palette.yellow}`, colorName: 'yellow' },
   ]);
 
-  const toggleModal = ({ navigation }) => {
+  const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
@@ -140,40 +85,12 @@ const Category = () => {
           </ImgBox>
         </CategoryItem>
       ))}
-      <StyledSafeAreaView>
-        <Modal
-          isVisible={isModalVisible}
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
-          <StyledModalContainer>
-            <StyledModalGradeWrapper>
-              <ButtonBox>
-                <StyledModalGradeText>제목</StyledModalGradeText>
-                <CloseButton onPress={toggleModal}>
-                  <ImgItem source={cancel} />
-                </CloseButton>
-              </ButtonBox>
-              <InputBox
-                placeholder="제목을 입력해주세요"
-                onChangeText={(text) => setTitle(text)}
-                value={title}
-              />
-              <StyledModalGradeText>태그 컬러</StyledModalGradeText>
-              <ColorBox>
-                {colors.map((color) => (
-                  <TouchableOpacity
-                    key={color.id}
-                    onPress={() => console.log(color.colorName)}
-                  >
-                    <ColorItem backgroundColor={color.colorValue} />
-                  </TouchableOpacity>
-                ))}
-              </ColorBox>
-            </StyledModalGradeWrapper>
-            <Button title="완료" onPress={toggleModal} />
-          </StyledModalContainer>
-        </Modal>
-      </StyledSafeAreaView>
+      <ModalItem
+        isModalVisible={isModalVisible}
+        title={title}
+        colors={colors}
+        toggleModal={toggleModal}
+      />
     </Wrapper>
   );
 };

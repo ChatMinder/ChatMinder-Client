@@ -33,3 +33,10 @@ export const ImgItem = styled.Image`
   width: 15px;
   height: 15px;
 `;
+
+export const ButtonBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2%;
+`;
