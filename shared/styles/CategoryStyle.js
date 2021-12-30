@@ -1,13 +1,4 @@
-import React from 'react';
-import styled, { css } from 'styled-components/native';
-import {
-  Text,
-  Button,
-  View,
-  Input,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import styled from 'styled-components/native';
 import palette from '../palette';
 
 export const CategoryItem = styled.View`

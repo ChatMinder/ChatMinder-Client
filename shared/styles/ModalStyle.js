@@ -1,5 +1,3 @@
-import React from 'react';
-import { Text, View, TextInput, SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import palette from '../palette';
 
