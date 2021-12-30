@@ -56,6 +56,7 @@ const CalenderBox = styled.View`
 const PlanBox = styled.View`
   border: 1px solid red;
   width: 100%;
+  height: 300px;
 `;
 
 const CalendarPage = () => {
@@ -68,7 +69,14 @@ const CalendarPage = () => {
     marked: null,
   });
 
-  function addDates() {
+  const [planObj, setPlanObj] = useState([]);
+
+  useEffect(() => {
+    dotDates();
+    console.log('plan:', planObj);
+  }, [planObj]);
+
+  function dotDates() {
     let obj = dates.markedDates.reduce(
       (c, v) =>
         Object.assign(c, {
@@ -76,13 +84,18 @@ const CalendarPage = () => {
         }),
       {}
     );
-    console.log('obj', obj);
     setMarkedDates(obj);
   }
 
-  // const handleDot = ()=>{
-  //   memoObj.map((memo, index) => moment.unix(memo.memoID).format('YYYY-MM-DD'))
-  // }
+  const handlePlan = (day) => {
+    const dotDate = memoObj
+      .filter((element, index) => index > 0)
+      .filter(
+        (e) => moment.unix(e.memoID).format('YYYY-MM-DD') === day.dateString
+      );
+    setPlanObj(dotDate);
+    //console.log('plan:', planObj);
+  };
 
   return (
     <View>
@@ -90,7 +103,7 @@ const CalendarPage = () => {
       <CalenderBox>
         <Calendar
           onDayPress={(day) => {
-            addDates();
+            handlePlan(day);
           }}
           markedDates={markedDates}
           theme={{
@@ -107,9 +120,11 @@ const CalendarPage = () => {
       </CalenderBox>
       <PlanBox>
         <Text>일정</Text>
-        {memoObj.map((memo, index) => {
-          <Text>{moment.unix(memo.memoID).format('YYYY-MM-DD')}</Text>;
-        })}
+        {planObj.map((plan) => (
+          <CalenderBox key={plan.memoID}>
+            <Text>{plan.memoText}</Text>
+          </CalenderBox>
+        ))}
       </PlanBox>
     </View>
   );
