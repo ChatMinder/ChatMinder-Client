@@ -67,6 +67,10 @@ const PlanBox = styled.View`
   width: 100%;
 `;
 
+const gatherPage = styled.View`
+  justify-content: flex-end;
+`;
+
 const CalendarPage = () => {
   const memoObj = useSelector((state) => state);
   const [markedDates, setMarkedDates] = useState(null);
@@ -145,6 +149,14 @@ const CalendarPage = () => {
             </ImgBox>
           </CategoryItem>
         ))}
+
+        <TouchableOpacity
+          style={{
+            alignItems: 'flex-end',
+          }}
+        >
+          <Text>이 날 메모 모아보기</Text>
+        </TouchableOpacity>
       </PlanBox>
     </View>
   );
