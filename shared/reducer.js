@@ -57,7 +57,7 @@ const initialState = [
     memoID: 1638668525,
     memoText: '프론트엔드 과제',
     isImg: '',
-    isLink: false,
+    isLink: '',
     isMarked: false,
   },
   {
@@ -65,7 +65,7 @@ const initialState = [
     memoID: 1638668925,
     memoText: '교양 과제',
     isImg: '',
-    isLink: false,
+    isLink: '',
     isMarked: false,
   },
   {
@@ -73,7 +73,7 @@ const initialState = [
     memoID: 1638668926,
     memoText: '물로켓',
     isImg: '',
-    isLink: false,
+    isLink: '',
     isMarked: false,
   },
   {
@@ -81,7 +81,7 @@ const initialState = [
     memoID: 1640668525,
     memoText: '오사쯔',
     isImg: '',
-    isLink: false,
+    isLink: '',
     isMarked: false,
   },
   {
@@ -89,7 +89,7 @@ const initialState = [
     memoID: 1640668601,
     memoText: '고무동력기',
     isImg: '',
-    isLink: false,
+    isLink: '',
     isMarked: false,
   },
   {
@@ -97,7 +97,7 @@ const initialState = [
     memoID: 1640668658,
     memoText: '자료구조 과제',
     isImg: '',
-    isLink: false,
+    isLink: 'naver.com',
     isMarked: false,
   },
   {
@@ -105,7 +105,7 @@ const initialState = [
     memoID: 1640668659,
     memoText: '빈 카테고리',
     isImg: '',
-    isLink: false,
+    isLink: '',
     isMarked: false,
   },
   {
@@ -113,7 +113,7 @@ const initialState = [
     memoID: 1640668670,
     memoText: '빈 카테고리 캬캬',
     isImg: '',
-    isLink: false,
+    isLink: '',
     isMarked: false,
   },
 ];
@@ -189,7 +189,7 @@ export default function reducer(state = initialState, action) {
           memoID: timestamp,
           memoText: action.memoText,
           isImg: '',
-          isLink: false,
+          isLink: '',
           isMarked: false,
         },
       ];

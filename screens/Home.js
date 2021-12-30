@@ -11,6 +11,7 @@ import MemoItem from '../shared/components/MemoItem';
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
 import { Ionicons } from '@expo/vector-icons';
+import { checkIncludeURL } from '../shared/checkIncludeURL';
 
 const Home = ({ navigation: { setOptions } }) => {
   const memoObj = useSelector((state) => state);
@@ -52,6 +53,14 @@ const Home = ({ navigation: { setOptions } }) => {
 
   return (
     <Wrapper>
+      <URLCheck
+        title="testUrl"
+        onPress={() =>
+          checkIncludeURL(
+            '메모에 링크가 있나 판별하는 부분인데 naver.com 이렇게 중간에 링크를 넣으면'
+          )
+        }
+      />
       <MemoContainer>
         {renderState.map(
           (memo, index) =>
@@ -74,6 +83,8 @@ const Home = ({ navigation: { setOptions } }) => {
     </Wrapper>
   );
 };
+
+const URLCheck = styled.Button``;
 
 const Container = styled.TouchableOpacity`
   margin: 15px;
