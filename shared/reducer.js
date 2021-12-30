@@ -58,7 +58,7 @@ const initialState = [
     memoText: '프론트엔드 과제',
     isImg: '',
     isLink: '',
-    isMarked: false,
+    isMarked: true,
   },
   {
     categoryName: '과제',
@@ -74,7 +74,7 @@ const initialState = [
     memoText: '물로켓',
     isImg: '',
     isLink: '',
-    isMarked: false,
+    isMarked: true,
   },
   {
     categoryName: '먹을거',
