@@ -56,7 +56,7 @@ const Drawers = () => {
 
   return (
     <Drawer.Navigator
-      initialRouteName="Home"
+      initialRouteName="LogIn"
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
       {/* 로그인을 위해 임시로 만든 부분.. 나중에 다른 Navigation으로 할 것 */}
