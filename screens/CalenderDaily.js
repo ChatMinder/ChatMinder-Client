@@ -5,17 +5,26 @@ import moment from 'moment';
 
 const CalenderDaily = ({ route, navigation }) => {
   useEffect(() => {
-    navigation.setOptions({
-      title: `${moment.unix(route.params.planObj[0].memoID).format('ll')}`,
-    });
-  }, [navigation, route.params.planObj[0].memoID]);
+    route.params.planObj.length === 0
+      ? console.log('일정이 없음')
+      : navigation.setOptions({
+          title: `${moment.unix(route.params.planObj[0].memoID).format('ll')}`,
+        });
+  }, []);
+
   return (
     <View>
-      <MemoDate memoID={route.params.planObj[0].memoID} />
+      {route.params.planObj.length === 0 ? (
+        <Text>일정이 없습니다.</Text>
+      ) : (
+        <>
+          <MemoDate memoID={route.params.planObj[0].memoID} />
 
-      {route.params.planObj.map((plan) => (
-        <Text key={plan.memoID}> {plan.memoText}</Text>
-      ))}
+          {route.params.planObj.map((plan) => (
+            <Text key={plan.memoID}> {plan.memoText}</Text>
+          ))}
+        </>
+      )}
     </View>
   );
 };

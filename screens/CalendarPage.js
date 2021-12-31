@@ -38,7 +38,7 @@ const CalendarPage = ({ navigation }) => {
 
   useEffect(() => {
     dotDates();
-    console.log('plan:', planObj);
+    //console.log('plan:', planObj);
   }, [planObj]);
 
   function dotDates() {
