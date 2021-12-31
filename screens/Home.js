@@ -64,14 +64,6 @@ const Home = ({ navigation }) => {
 
   return (
     <Wrapper>
-      <URLCheck
-        title="testUrl"
-        onPress={() =>
-          checkIncludeURL(
-            '메모에 링크가 있나 판별하는 부분인데 naver.com 이렇게 중간에 링크를 넣으면'
-          )
-        }
-      />
       <MemoContainer>
         {renderState.map(
           (memo, index) =>
