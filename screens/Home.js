@@ -11,8 +11,9 @@ import MemoItem from '../shared/components/MemoItem';
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
 import { Ionicons } from '@expo/vector-icons';
+import { checkIncludeURL } from '../shared/checkIncludeURL';
 
-const Home = ({ navigation: { setOptions } }) => {
+const Home = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
   const [onSearchChange, renderState] = useSearch(memoObj);
   const onDeletePress = () => {
@@ -24,28 +25,39 @@ const Home = ({ navigation: { setOptions } }) => {
 
   useEffect(() => {
     isSearchToggled
-      ? setOptions({
+      ? navigation.setOptions({
           headerTitle: () => (
-            <Container>
+            <HeaderContainer>
               <Ionicons name="search" color="black" size={20} />
               <SearchInput
                 onChangeText={onSearchChange}
                 placeholder="내용, 태그 검색"
               />
-            </Container>
+            </HeaderContainer>
           ),
           headerRight: () => (
-            <Container onPress={() => setIsSearchToggled(!isSearchToggled)}>
+            <HeaderContainer
+              onPress={() => setIsSearchToggled(!isSearchToggled)}
+            >
               <Text>취소</Text>
-            </Container>
+            </HeaderContainer>
           ),
         })
-      : setOptions({
-          headerTitle: () => <Text>Home</Text>,
+      : navigation.setOptions({
+          headerTitle: () => (
+            <ProfileWrapper onPress={() => navigation.navigate('MyPage')}>
+              <Profile
+                source={require('../shared/assets/DefaultProfile.png')}
+              />
+            </ProfileWrapper>
+          ),
+          headerTitleAlign: 'center',
           headerRight: () => (
-            <Container onPress={() => setIsSearchToggled(!isSearchToggled)}>
+            <HeaderContainer
+              onPress={() => setIsSearchToggled(!isSearchToggled)}
+            >
               <Ionicons name="search" color="black" size={20} />
-            </Container>
+            </HeaderContainer>
           ),
         });
   }, [isSearchToggled]);
@@ -75,10 +87,16 @@ const Home = ({ navigation: { setOptions } }) => {
   );
 };
 
-const Container = styled.TouchableOpacity`
+const URLCheck = styled.Button``;
+
+const HeaderContainer = styled.TouchableOpacity`
   margin: 15px;
   flex-direction: row;
 `;
+
+const ProfileWrapper = styled.TouchableOpacity``;
+const Profile = styled.Image``;
+
 const SearchInput = styled.TextInput`
   border: 1px solid red;
   width: 200px;

@@ -33,7 +33,7 @@ function LogIn() {
 
   const sendAccesToken = () => {
     // const url = "http://localhost:8000/auth/kakao";
-    const url = 'http://10.0.2.2:8000/auth/kakao';
+    const url = 'https://chatminder.cf/auth/kakao';
     console.log(kakaoAccessToken);
     axios
       .post(url, {
