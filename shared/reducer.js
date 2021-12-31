@@ -1,4 +1,5 @@
 import moment from 'moment';
+import palette from './palette';
 
 // 액션 타입 정의
 const ADD_CATEGORY = 'ADD_CATEGORY';
@@ -28,27 +29,27 @@ export const setMemoInCategory = (categoryName) => ({
 const initialState = [
   [
     {
-      categoryColor: '',
+      categoryColor: `${palette.blue}`,
       categoryID: 1,
       categoryName: '과제',
       memos: [1640579001552, 1640579008194, 1640614413272],
     },
     {
-      categoryColor: '',
+      categoryColor: `${palette.lightBlue}`,
       categoryID: 2,
       categoryName: '준비물',
       memos: [1640579010766, 1640614272078],
     },
     {
-      categoryColor: '',
+      categoryColor: `${palette.green}`,
       categoryID: 3,
       categoryName: '먹을거',
       memos: [1640579012666],
     },
     {
-      categoryColor: '',
+      categoryColor: `${palette.lightOrange}`,
       categoryID: 4,
-      categoryName: '',
+      categoryName: '미분류',
       memos: [1640614414223, 1640614416422],
     },
   ],
@@ -101,7 +102,7 @@ const initialState = [
     isMarked: false,
   },
   {
-    categoryName: '',
+    categoryName: '미분류',
     memoID: 1640668659,
     memoText: '빈 카테고리',
     isImg: '',
@@ -109,7 +110,7 @@ const initialState = [
     isMarked: false,
   },
   {
-    categoryName: '',
+    categoryName: '미분류',
     memoID: 1640668670,
     memoText: '빈 카테고리 캬캬',
     isImg: '',

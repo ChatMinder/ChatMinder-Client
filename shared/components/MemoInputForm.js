@@ -5,12 +5,16 @@ import { addCategory, addMemo, setMemoInCategory } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
+import palette from '../palette';
 
 const MemoInputForm = () => {
   const dispatch = useDispatch();
   const memoObj = useSelector((state) => state);
 
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [selectedTag, setSelectedTag] = useState(-1);
+
   const {
     control,
     handleSubmit,
@@ -28,15 +32,33 @@ const MemoInputForm = () => {
     dispatch(setMemoInCategory(data.category));
   };
 
+  const selectTag = (categoryID) => {
+    setSelectedTag(categoryID);
+    //Form에서 카테고리 선택한 것으로 만들기
+  };
+
   return (
     <Wrapper>
       {isShpBtnToggled && (
         <ShpItemContainer horizontal={true}>
           {memoObj[0].map((category) => (
-            <EachCategoryBtn key={category.categoryID}>
+            <EachCategoryBtn
+              key={category.categoryID}
+              background={category.categoryColor}
+              selected={selectedTag === category.categoryID}
+              onPress={() => selectTag(category.categoryID)}
+            >
               <Text>{category.categoryName}</Text>
             </EachCategoryBtn>
           ))}
+          {inputValue ? (
+            <EachCategoryBtn
+              selected={selectedTag === 0}
+              onPress={() => selectTag(0)}
+            >
+              <Text>{inputValue} 태그 추가하기</Text>
+            </EachCategoryBtn>
+          ) : null}
           {/* <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -59,7 +81,10 @@ const MemoInputForm = () => {
           render={({ field: { onChange, onBlur, value } }) => (
             <InputMemo
               onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
+              onChangeText={(value) => {
+                setInputValue(value);
+                return onChange(value);
+              }}
               value={value}
               placeholder="메모"
             />
@@ -90,7 +115,9 @@ const ShpItemContainer = styled.ScrollView`
   background: #f6f6f7;
 `;
 const EachCategoryBtn = styled.TouchableOpacity`
-  background: orange;
+  background: ${(props) => props.background || 'gray'};
+  /* 요기 red 대신에 해당 테두리 색상 읽어와서 넣기 */
+  ${(props) => props.selected && `border: 2.5px solid red`}
   padding: 8px;
   margin-left: 12px;
 `;
