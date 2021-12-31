@@ -9,7 +9,7 @@ const CalenderDaily = ({ route, navigation }) => {
   // }, [navigation, route.params.date]);
   return (
     <View>
-      <Text>{route.params.date}</Text>
+      <Text>{route.params.planObj[0].memoID}</Text>
     </View>
   );
 };
