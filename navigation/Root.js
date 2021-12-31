@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from './Tabs';
 import Drawers from './Drawers';
 // import Stack from './Stack';
+import Top from './Top';
 import CalenderDaily from '../screens/CalenderDaily';
 
 const Nav = createNativeStackNavigator();
@@ -16,7 +17,11 @@ const Root = () => (
       options={{ headerShown: false }}
     />
     {/* <Nav.Screen name="Stack" component={Stack} /> */}
-    <Nav.Screen name="CalenderDaily" component={CalenderDaily} />
+    <Nav.Screen
+      name="CalenderDaily"
+      component={CalenderDaily}
+      options={{ headerBackVisible: false }}
+    />
   </Nav.Navigator>
 );
 

@@ -1,14 +1,80 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import styled from 'styled-components/native';
+import palette from '../shared/palette';
+import { useSelector } from 'react-redux';
+
 import MemoDate from '../shared/components/MemoDate';
+import useSearch from '../shared/hooks/useSearch';
 import moment from 'moment';
 
+const TitleBox = styled.View`
+  border: 1px solid red;
+  width: 98%;
+`;
+
+const SearchInput = styled.TextInput`
+  border: 1px solid red;
+  width: 200px;
+`;
+
+const ButtonBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const StyledBtn = styled.TouchableOpacity`
+  border: 1px solid ${palette.borderGray};
+  border-radius: 8px;
+  padding: 0 1%;
+`;
+
+const TagBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 const CalenderDaily = ({ route, navigation }) => {
+  const memoObj = useSelector((state) => state);
+  const [onSearchChange, renderState] = useSearch(memoObj);
+
   useEffect(() => {
     route.params.planObj.length === 0
       ? console.log('일정이 없음')
       : navigation.setOptions({
-          title: `${moment.unix(route.params.planObj[0].memoID).format('ll')}`,
+          headerTitle: () => (
+            <TitleBox>
+              <Text>
+                {moment.unix(route.params.planObj[0].memoID).format('ll')}
+              </Text>
+              <SearchInput
+                onChangeText={onSearchChange}
+                placeholder="내용, 태그 검색"
+              />
+              <ButtonBox>
+                <TagBox>
+                  <StyledBtn>
+                    <Text>전체</Text>
+                  </StyledBtn>
+                  <StyledBtn>
+                    <Text>이미지</Text>
+                  </StyledBtn>
+                  <StyledBtn>
+                    <Text>링크</Text>
+                  </StyledBtn>
+                  <StyledBtn>
+                    <Text>텍스트</Text>
+                  </StyledBtn>
+                </TagBox>
+                <View>
+                  <StyledBtn>
+                    <Text>북마크</Text>
+                  </StyledBtn>
+                </View>
+              </ButtonBox>
+            </TitleBox>
+          ),
+          // headerRight: () => <Text>버튼</Text>,
         });
   }, []);
 

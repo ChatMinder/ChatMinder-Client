@@ -83,15 +83,6 @@ const gatherText = ({ navigation }) => {
     memoObj.filter((element, index) => index > 0)
   );
 
-  // console.log(
-  //   'filter2',
-  //   memos.filter((e) => e.memoText === '빈 카테고리')
-  // );
-
-  // useEffect(() => {
-  //   setMemos(memos);
-  // }, []);
-
   const handleDelete = (id) => {
     Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
       {
