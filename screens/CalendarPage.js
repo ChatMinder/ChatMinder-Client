@@ -35,6 +35,7 @@ const CalendarPage = ({ navigation }) => {
   });
 
   const [planObj, setPlanObj] = useState([]);
+  // const [pickedDate, setPickedDate] = useState('');
 
   useEffect(() => {
     dotDates();
@@ -53,12 +54,14 @@ const CalendarPage = ({ navigation }) => {
   }
 
   const handlePlan = (day) => {
+    //setPickedDate(day.dateString);
     const dotDate = memoObj
       .filter((element, index) => index > 0)
       .filter(
         (e) => moment.unix(e.memoID).format('YYYY-MM-DD') === day.dateString
       );
     setPlanObj(dotDate);
+    //console.log('picked', pickedDate);
   };
 
   return (
@@ -100,7 +103,9 @@ const CalendarPage = ({ navigation }) => {
         ))}
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('CalenderDaily')}
+          onPress={() =>
+            navigation.navigate('CalenderDaily', { date: '2021-12-05' })
+          }
           style={{
             alignItems: 'flex-end',
           }}

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 
-const CalenderDaily = () => {
+const CalenderDaily = ({ route, navigation }) => {
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     title: `상세 정보 ${route.params.date}`,
+  //   });
+  // }, [navigation, route.params.date]);
   return (
     <View>
-      <Text>캘린더 모아보기 페이지</Text>
+      <Text>{route.params.date}</Text>
     </View>
   );
 };
