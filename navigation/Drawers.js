@@ -56,11 +56,9 @@ const Drawers = () => {
 
   return (
     <Drawer.Navigator
-      initialRouteName="LogIn"
+      initialRouteName="Home"
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      {/* 로그인을 위해 임시로 만든 부분.. 나중에 다른 Navigation으로 할 것 */}
-      <Drawer.Screen name="LogIn" component={LogIn} />
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="gatherImg" component={gatherImg} />
       <Drawer.Screen name="gatherLink" component={gatherLink} />
