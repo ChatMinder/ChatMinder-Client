@@ -1,8 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import Calendar from '../screens/Calendar';
+import Calendar from '../screens/CalendarPage';
 import Category from '../screens/Category';
+
 import Drawers from './Drawers';
 
 const Tab = createBottomTabNavigator();
@@ -10,7 +11,7 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
   return (
     <Tab.Navigator
-    initialRouteName='메인'
+      initialRouteName="메인"
       sceneContainerStyle={{
         backgroundColor: 'white',
       }}
@@ -53,7 +54,6 @@ const Tabs = () => {
         name="메인"
         component={Drawers}
         options={{
-          
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             return (
