@@ -10,6 +10,13 @@ import useSearch from '../shared/hooks/useSearch';
 import TextContainer from '../shared/components/TextContainer';
 import HeaderButton from '../shared/components/HeaderButton';
 
+import {
+  SearchInput,
+  TitleBox,
+  ButtonBox,
+  TagBox,
+} from '../shared/styles/InputStyle';
+
 const CalenderDaily = ({ route, navigation }) => {
   const memoObj = useSelector((state) => state);
   const [onSearchChange, renderState] = useSearch(memoObj);
@@ -77,24 +84,3 @@ const CalenderDaily = ({ route, navigation }) => {
 };
 
 export default CalenderDaily;
-
-const TitleBox = styled.View`
-  border: 1px solid red;
-  width: 98%;
-`;
-
-const SearchInput = styled.TextInput`
-  border: 1px solid red;
-  width: 200px;
-`;
-
-const ButtonBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const TagBox = styled(ButtonBox)`
-  border: 1px solid blue;
-  width: 200px;
-`;

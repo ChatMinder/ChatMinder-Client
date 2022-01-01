@@ -11,6 +11,8 @@ import TextContainer from '../../shared/components/TextContainer';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
+import { SearchInput, TitleBox } from '../../shared/styles/InputStyle';
+
 const gatherText = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
   //console.log('memoObj: ', memoObj);
@@ -23,13 +25,13 @@ const gatherText = ({ navigation }) => {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <View>
+        <TitleBox>
           <Text>텍스트 모아보기</Text>
           <SearchInput
             onChangeText={onSearchChange}
             placeholder="내용, 태그 검색"
           />
-        </View>
+        </TitleBox>
       ),
     });
   });
@@ -79,9 +81,4 @@ const TextBox = styled.View`
 
 const DateItem = styled.View`
   width: 100%;
-`;
-
-const SearchInput = styled.TextInput`
-  border: 1px solid red;
-  width: 200px;
 `;

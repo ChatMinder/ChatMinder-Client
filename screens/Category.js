@@ -71,11 +71,14 @@ const Category = ({ navigation }) => {
             onPress={() => {
               navigation.navigate('CategoryDetail', {
                 categoryID: category.categoryID,
+                categoryName: category.categoryName,
               });
             }}
           >
             <Text>
-              {category.categoryName ? category.categoryName : '분류 안한 메모'}
+              {category.categoryName
+                ? category.categoryName
+                : '분류 안 한 메모'}
             </Text>
           </TextBox>
           <ImgBox>
