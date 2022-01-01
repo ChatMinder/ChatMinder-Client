@@ -3,36 +3,11 @@ import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import palette from '../shared/palette';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
-import moment from 'moment';
-
-const TitleBox = styled.View`
-  border: 1px solid red;
-  width: 98%;
-`;
-
-const SearchInput = styled.TextInput`
-  border: 1px solid red;
-  width: 200px;
-`;
-
-const ButtonBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const StyledBtn = styled.TouchableOpacity`
-  border: 1px solid ${palette.borderGray};
-  border-radius: 8px;
-  padding: 0 1%;
-`;
-
-const TagBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
+//import HeaderBottom from '../shared/components/HeaderBottom';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoObj = useSelector((state) => state);
@@ -74,7 +49,6 @@ const CalenderDaily = ({ route, navigation }) => {
               </ButtonBox>
             </TitleBox>
           ),
-          // headerRight: () => <Text>버튼</Text>,
         });
   }, []);
 
@@ -86,9 +60,18 @@ const CalenderDaily = ({ route, navigation }) => {
         <>
           <MemoDate memoID={route.params.planObj[0].memoID} />
 
-          {route.params.planObj.map((plan) => (
+          {/* {route.params.planObj.map((plan) => (
             <Text key={plan.memoID}> {plan.memoText}</Text>
-          ))}
+          ))} */}
+          {renderState
+            .filter(
+              (item) =>
+                moment.unix(item.memoID).format('YYYY-MM-DD') ===
+                moment.unix(route.params.planObj[0].memoID).format('YYYY-MM-DD')
+            )
+            .map((plan) => (
+              <Text key={plan.memoID}> {plan.memoText}</Text>
+            ))}
         </>
       )}
     </View>
@@ -96,3 +79,29 @@ const CalenderDaily = ({ route, navigation }) => {
 };
 
 export default CalenderDaily;
+
+const TitleBox = styled.View`
+  border: 1px solid red;
+  width: 98%;
+`;
+
+const SearchInput = styled.TextInput`
+  border: 1px solid red;
+  width: 200px;
+`;
+
+const ButtonBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const StyledBtn = styled.TouchableOpacity`
+  border: 1px solid ${palette.borderGray};
+  border-radius: 8px;
+  padding: 0 1%;
+`;
+
+const TagBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;

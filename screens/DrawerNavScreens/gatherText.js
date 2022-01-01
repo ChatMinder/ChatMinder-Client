@@ -22,58 +22,6 @@ import { useSelector } from 'react-redux';
 const empty = require('../../shared/assets/emptyBookmark.png');
 const fulled = require('../../shared/assets/fulledBookmark.png');
 
-const ButtonBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const CommonCenter = css`
-  flex-direction: column;
-`;
-
-const Container = styled.View`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  border: blue 1px solid;
-`;
-
-const TextBox = styled.View`
-  border: blue 1px solid;
-  width: 40%;
-`;
-
-const TextItem = styled.View`
-  ${CommonCenter}
-  border: black 1px solid;
-  padding: 5px;
-`;
-
-const BookmarkItem = styled.Image`
-  width: 10px;
-  height: 10px;
-`;
-
-const BookmarkBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-`;
-
-const DateItem = styled.View`
-  width: 100%;
-`;
-
-const SearchInput = styled.TextInput`
-  border: 1px solid red;
-  width: 200px;
-`;
-
-const BookmarkButton = styled.TouchableHighlight`
-  border: 1px solid red;
-`;
-
 const gatherText = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
   //console.log('memoObj: ', memoObj);
@@ -97,15 +45,22 @@ const gatherText = ({ navigation }) => {
     ]);
   };
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <View>
+          <Text>텍스트 모아보기</Text>
+          <SearchInput
+            onChangeText={onSearchChange}
+            placeholder="내용, 태그 검색"
+          />
+        </View>
+      ),
+    });
+  });
+
   return (
     <View>
-      <Text>텍스트 모아보기</Text>
-      <ButtonBox>
-        <SearchInput
-          onChangeText={onSearchChange}
-          placeholder="내용, 태그 검색"
-        />
-      </ButtonBox>
       <Container>
         {renderState.map(
           (memo, index) =>
@@ -157,3 +112,50 @@ const gatherText = ({ navigation }) => {
 };
 
 export default gatherText;
+
+const CommonCenter = css`
+  flex-direction: column;
+`;
+
+const Container = styled.View`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: blue 1px solid;
+`;
+
+const TextBox = styled.View`
+  border: blue 1px solid;
+  width: 40%;
+`;
+
+const TextItem = styled.View`
+  ${CommonCenter}
+  border: black 1px solid;
+  padding: 5px;
+`;
+
+const BookmarkItem = styled.Image`
+  width: 10px;
+  height: 10px;
+`;
+
+const BookmarkBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
+const DateItem = styled.View`
+  width: 100%;
+`;
+
+const SearchInput = styled.TextInput`
+  border: 1px solid red;
+  width: 200px;
+`;
+
+const BookmarkButton = styled.TouchableHighlight`
+  border: 1px solid red;
+`;
