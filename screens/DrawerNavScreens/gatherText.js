@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  TextInput,
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Button,
-  TouchableHighlight,
-  Alert,
-} from 'react-native';
-import styled, { css } from 'styled-components/native';
-import palette from '../../shared/palette';
+import { Text, View } from 'react-native';
+import styled from 'styled-components/native';
 import Search from '../../shared/components/Search';
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
@@ -63,8 +53,6 @@ const gatherText = ({ navigation }) => {
                   memo={memo}
                   navigation={navigation}
                   destination="detailText"
-                  // handleDelete={handleDelete}
-                  // handlePress={handlePress}
                 />
               </TextBox>
             )

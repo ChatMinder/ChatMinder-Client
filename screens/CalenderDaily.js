@@ -8,6 +8,7 @@ import moment from 'moment';
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
 import TextContainer from '../shared/components/TextContainer';
+import HeaderButton from '../shared/components/HeaderButton';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoObj = useSelector((state) => state);
@@ -29,23 +30,13 @@ const CalenderDaily = ({ route, navigation }) => {
               />
               <ButtonBox>
                 <TagBox>
-                  <StyledBtn>
-                    <Text>전체</Text>
-                  </StyledBtn>
-                  <StyledBtn>
-                    <Text>이미지</Text>
-                  </StyledBtn>
-                  <StyledBtn>
-                    <Text>링크</Text>
-                  </StyledBtn>
-                  <StyledBtn>
-                    <Text>텍스트</Text>
-                  </StyledBtn>
+                  <HeaderButton type="all" />
+                  <HeaderButton type="image" />
+                  <HeaderButton type="link" />
+                  <HeaderButton type="text" />
                 </TagBox>
                 <View>
-                  <StyledBtn>
-                    <Text>북마크</Text>
-                  </StyledBtn>
+                  <HeaderButton type="bookmark" />
                 </View>
               </ButtonBox>
             </TitleBox>
@@ -71,7 +62,13 @@ const CalenderDaily = ({ route, navigation }) => {
                 moment.unix(route.params.planObj[0].memoID).format('YYYY-MM-DD')
             )
             .map((plan) => (
-              <Text key={plan.memoID}> {plan.memoText}</Text>
+              // <Text key={plan.memoID}> {plan.memoText}</Text>
+              <TextContainer
+                key={plan.memoID}
+                memo={plan}
+                navigation={navigation}
+                destination="detailText"
+              />
             ))}
         </>
       )}
@@ -94,15 +91,10 @@ const SearchInput = styled.TextInput`
 const ButtonBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `;
 
-const StyledBtn = styled.TouchableOpacity`
-  border: 1px solid ${palette.borderGray};
-  border-radius: 8px;
-  padding: 0 1%;
-`;
-
-const TagBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
+const TagBox = styled(ButtonBox)`
+  border: 1px solid blue;
+  width: 200px;
 `;

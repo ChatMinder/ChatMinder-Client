@@ -1,14 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {
-  TextInput,
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Button,
-  TouchableHighlight,
-  Alert,
-} from 'react-native';
+import React from 'react';
+import { Text, TouchableHighlight, Alert } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
 const empty = require('../assets/emptyBookmark.png');
