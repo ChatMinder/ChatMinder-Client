@@ -5,6 +5,7 @@ import Drawers from './Drawers';
 // import Stack from './Stack';
 import Top from './Top';
 import CalenderDaily from '../screens/CalenderDaily';
+import CategoryDetail from '../screens/CategoryDetail';
 
 const Nav = createNativeStackNavigator();
 
@@ -20,6 +21,11 @@ const Root = () => (
     <Nav.Screen
       name="CalenderDaily"
       component={CalenderDaily}
+      options={{ headerBackVisible: false }}
+    />
+    <Nav.Screen
+      name="CategoryDetail"
+      component={CategoryDetail}
       options={{ headerBackVisible: false }}
     />
   </Nav.Navigator>

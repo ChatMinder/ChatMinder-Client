@@ -26,7 +26,7 @@ import ModalItem from '../shared/components/Modaltem';
 const trashcan = require('../shared/assets/trashcan.png');
 const settings = require('../shared/assets/settings.png');
 
-const Category = () => {
+const Category = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
   //console.log('memoObj: ', memoObj);
 
@@ -67,7 +67,13 @@ const Category = () => {
           key={category.categoryID}
           backgroundColor={colors[index].colorValue}
         >
-          <TextBox>
+          <TextBox
+            onPress={() => {
+              navigation.navigate('CategoryDetail', {
+                categoryID: category.categoryID,
+              });
+            }}
+          >
             <Text>
               {category.categoryName ? category.categoryName : '분류 안한 메모'}
             </Text>
