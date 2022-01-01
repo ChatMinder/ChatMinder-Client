@@ -64,7 +64,6 @@ const CalendarPage = ({ navigation }) => {
 
   return (
     <View>
-      <Text>캘린더</Text>
       <CalenderBox>
         <Calendar
           onDayPress={(day) => {

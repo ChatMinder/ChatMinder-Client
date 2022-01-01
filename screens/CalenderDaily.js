@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import palette from '../shared/palette';
@@ -12,6 +12,7 @@ import useSearch from '../shared/hooks/useSearch';
 const CalenderDaily = ({ route, navigation }) => {
   const memoObj = useSelector((state) => state);
   const [onSearchChange, renderState] = useSearch(memoObj);
+  const [choice, setChoice] = useState('');
 
   useEffect(() => {
     route.params.planObj.length === 0

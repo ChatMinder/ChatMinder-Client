@@ -68,7 +68,9 @@ const Category = () => {
           backgroundColor={colors[index].colorValue}
         >
           <TextBox>
-            <Text>{category.categoryName}</Text>
+            <Text>
+              {category.categoryName ? category.categoryName : '분류 안한 메모'}
+            </Text>
           </TextBox>
           <ImgBox>
             <TouchableOpacity

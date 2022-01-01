@@ -16,6 +16,8 @@ import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
 
+import TextContainer from '../../shared/components/TextContainer';
+
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -43,6 +45,15 @@ const gatherText = ({ navigation }) => {
         onPress: () => setMemos(memos.filter((memo) => memo.memoID !== id)),
       },
     ]);
+  };
+
+  const handlePress = (memo) => {
+    navigation.navigate('detailText', {
+      id: memo.memoID,
+      memoText: memo.memoText,
+      categoryName: memo.categoryName,
+      isMarked: memo.isMarked,
+    });
   };
 
   useEffect(() => {
@@ -74,35 +85,11 @@ const gatherText = ({ navigation }) => {
                     <MemoDate memoID={memo.memoID} />
                   )}
                 </DateItem>
-                <BookmarkBox>
-                  <TouchableHighlight
-                    onPress={() => {
-                      navigation.navigate('detailText', {
-                        id: memo.memoID,
-                        memoText: memo.memoText,
-                        categoryName: memo.categoryName,
-                        isMarked: memo.isMarked,
-                      });
-                    }}
-                    onLongPress={() => handleDelete(memo.memoID)}
-                  >
-                    <TextItem>
-                      <Text>{memo.memoText}</Text>
-                      <Text>{memo.categoryName}</Text>
-                    </TextItem>
-                  </TouchableHighlight>
-                  <BookmarkButton
-                    onPress={() => {
-                      console.log('북마크');
-                    }}
-                  >
-                    {memo.isMarked ? (
-                      <BookmarkItem source={fulled} />
-                    ) : (
-                      <BookmarkItem source={empty} />
-                    )}
-                  </BookmarkButton>
-                </BookmarkBox>
+                <TextContainer
+                  memo={memo}
+                  handleDelete={handleDelete}
+                  handlePress={handlePress}
+                />
               </TextBox>
             )
         )}
@@ -112,10 +99,6 @@ const gatherText = ({ navigation }) => {
 };
 
 export default gatherText;
-
-const CommonCenter = css`
-  flex-direction: column;
-`;
 
 const Container = styled.View`
   flex-direction: column;
@@ -130,23 +113,6 @@ const TextBox = styled.View`
   width: 40%;
 `;
 
-const TextItem = styled.View`
-  ${CommonCenter}
-  border: black 1px solid;
-  padding: 5px;
-`;
-
-const BookmarkItem = styled.Image`
-  width: 10px;
-  height: 10px;
-`;
-
-const BookmarkBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-`;
-
 const DateItem = styled.View`
   width: 100%;
 `;
@@ -154,8 +120,4 @@ const DateItem = styled.View`
 const SearchInput = styled.TextInput`
   border: 1px solid red;
   width: 200px;
-`;
-
-const BookmarkButton = styled.TouchableHighlight`
-  border: 1px solid red;
 `;
