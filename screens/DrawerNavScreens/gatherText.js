@@ -21,9 +21,6 @@ import TextContainer from '../../shared/components/TextContainer';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-const empty = require('../../shared/assets/emptyBookmark.png');
-const fulled = require('../../shared/assets/fulledBookmark.png');
-
 const gatherText = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
   //console.log('memoObj: ', memoObj);
@@ -32,29 +29,6 @@ const gatherText = ({ navigation }) => {
   const [memos, setMemos] = useState(
     memoObj.filter((element, index) => index > 0)
   );
-
-  const handleDelete = (id) => {
-    Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
-      {
-        text: '취소',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {
-        text: '삭제',
-        onPress: () => setMemos(memos.filter((memo) => memo.memoID !== id)),
-      },
-    ]);
-  };
-
-  const handlePress = (memo) => {
-    navigation.navigate('detailText', {
-      id: memo.memoID,
-      memoText: memo.memoText,
-      categoryName: memo.categoryName,
-      isMarked: memo.isMarked,
-    });
-  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -87,8 +61,10 @@ const gatherText = ({ navigation }) => {
                 </DateItem>
                 <TextContainer
                   memo={memo}
-                  handleDelete={handleDelete}
-                  handlePress={handlePress}
+                  navigation={navigation}
+                  destination="detailText"
+                  // handleDelete={handleDelete}
+                  // handlePress={handlePress}
                 />
               </TextBox>
             )

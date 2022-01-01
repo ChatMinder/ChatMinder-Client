@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
-//import HeaderBottom from '../shared/components/HeaderBottom';
+import TextContainer from '../shared/components/TextContainer';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoObj = useSelector((state) => state);
