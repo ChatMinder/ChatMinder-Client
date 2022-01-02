@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Text, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { addCategory, addMemo, setMemoInCategory } from '../reducer';
+import { addTag, addMemo, setMemoInTag } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
@@ -23,15 +23,15 @@ const MemoInputForm = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      category: '',
+      tag: '',
       memo: '',
     },
   });
 
   const onSubmit = (data) => {
-    // dispatch(addCategory(data.category));
-    // dispatch(addMemo(data.category, data.memo));
-    // dispatch(setMemoInCategory(data.category));
+    // dispatch(addTag(data.tag));
+    // dispatch(addMemo(data.tag, data.memo));
+    // dispatch(setMemoInTag(data.tag));
     console.log(`Submit- 태그: ${data.tag} 메모: ${data.memo}`);
   };
 
@@ -48,24 +48,24 @@ const MemoInputForm = () => {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
-                {memoObj[0].map((category) => (
-                  <EachCategoryBtn
-                    key={category.categoryID}
-                    background={category.categoryColor}
-                    selected={selectedTag === category.categoryName}
+                {memoObj[0].map((tag) => (
+                  <EachTagBtn
+                    key={tag.tagID}
+                    background={tag.tagColor}
+                    selected={selectedTag === tag.tagName}
                     onPress={() => {
                       // 선택된 태그를 다시 누를 시 선택 취소
-                      if (selectedTag === category.categoryName) {
+                      if (selectedTag === tag.tagName) {
                         setSelectedTag(0);
                         setSelectedNewTag(0);
-                      } else setSelectedTag(category.categoryName);
-                      return selectedTag === category.categoryName
+                      } else setSelectedTag(tag.tagName);
+                      return selectedTag === tag.tagName
                         ? onChange('')
-                        : onChange(category.categoryName);
+                        : onChange(tag.tagName);
                     }}
                   >
-                    <TagBtnText>{category.categoryName}</TagBtnText>
-                  </EachCategoryBtn>
+                    <TagBtnText>{tag.tagName}</TagBtnText>
+                  </EachTagBtn>
                 ))}
                 {/* <태그 추가하기 버튼> 렌더링 조건
                 다른 태그 버튼이 선택되지 않았을 때만 렌더링
@@ -74,15 +74,17 @@ const MemoInputForm = () => {
                 ---> 이 부분이 (selectedNewTag || inputValue) ? <렌더링> : null
                 */}
                 {selectedTag === 0 && (selectedNewTag || inputValue) ? (
-                  <EachCategoryBtn
+                  <EachTagBtn
                     selected={selectedNewTag ? true : false}
                     onPress={() => {
                       // 선택된 태그를 다시 누를 시 선택 취소
-                      selectedNewTag
-                        ? setSelectedNewTag(0)
-                        : setSelectedNewTag(inputValue);
-                      inputRef.current.setNativeProps({ text: '' });
-                      setInputValue('');
+                      if (selectedNewTag) {
+                        setSelectedNewTag(0);
+                      } else {
+                        setSelectedNewTag(inputValue);
+                        setInputValue('');
+                        inputRef.current.setNativeProps({ text: '' });
+                      }
                       return selectedNewTag
                         ? onChange('')
                         : onChange(inputValue);
@@ -92,7 +94,7 @@ const MemoInputForm = () => {
                       {selectedNewTag ? selectedNewTag : inputValue} 태그
                       추가하기
                     </TagBtnText>
-                  </EachCategoryBtn>
+                  </EachTagBtn>
                 ) : null}
               </>
             )}
@@ -114,13 +116,12 @@ const MemoInputForm = () => {
                 return onChange(value);
               }}
               value={value}
-              placeholder="메모"
+              placeholder={errors.memo && `메모를 입력해주세요.`}
             />
           )}
           name="memo"
           rules={{ required: true }}
         />
-        {/* {errors.memo && <Text>This is required.</Text>} */}
         <View>
           <Submit title="Submit" onPress={handleSubmit(onSubmit)} />
         </View>
@@ -142,7 +143,7 @@ const ShpItemContainer = styled.ScrollView`
   border-top-right-radius: 20px;
   background: #f6f6f7;
 `;
-const EachCategoryBtn = styled.TouchableOpacity`
+const EachTagBtn = styled.TouchableOpacity`
   background: ${(props) => props.background || 'gray'};
   /* 요기 red 대신에 해당 테두리 색상 읽어와서 넣기 */
   ${(props) => props.selected && `border: 2.5px solid red`}
@@ -158,9 +159,6 @@ const EachCategoryBtn = styled.TouchableOpacity`
 `;
 const TagBtnText = styled.Text`
   color: ${palette.white};
-`;
-const InputCategory = styled.TextInput`
-  border: 1px solid red;
 `;
 
 const MemoInputContainer = styled.View`
