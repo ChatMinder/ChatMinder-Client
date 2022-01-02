@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Text, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { addCategory, addMemo, setMemoInCategory } from '../reducer';
@@ -8,12 +8,14 @@ import styled from 'styled-components/native';
 import palette from '../palette';
 
 const MemoInputForm = () => {
+  const inputRef = useRef();
   const dispatch = useDispatch();
   const memoObj = useSelector((state) => state);
 
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [selectedTag, setSelectedTag] = useState(0);
+  const [selectedNewTag, setSelectedNewTag] = useState(0);
 
   const {
     control,
@@ -30,14 +32,18 @@ const MemoInputForm = () => {
     // dispatch(addCategory(data.category));
     // dispatch(addMemo(data.category, data.memo));
     // dispatch(setMemoInCategory(data.category));
-    console.log(data.tag, data.memo);
+    console.log(`Submit- 태그: ${data.tag} 메모: ${data.memo}`);
   };
 
   return (
     <Wrapper>
       {/* Shp Button을 눌렀을 때 펼쳐지는 내용물 */}
       {isShpBtnToggled && (
-        <ShpItemContainer horizontal={true} keyboardShouldPersistTaps="always">
+        <ShpItemContainer
+          horizontal={true}
+          keyboardShouldPersistTaps="always"
+          showsHorizontalScrollIndicator={false}
+        >
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -49,35 +55,43 @@ const MemoInputForm = () => {
                     selected={selectedTag === category.categoryName}
                     onPress={() => {
                       // 선택된 태그를 다시 누를 시 선택 취소
-                      selectedTag === category.categoryName
-                        ? setSelectedTag(0)
-                        : setSelectedTag(category.categoryName);
+                      if (selectedTag === category.categoryName) {
+                        setSelectedTag(0);
+                        setSelectedNewTag(0);
+                      } else setSelectedTag(category.categoryName);
                       return selectedTag === category.categoryName
                         ? onChange('')
                         : onChange(category.categoryName);
                     }}
                   >
-                    <Text>{category.categoryName}</Text>
+                    <TagBtnText>{category.categoryName}</TagBtnText>
                   </EachCategoryBtn>
                 ))}
-                {/* 태그 추가하기 버튼 렌더링 조건 : 
-                1. inputValue 값이 존재하면서도,
-                2. 태그가 선택되지 않은 경우 or '태그 추가하기' 버튼이 눌렸을 경우*/}
-                {(selectedTag === 0 || selectedTag === inputValue) &&
-                inputValue ? (
+                {/* <태그 추가하기 버튼> 렌더링 조건
+                다른 태그 버튼이 선택되지 않았을 때만 렌더링
+                ---> 이 부분이 selectedTag ===0 && 
+                해당 버튼 자신이 선택된 상태거나, input값이 있다면 렌더링(or의 관계).
+                ---> 이 부분이 (selectedNewTag || inputValue) ? <렌더링> : null
+                */}
+                {selectedTag === 0 && (selectedNewTag || inputValue) ? (
                   <EachCategoryBtn
-                    selected={selectedTag === inputValue}
+                    selected={selectedNewTag ? true : false}
                     onPress={() => {
                       // 선택된 태그를 다시 누를 시 선택 취소
-                      selectedTag === inputValue
-                        ? setSelectedTag(0)
-                        : setSelectedTag(inputValue);
-                      return selectedTag === inputValue
+                      selectedNewTag
+                        ? setSelectedNewTag(0)
+                        : setSelectedNewTag(inputValue);
+                      inputRef.current.setNativeProps({ text: '' });
+                      setInputValue('');
+                      return selectedNewTag
                         ? onChange('')
                         : onChange(inputValue);
                     }}
                   >
-                    <Text>{inputValue} 태그 추가하기</Text>
+                    <TagBtnText>
+                      {selectedNewTag ? selectedNewTag : inputValue} 태그
+                      추가하기
+                    </TagBtnText>
                   </EachCategoryBtn>
                 ) : null}
               </>
@@ -94,6 +108,7 @@ const MemoInputForm = () => {
           render={({ field: { onChange, onBlur, value } }) => (
             <InputMemo
               onBlur={onBlur}
+              ref={inputRef}
               onChangeText={(value) => {
                 setInputValue(value);
                 return onChange(value);
@@ -131,8 +146,18 @@ const EachCategoryBtn = styled.TouchableOpacity`
   background: ${(props) => props.background || 'gray'};
   /* 요기 red 대신에 해당 테두리 색상 읽어와서 넣기 */
   ${(props) => props.selected && `border: 2.5px solid red`}
-  padding: 8px;
+  padding: 0px 10px;
   margin-left: 12px;
+  border-radius: 8px;
+  height: 26px;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 26px;
+  align-items: center;
+  justify-content: center;
+`;
+const TagBtnText = styled.Text`
+  color: ${palette.white};
 `;
 const InputCategory = styled.TextInput`
   border: 1px solid red;
