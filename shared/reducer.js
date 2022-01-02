@@ -31,11 +31,11 @@ const initialState = [
     {
       tagColor: `${palette.blue}`,
       tagID: 1,
-      tagName: '과제',
+      tagName: '과제준먹',
       memos: [1640579001552, 1640579008194, 1640614413272],
     },
     {
-      tagColor: `${palette.lightBlue}`,
+      tagColor: `${palette.lightOrange}`,
       tagID: 2,
       tagName: '준비물',
       memos: [1640579010766, 1640614272078],
@@ -47,14 +47,14 @@ const initialState = [
       memos: [1640579012666],
     },
     {
-      tagColor: `${palette.lightOrange}`,
+      tagColor: `${palette.lightBlue}`,
       tagID: 4,
-      tagName: '미분류',
+      tagName: '',
       memos: [1640614414223, 1640614416422],
     },
   ],
   {
-    tagName: '과제',
+    tagName: '과제준먹',
     memoID: 1638668525,
     memoText: '프론트엔드 과제',
     isImg: '',
@@ -62,7 +62,7 @@ const initialState = [
     isMarked: true,
   },
   {
-    tagName: '과제',
+    tagName: '과제준먹',
     memoID: 1638668925,
     memoText: '교양 과제',
     isImg: '',
@@ -94,7 +94,7 @@ const initialState = [
     isMarked: false,
   },
   {
-    tagName: '과제',
+    tagName: '과제준먹',
     memoID: 1640668658,
     memoText: '자료구조 과제',
     isImg: '',
@@ -102,7 +102,7 @@ const initialState = [
     isMarked: false,
   },
   {
-    tagName: '미분류',
+    tagName: '',
     memoID: 1640668659,
     memoText: '빈 카테고리',
     isImg: '',
@@ -110,7 +110,7 @@ const initialState = [
     isMarked: false,
   },
   {
-    tagName: '미분류',
+    tagName: '',
     memoID: 1640668670,
     memoText: '빈 카테고리 캬캬',
     isImg: '',

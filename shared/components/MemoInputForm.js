@@ -48,25 +48,27 @@ const MemoInputForm = () => {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
-                {memoObj[0].map((tag) => (
-                  <EachTagBtn
-                    key={tag.tagID}
-                    background={tag.tagColor}
-                    selected={selectedTag === tag.tagName}
-                    onPress={() => {
-                      // 선택된 태그를 다시 누를 시 선택 취소
-                      if (selectedTag === tag.tagName) {
-                        setSelectedTag(0);
-                        setSelectedNewTag(0);
-                      } else setSelectedTag(tag.tagName);
-                      return selectedTag === tag.tagName
-                        ? onChange('')
-                        : onChange(tag.tagName);
-                    }}
-                  >
-                    <TagBtnText>{tag.tagName}</TagBtnText>
-                  </EachTagBtn>
-                ))}
+                {memoObj[0].map((tag) =>
+                  tag.tagName ? (
+                    <EachTagBtn
+                      key={tag.tagID}
+                      background={tag.tagColor}
+                      selected={selectedTag === tag.tagName}
+                      onPress={() => {
+                        // 선택된 태그를 다시 누를 시 선택 취소
+                        if (selectedTag === tag.tagName) {
+                          setSelectedTag(0);
+                          setSelectedNewTag(0);
+                        } else setSelectedTag(tag.tagName);
+                        return selectedTag === tag.tagName
+                          ? onChange('')
+                          : onChange(tag.tagName);
+                      }}
+                    >
+                      <TagBtnText>{tag.tagName}</TagBtnText>
+                    </EachTagBtn>
+                  ) : null
+                )}
                 {/* <태그 추가하기 버튼> 렌더링 조건
                 다른 태그 버튼이 선택되지 않았을 때만 렌더링
                 ---> 이 부분이 selectedTag ===0 && 
