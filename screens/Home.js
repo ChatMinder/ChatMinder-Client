@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
@@ -65,6 +65,13 @@ const Home = ({ navigation }) => {
   return (
     <Wrapper>
       <MemoContainer>
+        <View>
+          <Image
+            source={{
+              url: 'http://d5b0lcexvt9vq.cloudfront.net/chatminder.png',
+            }}
+          />
+        </View>
         {renderState.map(
           (memo, index) =>
             memo.memoID && (

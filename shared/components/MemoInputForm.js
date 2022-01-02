@@ -13,7 +13,7 @@ const MemoInputForm = () => {
 
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [selectedTag, setSelectedTag] = useState(-1);
+  const [selectedTag, setSelectedTag] = useState(0);
 
   const {
     control,
@@ -27,53 +27,66 @@ const MemoInputForm = () => {
   });
 
   const onSubmit = (data) => {
-    dispatch(addCategory(data.category));
-    dispatch(addMemo(data.category, data.memo));
-    dispatch(setMemoInCategory(data.category));
-  };
-
-  const selectTag = (categoryID) => {
-    setSelectedTag(categoryID);
-    //Form에서 카테고리 선택한 것으로 만들기
+    // dispatch(addCategory(data.category));
+    // dispatch(addMemo(data.category, data.memo));
+    // dispatch(setMemoInCategory(data.category));
+    console.log(data.tag, data.memo);
   };
 
   return (
     <Wrapper>
+      {/* Shp Button을 눌렀을 때 펼쳐지는 내용물 */}
       {isShpBtnToggled && (
-        <ShpItemContainer horizontal={true}>
-          {memoObj[0].map((category) => (
-            <EachCategoryBtn
-              key={category.categoryID}
-              background={category.categoryColor}
-              selected={selectedTag === category.categoryID}
-              onPress={() => selectTag(category.categoryID)}
-            >
-              <Text>{category.categoryName}</Text>
-            </EachCategoryBtn>
-          ))}
-          {inputValue ? (
-            <EachCategoryBtn
-              selected={selectedTag === 0}
-              onPress={() => selectTag(0)}
-            >
-              <Text>{inputValue} 태그 추가하기</Text>
-            </EachCategoryBtn>
-          ) : null}
-          {/* <Controller
+        <ShpItemContainer horizontal={true} keyboardShouldPersistTaps="always">
+          <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <InputCategory
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value}
-                placeholder="카테고리"
-              />
+              <>
+                {memoObj[0].map((category) => (
+                  <EachCategoryBtn
+                    key={category.categoryID}
+                    background={category.categoryColor}
+                    selected={selectedTag === category.categoryName}
+                    onPress={() => {
+                      // 선택된 태그를 다시 누를 시 선택 취소
+                      selectedTag === category.categoryName
+                        ? setSelectedTag(0)
+                        : setSelectedTag(category.categoryName);
+                      return selectedTag === category.categoryName
+                        ? onChange('')
+                        : onChange(category.categoryName);
+                    }}
+                  >
+                    <Text>{category.categoryName}</Text>
+                  </EachCategoryBtn>
+                ))}
+                {/* 태그 추가하기 버튼 렌더링 조건 : 
+                1. inputValue 값이 존재하면서도,
+                2. 태그가 선택되지 않은 경우 or '태그 추가하기' 버튼이 눌렸을 경우*/}
+                {(selectedTag === 0 || selectedTag === inputValue) &&
+                inputValue ? (
+                  <EachCategoryBtn
+                    selected={selectedTag === inputValue}
+                    onPress={() => {
+                      // 선택된 태그를 다시 누를 시 선택 취소
+                      selectedTag === inputValue
+                        ? setSelectedTag(0)
+                        : setSelectedTag(inputValue);
+                      return selectedTag === inputValue
+                        ? onChange('')
+                        : onChange(inputValue);
+                    }}
+                  >
+                    <Text>{inputValue} 태그 추가하기</Text>
+                  </EachCategoryBtn>
+                ) : null}
+              </>
             )}
-            name="category"
-            // rules={{ required: true }}
-          /> */}
+            name="tag"
+          />
         </ShpItemContainer>
       )}
+      {/* 메모 Input 부분 */}
       <MemoInputContainer>
         <ShpBtn onPress={() => setIsShpBtnToggled(!isShpBtnToggled)} />
         <Controller
