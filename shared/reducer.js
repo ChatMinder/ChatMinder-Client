@@ -31,7 +31,7 @@ const initialState = [
     {
       tagColor: `${palette.blue}`,
       tagID: 1,
-      tagName: '과제준먹',
+      tagName: '과제준비물먹을거',
       memos: [1640579001552, 1640579008194, 1640614413272],
     },
     {
@@ -54,7 +54,7 @@ const initialState = [
     },
   ],
   {
-    tagName: '과제준먹',
+    tagName: '과제준비물먹을거',
     memoID: 1638668525,
     memoText: '프론트엔드 과제',
     isImg: '',
@@ -62,7 +62,7 @@ const initialState = [
     isMarked: true,
   },
   {
-    tagName: '과제준먹',
+    tagName: '과제준비물먹을거',
     memoID: 1638668925,
     memoText: '교양 과제',
     isImg: '',
@@ -94,7 +94,7 @@ const initialState = [
     isMarked: false,
   },
   {
-    tagName: '과제준먹',
+    tagName: '과제준비물먹을거',
     memoID: 1640668658,
     memoText: '자료구조 과제',
     isImg: '',

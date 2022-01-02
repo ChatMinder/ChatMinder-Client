@@ -15,9 +15,9 @@ const MemoItem = ({ memo }) => {
           <Text>{memo.memoText}</Text>
         </MemoContainer>
         <MemoFooter>
-          <Category>
-            <Text>{memo.categoryName}</Text>
-          </Category>
+          <Tag>
+            <Text>{memo.tagName}</Text>
+          </Tag>
           <Bookmark onPress={onBookmarkTouch}>
             {memo.isMarked ? (
               <BookmarkImg source={require('../assets/fulledBookmark.png')} />
@@ -55,7 +55,7 @@ const MemoFooter = styled.View`
   width: 100%;
 `;
 
-const Category = styled.TouchableOpacity``;
+const Tag = styled.TouchableOpacity``;
 
 const Bookmark = styled.TouchableOpacity``;
 const BookmarkImg = styled.Image`
