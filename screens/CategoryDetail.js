@@ -24,11 +24,7 @@ const CategoryDetail = ({ route, navigation }) => {
     navigation.setOptions({
       headerTitle: () => (
         <TitleBox>
-          <Text>
-            {route.params.categoryName
-              ? route.params.categoryName
-              : '분류 안 한 메모'}
-          </Text>
+          <Text>{route.params.categoryName}</Text>
           <SearchInput
             onChangeText={onSearchChange}
             placeholder="내용, 태그 검색"

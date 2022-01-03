@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from './Tabs';
 import Drawers from './Drawers';
 // import Stack from './Stack';
-import Top from './Top';
 import CalenderDaily from '../screens/CalenderDaily';
 import CategoryDetail from '../screens/CategoryDetail';
 

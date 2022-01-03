@@ -75,11 +75,7 @@ const Category = ({ navigation }) => {
               });
             }}
           >
-            <Text>
-              {category.categoryName
-                ? category.categoryName
-                : '분류 안 한 메모'}
-            </Text>
+            <Text>{category.categoryName}</Text>
           </TextBox>
           <ImgBox>
             <TouchableOpacity

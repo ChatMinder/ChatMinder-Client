@@ -45,11 +45,11 @@ const Drawers = () => {
         >
           <MeueItem>텍스트 모아보기</MeueItem>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => props.navigation.navigate('gatherMarked')}
         >
           <MeueItem>북마크한 메모</MeueItem>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
     </SafeAreaView>
   );
