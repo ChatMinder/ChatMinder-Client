@@ -56,7 +56,9 @@ const MemoContainer = styled.View`
   width: 100%;
   justify-content: flex-start;
 `;
-const MemoText = styled.Text``;
+const MemoText = styled.Text`
+  font-size: 12px;
+`;
 
 const MemoFooter = styled.View`
   flex-direction: row;

@@ -5,17 +5,26 @@ import moment from 'moment';
 import 'moment/locale/ko';
 
 const MemoDate = ({ memoID }) => {
-  const date = moment.unix(memoID).format('ll');
+  const date = moment.unix(memoID).format(`YYYY년 MM월 DD일 dddd`);
   return (
     <DateWrapper>
-      <Text>{date}</Text>
+      <DateText>{date}</DateText>
     </DateWrapper>
   );
 };
 
 const DateWrapper = styled.View`
-  align-items: center;
-  border: 1px solid lime;
+  width: 124px;
+  height: 20px;
+  margin: 6px;
+  justify-content: center;
+  align-self: center;
+  background: #fcfcfc;
+  border-radius: 10.5px;
+`;
+const DateText = styled.Text`
+  align-self: center;
+  font-size: 10px;
 `;
 
 export default MemoDate;

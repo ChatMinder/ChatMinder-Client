@@ -12,12 +12,11 @@ export const TagBtn = styled.TouchableOpacity`
   padding: 0px 10px;
   border-radius: 8px;
   height: 26px;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 26px;
   align-items: center;
   justify-content: center;
 `;
 export const TagBtnText = styled.Text`
+  font-weight: bold;
+  font-size: 12px;
   color: ${palette.white};
 `;
