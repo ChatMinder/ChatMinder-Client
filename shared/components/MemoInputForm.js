@@ -5,7 +5,7 @@ import { addTag, addMemo, setMemoInTag } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
-import palette from '../palette';
+import { TagBtn, TagBtnText } from '../styles/HomeStyle';
 
 const MemoInputForm = () => {
   const inputRef = useRef();
@@ -50,7 +50,8 @@ const MemoInputForm = () => {
               <>
                 {memoObj[0].map((tag) =>
                   tag.tagName ? (
-                    <EachTagBtn
+                    <TagBtn
+                      margin={true}
                       key={tag.tagID}
                       background={tag.tagColor}
                       selected={selectedTag === tag.tagName}
@@ -66,7 +67,7 @@ const MemoInputForm = () => {
                       }}
                     >
                       <TagBtnText>{tag.tagName}</TagBtnText>
-                    </EachTagBtn>
+                    </TagBtn>
                   ) : null
                 )}
                 {/* <태그 추가하기 버튼> 렌더링 조건
@@ -76,7 +77,8 @@ const MemoInputForm = () => {
                 ---> 이 부분이 (selectedNewTag || inputValue) ? <렌더링> : null
                 */}
                 {selectedTag === 0 && (selectedNewTag || inputValue) ? (
-                  <EachTagBtn
+                  <TagBtn
+                    margin={true}
                     selected={selectedNewTag ? true : false}
                     onPress={() => {
                       // 선택된 태그를 다시 누를 시 선택 취소
@@ -84,6 +86,7 @@ const MemoInputForm = () => {
                         setSelectedNewTag(0);
                       } else {
                         setSelectedNewTag(inputValue);
+                        //태그 추가하기 버튼 다시 눌러서 취소할 경우, Input창은 비워지나 inputValue는 초기화되지 않는 버그 있음
                         setInputValue('');
                         inputRef.current.setNativeProps({ text: '' });
                       }
@@ -96,7 +99,7 @@ const MemoInputForm = () => {
                       {selectedNewTag ? selectedNewTag : inputValue} 태그
                       추가하기
                     </TagBtnText>
-                  </EachTagBtn>
+                  </TagBtn>
                 ) : null}
               </>
             )}
@@ -144,23 +147,6 @@ const ShpItemContainer = styled.ScrollView`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background: #f6f6f7;
-`;
-const EachTagBtn = styled.TouchableOpacity`
-  background: ${(props) => props.background || 'gray'};
-  /* 요기 red 대신에 해당 테두리 색상 읽어와서 넣기 */
-  ${(props) => props.selected && `border: 2.5px solid red`}
-  padding: 0px 10px;
-  margin-left: 12px;
-  border-radius: 8px;
-  height: 26px;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 26px;
-  align-items: center;
-  justify-content: center;
-`;
-const TagBtnText = styled.Text`
-  color: ${palette.white};
 `;
 
 const MemoInputContainer = styled.View`

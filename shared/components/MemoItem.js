@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
+import { TagBtn, TagBtnText } from '../styles/HomeStyle';
 
 const MemoItem = ({ memo }) => {
   const onBookmarkTouch = () => {
@@ -12,12 +13,16 @@ const MemoItem = ({ memo }) => {
     <Wrapper>
       <MemoWrapper>
         <MemoContainer>
-          <Text>{memo.memoText}</Text>
+          <MemoText>{memo.memoText}</MemoText>
         </MemoContainer>
         <MemoFooter>
-          <Tag>
-            <Text>{memo.tagName}</Text>
-          </Tag>
+          {memo.tagName ? (
+            <TagBtn
+            // background={tag.tagColor}
+            >
+              <TagBtnText>{memo.tagName}</TagBtnText>
+            </TagBtn>
+          ) : null}
           <Bookmark onPress={onBookmarkTouch}>
             {memo.isMarked ? (
               <BookmarkImg source={require('../assets/fulledBookmark.png')} />
@@ -41,23 +46,32 @@ const MemoWrapper = styled.View`
   /* justify-content: center; */
   align-items: center;
   width: 328px;
-  margin: 16px;
-  border: 1px dashed gray;
+  padding: 12px;
+  margin: 12px;
+  border-radius: 8px;
+  background: #fcfcfc;
 `;
 
-const MemoContainer = styled.TextInput`
-  background: skyblue;
+const MemoContainer = styled.View`
+  width: 100%;
+  justify-content: flex-start;
 `;
+const MemoText = styled.Text``;
 
 const MemoFooter = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  margin-top: 16px;
   width: 100%;
+  height: 26px;
 `;
 
 const Tag = styled.TouchableOpacity``;
 
-const Bookmark = styled.TouchableOpacity``;
+const Bookmark = styled.TouchableOpacity`
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+`;
 const BookmarkImg = styled.Image`
   width: 16px;
   height: 18px;

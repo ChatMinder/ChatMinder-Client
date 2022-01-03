@@ -72,7 +72,8 @@ const initialState = [
   {
     tagName: '준비물',
     memoID: 1638668926,
-    memoText: '물로켓',
+    memoText:
+      '물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 ',
     isImg: '',
     isLink: '',
     isMarked: true,

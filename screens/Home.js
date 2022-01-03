@@ -26,6 +26,8 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     isSearchToggled
       ? navigation.setOptions({
+          headerStyle: { backgroundColor: '#E5E5E5' },
+
           headerTitle: () => (
             <HeaderContainer>
               <Ionicons name="search" color="black" size={20} />
@@ -44,6 +46,8 @@ const Home = ({ navigation }) => {
           ),
         })
       : navigation.setOptions({
+          headerStyle: { backgroundColor: '#E5E5E5' },
+
           headerTitle: () => (
             <ProfileWrapper onPress={() => navigation.navigate('MyPage')}>
               <Profile
@@ -110,7 +114,7 @@ const SearchInput = styled.TextInput`
 `;
 
 const MemoContainer = styled.ScrollView`
-  border: 3px solid gold;
+  background: #e5e5e5;
 `;
 
 const MemoItemWrapper = styled.View``;
