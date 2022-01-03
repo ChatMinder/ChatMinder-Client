@@ -27,7 +27,7 @@ const CategoryDetail = ({ route, navigation }) => {
   const [onSearchChange, renderState] = useSearch(memoObj);
   const [memos, setMemos] = useState(
     renderState.filter(
-      (item, index) => item.categoryName === route.params.categoryName
+      (item) => item.categoryName === route.params.categoryName
     )
   );
 

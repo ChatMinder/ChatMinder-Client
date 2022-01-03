@@ -1,6 +1,13 @@
 import React from 'react';
-import { Text, TouchableHighlight, Alert } from 'react-native';
+import {
+  Text,
+  TouchableHighlight,
+  Alert,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styled, { css } from 'styled-components/native';
+import palette from '../palette';
 
 const empty = require('../assets/emptyBookmark.png');
 const fulled = require('../assets/fulledBookmark.png');
@@ -30,38 +37,40 @@ const TextContainer = ({ memo, navigation, destination }) => {
   };
 
   return (
-    <BookmarkBox>
-      <TouchableHighlight
-        onPress={() => {
-          handlePress(memo);
-        }}
-        onLongPress={() => handleDelete(memo.memoID)}
-      >
-        <TextItem>
-          <Text>{memo.memoText}</Text>
-          <Text>{memo.categoryName}</Text>
-        </TextItem>
-      </TouchableHighlight>
-      <BookmarkButton
-        onPress={() => {
-          console.log('북마크');
-        }}
-      >
-        {memo.isMarked ? (
-          <BookmarkItem source={fulled} />
-        ) : (
-          <BookmarkItem source={empty} />
-        )}
-      </BookmarkButton>
-    </BookmarkBox>
+    <TouchableHighlight
+      onPress={() => {
+        handlePress(memo);
+      }}
+      onLongPress={() => handleDelete(memo.memoID)}
+    >
+      <View>
+        <Text>{memo.memoText}</Text>
+        <BookmarkBox>
+          <CategoryBox>
+            <Text>{memo.categoryName}</Text>
+          </CategoryBox>
+          <BookmarkButton
+            onPress={() => {
+              console.log('북마크');
+            }}
+          >
+            {memo.isMarked ? (
+              <BookmarkItem source={fulled} />
+            ) : (
+              <BookmarkItem source={empty} />
+            )}
+          </BookmarkButton>
+        </BookmarkBox>
+      </View>
+    </TouchableHighlight>
   );
 };
 
 export default TextContainer;
 
 const BookmarkItem = styled.Image`
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
 `;
 
 const BookmarkBox = styled.View`
@@ -74,12 +83,7 @@ const BookmarkButton = styled.TouchableHighlight`
   border: 1px solid red;
 `;
 
-const CommonCenter = css`
-  flex-direction: column;
-`;
-
-const TextItem = styled.View`
-  ${CommonCenter}
-  border: black 1px solid;
-  padding: 5px;
+const CategoryBox = styled.TouchableOpacity`
+  background-color: ${(props) =>
+    props.backgroundColor || `${palette.lightGreen}`};
 `;
