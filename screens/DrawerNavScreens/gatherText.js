@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
-import styled from 'styled-components/native';
 import Search from '../../shared/components/Search';
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
@@ -12,6 +11,12 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 import { SearchInput, TitleBox } from '../../shared/styles/InputStyle';
+
+import {
+  Container,
+  TextBox,
+  DateItem,
+} from '../../shared/styles/TextContainerStyle';
 
 const gatherText = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
@@ -65,20 +70,3 @@ const gatherText = ({ navigation }) => {
 };
 
 export default gatherText;
-
-const Container = styled.View`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  border: blue 1px solid;
-`;
-
-const TextBox = styled.View`
-  border: blue 1px solid;
-  width: 40%;
-`;
-
-const DateItem = styled.View`
-  width: 100%;
-`;
