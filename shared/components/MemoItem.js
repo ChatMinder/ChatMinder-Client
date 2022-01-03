@@ -58,6 +58,7 @@ const MemoContainer = styled.View`
 `;
 const MemoText = styled.Text`
   font-size: 12px;
+  font-family: 'NanumSquareOTF_ac';
 `;
 
 const MemoFooter = styled.View`

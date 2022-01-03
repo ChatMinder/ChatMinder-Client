@@ -81,7 +81,7 @@ const initialState = [
   {
     tagName: '먹을거',
     memoID: 1640668525,
-    memoText: '오사쯔',
+    memoText: 'abc',
     isImg: '',
     isLink: '',
     isMarked: false,
