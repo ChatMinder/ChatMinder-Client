@@ -79,7 +79,6 @@ const CalendarPage = ({ navigation }) => {
         <Calendar
           onDayPress={(day) => {
             handlePlan(day);
-
             console.log(markedDates);
           }}
           markedDates={markedDates}

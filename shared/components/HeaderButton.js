@@ -10,9 +10,14 @@ const fulledBookmark = require('../assets/fulledBookmark.png');
 
 const HeaderButton = ({ type }) => {
   const { id, category, isSelected } = type;
+  console.log(type);
 
   return category === 'all' ? (
-    <StyledBtn>
+    <StyledBtn
+      onPress={() => {
+        onToggle(0);
+      }}
+    >
       <Text>전체</Text>
     </StyledBtn>
   ) : category === 'image' ? (

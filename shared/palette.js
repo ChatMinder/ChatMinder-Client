@@ -19,6 +19,9 @@ const palette = {
 
   //캘린더 커스텀
   clickedDate: '#B1BEF8',
+
+  //chatMinder main color
+  main: '#FF7F6D',
 };
 
 export default palette;
