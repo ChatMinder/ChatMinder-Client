@@ -35,6 +35,10 @@ const MemoInputForm = () => {
     console.log(`Submit- 태그: ${data.tag} 메모: ${data.memo}`);
   };
 
+  const onImageUpload = () => {
+    alert('이미지 업로드 버튼 누름!');
+  };
+
   return (
     <Wrapper>
       {/* Shp Button을 눌렀을 때 펼쳐지는 내용물 */}
@@ -108,29 +112,37 @@ const MemoInputForm = () => {
         </ShpItemContainer>
       )}
       {/* 메모 Input 부분 */}
-      <MemoInputContainer>
-        <ShpBtn onPress={() => setIsShpBtnToggled(!isShpBtnToggled)} />
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <InputMemo
-              onBlur={onBlur}
-              ref={inputRef}
-              onChangeText={(value) => {
-                setInputValue(value);
-                return onChange(value);
-              }}
-              value={value}
-              placeholder={errors.memo && `메모를 입력해주세요.`}
-            />
-          )}
-          name="memo"
-          rules={{ required: true }}
-        />
-        <View>
-          <Submit title="Submit" onPress={handleSubmit(onSubmit)} />
-        </View>
-      </MemoInputContainer>
+      <InputWrapper>
+        <ImgBtnContainer onPress={onImageUpload}>
+          <ImgBtn source={require('../assets/uploadImage.png')} />
+        </ImgBtnContainer>
+        <MemoInputContainer>
+          <ShpBtnContainer onPress={() => setIsShpBtnToggled(!isShpBtnToggled)}>
+            <ShpBtn source={require('../assets/ShpBtn.png')} />
+          </ShpBtnContainer>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <InputMemo
+                multiline={true}
+                onBlur={onBlur}
+                ref={inputRef}
+                onChangeText={(value) => {
+                  setInputValue(value);
+                  return onChange(value);
+                }}
+                value={value}
+                placeholder={errors.memo && `메모를 입력해주세요.`}
+              />
+            )}
+            name="memo"
+            rules={{ required: true }}
+          />
+          <SubmitBtnContainer onPress={handleSubmit(onSubmit)}>
+            <SubmitBtn source={require('../assets/ShpBtn.png')} />
+          </SubmitBtnContainer>
+        </MemoInputContainer>
+      </InputWrapper>
     </Wrapper>
   );
 };
@@ -149,25 +161,57 @@ const ShpItemContainer = styled.ScrollView`
   background: #f6f6f7;
 `;
 
+const InputWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+  background: #f6f6f7;
+  padding: 21px 0px;
+  height: 77px;
+`;
+
+const ImgBtnContainer = styled.TouchableOpacity`
+  width: 35px;
+  height: 35px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 18px;
+  background: #fafaff;
+`;
+const ImgBtn = styled.Image`
+  width: 16px;
+  height: 16px;
+`;
+
 const MemoInputContainer = styled.View`
   flex-direction: row;
-  background: #f6f6f7;
-  margin-bottom: 22px;
-`;
-const ShpBtn = styled.TouchableOpacity`
-  width: 16px;
-  height: 16px;
-  background: purple;
-`;
-const InputMemo = styled.TextInput`
-  border: 1px solid green;
-  width: 80%;
+  align-items: center;
+  width: 291px;
+  height: 35px;
+  border-radius: 20px;
   background: #ffffff;
 `;
-const Submit = styled.TouchableOpacity`
+const ShpBtnContainer = styled.TouchableOpacity`
+  margin-left: 16px;
+`;
+const ShpBtn = styled.Image`
   width: 16px;
   height: 16px;
-  background: brown;
+`;
+const InputMemo = styled.TextInput`
+  /* border: 1px solid purple; */
+  height: 100%;
+  margin: 0px 5px;
+  width: 220px;
+  background: #ffffff;
+`;
+
+const SubmitBtnContainer = styled.TouchableOpacity`
+  position: absolute;
+  right: 16px;
+`;
+const SubmitBtn = styled.Image`
+  width: 16px;
+  height: 16px;
 `;
 
 export default MemoInputForm;
