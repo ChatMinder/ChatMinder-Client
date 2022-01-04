@@ -37,8 +37,12 @@ const Tabs = () => {
         name="태그"
         component={Category}
         options={{
-          tabBarIcon: ({ focused, color, size }) => {
-            return <Icon source={require('../shared/assets/ShpBtn.png')} />;
+          tabBarIcon: ({ focused }) => {
+            return focused ? (
+              <Icon source={require('../shared/assets/TintTag.png')} />
+            ) : (
+              <Icon source={require('../shared/assets/Tag.png')} />
+            );
           },
         }}
       />
@@ -47,8 +51,12 @@ const Tabs = () => {
         component={Drawers}
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused, color, size }) => {
-            return <Icon source={require('../shared/assets/Home.png')} />;
+          tabBarIcon: ({ focused }) => {
+            return focused ? (
+              <Icon source={require('../shared/assets/TintHome.png')} />
+            ) : (
+              <Icon source={require('../shared/assets/Home.png')} />
+            );
           },
         }}
       />
@@ -56,8 +64,12 @@ const Tabs = () => {
         name="캘린더"
         component={Calendar}
         options={{
-          tabBarIcon: ({ focused, color, size }) => {
-            return <Icon source={require('../shared/assets/Calendar.png')} />;
+          tabBarIcon: ({ focused }) => {
+            return focused ? (
+              <Icon source={require('../shared/assets/TintCalendar.png')} />
+            ) : (
+              <Icon source={require('../shared/assets/Calendar.png')} />
+            );
           },
         }}
       />

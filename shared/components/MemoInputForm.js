@@ -114,11 +114,11 @@ const MemoInputForm = () => {
       {/* 메모 Input 부분 */}
       <InputWrapper>
         <ImgBtnContainer onPress={onImageUpload}>
-          <ImgBtn source={require('../assets/uploadImage.png')} />
+          <ImgBtn source={require('../assets/ImgBtn.png')} />
         </ImgBtnContainer>
         <MemoInputContainer>
           <ShpBtnContainer onPress={() => setIsShpBtnToggled(!isShpBtnToggled)}>
-            <ShpBtn source={require('../assets/ShpBtn.png')} />
+            <ShpBtn source={require('../assets/InputShpBtn.png')} />
           </ShpBtnContainer>
           <Controller
             control={control}
@@ -139,7 +139,7 @@ const MemoInputForm = () => {
             rules={{ required: true }}
           />
           <SubmitBtnContainer onPress={handleSubmit(onSubmit)}>
-            <SubmitBtn source={require('../assets/ShpBtn.png')} />
+            <SubmitBtn source={require('../assets/SubmitBtn.png')} />
           </SubmitBtnContainer>
         </MemoInputContainer>
       </InputWrapper>
