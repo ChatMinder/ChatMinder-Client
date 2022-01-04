@@ -47,7 +47,7 @@ const initialState = [
       memos: [1640579012666],
     },
     {
-      tagColor: `${palette.lightBlue}`,
+      tagColor: ``,
       tagID: 4,
       tagName: '',
       memos: [1640614414223, 1640614416422],
@@ -55,6 +55,7 @@ const initialState = [
   ],
   {
     tagName: '과제준비물먹을거',
+    tagColor: `${palette.blue}`,
     memoID: 1638668525,
     memoText: '프론트엔드 과제',
     isImg: '',
@@ -63,6 +64,7 @@ const initialState = [
   },
   {
     tagName: '과제준비물먹을거',
+    tagColor: `${palette.blue}`,
     memoID: 1638668925,
     memoText: '교양 과제',
     isImg: '',
@@ -71,6 +73,7 @@ const initialState = [
   },
   {
     tagName: '준비물',
+    tagColor: `${palette.lightOrange}`,
     memoID: 1638668926,
     memoText:
       '물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 ',
@@ -80,6 +83,7 @@ const initialState = [
   },
   {
     tagName: '먹을거',
+    tagColor: `${palette.green}`,
     memoID: 1640668525,
     memoText: 'abc',
     isImg: '',
@@ -88,6 +92,7 @@ const initialState = [
   },
   {
     tagName: '준비물',
+    tagColor: `${palette.lightOrange}`,
     memoID: 1640668601,
     memoText: '고무동력기',
     isImg: '',
@@ -96,6 +101,7 @@ const initialState = [
   },
   {
     tagName: '과제준비물먹을거',
+    tagColor: `${palette.blue}`,
     memoID: 1640668658,
     memoText: '자료구조 과제',
     isImg: '',
@@ -104,6 +110,7 @@ const initialState = [
   },
   {
     tagName: '',
+    tagColor: ``,
     memoID: 1640668659,
     memoText: '빈 카테고리',
     isImg: '',
@@ -112,6 +119,7 @@ const initialState = [
   },
   {
     tagName: '',
+    tagColor: ``,
     memoID: 1640668670,
     memoText: '빈 카테고리 캬캬',
     isImg: '',

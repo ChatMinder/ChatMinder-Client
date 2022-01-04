@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
 import FText from './FText';
@@ -18,9 +17,7 @@ const MemoItem = ({ memo }) => {
         </MemoContainer>
         <MemoFooter>
           {memo.tagName ? (
-            <TagBtn
-            // background={tag.tagColor}
-            >
+            <TagBtn background={memo.tagColor}>
               <TagBtnText>{memo.tagName}</TagBtnText>
             </TagBtn>
           ) : null}
