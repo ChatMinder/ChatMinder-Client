@@ -65,17 +65,13 @@ const Home = ({ navigation }) => {
           ),
         });
   }, [isSearchToggled]);
-
   return (
     <Wrapper>
+      {/* <Image
+        style={{ width: '100%', height: '50%' }}
+        source={{ uri: 'http://d5b0lcexvt9vq.cloudfront.net/chatminder.png' }}
+      /> */}
       <MemoContainer>
-        <View>
-          <Image
-            source={{
-              url: 'http://d5b0lcexvt9vq.cloudfront.net/chatminder.png',
-            }}
-          />
-        </View>
         {renderState.map(
           (memo, index) =>
             memo.memoID && (

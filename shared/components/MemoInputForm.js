@@ -149,16 +149,16 @@ const MemoInputForm = () => {
 
 const Wrapper = styled.View`
   width: 100%;
-  background: #f6f6f7;
+  background: #e5e5e5;
 `;
 
 const ShpItemContainer = styled.ScrollView`
   flex-direction: row;
-  border: 1px solid black;
-  padding: 16px 0px;
+  /* padding-bottom을 0픽셀로 설정할 경우 View가 겹쳐서 얇은 선 1줄 생기는 버그 존재 -> 임시로 0.1픽셀로 설정 */
+  padding: 16px 0px 0.1px 0px;
+  background: #f6f6f7;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background: #f6f6f7;
 `;
 
 const InputWrapper = styled.View`
@@ -198,7 +198,6 @@ const ShpBtn = styled.Image`
   height: 16px;
 `;
 const InputMemo = styled.TextInput`
-  /* border: 1px solid purple; */
   height: 100%;
   margin: 0px 5px;
   width: 220px;
