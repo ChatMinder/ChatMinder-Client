@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 import Calendar from '../screens/CalendarPage';
 import Category from '../screens/Category';
-
 import Drawers from './Drawers';
 
 const Tab = createBottomTabNavigator();
@@ -18,35 +18,27 @@ const Tabs = () => {
       screenOptions={{
         tabBarStyle: {
           backgroundColor: 'white',
+          height: 56,
         },
-        tabBarActiveTintColor: 'black',
-        tabBarInactiveTintColor: 'gray',
-        headerStyle: {
-          backgroundColor: 'white',
-        },
+        tabBarActiveTintColor: '#FF7F6D',
+        tabBarInactiveTintColor: '#D7D7EC',
         headerTitleStyle: {
-          color: 'black',
+          color: '#373737',
         },
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '800',
+          fontFamily: 'NanumSquareOTF_ac',
+          fontSize: 10,
+          fontWeight: '400',
+          marginBottom: 10,
         },
       }}
     >
       <Tab.Screen
-        name="카테고리"
+        name="태그"
         component={Category}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
-            return (
-              <Ionicons
-                name={
-                  focused ? `ios-file-tray-full` : `ios-file-tray-full-outline`
-                }
-                color={color}
-                size={size}
-              />
-            );
+            return <Icon source={require('../shared/assets/ShpBtn.png')} />;
           },
         }}
       />
@@ -56,13 +48,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
-            return (
-              <Ionicons
-                name={focused ? `md-home` : `md-home-outline`}
-                color={color}
-                size={size}
-              />
-            );
+            return <Icon source={require('../shared/assets/Home.png')} />;
           },
         }}
       />
@@ -71,13 +57,7 @@ const Tabs = () => {
         component={Calendar}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
-            return (
-              <Ionicons
-                name={focused ? `ios-calendar` : `ios-calendar-outline`}
-                color={color}
-                size={size}
-              />
-            );
+            return <Icon source={require('../shared/assets/Calendar.png')} />;
           },
         }}
       />
@@ -85,4 +65,8 @@ const Tabs = () => {
   );
 };
 
+const Icon = styled.Image`
+  width: 22px;
+  height: 22px;
+`;
 export default Tabs;
