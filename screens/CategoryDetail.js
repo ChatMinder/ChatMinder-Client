@@ -9,6 +9,7 @@ import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
 import HeaderButton from '../shared/components/HeaderButton';
 import TextContainer from '../shared/components/TextContainer';
+import ModalItem from '../shared/components/Modaltem';
 
 import {
   SearchInput,

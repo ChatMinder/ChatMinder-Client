@@ -16,6 +16,9 @@ const palette = {
 
   //테두리 색
   borderGray: '#E3E3E3',
+
+  //캘린더 커스텀
+  clickedDate: '#B1BEF8',
 };
 
 export default palette;

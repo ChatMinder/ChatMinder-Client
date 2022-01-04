@@ -11,6 +11,7 @@ import {
   ImgBox,
   ImgItem,
 } from '../shared/styles/CategoryStyle';
+import palette from '../shared/palette';
 
 const settings = require('../shared/assets/settings.png');
 const trashcan = require('../shared/assets/trashcan.png');
@@ -33,6 +34,8 @@ const CalendarPage = ({ navigation }) => {
       .filter((element, index) => index > 0),
     marked: null,
   });
+  const [pickedDate, setPickedDate] = useState('');
+  //console.log(dates);
 
   const [planObj, setPlanObj] = useState([]);
 
@@ -50,6 +53,13 @@ const CalendarPage = ({ navigation }) => {
       {}
     );
     setMarkedDates(obj);
+    setMarkedDates({
+      ...obj,
+      [pickedDate]: {
+        selected: true,
+        selectedColor: `${palette.clickedDate}`,
+      },
+    });
   }
 
   const handlePlan = (day) => {
@@ -59,6 +69,7 @@ const CalendarPage = ({ navigation }) => {
         (e) => moment.unix(e.memoID).format('YYYY-MM-DD') === day.dateString
       );
     setPlanObj(dotDate);
+    setPickedDate(day.dateString);
     // console.log('plan', planObj);
   };
 
@@ -68,6 +79,8 @@ const CalendarPage = ({ navigation }) => {
         <Calendar
           onDayPress={(day) => {
             handlePlan(day);
+
+            console.log(markedDates);
           }}
           markedDates={markedDates}
           theme={{
@@ -78,6 +91,12 @@ const CalendarPage = ({ navigation }) => {
               dayTextAtIndex6: {
                 color: 'blue',
               },
+              // week: {
+              //   marginTop: 30,
+              //   marginHorizontal: 12,
+              //   flexDirection: 'row',
+              //   justifyContent: 'space-between',
+              // },
             },
           }}
         />
@@ -120,18 +139,18 @@ export default CalendarPage;
 
 LocaleConfig.locales['fr'] = {
   monthNames: [
-    'Janvier',
-    'Fevrier',
-    'Mars',
-    'Avril',
-    'Mai',
-    'Juin',
-    'Juillet',
-    'Août',
-    'Septembre',
-    'Octobre',
-    'Novembre',
-    'Decembre',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'Jun',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ],
   monthNamesShort: [
     'Janv.',
