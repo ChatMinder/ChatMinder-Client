@@ -87,7 +87,7 @@ const BookmarkButton = styled.TouchableHighlight`
   border: 1px solid red;
 `;
 
-const CategoryBox = styled.TouchableOpacity`
+const CategoryBox = styled.View`
   background-color: ${(props) =>
     props.backgroundColor || `${palette.lightGreen}`};
 `;

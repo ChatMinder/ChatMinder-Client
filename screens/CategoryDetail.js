@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
-import styled from 'styled-components/native';
-import palette from '../shared/palette';
+import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -9,7 +7,6 @@ import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
 import HeaderButton from '../shared/components/HeaderButton';
 import TextContainer from '../shared/components/TextContainer';
-import ModalItem from '../shared/components/Modaltem';
 
 import {
   SearchInput,
