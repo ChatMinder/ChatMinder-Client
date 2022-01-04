@@ -32,6 +32,15 @@ const CategoryDetail = ({ route, navigation }) => {
     )
   );
 
+  const [types, setTypes] = useState([
+    { id: 0, category: 'all', isSelected: false },
+    { id: 1, category: 'image', isSelected: false },
+    { id: 2, category: 'link', isSelected: false },
+    { id: 3, category: 'text', isSelected: false },
+    { id: 4, category: 'bookmark', isSelected: false },
+  ]);
+  console.log(types[4]);
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -43,13 +52,13 @@ const CategoryDetail = ({ route, navigation }) => {
           />
           <ButtonBox>
             <TagBox>
-              <HeaderButton type="all" />
-              <HeaderButton type="image" />
-              <HeaderButton type="link" />
-              <HeaderButton type="text" />
+              {types.map(
+                (type, index) =>
+                  index < 4 && <HeaderButton type={type} key={type.id} />
+              )}
             </TagBox>
             <View>
-              <HeaderButton type="bookmark" />
+              <HeaderButton type={types[4]} />
             </View>
           </ButtonBox>
         </TitleBox>

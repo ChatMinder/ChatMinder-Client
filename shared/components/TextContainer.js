@@ -43,7 +43,7 @@ const TextContainer = ({ memo, navigation, destination }) => {
       }}
       onLongPress={() => handleDelete(memo.memoID)}
     >
-      <View>
+      <Container>
         <Text>{memo.memoText}</Text>
         <BookmarkBox>
           <CategoryBox>
@@ -61,12 +61,16 @@ const TextContainer = ({ memo, navigation, destination }) => {
             )}
           </BookmarkButton>
         </BookmarkBox>
-      </View>
+      </Container>
     </TouchableHighlight>
   );
 };
 
 export default TextContainer;
+
+const Container = styled.View`
+  border: 1px solid black;
+`;
 
 const BookmarkItem = styled.Image`
   width: 15px;

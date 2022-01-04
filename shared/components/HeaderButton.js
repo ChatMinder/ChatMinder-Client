@@ -9,19 +9,21 @@ const emptyBookmark = require('../assets/emptyBookmark.png');
 const fulledBookmark = require('../assets/fulledBookmark.png');
 
 const HeaderButton = ({ type }) => {
-  return type === 'all' ? (
+  const { id, category, isSelected } = type;
+
+  return category === 'all' ? (
     <StyledBtn>
       <Text>전체</Text>
     </StyledBtn>
-  ) : type === 'image' ? (
+  ) : category === 'image' ? (
     <StyledBtn>
       <ImageItem source={image} />
     </StyledBtn>
-  ) : type === 'link' ? (
+  ) : category === 'link' ? (
     <StyledBtn>
       <ImageItem source={link} width={20} />
     </StyledBtn>
-  ) : type === 'text' ? (
+  ) : category === 'text' ? (
     <StyledBtn>
       <Text>가</Text>
     </StyledBtn>
