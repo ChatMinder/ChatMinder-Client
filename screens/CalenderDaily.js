@@ -41,7 +41,7 @@ const CalenderDaily = ({ route, navigation }) => {
 
   const handleTab = {
     all: (
-      <TotalText>
+      <Text>
         {route.params.planObj.length === 0 ? (
           <Text>일정이 없습니다.</Text>
         ) : (
@@ -64,8 +64,8 @@ const CalenderDaily = ({ route, navigation }) => {
                 />
               ))}
           </>
-        )}{' '}
-      </TotalText>
+        )}
+      </Text>
     ),
     image: <Text>image</Text>,
     link: <Text>link</Text>,
