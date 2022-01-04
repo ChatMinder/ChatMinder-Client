@@ -22,6 +22,14 @@ const CalenderDaily = ({ route, navigation }) => {
   const [onSearchChange, renderState] = useSearch(memoObj);
   const [choice, setChoice] = useState('');
 
+  const [types, setTypes] = useState([
+    { id: 0, category: 'all', isSelected: false },
+    { id: 1, category: 'image', isSelected: false },
+    { id: 2, category: 'link', isSelected: false },
+    { id: 3, category: 'text', isSelected: false },
+    { id: 4, category: 'bookmark', isSelected: false },
+  ]);
+
   useEffect(() => {
     route.params.planObj.length === 0
       ? console.log('일정이 없음')
@@ -37,13 +45,13 @@ const CalenderDaily = ({ route, navigation }) => {
               />
               <ButtonBox>
                 <TagBox>
-                  <HeaderButton type="all" />
-                  <HeaderButton type="image" />
-                  <HeaderButton type="link" />
-                  <HeaderButton type="text" />
+                  {types.map(
+                    (type, index) =>
+                      index < 4 && <HeaderButton type={type} key={type.id} />
+                  )}
                 </TagBox>
                 <View>
-                  <HeaderButton type="bookmark" />
+                  <HeaderButton type={types[4]} />
                 </View>
               </ButtonBox>
             </TitleBox>

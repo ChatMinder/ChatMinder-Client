@@ -39,7 +39,6 @@ const CategoryDetail = ({ route, navigation }) => {
     { id: 3, category: 'text', isSelected: false },
     { id: 4, category: 'bookmark', isSelected: false },
   ]);
-  console.log(types[4]);
 
   useEffect(() => {
     navigation.setOptions({
