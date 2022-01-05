@@ -5,7 +5,7 @@ import { addTag, addMemo, setMemoInTag } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
-import { TagBtn, TagBtnText } from '../styles/HomeStyle';
+import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
 
 const MemoInputForm = () => {
   const inputRef = useRef();
@@ -16,6 +16,7 @@ const MemoInputForm = () => {
   const [inputValue, setInputValue] = useState('');
   const [selectedTag, setSelectedTag] = useState(0);
   const [selectedNewTag, setSelectedNewTag] = useState(0);
+  const [newTagColor, setNewTagColor] = useState(randomTagColor());
 
   const {
     control,
@@ -32,7 +33,9 @@ const MemoInputForm = () => {
     // dispatch(addTag(data.tag));
     // dispatch(addMemo(data.tag, data.memo));
     // dispatch(setMemoInTag(data.tag));
+    // 서버에 newTagColor값도 같이 보내기
     console.log(`Submit- 태그: ${data.tag} 메모: ${data.memo}`);
+    console.log(newTagColor);
   };
 
   const onImageUpload = () => {
@@ -84,11 +87,13 @@ const MemoInputForm = () => {
                   <TagBtn
                     margin={true}
                     selected={selectedNewTag ? true : false}
+                    background={newTagColor}
                     onPress={() => {
                       // 선택된 태그를 다시 누를 시 선택 취소
                       if (selectedNewTag) {
                         setSelectedNewTag(0);
                       } else {
+                        setNewTagColor(newTagColor);
                         setSelectedNewTag(inputValue);
                         //태그 추가하기 버튼 다시 눌러서 취소할 경우, Input창은 비워지나 inputValue는 초기화되지 않는 버그 있음
                         setInputValue('');

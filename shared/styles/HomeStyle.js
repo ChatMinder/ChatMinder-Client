@@ -1,13 +1,84 @@
-// 작업 편의상 우선 다른 파일에 작성합니다.
-// 마지막 단계 때 기능별로 고려해서 합쳐도 좋을 것 같습니다.
+// Home Screen에서 사용하는 스타일
 import styled from 'styled-components/native';
 import palette from '../palette';
 
-// Home Screen에서 사용하는 스타일
+export const randomTagColor = () => {
+  const randomNum = Math.floor(Math.random() * 10);
+  switch (randomNum) {
+    //blue
+    case 0:
+      return '#5DA7EF';
+    //lightBlue
+    case 1:
+      return '#9ECBFF';
+    //lightGreen
+    case 2:
+      return '#C8D769';
+    //green
+    case 3:
+      return '#50B093';
+    //blueGreen
+    case 4:
+      return '#81C7BA';
+    //purple
+    case 5:
+      return '#B282CC';
+    //pink
+    case 6:
+      return '#F85C5D';
+    //orange
+    case 7:
+      return '#FA7931';
+    //lightOrange
+    case 8:
+      return '#FFBE6C';
+    //yellow
+    case 9:
+      return '#FFE665';
+  }
+};
+
+const borderColor = (tagColor) => {
+  switch (tagColor) {
+    //blue
+    case '#5DA7EF':
+      return '#2673BD';
+    //lightBlue
+    case '#9ECBFF':
+      return '#6DA0DB';
+    //lightGreen
+    case '#C8D769':
+      return '#A2B141';
+    //green
+    case '#50B093':
+      return '#0E805D';
+    //blueGreen
+    case '#81C7BA':
+      return '#468D80';
+    //purple
+    case '#B282CC':
+      return '#933AC3';
+    //pink
+    case '#F85C5D':
+      return '#DD1617';
+    //orange
+    case '#FA7931':
+      return '#D44C00';
+    //lightOrange
+    case '#FFBE6C':
+      return '#E99933';
+    //yellow
+    case '#FFE665':
+      return '#E9C81F';
+    default:
+      return '#000000';
+  }
+};
+
 export const TagBtn = styled.TouchableOpacity`
-  background: ${(props) => props.background || 'gray'};
-  /* 요기 red 대신에 해당 테두리 색상 읽어와서 넣기 */
-  ${(props) => props.selected && `border: 2.5px solid red`}
+  background: ${(props) => props.background || randomTagColor()};
+  ${(props) =>
+    props.selected && `border: 2.5px solid ${borderColor(props.background)}`}
   ${(props) => props.margin && `margin-left: 12px`}
   padding: 0px 10px;
   border-radius: 8px;
