@@ -198,7 +198,8 @@ const MemoInputContainer = styled.View`
   background: #ffffff;
 `;
 const ShpBtnContainer = styled.TouchableOpacity`
-  margin-left: 16px;
+  /* margin-left: 16px; */
+  padding: 16px 0px 16px 16px;
 `;
 const ShpBtn = styled.Image`
   width: 16px;
@@ -213,7 +214,8 @@ const InputMemo = styled.TextInput`
 
 const SubmitBtnContainer = styled.TouchableOpacity`
   position: absolute;
-  right: 16px;
+  right: 0;
+  padding: 16px;
 `;
 const SubmitBtn = styled.Image`
   width: 16px;
