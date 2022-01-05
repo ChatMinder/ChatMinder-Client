@@ -12,6 +12,8 @@ import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
 import { Ionicons } from '@expo/vector-icons';
 import { checkIncludeURL } from '../shared/checkIncludeURL';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import TextR from '../shared/components/TextR';
 
 const Home = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
@@ -27,27 +29,28 @@ const Home = ({ navigation }) => {
     isSearchToggled
       ? navigation.setOptions({
           headerStyle: { backgroundColor: '#E5E5E5' },
-
+          headerLeft: () => null,
+          headerRight: () => null,
           headerTitle: () => (
             <HeaderContainer>
-              <Ionicons name="search" color="black" size={20} />
+              <SearchIcon source={require('../shared/assets/search.png')} />
               <SearchInput
                 onChangeText={onSearchChange}
                 placeholder="내용, 태그 검색"
               />
-            </HeaderContainer>
-          ),
-          headerRight: () => (
-            <HeaderContainer
-              onPress={() => setIsSearchToggled(!isSearchToggled)}
-            >
-              <Text>취소</Text>
+              <CancelBtn onPress={() => setIsSearchToggled(!isSearchToggled)}>
+                <TextR>취소</TextR>
+              </CancelBtn>
             </HeaderContainer>
           ),
         })
       : navigation.setOptions({
           headerStyle: { backgroundColor: '#E5E5E5' },
-
+          headerLeft: () => (
+            <TouchableOpacity onPress={navigation.toggleDrawer}>
+              <HomeIcon source={require('../shared/assets/Drawer.png')} />
+            </TouchableOpacity>
+          ),
           headerTitle: () => (
             <ProfileWrapper onPress={() => navigation.navigate('MyPage')}>
               <Profile
@@ -60,7 +63,7 @@ const Home = ({ navigation }) => {
             <SearchBtnContainer
               onPress={() => setIsSearchToggled(!isSearchToggled)}
             >
-              <SearchBtn source={require('../shared/assets/search.png')} />
+              <HomeIcon source={require('../shared/assets/Search_Home.png')} />
             </SearchBtnContainer>
           ),
         });
@@ -96,22 +99,27 @@ const Home = ({ navigation }) => {
 
 const URLCheck = styled.Button``;
 
-const HeaderContainer = styled.TouchableOpacity`
-  /* margin: 15px;
-  flex-direction: row; */
+const HeaderContainer = styled.View`
+  flex-direction: row;
+  width: 328px;
+  height: 32px;
+  border: 1px solid lime;
+  border-radius: 15.5px;
+  background: #fcfcfc;
 `;
-const SearchBtnContainer = styled.TouchableOpacity``;
-const SearchBtn = styled.Image`
-  margin: 17.5px;
-`;
-
-const ProfileWrapper = styled.TouchableOpacity``;
-const Profile = styled.Image``;
-
+const SearchIcon = styled.Image``;
 const SearchInput = styled.TextInput`
   border: 1px solid red;
   width: 200px;
 `;
+const CancelBtn = styled.TouchableOpacity``;
+const SearchBtnContainer = styled.TouchableOpacity``;
+const HomeIcon = styled.Image`
+  margin: 16px;
+`;
+
+const ProfileWrapper = styled.TouchableOpacity``;
+const Profile = styled.Image``;
 
 const MemoContainer = styled.ScrollView`
   background: #e5e5e5;

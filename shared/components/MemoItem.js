@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
-import FText from './FText';
+import TextR from './TextR';
 
 const MemoItem = ({ memo }) => {
   const onBookmarkTouch = () => {
@@ -13,7 +13,7 @@ const MemoItem = ({ memo }) => {
     <Wrapper>
       <MemoWrapper>
         <MemoContainer>
-          <FText>{memo.memoText}</FText>
+          <TextR>{memo.memoText}</TextR>
         </MemoContainer>
         <MemoFooter>
           {memo.tagName ? (
