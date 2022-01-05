@@ -8,41 +8,54 @@ import gatherImg from '../screens/DrawerNavScreens/gatherImg';
 import gatherLink from '../screens/DrawerNavScreens/gatherLink';
 import gatherText from '../screens/DrawerNavScreens/gatherText';
 import detailText from '../screens/DrawerNavScreens/detailText';
+import TextB from '../shared/components/TextR';
+import palette from '../shared/palette';
 
 const Drawer = createDrawerNavigator();
 
-const MeueItem = styled.Text`
-  margin-left: 5%;
-  margin-bottom: 5%;
+const MenuBox = styled.TouchableOpacity`
+ background-color: ${palette.lightPurple}
+  border-radius: 8px;
+  margin: 0 5% 5% 5%;
+  padding: 2% 0%;
+  justify-content: center;
+  align-items: center;
   ${(props) =>
     props.marginTop &&
     css`
       margin-top: 5%;
-    `}
+    `};
+`;
+
+const StyledText = styled.Text`
+  color: white;
+  font-size: 16px;
 `;
 
 const Drawers = () => {
   const CustomDrawerContent = (props) => (
     <SafeAreaView>
       <ScrollView>
-        <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
-          <MeueItem marginTop>Home</MeueItem>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('gatherImg')}
-        >
-          <MeueItem>이미지 모아보기</MeueItem>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('gatherLink')}
-        >
-          <MeueItem>링크 모아보기</MeueItem>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('gatherText')}
-        >
-          <MeueItem>텍스트 모아보기</MeueItem>
-        </TouchableOpacity>
+        <MenuBox marginTop onPress={() => props.navigation.navigate('Home')}>
+          <TextB>
+            <StyledText>Home</StyledText>
+          </TextB>
+        </MenuBox>
+        <MenuBox onPress={() => props.navigation.navigate('gatherImg')}>
+          <TextB>
+            <StyledText>이미지 모아보기</StyledText>
+          </TextB>
+        </MenuBox>
+        <MenuBox onPress={() => props.navigation.navigate('gatherLink')}>
+          <TextB>
+            <StyledText>링크 모아보기</StyledText>
+          </TextB>
+        </MenuBox>
+        <MenuBox onPress={() => props.navigation.navigate('gatherText')}>
+          <TextB>
+            <StyledText>텍스트 모아보기</StyledText>
+          </TextB>
+        </MenuBox>
       </ScrollView>
     </SafeAreaView>
   );

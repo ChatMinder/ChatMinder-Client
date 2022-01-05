@@ -57,7 +57,7 @@ const CalendarPage = ({ navigation }) => {
       ...obj,
       [pickedDate]: {
         selected: true,
-        selectedColor: `${palette.clickedDate}`,
+        selectedColor: `${palette.lightPurple}`,
       },
     });
   }
