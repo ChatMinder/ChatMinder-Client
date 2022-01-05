@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
-import styled from 'styled-components/native';
-import palette from '../shared/palette';
+import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -36,7 +34,6 @@ const CalenderDaily = ({ route, navigation }) => {
         type.id === id ? { ...type, isSelected: !type.isSelected } : type
       )
     );
-    console.log('types', types);
   };
 
   const handleTab = {
@@ -93,53 +90,14 @@ const CalenderDaily = ({ route, navigation }) => {
                       index < 4 && (
                         <HeaderButton
                           type={type}
-                          index={index}
                           key={type.id}
                           setChoice={setChoice}
-                          onToggle={onToggle}
                         />
                       )
                   )}
-                  {/* <StyledBtn
-                    onPress={() => {
-                      setChoice('all');
-                      onToggle(0);
-                    }}
-                  >
-                    <Text>전체</Text>
-                  </StyledBtn>
-                  <StyledBtn
-                    onPress={() => {
-                      setChoice('image');
-                      onToggle(1);
-                    }}
-                  >
-                    <ImageItem source={image} />
-                  </StyledBtn>
-                  <StyledBtn
-                    onPress={() => {
-                      setChoice('link');
-                    }}
-                  >
-                    <ImageItem source={link} width={20} />
-                  </StyledBtn>
-                  <StyledBtn
-                    onPress={() => {
-                      setChoice('text');
-                    }}
-                  >
-                    <Text>가</Text>
-                  </StyledBtn> */}
                 </TagBox>
                 <View>
                   <HeaderButton type={types[4]} setChoice={setChoice} />
-                  {/* <StyledBtn
-                    onPress={() => {
-                      setChoice('bookmark');
-                    }}
-                  >
-                    <ImageItem source={emptyBookmark} />
-                  </StyledBtn> */}
                 </View>
               </ButtonBox>
             </TitleBox>
@@ -151,26 +109,3 @@ const CalenderDaily = ({ route, navigation }) => {
 };
 
 export default CalenderDaily;
-
-const StyledBtn = styled.TouchableOpacity`
-  border: 1px solid ${palette.borderGray};
-  border-radius: 8px;
-  width: 40px;
-  height: 20px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ImageItem = styled.Image`
-  width: ${(props) => props.width || '15'}px;
-  height: ${(props) => props.height || '15'}px;
-`;
-
-const TotalText = styled.Text`
-  flex-direction: column;
-`;
-
-const image = require('../shared/assets/uploadImage.png');
-const link = require('../shared/assets/link.png');
-const emptyBookmark = require('../shared/assets/emptyBookmark.png');
-const fulledBookmark = require('../shared/assets/fulledBookmark.png');

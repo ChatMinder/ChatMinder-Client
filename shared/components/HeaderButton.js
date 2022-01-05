@@ -1,68 +1,116 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import palette from '../palette';
 
 const image = require('../assets/uploadImage.png');
+const imageLight = require('../assets/image_light.png');
 const link = require('../assets/link.png');
+const linkLight = require('../assets/link_light.png');
 const emptyBookmark = require('../assets/emptyBookmark.png');
 const fulledBookmark = require('../assets/fulledBookmark.png');
 
-const HeaderButton = ({ type, setChoice, index, onToggle }) => {
+const HeaderButton = ({ type, setChoice }) => {
   const { id, category, isSelected } = type;
-  console.log(type);
+  //console.log(type);
+
+  const [newClick, setNewClick] = useState({ isClicked: false });
+
+  const onClick = () => {
+    setNewClick({ isClicked: !newClick.isClicked });
+  };
 
   return category === 'all' ? (
-    <StyledBtn
+    <TouchableOpacity
       onPress={() => {
         setChoice(category);
-        onToggle(index);
+        onClick();
       }}
     >
-      <Text>전체</Text>
-    </StyledBtn>
+      {newClick.isClicked ? (
+        <SelectedBox>
+          <SelectedText>전체</SelectedText>
+        </SelectedBox>
+      ) : (
+        <CommonBox>
+          <Text>전체</Text>
+        </CommonBox>
+      )}
+    </TouchableOpacity>
   ) : category === 'image' ? (
-    <StyledBtn
+    <TouchableOpacity
       onPress={() => {
         setChoice(category);
-        onToggle(index);
+        onClick();
       }}
     >
-      <ImageItem source={image} />
-    </StyledBtn>
+      {newClick.isClicked ? (
+        <SelectedBox>
+          <ImageItem source={imageLight} />
+        </SelectedBox>
+      ) : (
+        <CommonBox>
+          <ImageItem source={image} />
+        </CommonBox>
+      )}
+    </TouchableOpacity>
   ) : category === 'link' ? (
-    <StyledBtn
+    <TouchableOpacity
       onPress={() => {
         setChoice(category);
-        onToggle(index);
+        onClick();
       }}
     >
-      <ImageItem source={link} width={20} />
-    </StyledBtn>
+      {newClick.isClicked ? (
+        <SelectedBox>
+          <ImageItem source={linkLight} width={20} />
+        </SelectedBox>
+      ) : (
+        <CommonBox>
+          <ImageItem source={link} width={20} />
+        </CommonBox>
+      )}
+    </TouchableOpacity>
   ) : category === 'text' ? (
-    <StyledBtn
+    <TouchableOpacity
       onPress={() => {
         setChoice(category);
-        onToggle(index);
+        onClick();
       }}
     >
-      <Text>가</Text>
-    </StyledBtn>
+      {newClick.isClicked ? (
+        <SelectedBox>
+          <SelectedText>가</SelectedText>
+        </SelectedBox>
+      ) : (
+        <CommonBox>
+          <Text>가</Text>
+        </CommonBox>
+      )}
+    </TouchableOpacity>
   ) : (
-    <StyledBtn
+    <TouchableOpacity
       onPress={() => {
         setChoice(category);
-        onToggle(index);
+        onClick();
       }}
     >
-      <ImageItem source={emptyBookmark} />
-    </StyledBtn>
+      {newClick.isClicked ? (
+        <CommonBox>
+          <ImageItem source={fulledBookmark} />
+        </CommonBox>
+      ) : (
+        <CommonBox>
+          <ImageItem source={emptyBookmark} />
+        </CommonBox>
+      )}
+    </TouchableOpacity>
   );
 };
 
 export default HeaderButton;
 
-const StyledBtn = styled.TouchableOpacity`
+const CommonBox = styled.View`
   border: 1px solid ${palette.borderGray};
   border-radius: 8px;
   width: 40px;
@@ -71,7 +119,15 @@ const StyledBtn = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+const SelectedBox = styled(CommonBox)`
+  background-color: ${palette.main};
+`;
+
 const ImageItem = styled.Image`
   width: ${(props) => props.width || '15'}px;
   height: ${(props) => props.height || '15'}px;
+`;
+
+const SelectedText = styled.Text`
+  color: white;
 `;
