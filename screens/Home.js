@@ -103,16 +103,24 @@ const HeaderContainer = styled.View`
   flex-direction: row;
   width: 328px;
   height: 32px;
-  border: 1px solid lime;
   border-radius: 15.5px;
   background: #fcfcfc;
 `;
-const SearchIcon = styled.Image``;
-const SearchInput = styled.TextInput`
-  border: 1px solid red;
-  width: 200px;
+const SearchIcon = styled.Image`
+  align-self: center;
+  margin: 0 12px 0 12px;
+  width: 14.5px;
+  height: 14.5px;
 `;
-const CancelBtn = styled.TouchableOpacity``;
+const SearchInput = styled.TextInput`
+  height: 100%;
+  width: 75%;
+`;
+const CancelBtn = styled.TouchableOpacity`
+  align-self: center;
+  position: absolute;
+  right: 10px;
+`;
 const SearchBtnContainer = styled.TouchableOpacity``;
 const HomeIcon = styled.Image`
   margin: 16px;

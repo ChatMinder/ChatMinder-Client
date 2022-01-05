@@ -6,6 +6,7 @@ const TextR = ({ children }) => <TextRegular>{children}</TextRegular>;
 
 const TextRegular = styled.Text`
   font-family: 'NanumSquareOTF_ac';
+  color: #000000;
   font-size: 12px;
   font-weight: 400;
   line-height: 22px;
