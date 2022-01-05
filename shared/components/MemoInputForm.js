@@ -16,7 +16,8 @@ const MemoInputForm = () => {
   const [inputValue, setInputValue] = useState('');
   const [selectedTag, setSelectedTag] = useState(0);
   const [selectedNewTag, setSelectedNewTag] = useState(0);
-  const [newTagColor, setNewTagColor] = useState(randomTagColor());
+  const [newTagColor, setNewTagColor] = useState('');
+  const randomColor = randomTagColor();
 
   const {
     control,
@@ -87,13 +88,14 @@ const MemoInputForm = () => {
                   <TagBtn
                     margin={true}
                     selected={selectedNewTag ? true : false}
-                    background={newTagColor}
+                    background={newTagColor || randomColor}
                     onPress={() => {
                       // 선택된 태그를 다시 누를 시 선택 취소
                       if (selectedNewTag) {
                         setSelectedNewTag(0);
+                        setNewTagColor('');
                       } else {
-                        setNewTagColor(newTagColor);
+                        setNewTagColor(randomColor);
                         setSelectedNewTag(inputValue);
                         //태그 추가하기 버튼 다시 눌러서 취소할 경우, Input창은 비워지나 inputValue는 초기화되지 않는 버그 있음
                         setInputValue('');
