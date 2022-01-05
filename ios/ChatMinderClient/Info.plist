@@ -49,7 +49,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-  <key>UIStatusBarStyle</key>
-  <string>UIStatusBarStyleDefault</string>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleDefault</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Gordita.otf</string>
+		<string>NanumSquareOTF_ac Bold.otf</string>
+		<string>NanumSquareOTF_ac.otf</string>
+	</array>
 </dict>
 </plist>

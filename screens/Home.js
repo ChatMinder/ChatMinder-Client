@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
@@ -11,8 +11,11 @@ import MemoItem from '../shared/components/MemoItem';
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
 import { Ionicons } from '@expo/vector-icons';
+import { checkIncludeURL } from '../shared/checkIncludeURL';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import TextR from '../shared/components/TextR';
 
-const Home = ({ navigation: { setOptions } }) => {
+const Home = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
   const [onSearchChange, renderState] = useSearch(memoObj);
   const onDeletePress = () => {
@@ -24,44 +27,63 @@ const Home = ({ navigation: { setOptions } }) => {
 
   useEffect(() => {
     isSearchToggled
-      ? setOptions({
+      ? navigation.setOptions({
+          headerStyle: { backgroundColor: '#E5E5E5' },
+          headerLeft: () => null,
+          headerRight: () => null,
           headerTitle: () => (
-            <Container>
-              <Ionicons name="search" color="black" size={20} />
+            <HeaderContainer>
+              <SearchIcon source={require('../shared/assets/search.png')} />
               <SearchInput
                 onChangeText={onSearchChange}
                 placeholder="내용, 태그 검색"
               />
-            </Container>
-          ),
-          headerRight: () => (
-            <Container onPress={() => setIsSearchToggled(!isSearchToggled)}>
-              <Text>취소</Text>
-            </Container>
+              <CancelBtn onPress={() => setIsSearchToggled(!isSearchToggled)}>
+                <TextR>취소</TextR>
+              </CancelBtn>
+            </HeaderContainer>
           ),
         })
-      : setOptions({
-          headerTitle: () => <Text>Home</Text>,
+      : navigation.setOptions({
+          headerStyle: { backgroundColor: '#E5E5E5' },
+          headerLeft: () => (
+            <TouchableOpacity onPress={navigation.toggleDrawer}>
+              <HomeIcon source={require('../shared/assets/Drawer.png')} />
+            </TouchableOpacity>
+          ),
+          headerTitle: () => (
+            <ProfileWrapper onPress={() => navigation.navigate('MyPage')}>
+              <Profile
+                source={require('../shared/assets/DefaultProfile.png')}
+              />
+            </ProfileWrapper>
+          ),
+          headerTitleAlign: 'center',
           headerRight: () => (
-            <Container onPress={() => setIsSearchToggled(!isSearchToggled)}>
-              <Ionicons name="search" color="black" size={20} />
-            </Container>
+            <SearchBtnContainer
+              onPress={() => setIsSearchToggled(!isSearchToggled)}
+            >
+              <HomeIcon source={require('../shared/assets/Search_Home.png')} />
+            </SearchBtnContainer>
           ),
         });
   }, [isSearchToggled]);
-
   return (
     <Wrapper>
+      {/* <Image
+        style={{ width: '100%', height: '50%' }}
+        source={{ uri: 'http://d5b0lcexvt9vq.cloudfront.net/chatminder.png' }}
+      /> */}
       <MemoContainer>
         {renderState.map(
           (memo, index) =>
-            memo.memoID && (
+            memo.timestamp && (
               <MemoItemWrapper key={memo.memoID}>
                 {moment
-                  .unix(renderState[index - 1].memoID)
+                  .unix(renderState[index - 1].timestamp)
                   .format('YYYY-MM-DD') !==
-                  moment.unix(memo.memoID).format('YYYY-MM-DD') && (
-                  <MemoDate memoID={memo.memoID} />
+                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                  <MemoDate memoTime={memo.timestamp} />
                 )}
                 <MemoItem memo={memo} />
               </MemoItemWrapper>
@@ -75,17 +97,40 @@ const Home = ({ navigation: { setOptions } }) => {
   );
 };
 
-const Container = styled.TouchableOpacity`
-  margin: 15px;
+const URLCheck = styled.Button``;
+
+const HeaderContainer = styled.View`
   flex-direction: row;
+  width: 328px;
+  height: 32px;
+  border-radius: 15.5px;
+  background: #fcfcfc;
+`;
+const SearchIcon = styled.Image`
+  align-self: center;
+  margin: 0 12px 0 12px;
+  width: 14.5px;
+  height: 14.5px;
 `;
 const SearchInput = styled.TextInput`
-  border: 1px solid red;
-  width: 200px;
+  height: 100%;
+  width: 75%;
+`;
+const CancelBtn = styled.TouchableOpacity`
+  align-self: center;
+  position: absolute;
+  right: 10px;
+`;
+const SearchBtnContainer = styled.TouchableOpacity``;
+const HomeIcon = styled.Image`
+  margin: 16px;
 `;
 
+const ProfileWrapper = styled.TouchableOpacity``;
+const Profile = styled.Image``;
+
 const MemoContainer = styled.ScrollView`
-  border: 3px solid gold;
+  background: #e5e5e5;
 `;
 
 const MemoItemWrapper = styled.View``;
@@ -95,5 +140,6 @@ const InputContainer = styled.View``;
 const Wrapper = styled.View`
   height: 100%;
 `;
+``;
 
 export default Home;

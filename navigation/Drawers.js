@@ -7,8 +7,6 @@ import LogIn from '../screens/LogIn';
 import gatherImg from '../screens/DrawerNavScreens/gatherImg';
 import gatherLink from '../screens/DrawerNavScreens/gatherLink';
 import gatherText from '../screens/DrawerNavScreens/gatherText';
-import gatherMarked from '../screens/DrawerNavScreens/gatherMarked';
-import gatherDeleted from '../screens/DrawerNavScreens/gatherDeleted';
 import detailText from '../screens/DrawerNavScreens/detailText';
 
 const Drawer = createDrawerNavigator();
@@ -45,11 +43,6 @@ const Drawers = () => {
         >
           <MeueItem>텍스트 모아보기</MeueItem>
         </TouchableOpacity>
-        {/* <TouchableOpacity
-          onPress={() => props.navigation.navigate('gatherMarked')}
-        >
-          <MeueItem>북마크한 메모</MeueItem>
-        </TouchableOpacity> */}
       </ScrollView>
     </SafeAreaView>
   );
@@ -60,14 +53,10 @@ const Drawers = () => {
       backBehavior="order"
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      {/* 로그인을 위해 임시로 만든 부분.. 나중에 다른 Navigation으로 할 것 */}
-      <Drawer.Screen name="LogIn" component={LogIn} />
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="gatherImg" component={gatherImg} />
       <Drawer.Screen name="gatherLink" component={gatherLink} />
       <Drawer.Screen name="gatherText" component={gatherText} />
-      <Drawer.Screen name="gatherMarked" component={gatherMarked} />
-      <Drawer.Screen name="gatherDeleted" component={gatherDeleted} />
       <Drawer.Screen name="detailText" component={detailText} />
     </Drawer.Navigator>
   );

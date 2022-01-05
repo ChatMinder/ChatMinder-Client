@@ -62,26 +62,26 @@ const Category = ({ navigation }) => {
           }}
         />
       </ButtonBox>
-      {memoObj[0].map((category, index) => (
+      {memoObj[0].map((tag, index) => (
         <CategoryItem
-          key={category.categoryID}
+          key={tag.tagID}
           backgroundColor={colors[index].colorValue}
         >
           <TextBox
             onPress={() => {
               navigation.navigate('CategoryDetail', {
-                categoryID: category.categoryID,
-                categoryName: category.categoryName,
+                tagID: tag.tagID,
+                tagName: tag.tagName,
               });
             }}
           >
-            <Text>{category.categoryName}</Text>
+            <Text>{tag.tagName}</Text>
           </TextBox>
           <ImgBox>
             <TouchableOpacity
               onPress={() => {
                 toggleModal();
-                setTitle(category.categoryName);
+                setTitle(tag.categoryName);
               }}
             >
               <ImgItem source={settings} />

@@ -24,9 +24,7 @@ const CategoryDetail = ({ route, navigation }) => {
   const memoObj = useSelector((state) => state);
   const [onSearchChange, renderState] = useSearch(memoObj);
   const [memos, setMemos] = useState(
-    renderState.filter(
-      (item) => item.categoryName === route.params.categoryName
-    )
+    renderState.filter((item) => item.tagName === route.params.tagName)
   );
 
   const [types, setTypes] = useState([
@@ -41,7 +39,7 @@ const CategoryDetail = ({ route, navigation }) => {
     navigation.setOptions({
       headerTitle: () => (
         <TitleBox>
-          <Text>{route.params.categoryName}</Text>
+          <Text>{route.params.tagName}</Text>
           <SearchInput
             onChangeText={onSearchChange}
             placeholder="내용, 태그 검색"
@@ -67,23 +65,21 @@ const CategoryDetail = ({ route, navigation }) => {
   return (
     <Container>
       {renderState
-        .filter(
-          (item, index) => item.categoryName === route.params.categoryName
-        )
+        .filter((item, index) => item.tagName === route.params.tagName)
         .map(
           (memo, index) =>
-            memo.memoID && (
+            memo.timestamp && (
               <TextBox key={memo.memoID}>
                 <DateItem>
                   {index === 0 ? (
-                    <MemoDate memoID={memo.memoID} />
+                    <MemoDate memoTime={memo.timestamp} />
                   ) : (
                     <>
                       {moment
-                        .unix(memos[index - 1].memoID)
+                        .unix(memos[index - 1].timestamp)
                         .format('YYYY-MM-DD') !==
-                        moment.unix(memo.memoID).format('YYYY-MM-DD') && (
-                        <MemoDate memoID={memo.memoID} />
+                        moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                        <MemoDate memoTime={memo.timestamp} />
                       )}
                     </>
                   )}

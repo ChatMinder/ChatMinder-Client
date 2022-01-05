@@ -44,13 +44,13 @@ const CalenderDaily = ({ route, navigation }) => {
           <Text>일정이 없습니다.</Text>
         ) : (
           <>
-            <MemoDate memoID={route.params.planObj[0].memoID} />
+            <MemoDate memoTime={route.params.planObj[0].timestamp} />
             {renderState
               .filter(
                 (item) =>
-                  moment.unix(item.memoID).format('YYYY-MM-DD') ===
+                  moment.unix(item.timestamp).format('YYYY-MM-DD') ===
                   moment
-                    .unix(route.params.planObj[0].memoID)
+                    .unix(route.params.planObj[0].timestamp)
                     .format('YYYY-MM-DD')
               )
               .map((plan) => (

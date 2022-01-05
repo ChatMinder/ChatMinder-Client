@@ -46,14 +46,14 @@ const gatherText = ({ navigation }) => {
       <Container>
         {renderState.map(
           (memo, index) =>
-            memo.memoID && (
+            memo.timestamp && (
               <TextBox key={memo.memoID}>
                 <DateItem>
                   {moment
-                    .unix(renderState[index - 1].memoID)
+                    .unix(renderState[index - 1].timestamp)
                     .format('YYYY-MM-DD') !==
-                    moment.unix(memo.memoID).format('YYYY-MM-DD') && (
-                    <MemoDate memoID={memo.memoID} />
+                    moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                    <MemoDate memoTime={memo.timestamp} />
                   )}
                 </DateItem>
                 <TextContainer

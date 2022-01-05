@@ -3,7 +3,7 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import palette from '../palette';
 
-const image = require('../assets/uploadImage.png');
+const image = require('../assets/ImgBtn.png');
 const imageLight = require('../assets/image_light.png');
 const link = require('../assets/link.png');
 const linkLight = require('../assets/link_light.png');
