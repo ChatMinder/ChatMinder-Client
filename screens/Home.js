@@ -57,11 +57,11 @@ const Home = ({ navigation }) => {
           ),
           headerTitleAlign: 'center',
           headerRight: () => (
-            <HeaderContainer
+            <SearchBtnContainer
               onPress={() => setIsSearchToggled(!isSearchToggled)}
             >
-              <Ionicons name="search" color="black" size={20} />
-            </HeaderContainer>
+              <SearchBtn source={require('../shared/assets/search.png')} />
+            </SearchBtnContainer>
           ),
         });
   }, [isSearchToggled]);
@@ -74,13 +74,13 @@ const Home = ({ navigation }) => {
       <MemoContainer>
         {renderState.map(
           (memo, index) =>
-            memo.memoID && (
+            memo.timestamp && (
               <MemoItemWrapper key={memo.memoID}>
                 {moment
-                  .unix(renderState[index - 1].memoID)
+                  .unix(renderState[index - 1].timestamp)
                   .format('YYYY-MM-DD') !==
-                  moment.unix(memo.memoID).format('YYYY-MM-DD') && (
-                  <MemoDate memoID={memo.memoID} />
+                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                  <MemoDate memoTime={memo.timestamp} />
                 )}
                 <MemoItem memo={memo} />
               </MemoItemWrapper>
@@ -97,8 +97,12 @@ const Home = ({ navigation }) => {
 const URLCheck = styled.Button``;
 
 const HeaderContainer = styled.TouchableOpacity`
-  margin: 15px;
-  flex-direction: row;
+  /* margin: 15px;
+  flex-direction: row; */
+`;
+const SearchBtnContainer = styled.TouchableOpacity``;
+const SearchBtn = styled.Image`
+  margin: 17.5px;
 `;
 
 const ProfileWrapper = styled.TouchableOpacity``;
@@ -120,5 +124,6 @@ const InputContainer = styled.View``;
 const Wrapper = styled.View`
   height: 100%;
 `;
+``;
 
 export default Home;

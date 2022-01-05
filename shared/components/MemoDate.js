@@ -4,8 +4,8 @@ import styled from 'styled-components/native';
 import moment from 'moment';
 import 'moment/locale/ko';
 
-const MemoDate = ({ memoID }) => {
-  const date = moment.unix(memoID).format(`YYYY년 MM월 DD일 dddd`);
+const MemoDate = ({ memoTime }) => {
+  const date = moment.unix(memoTime).format(`YYYY년 MM월 DD일 dddd`);
   return (
     <DateWrapper>
       <DateText>{date}</DateText>
