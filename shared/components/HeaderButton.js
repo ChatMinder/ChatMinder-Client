@@ -14,10 +14,10 @@ const HeaderButton = ({ type, setChoice }) => {
   const { id, category, isSelected } = type;
   //console.log(type);
 
-  const [newClick, setNewClick] = useState({ isClicked: false });
+  const [clicked, setClicked] = useState({ isClicked: false });
 
   const onClick = () => {
-    setNewClick({ isClicked: !newClick.isClicked });
+    setClicked({ isClicked: !clicked.isClicked });
   };
 
   return category === 'all' ? (
@@ -27,7 +27,7 @@ const HeaderButton = ({ type, setChoice }) => {
         onClick();
       }}
     >
-      {newClick.isClicked ? (
+      {clicked.isClicked ? (
         <SelectedBox>
           <SelectedText>전체</SelectedText>
         </SelectedBox>
@@ -44,7 +44,7 @@ const HeaderButton = ({ type, setChoice }) => {
         onClick();
       }}
     >
-      {newClick.isClicked ? (
+      {clicked.isClicked ? (
         <SelectedBox>
           <ImageItem source={imageLight} />
         </SelectedBox>
@@ -61,7 +61,7 @@ const HeaderButton = ({ type, setChoice }) => {
         onClick();
       }}
     >
-      {newClick.isClicked ? (
+      {clicked.isClicked ? (
         <SelectedBox>
           <ImageItem source={linkLight} width={20} />
         </SelectedBox>
@@ -78,7 +78,7 @@ const HeaderButton = ({ type, setChoice }) => {
         onClick();
       }}
     >
-      {newClick.isClicked ? (
+      {clicked.isClicked ? (
         <SelectedBox>
           <SelectedText>가</SelectedText>
         </SelectedBox>
@@ -95,7 +95,7 @@ const HeaderButton = ({ type, setChoice }) => {
         onClick();
       }}
     >
-      {newClick.isClicked ? (
+      {clicked.isClicked ? (
         <CommonBox>
           <ImageItem source={fulledBookmark} />
         </CommonBox>

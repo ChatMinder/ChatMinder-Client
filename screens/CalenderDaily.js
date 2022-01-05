@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -28,13 +28,14 @@ const CalenderDaily = ({ route, navigation }) => {
     { id: 4, category: 'bookmark', isSelected: false },
   ]);
 
-  const onToggle = (id) => {
-    setTypes(
-      types.map((type) =>
-        type.id === id ? { ...type, isSelected: !type.isSelected } : type
-      )
-    );
-  };
+  // const onToggle = (id) => {
+  //   setTypes(
+  //     types.map((type) =>
+  //       type.id === id ? { ...type, isSelected: !type.isSelected } : type
+  //     )
+  //   );
+  //   console.log(types);
+  // };
 
   const handleTab = {
     all: (
@@ -88,11 +89,7 @@ const CalenderDaily = ({ route, navigation }) => {
                   {types.map(
                     (type, index) =>
                       index < 4 && (
-                        <HeaderButton
-                          type={type}
-                          key={type.id}
-                          setChoice={setChoice}
-                        />
+                        <HeaderButton type={type} setChoice={setChoice} />
                       )
                   )}
                 </TagBox>
