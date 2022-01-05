@@ -36,7 +36,7 @@ const CalenderDaily = ({ route, navigation }) => {
         type.id === id ? { ...type, isSelected: !type.isSelected } : type
       )
     );
-    //console.log(types[0]);
+    console.log('types', types);
   };
 
   const handleTab = {
@@ -88,19 +88,22 @@ const CalenderDaily = ({ route, navigation }) => {
               />
               <ButtonBox>
                 <TagBox>
-                  {/* {types.map(
+                  {types.map(
                     (type, index) =>
                       index < 4 && (
                         <HeaderButton
                           type={type}
+                          index={index}
                           key={type.id}
+                          setChoice={setChoice}
                           onToggle={onToggle}
                         />
                       )
-                  )} */}
-                  <StyledBtn
+                  )}
+                  {/* <StyledBtn
                     onPress={() => {
                       setChoice('all');
+                      onToggle(0);
                     }}
                   >
                     <Text>전체</Text>
@@ -108,6 +111,7 @@ const CalenderDaily = ({ route, navigation }) => {
                   <StyledBtn
                     onPress={() => {
                       setChoice('image');
+                      onToggle(1);
                     }}
                   >
                     <ImageItem source={image} />
@@ -125,17 +129,17 @@ const CalenderDaily = ({ route, navigation }) => {
                     }}
                   >
                     <Text>가</Text>
-                  </StyledBtn>
+                  </StyledBtn> */}
                 </TagBox>
                 <View>
-                  {/* <HeaderButton type={types[4]} /> */}
-                  <StyledBtn
+                  <HeaderButton type={types[4]} setChoice={setChoice} />
+                  {/* <StyledBtn
                     onPress={() => {
                       setChoice('bookmark');
                     }}
                   >
                     <ImageItem source={emptyBookmark} />
-                  </StyledBtn>
+                  </StyledBtn> */}
                 </View>
               </ButtonBox>
             </TitleBox>
