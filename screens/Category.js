@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Text,
-  Button,
-  View,
-  Input,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { Text, Button, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
 import { useDispatch } from 'react-redux';

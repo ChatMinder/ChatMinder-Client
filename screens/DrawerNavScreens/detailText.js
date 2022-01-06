@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, Button, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import TextR from '../../shared/components/TextR';
@@ -11,6 +11,8 @@ import {
   TextItem,
 } from '../../shared/styles/TextContainerStyle';
 
+import ModalListItem from '../../shared/components/ModalListItem';
+
 const empty = require('../../shared/assets/emptyBookmark.png');
 const fulled = require('../../shared/assets/fulledBookmark.png');
 const goBack = require('../../shared/assets/GoBack.png');
@@ -18,6 +20,12 @@ const goBackLight = require('../../shared/assets/goBack_light.png');
 
 const detailText = ({ route, navigation }) => {
   console.log(route);
+
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -40,7 +48,7 @@ const detailText = ({ route, navigation }) => {
 
       <TextR>
         <TagBox backgroundColor={route.params.tagColor}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => toggleModal()}>
             <TextItem>{route.params.tagName}</TextItem>
           </TouchableOpacity>
           <View>
@@ -54,7 +62,10 @@ const detailText = ({ route, navigation }) => {
           <Text16px>{route.params.memoText}</Text16px>
         </TextR>
       </Margin>
-      {/* <Button title="Go back" onPress={() => navigation.goBack('gatherText')} /> */}
+      <ModalListItem
+        isModalVisible={isModalVisible}
+        toggleModal={toggleModal}
+      />
     </Wrapper>
   );
 };

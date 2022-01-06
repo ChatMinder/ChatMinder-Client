@@ -29,5 +29,6 @@ export const ButtonBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 2%;
+  padding: 5% 2%;
+  width: 90%;
 `;

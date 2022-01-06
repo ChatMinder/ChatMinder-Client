@@ -10,15 +10,16 @@ export const StyledSafeAreaView = styled.SafeAreaView`
 export const StyledModalContainer = styled.View`
   flex-direction: column;
   align-items: center;
-  width: 320px;
-  height: 220px;
+  width: 70%;
+  height: 40%;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 10px;
 `;
 
+//없앨까
 export const StyledModalGradeWrapper = styled.View`
   flex: 1;
-  width: 320px;
+  width: 90%;
   justify-content: center;
 `;
 
