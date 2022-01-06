@@ -37,6 +37,12 @@ export const ButtonBox = styled.View`
   align-items: center;
 `;
 
+export const BookmarkBox = styled.View`
+  width: 100%;
+  align-items: flex-end;
+  padding-top: 10px;
+`;
+
 export const TagBox = styled(ButtonBox)`
   border: 1px solid blue;
   width: 200px;

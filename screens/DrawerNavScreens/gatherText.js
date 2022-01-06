@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import Search from '../../shared/components/Search';
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
@@ -19,6 +19,7 @@ import {
   NoVisibleBox,
   InputBox,
   SearchIcon,
+  BookmarkBox,
 } from '../../shared/styles/HeaderStyle';
 
 import {
@@ -28,6 +29,7 @@ import {
 } from '../../shared/styles/TextContainerStyle';
 import TextB from '../../shared/components/TextB';
 import TextR from '../../shared/components/TextR';
+import HeaderButton from '../../shared/components/HeaderButton';
 
 const goBack = require('../../shared/assets/GoBack.png');
 const search = require('../../shared/assets/search.png');
@@ -40,18 +42,21 @@ const gatherText = ({ navigation }) => {
   const [memos, setMemos] = useState(
     memoObj.filter((element, index) => index > 0)
   );
+  const [choice, setChoice] = useState('all');
 
   useEffect(() => {
     navigation.setOptions({
       headerStyle: {
-        height: 130,
+        height: 120,
       },
       headerLeft: () => null,
       headerRight: () => null,
       headerTitle: () => (
         <HeaderContainer>
           <TitleBox>
-            <HeaderIcon source={goBack} />
+            <TouchableOpacity onPress={navigation.toggleDrawer}>
+              <HeaderIcon source={goBack} />
+            </TouchableOpacity>
             <TextB>
               <TitleText>텍스트 모아보기</TitleText>
             </TextB>
@@ -64,10 +69,18 @@ const gatherText = ({ navigation }) => {
               placeholder="내용, 태그 검색"
             />
           </InputBox>
+          <BookmarkBox>
+            <HeaderButton type="bookmark" setChoice={setChoice} />
+          </BookmarkBox>
         </HeaderContainer>
       ),
     });
   });
+
+  const handleTab = {
+    all: <Text>all</Text>,
+    bookmark: <Text>bookmark</Text>,
+  };
 
   return (
     <View>
