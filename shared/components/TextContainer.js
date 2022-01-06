@@ -20,7 +20,7 @@ import {
 const empty = require('../assets/emptyBookmark.png');
 const fulled = require('../assets/fulledBookmark.png');
 
-const TextContainer = ({ memo, navigation, destination }) => {
+const TextContainer = ({ memo, navigation, destination, history }) => {
   const handleDelete = (id) => {
     Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
       {
@@ -42,6 +42,7 @@ const TextContainer = ({ memo, navigation, destination }) => {
       tagName: memo.tagName,
       tagColor: memo.tagColor,
       isMarked: memo.isMarked,
+      history: history,
     });
   };
 

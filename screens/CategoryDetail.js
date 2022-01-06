@@ -119,6 +119,7 @@ const CategoryDetail = ({ route, navigation }) => {
                   memo={memo}
                   navigation={navigation}
                   destination="detailText"
+                  history="태그"
                 />
               </TextBox>
             )

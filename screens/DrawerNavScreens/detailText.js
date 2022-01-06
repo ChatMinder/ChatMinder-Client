@@ -19,7 +19,7 @@ const goBack = require('../../shared/assets/GoBack.png');
 const goBackLight = require('../../shared/assets/goBack_light.png');
 
 const detailText = ({ route, navigation }) => {
-  console.log(route);
+  //console.log(route);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -36,7 +36,9 @@ const detailText = ({ route, navigation }) => {
   return (
     <Wrapper>
       <BookmarkBox marginBottom="15px">
-        <TouchableOpacity onPress={() => navigation.navigate('gatherText')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(route.params.history)}
+        >
           <BookmarkItem source={goBack} />
         </TouchableOpacity>
         {route.params.isMarked ? (

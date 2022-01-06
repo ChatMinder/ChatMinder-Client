@@ -101,6 +101,7 @@ const gatherText = ({ navigation }) => {
                   memo={memo}
                   navigation={navigation}
                   destination="detailText"
+                  history="gatherText"
                 />
               </TextBox>
             )
