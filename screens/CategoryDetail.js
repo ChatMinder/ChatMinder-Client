@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -11,14 +11,26 @@ import TextContainer from '../shared/components/TextContainer';
 import {
   SearchInput,
   TitleBox,
-  ButtonBox,
+  ButtonBox2,
   TagBox,
+  HeaderContainer,
+  HeaderIcon,
+  NoVisibleBox,
+  InputBox,
+  SearchIcon,
 } from '../shared/styles/HeaderStyle';
 import {
   Container,
   TextBox,
   DateItem,
 } from '../shared/styles/TextContainerStyle';
+import TextB from '../shared/components/TextB';
+import TextR from '../shared/components/TextR';
+import { TextSize } from '../shared/styles/FontStyle';
+import styled from 'styled-components/native';
+
+const goBack = require('../shared/assets/GoBack.png');
+const search = require('../shared/assets/search.png');
 
 const CategoryDetail = ({ route, navigation }) => {
   const memoObj = useSelector((state) => state);
@@ -37,14 +49,32 @@ const CategoryDetail = ({ route, navigation }) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerStyle: {
+        height: 130,
+      },
+      headerLeft: () => null,
+      headerRight: () => null,
       headerTitle: () => (
-        <TitleBox>
-          <Text>{route.params.tagName}</Text>
-          <SearchInput
-            onChangeText={onSearchChange}
-            placeholder="내용, 태그 검색"
-          />
-          <ButtonBox>
+        <HeaderContainer paddingRight="5%">
+          <TitleBox>
+            <TouchableOpacity onPress={navigation.toggleDrawer}>
+              <HeaderIcon source={goBack} />
+            </TouchableOpacity>
+            <TextB>
+              <TextSize fontSize="18" color={route.params.tagColor}>
+                {route.params.tagName}
+              </TextSize>
+            </TextB>
+            <NoVisibleBox />
+          </TitleBox>
+          <InputBox>
+            <SearchIcon source={search} />
+            <SearchInput
+              onChangeText={onSearchChange}
+              placeholder="내용, 태그 검색"
+            />
+          </InputBox>
+          <ButtonBox2>
             <TagBox>
               {types.map(
                 (type, index) =>
@@ -54,8 +84,8 @@ const CategoryDetail = ({ route, navigation }) => {
             <View>
               <HeaderButton type={types[4]} />
             </View>
-          </ButtonBox>
-        </TitleBox>
+          </ButtonBox2>
+        </HeaderContainer>
       ),
     });
   }, []);

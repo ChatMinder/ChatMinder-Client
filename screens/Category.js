@@ -72,6 +72,7 @@ const Category = ({ navigation }) => {
               navigation.navigate('CategoryDetail', {
                 tagID: tag.tagID,
                 tagName: tag.tagName,
+                tagColor: tag.tagColor,
               });
             }}
           >
@@ -85,7 +86,7 @@ const Category = ({ navigation }) => {
             <TouchableOpacity
               onPress={() => {
                 toggleModal();
-                setTitle(tag.categoryName);
+                setTitle(tag.tagName);
               }}
             >
               <ImgItem source={settings} />

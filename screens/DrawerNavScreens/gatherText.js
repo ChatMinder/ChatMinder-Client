@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux';
 import {
   SearchInput,
   TitleBox,
-  TitleText,
   HeaderIcon,
   HeaderContainer,
   NoVisibleBox,
@@ -29,6 +28,7 @@ import {
 } from '../../shared/styles/TextContainerStyle';
 import TextB from '../../shared/components/TextB';
 import TextR from '../../shared/components/TextR';
+import { TextSize } from '../../shared/styles/FontStyle';
 import HeaderButton from '../../shared/components/HeaderButton';
 
 const goBack = require('../../shared/assets/GoBack.png');
@@ -58,7 +58,7 @@ const gatherText = ({ navigation }) => {
               <HeaderIcon source={goBack} />
             </TouchableOpacity>
             <TextB>
-              <TitleText>텍스트 모아보기</TitleText>
+              <TextSize fontSize="18">텍스트 모아보기</TextSize>
             </TextB>
             <NoVisibleBox />
           </TitleBox>

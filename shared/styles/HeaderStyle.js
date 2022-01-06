@@ -8,11 +8,11 @@ export const InputBox = styled.View`
   border-radius: 15px;
   flex-direction: row;
   align-items: center;
-  width: 95%;
+  width: ${(props) => props.width || '95%'};
 `;
 
 export const TitleBox = styled.View`
-  width: 100%;
+  width: ${(props) => props.width || '100%'};
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
@@ -20,21 +20,24 @@ export const TitleBox = styled.View`
 
 export const HeaderContainer = styled.View`
   align-items: center;
-`;
-
-export const TitleText = styled.Text`
-  font-size: 18px;
+  width: 100%;
+  padding-right: ${(props) => props.paddingRight || '0px'};
 `;
 
 export const NoVisibleBox = styled.View`
-  width: 8%;
-  height: 8%;
+  width: ${(props) => props.width || '8%'}
+  height: ${(props) => props.height || '8%'}
 `;
 
 export const ButtonBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const ButtonBox2 = styled(ButtonBox)`
+  width: ${(props) => props.width || '100%'};
+  margin: 2% 0;
 `;
 
 export const BookmarkBox = styled.View`
@@ -44,7 +47,6 @@ export const BookmarkBox = styled.View`
 `;
 
 export const TagBox = styled(ButtonBox)`
-  border: 1px solid blue;
   width: 200px;
 `;
 

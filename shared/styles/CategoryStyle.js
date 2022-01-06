@@ -23,8 +23,8 @@ export const ImgBox = styled.View`
 `;
 
 export const ImgItem = styled.Image`
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
 `;
 
 export const ButtonBox = styled.View`
