@@ -13,7 +13,7 @@ import {
   TitleBox,
   ButtonBox,
   TagBox,
-} from '../shared/styles/InputStyle';
+} from '../shared/styles/HeaderStyle';
 import {
   Container,
   TextBox,

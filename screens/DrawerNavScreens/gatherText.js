@@ -10,13 +10,27 @@ import TextContainer from '../../shared/components/TextContainer';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-import { SearchInput, TitleBox } from '../../shared/styles/InputStyle';
+import {
+  SearchInput,
+  TitleBox,
+  TitleText,
+  HeaderIcon,
+  HeaderContainer,
+  NoVisibleBox,
+  InputBox,
+  SearchIcon,
+} from '../../shared/styles/HeaderStyle';
 
 import {
   Container,
   TextBox,
   DateItem,
 } from '../../shared/styles/TextContainerStyle';
+import TextB from '../../shared/components/TextB';
+import TextR from '../../shared/components/TextR';
+
+const goBack = require('../../shared/assets/GoBack.png');
+const search = require('../../shared/assets/search.png');
 
 const gatherText = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
@@ -29,14 +43,28 @@ const gatherText = ({ navigation }) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerStyle: {
+        height: 130,
+      },
+      headerLeft: () => null,
+      headerRight: () => null,
       headerTitle: () => (
-        <TitleBox>
-          <Text>텍스트 모아보기</Text>
-          <SearchInput
-            onChangeText={onSearchChange}
-            placeholder="내용, 태그 검색"
-          />
-        </TitleBox>
+        <HeaderContainer>
+          <TitleBox>
+            <HeaderIcon source={goBack} />
+            <TextB>
+              <TitleText>텍스트 모아보기</TitleText>
+            </TextB>
+            <NoVisibleBox />
+          </TitleBox>
+          <InputBox>
+            <SearchIcon source={search} />
+            <SearchInput
+              onChangeText={onSearchChange}
+              placeholder="내용, 태그 검색"
+            />
+          </InputBox>
+        </HeaderContainer>
       ),
     });
   });

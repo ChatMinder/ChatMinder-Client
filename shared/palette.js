@@ -32,6 +32,9 @@ const palette = {
 
   //chatMinder main color
   main: '#FF7F6D',
+
+  //header
+  blackGray: '#7E7E7E',
 };
 
 export default palette;

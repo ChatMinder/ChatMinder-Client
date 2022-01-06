@@ -13,7 +13,7 @@ import {
   TitleBox,
   ButtonBox,
   TagBox,
-} from '../shared/styles/InputStyle';
+} from '../shared/styles/HeaderStyle';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoObj = useSelector((state) => state);
