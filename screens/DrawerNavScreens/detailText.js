@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View, Button } from 'react-native';
+import { Text, View, Button, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import TextR from '../../shared/components/TextR';
 import palette from '../../shared/palette';
@@ -28,7 +28,9 @@ const detailText = ({ route, navigation }) => {
   return (
     <Wrapper>
       <BookmarkBox marginBottom="15px">
-        <BookmarkItem source={goBack} />
+        <TouchableOpacity onPress={() => navigation.navigate('gatherText')}>
+          <BookmarkItem source={goBack} />
+        </TouchableOpacity>
         {route.params.isMarked ? (
           <BookmarkItem source={fulled} />
         ) : (
@@ -38,7 +40,9 @@ const detailText = ({ route, navigation }) => {
 
       <TextR>
         <TagBox backgroundColor={route.params.tagColor}>
-          <TextItem>{route.params.tagName}</TextItem>
+          <TouchableOpacity>
+            <TextItem>{route.params.tagName}</TextItem>
+          </TouchableOpacity>
           <View>
             <BookmarkItem source={goBackLight} />
           </View>
