@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
 import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const MemoInputForm = () => {
   const inputRef = useRef();
@@ -38,8 +39,17 @@ const MemoInputForm = () => {
     console.log(newTagColor);
   };
 
-  const onImageUpload = () => {
-    alert('이미지 업로드 버튼 누름!');
+  const onImageUpload = async () => {
+    const res = await launchImageLibrary({});
+    if (res.didCancel) {
+      console.log(res.didCancel);
+    } else if (res.errorCode) {
+      console.log(
+        `에러코드 : ${res.errorCode} 에러메시지 : ${res.errorMessage}`
+      );
+    } else if (res.assets) {
+      console.log(res.assets);
+    }
   };
 
   return (
