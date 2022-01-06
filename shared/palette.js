@@ -35,6 +35,8 @@ const palette = {
 
   //테두리 색
   borderGray: '#E3E3E3',
+  //배경색
+  backgroundGray: '#E5E5E5',
 
   //캘린더 커스텀
   lightPurple: '#B1BEF8',

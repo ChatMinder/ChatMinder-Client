@@ -65,6 +65,7 @@ const Tabs = () => {
         name="캘린더"
         component={Calendar}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => {
             return focused ? (
               <Icon source={require('../shared/assets/TintCalendar.png')} />

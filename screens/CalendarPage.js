@@ -12,25 +12,19 @@ import {
   ImgItem,
 } from '../shared/styles/CategoryStyle';
 import palette from '../shared/palette';
+import TextB from '../shared/components/TextB';
+import TextR from '../shared/components/TextR';
+import { TextSize } from '../shared/styles/FontStyle';
 
 const settings = require('../shared/assets/settings.png');
 const trashcan = require('../shared/assets/trashcan.png');
-
-const CalenderBox = styled.View`
-  border: 1px solid black;
-`;
-
-const PlanBox = styled.View`
-  border: 1px solid red;
-  width: 100%;
-`;
 
 const CalendarPage = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
   const [markedDates, setMarkedDates] = useState(null);
   const [dates, setDates] = useState({
     markedDates: memoObj
-      .map((memo, index) => moment.unix(memo.memoID).format('YYYY-MM-DD'))
+      .map((memo, index) => moment.unix(memo.timestamp).format('YYYY-MM-DD'))
       .filter((element, index) => index > 0),
     marked: null,
   });
@@ -66,7 +60,7 @@ const CalendarPage = ({ navigation }) => {
     const dotDate = memoObj
       .filter((element, index) => index > 0)
       .filter(
-        (e) => moment.unix(e.memoID).format('YYYY-MM-DD') === day.dateString
+        (e) => moment.unix(e.timestamp).format('YYYY-MM-DD') === day.dateString
       );
     setPlanObj(dotDate);
     setPickedDate(day.dateString);
@@ -74,7 +68,12 @@ const CalendarPage = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <Wrapper>
+      <Title>
+        <TextB>
+          <TextSize fontSize="20">캘린더</TextSize>
+        </TextB>
+      </Title>
       <CalenderBox>
         <Calendar
           onDayPress={(day) => {
@@ -127,14 +126,31 @@ const CalendarPage = ({ navigation }) => {
             alignItems: 'flex-end',
           }}
         >
-          <Text>이 날 메모 모아보기</Text>
+          <TextR>이 날 메모 모아보기 &#62;</TextR>
         </TouchableOpacity>
       </PlanBox>
-    </View>
+    </Wrapper>
   );
 };
 
 export default CalendarPage;
+
+const Wrapper = styled.View`
+  background-color: ${palette.backgroundGray};
+  height: 100%;
+  padding: 16px;
+`;
+
+const Title = styled.View`
+  margin: 4% 1%;
+`;
+
+const CalenderBox = styled.View``;
+
+const PlanBox = styled.View`
+  margin-top: 25px;
+  width: 100%;
+`;
 
 LocaleConfig.locales['fr'] = {
   monthNames: [

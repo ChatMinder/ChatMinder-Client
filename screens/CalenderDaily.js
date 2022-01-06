@@ -78,7 +78,7 @@ const CalenderDaily = ({ route, navigation }) => {
           headerTitle: () => (
             <TitleBox>
               <Text>
-                {moment.unix(route.params.planObj[0].memoID).format('ll')}
+                {moment.unix(route.params.planObj[0].timestamp).format('ll')}
               </Text>
               <SearchInput
                 onChangeText={onSearchChange}
