@@ -15,6 +15,7 @@ import {
 } from '../shared/styles/CategoryStyle';
 import TextB from '../shared/components/TextB';
 import TextR from '../shared/components/TextR';
+import { TextSize } from '../shared/styles/FontStyle';
 
 import ModalItem from '../shared/components/Modaltem';
 
@@ -49,7 +50,7 @@ const Category = ({ navigation }) => {
     <Wrapper>
       <ButtonBox width="100%">
         <TextB>
-          <TextItem fontSize="20">태그</TextItem>
+          <TextSize fontSize="20">태그</TextSize>
         </TextB>
         <ButtonItem
           onPress={() => {
@@ -58,9 +59,9 @@ const Category = ({ navigation }) => {
           }}
         >
           <TextB>
-            <TextItem fontSize="14" color="white">
+            <TextSize fontSize="14" color="white">
               + 태그추가
-            </TextItem>{' '}
+            </TextSize>{' '}
           </TextB>
         </ButtonItem>
       </ButtonBox>
@@ -75,9 +76,9 @@ const Category = ({ navigation }) => {
             }}
           >
             <TextB>
-              <TextItem fontSize="16" color="white">
+              <TextSize fontSize="16" color="white">
                 {tag.tagName ? tag.tagName : '분류 안한 메모'}
-              </TextItem>
+              </TextSize>
             </TextB>
           </TextBox>
           <ImgBox>
@@ -108,11 +109,6 @@ const Category = ({ navigation }) => {
 export default Category;
 
 const Wrapper = styled.View``;
-
-const TextItem = styled.Text`
-  font-size: ${(props) => props.fontSize || '12'}px;
-  color: ${(props) => props.color || 'black'};
-`;
 
 const ButtonItem = styled.TouchableOpacity`
   background-color: ${palette.main};

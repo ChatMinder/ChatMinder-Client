@@ -10,10 +10,14 @@ export const StyledSafeAreaView = styled.SafeAreaView`
 export const StyledModalContainer = styled.View`
   flex-direction: column;
   align-items: center;
-  width: 70%;
-  height: 40%;
+  width: 328px;
+  height: 371px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 10px;
+`;
+
+export const StyledModalContainer2 = styled(StyledModalContainer)`
+  padding: 20px 20px 0 16px;
 `;
 
 //없앨까
@@ -27,8 +31,8 @@ export const StyledModalGradeText = styled.Text`
   font-size: 15px;
 `;
 
-export const InputBox = styled.TextInput`
-  border: 1px solid gray;
+export const InputBox = styled.View`
+  border: 0.6px solid ${palette.gray4};
 `;
 
 export const ColorBox = styled.View`
@@ -36,16 +40,35 @@ export const ColorBox = styled.View`
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 1% 3%;
+  margin-left: 6px;
 `;
 
 export const ColorItem = styled.View`
   border-radius: 50px;
-  width: 45px;
-  height: 45px;
+  width: 46px;
+  height: 46px;
   background-color: ${(props) =>
     props.backgroundColor || `${palette.lightGreen}`};
-  margin: 0 2% 2% 0;
+  margin: 0 12px 8px 0;
 `;
 
-export const CloseButton = styled.TouchableOpacity``;
+export const CloseButton = styled.TouchableOpacity`
+  background-color: ${palette.gray3};
+  width: 116px;
+  height: 48px;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+`;
+
+export const ClosedBox = styled.View`
+  align-items: flex-end;
+  width: 100%;
+`;
+
+export const TitleBox = styled.View`
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: ${(props) => props.marginBottom || '16'}px;
+`;

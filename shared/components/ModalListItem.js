@@ -32,9 +32,9 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
         <StyledModalContainer>
           <ButtonBox>
             <TextR>태그 분류 수정</TextR>
-            <CloseButton onPress={toggleModal}>
+            <TouchableOpacity onPress={toggleModal}>
               <ImgItem source={cancel} />
-            </CloseButton>
+            </TouchableOpacity>
           </ButtonBox>
 
           {memoObj[0].map((tag, index) =>

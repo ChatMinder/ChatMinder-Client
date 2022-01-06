@@ -1,8 +1,15 @@
 const palette = {
   white: '#ffffff',
+  // gray 값이 너무 많아 figma의 네이밍 기준으로 변수명 설정
   gray: '#F1F1F1',
   // 미분류 태그값
   gray1: '#C1C1C1',
+  // title
+  gray2: '#7E7E7E',
+  // button gray
+  gray3: '#4A4A4A',
+  // input gray
+  gray4: '#373737',
 
   // 10개의 카테고리 색
   blue: '#5DA7EF',
