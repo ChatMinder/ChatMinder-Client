@@ -1,6 +1,8 @@
 const palette = {
   white: '#ffffff',
   gray: '#F1F1F1',
+  // 미분류 태그값
+  gray1: '#C1C1C1',
 
   // 10개의 카테고리 색
   blue: '#5DA7EF',

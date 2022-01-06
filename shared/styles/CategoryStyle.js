@@ -4,13 +4,15 @@ import palette from '../palette';
 export const CategoryItem = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  margin: 0 2% 1%;
-  background-color: ${(props) =>
-    props.backgroundColor || `${palette.lightGreen}`};
+  align-items: center;
+  margin: 0 2% 2%;
+  padding: 0 3%;
+  background-color: ${(props) => props.backgroundColor || `${palette.gray1}`};
+  height: 60px;
+  border-radius: 5px;
 `;
 
 export const TextBox = styled.TouchableOpacity`
-  border: 1px red solid;
   width: 80%;
 `;
 
@@ -30,5 +32,5 @@ export const ButtonBox = styled.View`
   justify-content: space-between;
   align-items: center;
   padding: 5% 2%;
-  width: 90%;
+  width: ${(props) => props.width || '90%'};
 `;

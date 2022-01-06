@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, Button, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -13,6 +13,8 @@ import {
   ImgItem,
   ButtonBox,
 } from '../shared/styles/CategoryStyle';
+import TextB from '../shared/components/TextB';
+import TextR from '../shared/components/TextR';
 
 import ModalItem from '../shared/components/Modaltem';
 
@@ -45,21 +47,25 @@ const Category = ({ navigation }) => {
 
   return (
     <Wrapper>
-      <ButtonBox>
-        <Text>태그</Text>
-        <Button
-          title="+ 태그추가"
+      <ButtonBox width="100%">
+        <TextB>
+          <TextItem fontSize="20">태그</TextItem>
+        </TextB>
+        <ButtonItem
           onPress={() => {
             setTitle('');
             toggleModal();
           }}
-        />
+        >
+          <TextB>
+            <TextItem fontSize="14" color="white">
+              + 태그추가
+            </TextItem>{' '}
+          </TextB>
+        </ButtonItem>
       </ButtonBox>
       {memoObj[0].map((tag, index) => (
-        <CategoryItem
-          key={tag.tagID}
-          backgroundColor={colors[index].colorValue}
-        >
+        <CategoryItem key={tag.tagID} backgroundColor={tag.tagColor}>
           <TextBox
             onPress={() => {
               navigation.navigate('CategoryDetail', {
@@ -68,7 +74,11 @@ const Category = ({ navigation }) => {
               });
             }}
           >
-            <Text>{tag.tagName}</Text>
+            <TextB>
+              <TextItem fontSize="16" color="white">
+                {tag.tagName ? tag.tagName : '분류 안한 메모'}
+              </TextItem>
+            </TextB>
           </TextBox>
           <ImgBox>
             <TouchableOpacity
@@ -95,6 +105,17 @@ const Category = ({ navigation }) => {
   );
 };
 
+export default Category;
+
 const Wrapper = styled.View``;
 
-export default Category;
+const TextItem = styled.Text`
+  font-size: ${(props) => props.fontSize || '12'}px;
+  color: ${(props) => props.color || 'black'};
+`;
+
+const ButtonItem = styled.TouchableOpacity`
+  background-color: ${palette.main};
+  border-radius: 5px;
+  padding: 3px 7px;
+`;

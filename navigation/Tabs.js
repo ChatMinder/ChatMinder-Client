@@ -37,6 +37,7 @@ const Tabs = () => {
         name="태그"
         component={Category}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => {
             return focused ? (
               <Icon source={require('../shared/assets/TintTag.png')} />
