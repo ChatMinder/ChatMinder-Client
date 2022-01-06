@@ -10,6 +10,13 @@ import styled, { css } from 'styled-components/native';
 import palette from '../palette';
 import TextR from './TextR';
 
+import {
+  TagBox,
+  BookmarkItem,
+  BookmarkBox,
+  TextItem,
+} from '../styles/TextContainerStyle';
+
 const empty = require('../assets/emptyBookmark.png');
 const fulled = require('../assets/fulledBookmark.png');
 
@@ -32,7 +39,8 @@ const TextContainer = ({ memo, navigation, destination }) => {
     navigation.navigate(`${destination}`, {
       id: memo.memoID,
       memoText: memo.memoText,
-      categoryName: memo.categoryName,
+      tagName: memo.tagName,
+      tagColor: memo.tagColor,
       isMarked: memo.isMarked,
     });
   };
@@ -48,11 +56,11 @@ const TextContainer = ({ memo, navigation, destination }) => {
         <TextR>{memo.memoText}</TextR>
         <BookmarkBox>
           {memo.tagName ? (
-            <CategoryBox>
+            <TagBox backgroundColor={memo.tagColor}>
               <TextR>
                 <TextItem>{memo.tagName}</TextItem>
               </TextR>
-            </CategoryBox>
+            </TagBox>
           ) : (
             <View />
           )}
@@ -83,26 +91,4 @@ const Container = styled.View`
   padding: 1.5%;
 `;
 
-const BookmarkItem = styled.Image`
-  width: 15px;
-  height: 15px;
-`;
-
-const BookmarkBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-`;
-
 const BookmarkButton = styled.TouchableHighlight``;
-
-const CategoryBox = styled.View`
-  background-color: ${(props) =>
-    props.backgroundColor || `${palette.lightGreen}`};
-  border-radius: 5px;
-  padding: 0 5px;
-`;
-
-const TextItem = styled.Text`
-  color: white;
-`;

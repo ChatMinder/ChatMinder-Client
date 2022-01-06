@@ -36,7 +36,7 @@ const search = require('../../shared/assets/search.png');
 
 const gatherText = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
-  //console.log('memoObj: ', memoObj);
+  console.log('memoObj: ', memoObj);
   const dispatch = useDispatch();
   const [onSearchChange, renderState] = useSearch(memoObj);
   const [memos, setMemos] = useState(
