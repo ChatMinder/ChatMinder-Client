@@ -6,15 +6,14 @@ export const Container = styled.View`
   align-items: center;
   width: 100%;
   padding: 0 2%;
-
-  border: blue 1px solid;
+  margin-top: 1%;
 `;
 
 export const TextBox = styled.View`
-  border: blue 1px solid;
   width: 100%;
 `;
 
 export const DateItem = styled.View`
   width: 100%;
+  margin-bottom: 1%;
 `;

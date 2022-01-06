@@ -96,9 +96,9 @@ const HeaderButton = ({ type, setChoice }) => {
       }}
     >
       {clicked.isClicked ? (
-        <CommonBox>
+        <SelectedBox background="white">
           <ImageItem source={fulledBookmark} />
-        </CommonBox>
+        </SelectedBox>
       ) : (
         <CommonBox>
           <ImageItem source={emptyBookmark} />
@@ -121,7 +121,8 @@ const CommonBox = styled.View`
 `;
 
 const SelectedBox = styled(CommonBox)`
-  background-color: ${palette.main};
+  background-color: ${(props) => props.background || `${palette.main}`};
+  border-color: ${palette.main};
 `;
 
 const ImageItem = styled.Image`

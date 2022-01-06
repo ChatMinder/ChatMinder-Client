@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import palette from '../palette';
+import TextR from './TextR';
 
 const empty = require('../assets/emptyBookmark.png');
 const fulled = require('../assets/fulledBookmark.png');
@@ -69,7 +70,10 @@ const TextContainer = ({ memo, navigation, destination }) => {
 export default TextContainer;
 
 const Container = styled.View`
-  border: 1px solid black;
+  background-color: white;
+  margin-bottom: 4%;
+  border-radius: 10px;
+  padding: 1.5%;
 `;
 
 const BookmarkItem = styled.Image`
@@ -83,9 +87,7 @@ const BookmarkBox = styled.View`
   align-items: flex-end;
 `;
 
-const BookmarkButton = styled.TouchableHighlight`
-  border: 1px solid red;
-`;
+const BookmarkButton = styled.TouchableHighlight``;
 
 const CategoryBox = styled.View`
   background-color: ${(props) =>
