@@ -45,11 +45,18 @@ const TextContainer = ({ memo, navigation, destination }) => {
       onLongPress={() => handleDelete(memo.memoID)}
     >
       <Container>
-        <Text>{memo.memoText}</Text>
+        <TextR>{memo.memoText}</TextR>
         <BookmarkBox>
-          <CategoryBox>
-            <Text>{memo.categoryName}</Text>
-          </CategoryBox>
+          {memo.tagName ? (
+            <CategoryBox>
+              <TextR>
+                <TextItem>{memo.tagName}</TextItem>
+              </TextR>
+            </CategoryBox>
+          ) : (
+            <View />
+          )}
+
           <BookmarkButton
             onPress={() => {
               console.log('북마크');
@@ -92,4 +99,10 @@ const BookmarkButton = styled.TouchableHighlight``;
 const CategoryBox = styled.View`
   background-color: ${(props) =>
     props.backgroundColor || `${palette.lightGreen}`};
+  border-radius: 5px;
+  padding: 0 5px;
+`;
+
+const TextItem = styled.Text`
+  color: white;
 `;
