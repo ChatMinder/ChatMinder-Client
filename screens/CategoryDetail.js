@@ -57,7 +57,7 @@ const CategoryDetail = ({ route, navigation }) => {
       headerTitle: () => (
         <HeaderContainer paddingRight="5%">
           <TitleBox>
-            <TouchableOpacity onPress={navigation.toggleDrawer}>
+            <TouchableOpacity onPress={() => navigation.navigate('태그')}>
               <HeaderIcon source={goBack} />
             </TouchableOpacity>
             <TextB>
