@@ -23,8 +23,8 @@ export const ImgBox = styled.View`
 `;
 
 export const ImgItem = styled.Image`
-  width: 16px;
-  height: 16px;
+  width: ${(props) => props.width || '16'}px;
+  height: ${(props) => props.height || '16'}px;
 `;
 
 export const ButtonBox = styled.View`

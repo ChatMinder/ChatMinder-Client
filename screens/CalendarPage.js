@@ -18,6 +18,8 @@ import { TextSize } from '../shared/styles/FontStyle';
 
 const settings = require('../shared/assets/settings.png');
 const trashcan = require('../shared/assets/trashcan.png');
+const calendarLeft = require('../shared/assets/calendar_left.png');
+const calendarRight = require('../shared/assets/calendar_right.png');
 
 const CalendarPage = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
@@ -76,31 +78,68 @@ const CalendarPage = ({ navigation }) => {
       </Title>
       <CalenderBox>
         <Calendar
+          renderArrow={(direction) =>
+            direction === 'left' ? (
+              <ImgItem width="24" height="24" source={calendarLeft} />
+            ) : (
+              <ImgItem width="24" height="24" source={calendarRight} />
+            )
+          }
           onDayPress={(day) => {
             handlePlan(day);
             console.log(markedDates);
           }}
           markedDates={markedDates}
+          style={{
+            paddingTop: 10,
+            paddingLeft: 20,
+            paddingRight: 20,
+            borderRadius: 8,
+            height: 420,
+          }}
           theme={{
+            todayTextColor: palette.lightPurple,
+            todayTextFontWeight: 'bold',
+            // textMonthFontSize: 14,
+            // textDayFontSize: 13,
+            // textDayHeaderFontSize: 13,
+            textDayFontFamily: 'NanumSquareOTF_ac',
+            textMonthFontFamily: 'NanumSquareOTF_ac Bold',
+            textDayHeaderFontFamily: 'NanumSquareOTF_ac',
             'stylesheet.calendar.header': {
               dayTextAtIndex0: {
-                color: 'red',
+                color: palette.lightPurple,
+              },
+              dayTextAtIndex1: {
+                color: palette.lightPurple,
+              },
+              dayTextAtIndex2: {
+                color: palette.lightPurple,
+              },
+              dayTextAtIndex3: {
+                color: palette.lightPurple,
+              },
+              dayTextAtIndex4: {
+                color: palette.lightPurple,
+              },
+              dayTextAtIndex5: {
+                color: palette.lightPurple,
               },
               dayTextAtIndex6: {
-                color: 'blue',
+                color: palette.lightPurple,
               },
-              // week: {
-              //   marginTop: 30,
-              //   marginHorizontal: 12,
-              //   flexDirection: 'row',
-              //   justifyContent: 'space-between',
-              // },
+              week: {
+                marginTop: 30,
+                //marginHorizontal: 25,
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+              },
             },
           }}
         />
       </CalenderBox>
       <PlanBox>
-        {planObj.map((plan) => (
+        {/* {planObj.map((plan) => (
           <CategoryItem key={plan.memoID}>
             <TextBox>
               <Text> {plan.memoText}</Text>
@@ -114,7 +153,7 @@ const CalendarPage = ({ navigation }) => {
               </TouchableOpacity>
             </ImgBox>
           </CategoryItem>
-        ))}
+        ))} */}
 
         <TouchableOpacity
           onPress={() =>
@@ -126,7 +165,11 @@ const CalendarPage = ({ navigation }) => {
             alignItems: 'flex-end',
           }}
         >
-          <TextR>이 날 메모 모아보기 &#62;</TextR>
+          <TextR>
+            <TextSize fontSize="14" color={palette.gray3}>
+              이 날 메모 모아보기 &#62;
+            </TextSize>
+          </TextR>
         </TouchableOpacity>
       </PlanBox>
     </Wrapper>
