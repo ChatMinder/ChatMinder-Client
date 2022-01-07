@@ -23,6 +23,7 @@ import {
 import TextR from '../shared/components/TextR';
 import TextB from '../shared/components/TextB';
 import { TextSize } from '../shared/styles/FontStyle';
+import styled from 'styled-components/native';
 
 const goBack = require('../shared/assets/GoBack.png');
 const search = require('../shared/assets/search.png');
@@ -105,7 +106,7 @@ const CalenderDaily = ({ route, navigation }) => {
   }, []);
 
   return (
-    <View>
+    <Wrapper>
       {
         {
           all: (
@@ -142,8 +143,13 @@ const CalenderDaily = ({ route, navigation }) => {
           bookmark: <Text>bookmark</Text>,
         }[choice]
       }
-    </View>
+    </Wrapper>
   );
 };
 
 export default CalenderDaily;
+
+const Wrapper = styled.View`
+  padding: 0 2%;
+  margin-top: 1%;
+`;
