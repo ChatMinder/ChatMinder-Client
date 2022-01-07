@@ -14,11 +14,11 @@ const validURL = (str) => {
 
 export const checkIncludeURL = (str) => {
   const split_str = str.split(' ');
+  let URL = false;
   split_str.forEach((element) => {
     if (validURL(element)) {
-      console.log(element);
-      return element;
+      URL = element;
     }
   });
-  return false;
+  return URL;
 };

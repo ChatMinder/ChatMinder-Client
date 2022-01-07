@@ -9,6 +9,8 @@ import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
 import { launchImageLibrary } from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import axios from 'axios';
+import { checkIncludeURL } from '../checkIncludeURL';
+import moment from 'moment';
 
 const MemoInputForm = () => {
   const inputRef = useRef();
@@ -36,9 +38,20 @@ const MemoInputForm = () => {
     // dispatch(addTag(data.tag));
     // dispatch(addMemo(data.tag, data.memo));
     // dispatch(setMemoInTag(data.tag));
-    // 서버에 newTagColor값도 같이 보내기
-    console.log(`Submit- 태그: ${data.tag} 메모: ${data.memo}`);
-    console.log(newTagColor);
+
+    const memoURL = checkIncludeURL(data.memo);
+    let memoText;
+    memoURL
+      ? (memoText = data.memo.replace(memoURL, ''))
+      : (memoText = data.memo);
+    let isNew;
+    selectedNewTag ? (isNew = true) : (isNew = false);
+
+    console.log(
+      `Submit- isNew: ${isNew} URL: ${memoURL} 태그: ${
+        data.tag
+      } 메모: ${memoText} 태그 색: ${newTagColor} 타임스탬프: ${moment().unix()}`
+    );
   };
 
   // const onImageUpload = async () => {
@@ -137,7 +150,10 @@ const MemoInputForm = () => {
                         if (selectedTag === tag.tagName) {
                           setSelectedTag(0);
                           setSelectedNewTag(0);
-                        } else setSelectedTag(tag.tagName);
+                        } else {
+                          setSelectedTag(tag.tagName);
+                          setSelectedNewTag(0);
+                        }
                         return selectedTag === tag.tagName
                           ? onChange('')
                           : onChange(tag.tagName);
