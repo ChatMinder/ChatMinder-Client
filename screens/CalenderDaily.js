@@ -49,14 +49,6 @@ const CalenderDaily = ({ route, navigation }) => {
   //   console.log(types);
   // };
 
-  const handleTab = {
-    all: <Text>all</Text>,
-    image: <Text>image</Text>,
-    link: <Text>link</Text>,
-    text: <Text>text</Text>,
-    bookmark: <Text>bookmark</Text>,
-  };
-
   useEffect(() => {
     route.params.planObj.length === 0
       ? console.log('일정이 없음')
@@ -114,30 +106,42 @@ const CalenderDaily = ({ route, navigation }) => {
 
   return (
     <View>
-      {route.params.planObj.length === 0 ? (
-        <Text>일정이 없습니다.</Text>
-      ) : (
-        <>
-          <MemoDate memoTime={route.params.planObj[0].timestamp} />
-          {renderState
-            .filter(
-              (item) =>
-                moment.unix(item.timestamp).format('YYYY-MM-DD') ===
-                moment
-                  .unix(route.params.planObj[0].timestamp)
-                  .format('YYYY-MM-DD')
-            )
-            .map((plan) => (
-              <TextContainer
-                key={plan.memoID}
-                memo={plan}
-                navigation={navigation}
-                destination="detailText"
-                history="CalenderDaily"
-              />
-            ))}
-        </>
-      )}
+      {
+        {
+          all: (
+            <View>
+              {route.params.planObj.length === 0 ? (
+                <Text>일정이 없습니다.</Text>
+              ) : (
+                <>
+                  <MemoDate memoTime={route.params.planObj[0].timestamp} />
+                  {renderState
+                    .filter(
+                      (item) =>
+                        moment.unix(item.timestamp).format('YYYY-MM-DD') ===
+                        moment
+                          .unix(route.params.planObj[0].timestamp)
+                          .format('YYYY-MM-DD')
+                    )
+                    .map((plan) => (
+                      <TextContainer
+                        key={plan.memoID}
+                        memo={plan}
+                        navigation={navigation}
+                        destination="detailText"
+                        history="CalenderDaily"
+                      />
+                    ))}
+                </>
+              )}
+            </View>
+          ),
+          image: <Text>image</Text>,
+          link: <Text>link</Text>,
+          text: <Text>text</Text>,
+          bookmark: <Text>bookmark</Text>,
+        }[choice]
+      }
     </View>
   );
 };
