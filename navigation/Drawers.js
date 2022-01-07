@@ -14,7 +14,7 @@ import palette from '../shared/palette';
 const Drawer = createDrawerNavigator();
 
 const MenuBox = styled.TouchableOpacity`
- background-color: ${palette.lightPurple}
+  background-color: ${palette.lightPurple};
   border-radius: 8px;
   margin: 0 5% 5% 5%;
   padding: 2% 0%;

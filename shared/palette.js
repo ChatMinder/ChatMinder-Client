@@ -26,12 +26,12 @@ const palette = {
   purple_border: '#933AC3',
   pink: '#F85C5D',
   pink_border: '#DD1617',
-  orange: '#FA7931',
-  orange_border: '#D44C00',
+  orange: '#FFAB41',
+  orange_border: '#DD891F',
   lightOrange: '#FFBE6C',
   lightOrange_border: '#E99933',
-  yellow: '#FFE665',
-  yellow_border: '#E9C81F',
+  yellow: '#FFD84E',
+  yellow_border: '#CBA317',
 
   //테두리 색
   borderGray: '#E3E3E3',
