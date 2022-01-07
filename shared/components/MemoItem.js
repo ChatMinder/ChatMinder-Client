@@ -9,15 +9,23 @@ const MemoItem = ({ memo }) => {
     alert('북마크 누름!');
   };
 
+  const handleDelete = (memoID) => {
+    alert(`메모ID: ${memoID} -삭제`);
+  };
+
+  const goToDetail = () => {
+    alert('go to detail');
+  };
+
   return (
-    <Wrapper>
+    <Wrapper onLongPress={() => handleDelete(memo.memoID)}>
       <MemoWrapper>
         <MemoContainer>
           <TextR>{memo.memoText}</TextR>
         </MemoContainer>
         <MemoFooter>
           {memo.tagName ? (
-            <TagBtn background={memo.tagColor}>
+            <TagBtn background={memo.tagColor} onPress={goToDetail}>
               <TagBtnText>{memo.tagName}</TagBtnText>
             </TagBtn>
           ) : null}
@@ -34,7 +42,7 @@ const MemoItem = ({ memo }) => {
   );
 };
 
-const Wrapper = styled.View`
+const Wrapper = styled.TouchableOpacity`
   width: 100%;
   justify-content: center;
   align-items: center;
