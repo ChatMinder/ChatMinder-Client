@@ -13,7 +13,19 @@ import {
   TitleBox,
   ButtonBox,
   TagBox,
+  HeaderContainer,
+  HeaderIcon,
+  NoVisibleBox,
+  InputBox,
+  SearchIcon,
+  ButtonBox2,
 } from '../shared/styles/HeaderStyle';
+import TextR from '../shared/components/TextR';
+import TextB from '../shared/components/TextB';
+import { TextSize } from '../shared/styles/FontStyle';
+
+const goBack = require('../shared/assets/GoBack.png');
+const search = require('../shared/assets/search.png');
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoObj = useSelector((state) => state);
@@ -38,33 +50,7 @@ const CalenderDaily = ({ route, navigation }) => {
   // };
 
   const handleTab = {
-    all: (
-      <Text>
-        {route.params.planObj.length === 0 ? (
-          <Text>일정이 없습니다.</Text>
-        ) : (
-          <>
-            <MemoDate memoTime={route.params.planObj[0].timestamp} />
-            {renderState
-              .filter(
-                (item) =>
-                  moment.unix(item.timestamp).format('YYYY-MM-DD') ===
-                  moment
-                    .unix(route.params.planObj[0].timestamp)
-                    .format('YYYY-MM-DD')
-              )
-              .map((plan) => (
-                <TextContainer
-                  key={plan.memoID}
-                  memo={plan}
-                  navigation={navigation}
-                  destination="detailText"
-                />
-              ))}
-          </>
-        )}
-      </Text>
-    ),
+    all: <Text>all</Text>,
     image: <Text>image</Text>,
     link: <Text>link</Text>,
     text: <Text>text</Text>,
@@ -75,16 +61,36 @@ const CalenderDaily = ({ route, navigation }) => {
     route.params.planObj.length === 0
       ? console.log('일정이 없음')
       : navigation.setOptions({
+          headerStyle: {
+            height: 130,
+          },
+          headerLeft: () => null,
+          headerRight: () => null,
           headerTitle: () => (
-            <TitleBox>
-              <Text>
-                {moment.unix(route.params.planObj[0].timestamp).format('ll')}
-              </Text>
-              <SearchInput
-                onChangeText={onSearchChange}
-                placeholder="내용, 태그 검색"
-              />
-              <ButtonBox>
+            <HeaderContainer paddingRight="5%">
+              <TitleBox>
+                <TouchableOpacity onPress={() => navigation.navigate('캘린더')}>
+                  <HeaderIcon source={goBack} />
+                </TouchableOpacity>
+                <TextB>
+                  <TextSize fontSize="18">
+                    {moment
+                      .unix(route.params.planObj[0].timestamp)
+                      .format('ll')}
+                  </TextSize>
+                </TextB>
+                <NoVisibleBox />
+              </TitleBox>
+
+              <InputBox>
+                <SearchIcon source={search} />
+                <SearchInput
+                  onChangeText={onSearchChange}
+                  placeholder="내용, 태그 검색"
+                />
+              </InputBox>
+
+              <ButtonBox2>
                 <TagBox>
                   {types.map(
                     (type, index) =>
@@ -96,13 +102,40 @@ const CalenderDaily = ({ route, navigation }) => {
                 <View>
                   <HeaderButton type={types[4]} setChoice={setChoice} />
                 </View>
-              </ButtonBox>
-            </TitleBox>
+              </ButtonBox2>
+            </HeaderContainer>
           ),
         });
   }, []);
 
-  return <View>{handleTab[choice]}</View>;
+  return (
+    <View>
+      {route.params.planObj.length === 0 ? (
+        <Text>일정이 없습니다.</Text>
+      ) : (
+        <>
+          <MemoDate memoTime={route.params.planObj[0].timestamp} />
+          {renderState
+            .filter(
+              (item) =>
+                moment.unix(item.timestamp).format('YYYY-MM-DD') ===
+                moment
+                  .unix(route.params.planObj[0].timestamp)
+                  .format('YYYY-MM-DD')
+            )
+            .map((plan) => (
+              <TextContainer
+                key={plan.memoID}
+                memo={plan}
+                navigation={navigation}
+                destination="detailText"
+                history="CalenderDaily"
+              />
+            ))}
+        </>
+      )}
+    </View>
+  );
 };
 
 export default CalenderDaily;
