@@ -37,14 +37,14 @@ const CalendarPage = ({ navigation }) => {
 
   useEffect(() => {
     dotDates();
-    console.log('plan:', planObj);
+    //console.log('plan:', planObj);
   }, [planObj]);
 
   function dotDates() {
     let obj = dates.markedDates.reduce(
       (c, v) =>
         Object.assign(c, {
-          [v]: { marked: true, dotColor: 'red' },
+          [v]: { marked: true, dotColor: `${palette.main}` },
         }),
       {}
     );
