@@ -45,7 +45,7 @@ const Home = ({ navigation }) => {
           ),
         })
       : navigation.setOptions({
-          headerStyle: { backgroundColor: '#E5E5E5' },
+          headerStyle: { backgroundColor: '#ECECEF' },
           headerLeft: () => (
             <TouchableOpacity onPress={navigation.toggleDrawer}>
               <HomeIcon source={require('../shared/assets/Drawer.png')} />
@@ -53,9 +53,7 @@ const Home = ({ navigation }) => {
           ),
           headerTitle: () => (
             <ProfileWrapper onPress={() => navigation.navigate('MyPage')}>
-              <Profile
-                source={require('../shared/assets/DefaultProfile.png')}
-              />
+              <Profile source={require('../shared/assets/LogoHome.png')} />
             </ProfileWrapper>
           ),
           headerTitleAlign: 'center',
@@ -130,7 +128,7 @@ const ProfileWrapper = styled.TouchableOpacity``;
 const Profile = styled.Image``;
 
 const MemoContainer = styled.ScrollView`
-  background: #e5e5e5;
+  background: #ececef;
 `;
 
 const MemoItemWrapper = styled.View``;
