@@ -84,30 +84,32 @@ const MemoInputForm = () => {
     if (res) {
       const photoURI = res[0].path;
       console.log(photoURI);
-
       const formData = new FormData();
-      formData.append('memo_id', '5');
-      formData.append('image', {
-        uri: photoURI,
-        name: 'image.jpg',
-        type: 'image/jpeg',
+      console.log(res.length);
+      res.forEach((photo, index) => {
+        formData.append(`사진${index + 1}`, {
+          uri: photo.path,
+          type: 'image/jpeg',
+          name: `filename ${index}.jpg`,
+        });
       });
 
-      try {
-        const response = await axios.post(
-          'https://api.chatminder.app/images',
-          formData,
-          {
-            headers: {
-              Authorization:
-                'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNTY2NTU4LCJqdGkiOiIyMjBkMWQ1NTEwMjA0NWViOTgwNjFiMjg5NWE0YTc3MSIsInVzZXJfaWQiOjcsImtha2FvX2lkIjoiMTIzNDU2Iiwia2FrYW9fZW1haWwiOiJ0ZXMzM3QyMTIzQG5hdmVyLmNvbSJ9.ibNy_F6JOPootvaK2hTf_oiXiZpmhazNW0k5-NCNoJE',
-            },
-          }
-        );
-        console.log(`image upload success response: ${response}`);
-      } catch (error) {
-        console.log(`image upload error response : ${error}`);
-      }
+      console.log(formData);
+      // try {
+      //   const response = await axios.post(
+      //     'https://api.chatminder.app/images',
+      //     formData,
+      //     {
+      //       headers: {
+      //         Authorization:
+      //           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNTY2NTU4LCJqdGkiOiIyMjBkMWQ1NTEwMjA0NWViOTgwNjFiMjg5NWE0YTc3MSIsInVzZXJfaWQiOjcsImtha2FvX2lkIjoiMTIzNDU2Iiwia2FrYW9fZW1haWwiOiJ0ZXMzM3QyMTIzQG5hdmVyLmNvbSJ9.ibNy_F6JOPootvaK2hTf_oiXiZpmhazNW0k5-NCNoJE',
+      //       },
+      //     }
+      //   );
+      //   console.log(`image upload success response: ${response}`);
+      // } catch (error) {
+      //   console.log(`image upload error response : ${error}`);
+      // }
     }
   };
   return (
