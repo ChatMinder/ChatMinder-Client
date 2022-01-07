@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
 import { launchImageLibrary } from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import axios from 'axios';
 
 const MemoInputForm = () => {
@@ -40,18 +41,58 @@ const MemoInputForm = () => {
     console.log(newTagColor);
   };
 
+  // const onImageUpload = async () => {
+  //   const res = await launchImageLibrary({ mediaType: 'photo' });
+  //   if (res.assets) {
+  //     const photoURI = res.assets[0].uri;
+  //     console.log(photoURI);
+  //     const formData = new FormData();
+  //     formData.append('memo_id', '4');
+  //     formData.append('image', {
+  //       uri: photoURI,
+  //       name: 'image.jpg',
+  //       type: 'image/jpeg',
+  //     });
+  //     try {
+  //       const response = await axios.post(
+  //         'https://api.chatminder.app/images',
+  //         formData,
+  //         {
+  //           headers: {
+  //             Authorization:
+  //               'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNTY2NTU4LCJqdGkiOiIyMjBkMWQ1NTEwMjA0NWViOTgwNjFiMjg5NWE0YTc3MSIsInVzZXJfaWQiOjcsImtha2FvX2lkIjoiMTIzNDU2Iiwia2FrYW9fZW1haWwiOiJ0ZXMzM3QyMTIzQG5hdmVyLmNvbSJ9.ibNy_F6JOPootvaK2hTf_oiXiZpmhazNW0k5-NCNoJE',
+  //           },
+  //         }
+  //       );
+  //       console.log(`image uploaded success response: ${response}`);
+  //     } catch (error) {
+  //       console.log(`image uploaded error response : ${error}`);
+  //     }
+  //   } else if (res.errorCode) {
+  //     console.log(
+  //       `에러코드 : ${res.errorCode} 에러메시지 : ${res.errorMessage}`
+  //     );
+  //   } else if (res.didCancel) {
+  //     console.log(res.didCancel);
+  //   }
+  // };
+
   const onImageUpload = async () => {
-    const res = await launchImageLibrary({ mediaType: 'photo' });
-    if (res.assets) {
-      const photoURI = res.assets[0].uri;
+    const res = await ImagePicker.openPicker({
+      multiple: true,
+    });
+    if (res) {
+      const photoURI = res[0].path;
       console.log(photoURI);
+
       const formData = new FormData();
-      formData.append('memo_id', '4');
+      formData.append('memo_id', '5');
       formData.append('image', {
         uri: photoURI,
         name: 'image.jpg',
         type: 'image/jpeg',
       });
+
       try {
         const response = await axios.post(
           'https://api.chatminder.app/images',
@@ -63,19 +104,12 @@ const MemoInputForm = () => {
             },
           }
         );
-        console.log(`image uploaded success response: ${response}`);
+        console.log(`image upload success response: ${response}`);
       } catch (error) {
-        console.log(`image uploaded error response : ${error.response.data}`);
+        console.log(`image upload error response : ${error}`);
       }
-    } else if (res.errorCode) {
-      console.log(
-        `에러코드 : ${res.errorCode} 에러메시지 : ${res.errorMessage}`
-      );
-    } else if (res.didCancel) {
-      console.log(res.didCancel);
     }
   };
-
   return (
     <Wrapper>
       {/* Shp Button을 눌렀을 때 펼쳐지는 내용물 */}
