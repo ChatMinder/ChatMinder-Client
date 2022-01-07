@@ -91,7 +91,7 @@ const CalendarPage = ({ navigation }) => {
           }}
           markedDates={markedDates}
           style={{
-            paddingTop: 10,
+            paddingTop: 15,
             paddingLeft: 20,
             paddingRight: 20,
             borderRadius: 8,
@@ -185,7 +185,7 @@ const Wrapper = styled.View`
 `;
 
 const Title = styled.View`
-  margin: 4% 1%;
+  margin: 4% 1% 6% 1%;
 `;
 
 const CalenderBox = styled.View``;
