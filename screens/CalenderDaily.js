@@ -95,7 +95,11 @@ const CalenderDaily = ({ route, navigation }) => {
                   {types.map(
                     (type, index) =>
                       index < 4 && (
-                        <HeaderButton type={type} setChoice={setChoice} />
+                        <HeaderButton
+                          type={type}
+                          key={type.id}
+                          setChoice={setChoice}
+                        />
                       )
                   )}
                 </TagBox>

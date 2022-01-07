@@ -3,6 +3,7 @@ import { Text, View, Button, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import TextR from '../../shared/components/TextR';
 import palette from '../../shared/palette';
+import { TextSize } from '../../shared/styles/FontStyle';
 
 import {
   TagBox,
