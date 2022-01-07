@@ -47,6 +47,8 @@ const CategoryDetail = ({ route, navigation }) => {
     { id: 4, category: 'bookmark', isSelected: false },
   ]);
 
+  const [choice, setChoice] = useState('all');
+
   useEffect(() => {
     navigation.setOptions({
       headerStyle: {
@@ -67,6 +69,7 @@ const CategoryDetail = ({ route, navigation }) => {
             </TextB>
             <NoVisibleBox />
           </TitleBox>
+
           <InputBox>
             <SearchIcon source={search} />
             <SearchInput
@@ -78,11 +81,17 @@ const CategoryDetail = ({ route, navigation }) => {
             <TagBox>
               {types.map(
                 (type, index) =>
-                  index < 4 && <HeaderButton type={type} key={type.id} />
+                  index < 4 && (
+                    <HeaderButton
+                      type={type}
+                      key={type.id}
+                      setChoice={setChoice}
+                    />
+                  )
               )}
             </TagBox>
             <View>
-              <HeaderButton type={types[4]} />
+              <HeaderButton type={types[4]} setChoice={setChoice} />
             </View>
           </ButtonBox2>
         </HeaderContainer>
@@ -93,38 +102,52 @@ const CategoryDetail = ({ route, navigation }) => {
   console.log(memos);
 
   return (
-    <Container>
-      {renderState
-        .filter((item, index) => item.tagName === route.params.tagName)
-        .map(
-          (memo, index) =>
-            memo.timestamp && (
-              <TextBox key={memo.memoID}>
-                <DateItem>
-                  {index === 0 ? (
-                    <MemoDate memoTime={memo.timestamp} />
-                  ) : (
-                    <>
-                      {moment
-                        .unix(memos[index - 1].timestamp)
-                        .format('YYYY-MM-DD') !==
-                        moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
-                        <MemoDate memoTime={memo.timestamp} />
-                      )}
-                    </>
-                  )}
-                </DateItem>
+    <View>
+      {
+        {
+          all: (
+            <Container>
+              {renderState
+                .filter((item, index) => item.tagName === route.params.tagName)
+                .map(
+                  (memo, index) =>
+                    memo.timestamp && (
+                      <TextBox key={memo.memoID}>
+                        <DateItem>
+                          {index === 0 ? (
+                            <MemoDate memoTime={memo.timestamp} />
+                          ) : (
+                            <>
+                              {moment
+                                .unix(memos[index - 1].timestamp)
+                                .format('YYYY-MM-DD') !==
+                                moment
+                                  .unix(memo.timestamp)
+                                  .format('YYYY-MM-DD') && (
+                                <MemoDate memoTime={memo.timestamp} />
+                              )}
+                            </>
+                          )}
+                        </DateItem>
 
-                <TextContainer
-                  memo={memo}
-                  navigation={navigation}
-                  destination="detailText"
-                  history="태그"
-                />
-              </TextBox>
-            )
-        )}
-    </Container>
+                        <TextContainer
+                          memo={memo}
+                          navigation={navigation}
+                          destination="detailText"
+                          history="태그"
+                        />
+                      </TextBox>
+                    )
+                )}
+            </Container>
+          ),
+          image: <Text>image</Text>,
+          link: <Text>link</Text>,
+          text: <Text>text</Text>,
+          bookmark: <Text>bookmark</Text>,
+        }[choice]
+      }
+    </View>
   );
 };
 
