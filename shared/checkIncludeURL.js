@@ -14,7 +14,7 @@ const validURL = (str) => {
 
 export const checkIncludeURL = (str) => {
   const split_str = str.split(' ');
-  let URL = false;
+  let URL = null;
   split_str.forEach((element) => {
     if (validURL(element)) {
       URL = element;

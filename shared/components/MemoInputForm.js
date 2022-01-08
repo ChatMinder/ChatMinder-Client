@@ -34,7 +34,7 @@ const MemoInputForm = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // dispatch(addTag(data.tag));
     // dispatch(addMemo(data.tag, data.memo));
     // dispatch(setMemoInTag(data.tag));
@@ -46,49 +46,46 @@ const MemoInputForm = () => {
       : (memoText = data.memo);
     let isNew;
     selectedNewTag ? (isNew = true) : (isNew = false);
-
     console.log(
       `Submit- isNew: ${isNew} URL: ${memoURL} 태그: ${
         data.tag
       } 메모: ${memoText} 태그 색: ${newTagColor} 타임스탬프: ${moment().unix()}`
     );
-  };
 
-  // const onImageUpload = async () => {
-  //   const res = await launchImageLibrary({ mediaType: 'photo' });
-  //   if (res.assets) {
-  //     const photoURI = res.assets[0].uri;
-  //     console.log(photoURI);
-  //     const formData = new FormData();
-  //     formData.append('memo_id', '4');
-  //     formData.append('image', {
-  //       uri: photoURI,
-  //       name: 'image.jpg',
-  //       type: 'image/jpeg',
-  //     });
-  //     try {
-  //       const response = await axios.post(
-  //         'https://api.chatminder.app/images',
-  //         formData,
-  //         {
-  //           headers: {
-  //             Authorization:
-  //               'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNTY2NTU4LCJqdGkiOiIyMjBkMWQ1NTEwMjA0NWViOTgwNjFiMjg5NWE0YTc3MSIsInVzZXJfaWQiOjcsImtha2FvX2lkIjoiMTIzNDU2Iiwia2FrYW9fZW1haWwiOiJ0ZXMzM3QyMTIzQG5hdmVyLmNvbSJ9.ibNy_F6JOPootvaK2hTf_oiXiZpmhazNW0k5-NCNoJE',
-  //           },
-  //         }
-  //       );
-  //       console.log(`image uploaded success response: ${response}`);
-  //     } catch (error) {
-  //       console.log(`image uploaded error response : ${error}`);
-  //     }
-  //   } else if (res.errorCode) {
-  //     console.log(
-  //       `에러코드 : ${res.errorCode} 에러메시지 : ${res.errorMessage}`
-  //     );
-  //   } else if (res.didCancel) {
-  //     console.log(res.didCancel);
-  //   }
-  // };
+    let memoData;
+    selectedNewTag
+      ? (memoData = {
+          is_tag_new: true,
+          tag_name: data.tag,
+          tag_color: newTagColor,
+          memo_text: memoText,
+          url: memoURL,
+          timestamp: moment().unix(),
+        })
+      : (memoData = {
+          is_tag_new: false,
+          tag: null,
+          memo_text: memoText,
+          url: memoURL,
+          timestamp: moment().unix(),
+        });
+    try {
+      const response = await axios.post(
+        'http://172.30.1.53:8000/memos',
+        memoData,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization:
+              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNzM2NDA5LCJqdGkiOiIwZTFiODhlYWRhNDA0ZDc0YTU3Zjg3NWE1MzU1YWJmOCIsInVzZXJfaWQiOjEsImtha2FvX2lkIjoiY2hhZXJpIiwia2FrYW9fZW1haWwiOiJjaGFlcmlAbmF2ZXIuY29tIn0.fDISIrPWrcXYnHh5y779swQV8Y0fCChMRqTZOf1LP1U',
+          },
+        }
+      );
+      console.log(`메모 생성 response: ${JSON.stringify(response.data)}`);
+    } catch (error) {
+      console.log(`메모 생성 error response : ${error}`);
+    }
+  };
 
   const onImageUpload = async () => {
     const res = await ImagePicker.openPicker({
@@ -98,31 +95,34 @@ const MemoInputForm = () => {
       const photoURI = res[0].path;
       console.log(photoURI);
       const formData = new FormData();
-      console.log(res.length);
+      formData.append(`memo_id`, 1);
+      formData.append(`size`, res.length);
       res.forEach((photo, index) => {
-        formData.append(`사진${index + 1}`, {
+        formData.append(`image${index}`, {
           uri: photo.path,
           type: 'image/jpeg',
-          name: `filename ${index}.jpg`,
+          name: `image${index}.jpg`,
         });
       });
 
       console.log(formData);
-      // try {
-      //   const response = await axios.post(
-      //     'https://api.chatminder.app/images',
-      //     formData,
-      //     {
-      //       headers: {
-      //         Authorization:
-      //           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNTY2NTU4LCJqdGkiOiIyMjBkMWQ1NTEwMjA0NWViOTgwNjFiMjg5NWE0YTc3MSIsInVzZXJfaWQiOjcsImtha2FvX2lkIjoiMTIzNDU2Iiwia2FrYW9fZW1haWwiOiJ0ZXMzM3QyMTIzQG5hdmVyLmNvbSJ9.ibNy_F6JOPootvaK2hTf_oiXiZpmhazNW0k5-NCNoJE',
-      //       },
-      //     }
-      //   );
-      //   console.log(`image upload success response: ${response}`);
-      // } catch (error) {
-      //   console.log(`image upload error response : ${error}`);
-      // }
+      try {
+        const response = await axios.post(
+          'https://api.chatminder.app/images',
+          formData,
+          {
+            headers: {
+              Authorization:
+                'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNTY2NTU4LCJqdGkiOiIyMjBkMWQ1NTEwMjA0NWViOTgwNjFiMjg5NWE0YTc3MSIsInVzZXJfaWQiOjcsImtha2FvX2lkIjoiMTIzNDU2Iiwia2FrYW9fZW1haWwiOiJ0ZXMzM3QyMTIzQG5hdmVyLmNvbSJ9.ibNy_F6JOPootvaK2hTf_oiXiZpmhazNW0k5-NCNoJE',
+            },
+          }
+        );
+        console.log(
+          `image upload success response: ${JSON.stringify(response.data)}`
+        );
+      } catch (error) {
+        console.log(`image upload error response : ${error}`);
+      }
     }
   };
   return (

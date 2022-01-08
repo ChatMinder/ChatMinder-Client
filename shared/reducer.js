@@ -7,18 +7,18 @@ const ADD_MEMO = 'ADD_MEMO';
 const SET_MEMO_IN_TAG = 'SET_MEMO_IN_TAG';
 
 //액션 생성함수 만들기
-export const addTag = (tagName) => ({
+export const addTag = (tag_nam) => ({
   type: ADD_TAG,
-  tagName,
+  tag_name,
 });
-export const addMemo = (tagName, memoText) => ({
+export const addMemo = (tag_name, memo_text) => ({
   type: ADD_MEMO,
-  tagName,
-  memoText,
+  tag_name,
+  memo_text,
 });
-export const setMemoInTag = (tagName) => ({
+export const setMemoInTag = (tag_nam) => ({
   type: SET_MEMO_IN_TAG,
-  tagName,
+  tag_name,
 });
 
 //초기 상태 선언
@@ -29,110 +29,114 @@ export const setMemoInTag = (tagName) => ({
 const initialState = [
   [
     {
-      tagColor: `${palette.blue}`,
-      tagID: 1,
-      tagName: '과제준비물먹을거',
-      memos: [1640579001552, 1640579008194, 1640614413272],
+      tag_color: `${palette.blue}`,
+      tag: 1,
+      tag_name: '과제준비물먹을거',
     },
     {
-      tagColor: `${palette.lightOrange}`,
-      tagID: 2,
-      tagName: '준비물',
-      memos: [1640579010766, 1640614272078],
+      tag_color: `${palette.lightOrange}`,
+      tag: 2,
+      tag_name: '준비물',
     },
     {
-      tagColor: `${palette.green}`,
-      tagID: 3,
-      tagName: '먹을거',
-      memos: [1640579012666],
+      tag_color: `${palette.green}`,
+      tag: 3,
+      tag_name: '먹을거',
     },
     {
-      tagColor: ``,
-      tagID: 4,
-      tagName: '',
-      memos: [1640614414223, 1640614416422],
+      tag_color: ``,
+      tag: 4,
+      tag_name: '',
     },
   ],
   {
-    tagName: '과제준비물먹을거',
-    tagColor: `${palette.blue}`,
-    memoID: 1638668525,
+    tag: 1,
+    tag_name: '과제준비물먹을거',
+    tag_color: `${palette.blue}`,
+    id: 1638668525,
     timestamp: 1638668525,
-    memoText: '프론트엔드 과제',
-    isImg: '',
-    isLink: '',
-    isMarked: true,
+    memo_text: '프론트엔드 과제',
+    images: '',
+    url: '',
+    is_marked: true,
   },
   {
-    tagName: '과제준비물먹을거',
-    tagColor: `${palette.blue}`,
-    memoID: 1638668925,
+    tag: 1,
+    tag_name: '과제준비물먹을거',
+    tag_color: `${palette.blue}`,
+    id: 1638668925,
     timestamp: 1638668925,
-    memoText: '교양 과제',
-    isImg: '',
-    isLink: '',
-    isMarked: false,
+    memo_text: '교양 과제',
+    images: '',
+    url: '',
+    is_marked: false,
   },
   {
-    tagName: '준비물',
-    tagColor: `${palette.lightOrange}`,
-    memoID: 1638668926,
+    tag: 2,
+    tag_name: '준비물',
+    tag_color: `${palette.lightOrange}`,
+    id: 1638668926,
     timestamp: 1638668926,
-    memoText:
+    memo_text:
       '물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 ',
-    isImg: '',
-    isLink: '',
-    isMarked: true,
+    images: '',
+    url: '',
+    is_marked: true,
   },
   {
-    tagName: '먹을거',
-    tagColor: `${palette.green}`,
-    memoID: 1640668525,
+    tag: 3,
+    tag_name: '먹을거',
+    tag_color: `${palette.green}`,
+    id: 1640668525,
     timestamp: 1640668525,
-    memoText: 'abc',
-    isImg: '',
-    isLink: '',
-    isMarked: false,
+    memo_text: 'abc',
+    images: '',
+    url: '',
+    is_marked: false,
   },
   {
-    tagName: '준비물',
-    tagColor: `${palette.lightOrange}`,
-    memoID: 1640668601,
+    tag: 2,
+    tag_name: '준비물',
+    tag_color: `${palette.lightOrange}`,
+    id: 1640668601,
     timestamp: 1640668601,
-    memoText: '고무동력기',
-    isImg: '',
-    isLink: '',
-    isMarked: false,
+    memo_text: '고무동력기',
+    images: '',
+    url: '',
+    is_marked: false,
   },
   {
-    tagName: '과제준비물먹을거',
-    tagColor: `${palette.blue}`,
-    memoID: 1640668658,
+    tag: 1,
+    tag_name: '과제준비물먹을거',
+    tag_color: `${palette.blue}`,
+    id: 1640668658,
     timestamp: 1640668658,
-    memoText: '자료구조 과제',
-    isImg: '',
-    isLink: 'naver.com',
-    isMarked: false,
+    memo_text: '자료구조 과제',
+    images: '',
+    url: 'naver.com',
+    is_marked: false,
   },
   {
-    tagName: '',
-    tagColor: ``,
-    memoID: 1640668659,
+    tag: null,
+    tag_name: '',
+    tag_color: ``,
+    id: 1640668659,
     timestamp: 1640668659,
-    memoText: '빈 카테고리',
-    isImg: '',
-    isLink: '',
-    isMarked: false,
+    memo_text: '빈 카테고리',
+    images: '',
+    url: '',
+    is_marked: false,
   },
   {
-    tagName: '',
-    tagColor: ``,
-    memoID: 1640668670,
+    tag: null,
+    tag_name: '',
+    tag_color: ``,
+    id: 1640668670,
     timestamp: 1640668670,
-    memoText: '빈 카테고리 캬캬',
-    isImg: '',
-    isLink: '',
-    isMarked: false,
+    memo_text: '빈 카테고리 캬캬',
+    images: '',
+    url: '',
+    is_marked: false,
   },
 ];
 
@@ -145,28 +149,28 @@ export default function reducer(state = initialState, action) {
     //입력받은 카테고리가 중복되는 카테고리인지 판별해 index0에 카테고리 추가
     case ADD_TAG: {
       const tempState = state;
-      const newtagID =
+      const newtag =
         tempState.length > 1
-          ? tempState[0][tempState[0].length - 1].tagID + 1
+          ? tempState[0][tempState[0].length - 1].tag + 1
           : 1;
 
       const index0 = tempState[0]
         ? [
             ...tempState[0],
             {
-              tagID: newtagID,
-              tagName: action.tagName,
+              tag: newtag,
+              tag_name: action.tag_nam,
               memos: [],
-              tagColor: '',
+              tag_color: '',
               setMemoInThis: true,
             },
           ]
         : [
             {
-              tagID: newtagID,
-              tagName: action.tagName,
+              tag: newtag,
+              tag_name: action.tag_nam,
               memos: [],
-              tagColor: '',
+              tag_color: '',
               setMemoInThis: true,
             },
           ];
@@ -175,7 +179,7 @@ export default function reducer(state = initialState, action) {
       if (tempState.length > 1) {
         //기존 category에서 같은 이름의 category가 있는지 검사
         tempState[0].map((element) => {
-          if (element.tagName === action.tagName) {
+          if (element.tag_name === action.tag_name) {
             categoryExist = true;
             element.setMemoInThis = true;
           }
@@ -203,16 +207,16 @@ export default function reducer(state = initialState, action) {
       return [
         ...state,
         {
-          tagName: action.tagName,
-          memoID: timestamp,
-          memoText: action.memoText,
-          isImg: '',
-          isLink: '',
-          isMarked: false,
+          tag_name: action.tag_nam,
+          id: timestamp,
+          memo_text: action.memo_text,
+          images: '',
+          url: '',
+          is_marked: false,
         },
       ];
     }
-    //카테고리 객체 내부의 memos 배열 속에 memoID 추가
+    //카테고리 객체 내부의 memos 배열 속에 id 추가
     case SET_MEMO_IN_TAG: {
       // setMemoInThis가 true인 객체에서 memos에 state.length-1의 메모 id 추가해 준 거 리턴
       const tempState = state;
@@ -220,7 +224,7 @@ export default function reducer(state = initialState, action) {
         if (element.setMemoInThis) {
           element.memos = [
             ...element.memos,
-            tempState[tempState.length - 1].memoID,
+            tempState[tempState.length - 1].id,
           ];
         }
         element.setMemoInThis = false;
