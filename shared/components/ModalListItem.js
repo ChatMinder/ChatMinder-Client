@@ -20,8 +20,8 @@ import palette from '../../shared/palette';
 const cancel = require('../assets/cancel.png');
 
 const ModalListItem = ({ isModalVisible, toggleModal }) => {
-  const memoObj = useSelector((state) => state);
-  //console.log('memoObj: ', memoObj);
+  const tagData = useSelector((state) => state.tagData);
+  //console.log('tagData: ', tagData);
 
   return (
     <StyledSafeAreaView>
@@ -37,15 +37,15 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
             </TouchableOpacity>
           </ButtonBox>
 
-          {memoObj[0].map((tag, index) =>
-            tag.tagName ? (
-              <TagBox key={tag.tagID} backgroundColor={tag.tagColor}>
+          {tagData.map((tag, index) =>
+            tag.tag_name ? (
+              <TagBox key={tag.id} backgroundColor={tag.tag_color}>
                 <TextB>
-                  <TextItem>{tag.tagName}</TextItem>
+                  <TextItem>{tag.tag_name}</TextItem>
                 </TextB>
               </TagBox>
             ) : (
-              <View key={tag.tagID} />
+              <View key={tag.tag} />
             )
           )}
         </StyledModalContainer>

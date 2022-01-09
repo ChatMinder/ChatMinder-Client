@@ -33,10 +33,10 @@ const goBack = require('../shared/assets/GoBack.png');
 const search = require('../shared/assets/search.png');
 
 const CategoryDetail = ({ route, navigation }) => {
-  const memoObj = useSelector((state) => state);
-  const [onSearchChange, renderState] = useSearch(memoObj);
+  const memoData = useSelector((state) => state.memoData);
+  const [onSearchChange, renderState] = useSearch(memoData);
   const [memos, setMemos] = useState(
-    renderState.filter((item) => item.tagName === route.params.tagName)
+    renderState.filter((item) => item.tag_name === route.params.tag_name)
   );
 
   const [types, setTypes] = useState([
@@ -63,8 +63,8 @@ const CategoryDetail = ({ route, navigation }) => {
               <HeaderIcon source={goBack} />
             </TouchableOpacity>
             <TextB>
-              <TextSize fontSize="18" color={route.params.tagColor}>
-                {route.params.tagName}
+              <TextSize fontSize="18" color={route.params.tag_color}>
+                {route.params.tag_name}
               </TextSize>
             </TextB>
             <NoVisibleBox />
@@ -108,11 +108,13 @@ const CategoryDetail = ({ route, navigation }) => {
           all: (
             <Container>
               {renderState
-                .filter((item, index) => item.tagName === route.params.tagName)
+                .filter(
+                  (item, index) => item.tag_name === route.params.tag_name
+                )
                 .map(
                   (memo, index) =>
                     memo.timestamp && (
-                      <TextBox key={memo.memoID}>
+                      <TextBox key={memo.id}>
                         <DateItem>
                           {index === 0 ? (
                             <MemoDate memoTime={memo.timestamp} />
