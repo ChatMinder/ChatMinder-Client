@@ -28,7 +28,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     isSearchToggled
       ? navigation.setOptions({
-          headerStyle: { backgroundColor: '#E5E5E5' },
+          headerStyle: { backgroundColor: '#ECECEF' },
           headerLeft: () => null,
           headerRight: () => null,
           headerTitle: () => (
