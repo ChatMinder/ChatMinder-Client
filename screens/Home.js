@@ -10,15 +10,14 @@ import MemoInputForm from '../shared/components/MemoInputForm';
 import MemoItem from '../shared/components/MemoItem';
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
-import { Ionicons } from '@expo/vector-icons';
-import { checkIncludeURL } from '../shared/checkIncludeURL';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextR from '../shared/components/TextR';
 
 const Home = ({ navigation }) => {
-  const memoObj = useSelector((state) => state);
-  console.log(memoObj);
-  // const [onSearchChange, renderState] = useSearch(memoObj);
+  const memoData = useSelector((state) => state.memoData);
+  const tagData = useSelector((state) => state.tagData);
+
+  const [onSearchChange, renderState] = useSearch(memoData);
   const onDeletePress = () => {
     alert('delete');
     //API 메모 삭제 로직 넣기
@@ -39,7 +38,12 @@ const Home = ({ navigation }) => {
                 onChangeText={onSearchChange}
                 placeholder="내용, 태그 검색"
               />
-              <CancelBtn onPress={() => setIsSearchToggled(!isSearchToggled)}>
+              <CancelBtn
+                onPress={() => {
+                  onSearchChange('');
+                  setIsSearchToggled(!isSearchToggled);
+                }}
+              >
                 <TextR>취소</TextR>
               </CancelBtn>
             </HeaderContainer>
@@ -73,22 +77,26 @@ const Home = ({ navigation }) => {
         style={{ width: '100%', height: '50%' }}
         source={{ uri: 'http://d5b0lcexvt9vq.cloudfront.net/chatminder.png' }}
       /> */}
-      {/* <MemoContainer>
+      <MemoContainer>
         {renderState.map(
           (memo, index) =>
             memo.timestamp && (
-              <MemoItemWrapper key={memo.memoID}>
-                {moment
-                  .unix(renderState[index - 1].timestamp)
-                  .format('YYYY-MM-DD') !==
-                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+              <MemoItemWrapper key={memo.id}>
+                {index === 0 ? (
                   <MemoDate memoTime={memo.timestamp} />
+                ) : (
+                  moment
+                    .unix(renderState[index - 1].timestamp)
+                    .format('YYYY-MM-DD') !==
+                    moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                    <MemoDate memoTime={memo.timestamp} />
+                  )
                 )}
                 <MemoItem memo={memo} />
               </MemoItemWrapper>
             )
         )}
-      </MemoContainer> */}
+      </MemoContainer>
       <InputContainer>
         <MemoInputForm />
       </InputContainer>

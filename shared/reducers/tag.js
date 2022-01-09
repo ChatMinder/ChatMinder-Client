@@ -2,17 +2,14 @@ import palette from '../palette';
 
 // 액션 타입 정의
 const ADD_TAG = 'ADD_TAG';
-const ADD_MEMO = 'ADD_MEMO';
+const FIX_TAG = 'FIX_TAG';
 
 //액션 생성함수 만들기
-export const addTag = (tag_name) => ({
+export const addTag = () => ({
   type: ADD_TAG,
-  tag_name,
 });
-export const addMemo = (tag_name, memo_text) => ({
-  type: ADD_MEMO,
-  tag_name,
-  memo_text,
+export const fixTag = () => ({
+  type: FIX_TAG,
 });
 
 //초기 상태 선언
@@ -48,7 +45,7 @@ const tag = (state = initialState, action) => {
     case ADD_TAG: {
       return [...state];
     }
-    case ADD_MEMO: {
+    case FIX_TAG: {
       return [...state];
     }
     default:

@@ -18,19 +18,19 @@ const MemoItem = ({ memo }) => {
   };
 
   return (
-    <Wrapper onLongPress={() => handleDelete(memo.memoID)}>
+    <Wrapper onLongPress={() => handleDelete(memo.id)}>
       <MemoWrapper>
         <MemoContainer>
-          <TextR>{memo.memoText}</TextR>
+          <TextR>{memo.memo_text}</TextR>
         </MemoContainer>
         <MemoFooter>
-          {memo.tagName ? (
-            <TagBtn background={memo.tagColor} onPress={goToDetail}>
-              <TagBtnText>{memo.tagName}</TagBtnText>
+          {memo.tag_name ? (
+            <TagBtn background={memo.tag_color} onPress={goToDetail}>
+              <TagBtnText>{memo.tag_name}</TagBtnText>
             </TagBtn>
           ) : null}
           <Bookmark onPress={onBookmarkTouch}>
-            {memo.isMarked ? (
+            {memo.is_marked ? (
               <BookmarkImg source={require('../assets/fulledBookmark.png')} />
             ) : (
               <BookmarkImg source={require('../assets/bookmark.png')} />

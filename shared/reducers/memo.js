@@ -2,18 +2,19 @@ import palette from '../palette';
 
 // 액션 타입 정의
 const ADD_MEMO = 'ADD_MEMO';
-const SET_MEMO_IN_TAG = 'SET_MEMO_IN_TAG';
+const FIX_MEMO = 'FIX_MEMO';
+const DELETE_MEMO = 'DELETE_MEMO';
 
 //액션 생성함수 만들기
 
-export const addMemo = (tag_name, memo_text) => ({
+export const addMemo = () => ({
   type: ADD_MEMO,
-  tag_name,
-  memo_text,
 });
-export const setMemoInTag = (tag_name) => ({
-  type: SET_MEMO_IN_TAG,
-  tag_name,
+export const fixMemo = () => ({
+  type: FIX_MEMO,
+});
+export const deleteMemo = () => ({
+  type: DELETE_MEMO,
 });
 
 //초기 상태 선언
@@ -118,7 +119,10 @@ const memo = (state = initialState, action) => {
     case ADD_MEMO: {
       return [...state];
     }
-    case SET_MEMO_IN_TAG: {
+    case FIX_MEMO: {
+      return [...state];
+    }
+    case DELETE_MEMO: {
       return [...state];
     }
     default:
