@@ -7,9 +7,9 @@ import Root from './navigation/Root';
 //Redux
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reducer from './shared/reducer';
+import reducers from './shared/reducers.js';
 
-const store = createStore(reducer);
+const store = createStore(reducers);
 
 export default function App() {
   return (

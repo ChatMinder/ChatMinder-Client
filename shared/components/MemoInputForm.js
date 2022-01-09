@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Text, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { addTag, addMemo, setMemoInTag } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
@@ -35,10 +34,6 @@ const MemoInputForm = () => {
   });
 
   const onSubmit = async (data) => {
-    // dispatch(addTag(data.tag));
-    // dispatch(addMemo(data.tag, data.memo));
-    // dispatch(setMemoInTag(data.tag));
-
     const memoURL = checkIncludeURL(data.memo);
     let memoText;
     memoURL

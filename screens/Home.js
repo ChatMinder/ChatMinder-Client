@@ -17,7 +17,8 @@ import TextR from '../shared/components/TextR';
 
 const Home = ({ navigation }) => {
   const memoObj = useSelector((state) => state);
-  const [onSearchChange, renderState] = useSearch(memoObj);
+  console.log(memoObj);
+  // const [onSearchChange, renderState] = useSearch(memoObj);
   const onDeletePress = () => {
     alert('delete');
     //API 메모 삭제 로직 넣기
@@ -72,7 +73,7 @@ const Home = ({ navigation }) => {
         style={{ width: '100%', height: '50%' }}
         source={{ uri: 'http://d5b0lcexvt9vq.cloudfront.net/chatminder.png' }}
       /> */}
-      <MemoContainer>
+      {/* <MemoContainer>
         {renderState.map(
           (memo, index) =>
             memo.timestamp && (
@@ -87,7 +88,7 @@ const Home = ({ navigation }) => {
               </MemoItemWrapper>
             )
         )}
-      </MemoContainer>
+      </MemoContainer> */}
       <InputContainer>
         <MemoInputForm />
       </InputContainer>
