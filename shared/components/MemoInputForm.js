@@ -1,20 +1,19 @@
 import React, { useState, useRef } from 'react';
-import { Text, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-
-import styled from 'styled-components/native';
-import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
-import { launchImageLibrary } from 'react-native-image-picker';
-import ImagePicker from 'react-native-image-crop-picker';
-import axios from 'axios';
-import { checkIncludeURL } from '../checkIncludeURL';
 import moment from 'moment';
+import axios from 'axios';
+import styled from 'styled-components/native';
+import ImagePicker from 'react-native-image-crop-picker';
+
+import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
+import { checkIncludeURL } from '../checkIncludeURL';
 
 const MemoInputForm = () => {
   const inputRef = useRef();
   const dispatch = useDispatch();
-  const memoObj = useSelector((state) => state);
+  const memoData = useSelector((state) => state.memoData);
+  const tagData = useSelector((state) => state.tagData);
 
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -30,6 +29,7 @@ const MemoInputForm = () => {
     defaultValues: {
       tag: '',
       memo: '',
+      image: null,
     },
   });
 
@@ -41,11 +41,6 @@ const MemoInputForm = () => {
       : (memoText = data.memo);
     let isNew;
     selectedNewTag ? (isNew = true) : (isNew = false);
-    console.log(
-      `Submit- isNew: ${isNew} URL: ${memoURL} 태그: ${
-        data.tag
-      } 메모: ${memoText} 태그 색: ${newTagColor} 타임스탬프: ${moment().unix()}`
-    );
 
     let memoData;
     selectedNewTag
@@ -59,26 +54,53 @@ const MemoInputForm = () => {
         })
       : (memoData = {
           is_tag_new: false,
-          tag: null,
+          tag: selectedTag,
           memo_text: memoText,
           url: memoURL,
           timestamp: moment().unix(),
         });
+
+    //메모 생성 요청
     try {
-      const response = await axios.post(
-        'http://172.30.1.53:8000/memos',
+      const addMemoRes = await axios.post(
+        'https://api.chatminder.app/memos',
         memoData,
         {
           headers: {
             'Content-Type': `application/json`,
             Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNzM2NDA5LCJqdGkiOiIwZTFiODhlYWRhNDA0ZDc0YTU3Zjg3NWE1MzU1YWJmOCIsInVzZXJfaWQiOjEsImtha2FvX2lkIjoiY2hhZXJpIiwia2FrYW9fZW1haWwiOiJjaGFlcmlAbmF2ZXIuY29tIn0.fDISIrPWrcXYnHh5y779swQV8Y0fCChMRqTZOf1LP1U',
+              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
           },
         }
       );
-      console.log(`메모 생성 response: ${JSON.stringify(response.data)}`);
+      console.log(`메모 생성 성공: ${JSON.stringify(addMemoRes.data)}`);
+      //TODO : 응답 Redux store에 저장
+      if (data.image && addMemoRes) {
+        //TODO : 메모 생성 응답으로 온 memo_id 넣기
+        data.image.append(`memo_id`, 2);
+        //이미지 저장 요청
+        try {
+          console.log(data.image);
+          const addImgRes = await axios.post(
+            'https://api.chatminder.app/images',
+            data.image,
+            {
+              headers: {
+                Authorization:
+                  'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
+              },
+            }
+          );
+          console.log(`이미지 저장 성공: ${JSON.stringify(addImgRes.data)}`);
+          //TODO : 응답 url Redux store에 저장
+        } catch (error) {
+          console.log(`이미지 저장 실패 : ${error}`);
+          alert('이미지 저장에 실패했습니다. 다시 시도해 주세요.');
+        }
+      }
     } catch (error) {
-      console.log(`메모 생성 error response : ${error}`);
+      console.log(`메모 생성 실패 :  ${error}`);
+      alert('메모 생성에 실패했습니다. 다시 시도해 주세요.');
     }
   };
 
@@ -87,10 +109,7 @@ const MemoInputForm = () => {
       multiple: true,
     });
     if (res) {
-      const photoURI = res[0].path;
-      console.log(photoURI);
       const formData = new FormData();
-      formData.append(`memo_id`, 1);
       formData.append(`size`, res.length);
       res.forEach((photo, index) => {
         formData.append(`image${index}`, {
@@ -99,27 +118,11 @@ const MemoInputForm = () => {
           name: `image${index}.jpg`,
         });
       });
-
-      console.log(formData);
-      try {
-        const response = await axios.post(
-          'https://api.chatminder.app/images',
-          formData,
-          {
-            headers: {
-              Authorization:
-                'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNTY2NTU4LCJqdGkiOiIyMjBkMWQ1NTEwMjA0NWViOTgwNjFiMjg5NWE0YTc3MSIsInVzZXJfaWQiOjcsImtha2FvX2lkIjoiMTIzNDU2Iiwia2FrYW9fZW1haWwiOiJ0ZXMzM3QyMTIzQG5hdmVyLmNvbSJ9.ibNy_F6JOPootvaK2hTf_oiXiZpmhazNW0k5-NCNoJE',
-            },
-          }
-        );
-        console.log(
-          `image upload success response: ${JSON.stringify(response.data)}`
-        );
-      } catch (error) {
-        console.log(`image upload error response : ${error}`);
-      }
+      console.log('올리려는 이미지: ', formData);
+      return formData;
     }
   };
+
   return (
     <Wrapper>
       {/* Shp Button을 눌렀을 때 펼쳐지는 내용물 */}
@@ -131,30 +134,30 @@ const MemoInputForm = () => {
         >
           <Controller
             control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { onChange } }) => (
               <>
-                {memoObj[0].map((tag) =>
-                  tag.tagName ? (
+                {tagData.map((tag) =>
+                  tag.tag_name ? (
                     <TagBtn
                       margin={true}
-                      key={tag.tagID}
-                      background={tag.tagColor}
-                      selected={selectedTag === tag.tagName}
+                      key={tag.tag}
+                      background={tag.tag_color}
+                      selected={selectedTag === tag.tag}
                       onPress={() => {
                         // 선택된 태그를 다시 누를 시 선택 취소
-                        if (selectedTag === tag.tagName) {
+                        if (selectedTag === tag.tag) {
                           setSelectedTag(0);
                           setSelectedNewTag(0);
                         } else {
-                          setSelectedTag(tag.tagName);
+                          setSelectedTag(tag.tag);
                           setSelectedNewTag(0);
                         }
-                        return selectedTag === tag.tagName
+                        return selectedTag === tag.tag
                           ? onChange('')
-                          : onChange(tag.tagName);
+                          : onChange(tag.tag);
                       }}
                     >
-                      <TagBtnText>{tag.tagName}</TagBtnText>
+                      <TagBtnText>{tag.tag_name}</TagBtnText>
                     </TagBtn>
                   ) : null
                 )}
@@ -200,13 +203,25 @@ const MemoInputForm = () => {
       )}
       {/* 메모 Input 부분 */}
       <InputWrapper>
-        <ImgBtnContainer onPress={onImageUpload}>
-          <ImgBtn source={require('../assets/ImgBtn.png')} />
-        </ImgBtnContainer>
+        {/* 이미지 업로드 input */}
+        <Controller
+          control={control}
+          render={({ field: { onChange } }) => (
+            <ImgBtnContainer
+              onPress={async () => {
+                return onChange(await onImageUpload());
+              }}
+            >
+              <ImgBtn source={require('../assets/ImgBtn.png')} />
+            </ImgBtnContainer>
+          )}
+          name="image"
+        />
         <MemoInputContainer>
           <ShpBtnContainer onPress={() => setIsShpBtnToggled(!isShpBtnToggled)}>
             <ShpBtn source={require('../assets/InputShpBtn.png')} />
           </ShpBtnContainer>
+          {/* 메모 텍스트 input */}
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (

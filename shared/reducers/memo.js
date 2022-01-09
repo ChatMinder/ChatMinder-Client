@@ -2,6 +2,7 @@ import palette from '../palette';
 
 // 액션 타입 정의
 const ADD_MEMO = 'ADD_MEMO';
+const ADD_IMG_IN_MEMO = 'ADD_IMG_IN_MEMO';
 const FIX_MEMO = 'FIX_MEMO';
 const DELETE_MEMO = 'DELETE_MEMO';
 
@@ -15,6 +16,9 @@ export const fixMemo = () => ({
 });
 export const deleteMemo = () => ({
   type: DELETE_MEMO,
+});
+export const addImgInMemo = () => ({
+  type: ADD_IMG_IN_MEMO,
 });
 
 //초기 상태 선언
@@ -123,6 +127,9 @@ const memo = (state = initialState, action) => {
       return [...state];
     }
     case DELETE_MEMO: {
+      return [...state];
+    }
+    case ADD_IMG_IN_MEMO: {
       return [...state];
     }
     default:
