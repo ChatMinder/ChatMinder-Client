@@ -7,7 +7,7 @@ import Root from './navigation/Root';
 //Redux
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reducers from './shared/reducers.js';
+import reducers from './shared/reducers/index';
 
 const store = createStore(reducers);
 
