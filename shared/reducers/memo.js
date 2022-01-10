@@ -8,8 +8,9 @@ const DELETE_MEMO = 'DELETE_MEMO';
 
 //액션 생성함수 만들기
 
-export const addMemo = () => ({
+export const addMemo = (memoObj) => ({
   type: ADD_MEMO,
+  memoObj,
 });
 export const fixMemo = () => ({
   type: FIX_MEMO,
@@ -27,7 +28,7 @@ export const addImgInMemo = () => ({
 //테스트용 더미 데이터
 const initialState = [
   {
-    tag: 1,
+    tag_id: 1,
     tag_name: '과제준비물먹을거',
     tag_color: `${palette.blue}`,
     id: 1,
@@ -38,7 +39,7 @@ const initialState = [
     is_marked: true,
   },
   {
-    tag: 1,
+    tag_id: 1,
     tag_name: '과제준비물먹을거',
     tag_color: `${palette.blue}`,
     id: 2,
@@ -49,7 +50,7 @@ const initialState = [
     is_marked: false,
   },
   {
-    tag: 2,
+    tag_id: 2,
     tag_name: '준비물',
     tag_color: `${palette.lightOrange}`,
     id: 3,
@@ -61,7 +62,7 @@ const initialState = [
     is_marked: true,
   },
   {
-    tag: 3,
+    tag_id: 3,
     tag_name: '먹을거',
     tag_color: `${palette.green}`,
     id: 4,
@@ -72,7 +73,7 @@ const initialState = [
     is_marked: false,
   },
   {
-    tag: 2,
+    tag_id: 2,
     tag_name: '준비물',
     tag_color: `${palette.lightOrange}`,
     id: 5,
@@ -83,7 +84,7 @@ const initialState = [
     is_marked: false,
   },
   {
-    tag: 1,
+    tag_id: 1,
     tag_name: '과제준비물먹을거',
     tag_color: `${palette.blue}`,
     id: 6,
@@ -94,9 +95,9 @@ const initialState = [
     is_marked: false,
   },
   {
-    tag: 4,
-    tag_name: '',
-    tag_color: ``,
+    tag_id: null,
+    tag_name: null,
+    tag_color: null,
     id: 7,
     timestamp: 1640668659,
     memo_text: '빈 카테고리',
@@ -105,9 +106,9 @@ const initialState = [
     is_marked: false,
   },
   {
-    tag: 4,
-    tag_name: '',
-    tag_color: ``,
+    tag_id: null,
+    tag_name: null,
+    tag_color: null,
     id: 8,
     timestamp: 1640668670,
     memo_text: '빈 카테고리 캬캬',
@@ -121,7 +122,8 @@ const initialState = [
 const memo = (state = initialState, action) => {
   switch (action.type) {
     case ADD_MEMO: {
-      return [...state];
+      console.log('메모 store 상태:', [...state, action.memoObj]);
+      return [...state, action.memoObj];
     }
     case FIX_MEMO: {
       return [...state];
