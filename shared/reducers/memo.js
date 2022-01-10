@@ -5,9 +5,9 @@ const ADD_MEMO = 'ADD_MEMO';
 const ADD_IMG_IN_MEMO = 'ADD_IMG_IN_MEMO';
 const FIX_MEMO = 'FIX_MEMO';
 const DELETE_MEMO = 'DELETE_MEMO';
+const BOOKMARK_MEMO = 'BOOKMARK_MEMO';
 
 //액션 생성함수 만들기
-
 export const addMemo = (memoObj) => ({
   type: ADD_MEMO,
   memoObj,
@@ -15,11 +15,16 @@ export const addMemo = (memoObj) => ({
 export const fixMemo = () => ({
   type: FIX_MEMO,
 });
-export const deleteMemo = () => ({
+export const deleteMemo = (memoID) => ({
   type: DELETE_MEMO,
+  memoID,
 });
 export const addImgInMemo = () => ({
   type: ADD_IMG_IN_MEMO,
+});
+export const bookmarkMemo = (memoID) => ({
+  type: BOOKMARK_MEMO,
+  memoID,
 });
 
 //초기 상태 선언
@@ -128,9 +133,15 @@ const memo = (state = initialState, action) => {
       return [...state];
     }
     case DELETE_MEMO: {
+      //action.memoID로 전체 메모 배열에서 해당 메모 객체 삭제
       return [...state];
     }
     case ADD_IMG_IN_MEMO: {
+      //응답으로 오는 배열 전체 메모 배열에서 해당 메모 객체 안에 images라는 변수에 넣기
+      return [...state];
+    }
+    case BOOKMARK_MEMO: {
+      //action.id로 전체 메모 배열에서 해당 메모 객체로 replace(바꾸기)
       return [...state];
     }
     default:

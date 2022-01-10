@@ -1,16 +1,36 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
+import { DeleteMemo, PostBookmark } from '../API';
+import { bookmarkMemo, deleteMemo } from '../reducers/memo';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
 import TextR from './TextR';
 
 const MemoItem = ({ memo }) => {
-  const onBookmarkTouch = () => {
-    //API 통신 들어오면 API.js 파일 안에서 api 통신 로직 처리하기
-    alert('북마크 누름!');
+  const dispatch = useDispatch();
+
+  const onBookmarkTouch = async (memo) => {
+    let data = {
+      memo: memo.id,
+      is_marked: memo.is_marked,
+    };
+    try {
+      const bookmarkRes = await PostBookmark(data);
+      console.log(`북마크 성공: ${JSON.stringify(bookmarkRes.data)}`);
+      dispatch(bookmarkMemo(bookmarkRes.data));
+    } catch (error) {
+      console.log(`북마크 실패: ${error}`);
+    }
   };
 
-  const handleDelete = (memoID) => {
-    alert(`메모ID: ${memoID} -삭제`);
+  const handleDelete = async (memoID) => {
+    try {
+      const delMemoRes = await DeleteMemo(memoID);
+      console.log(`메모 삭제 성공: ${JSON.stringify(delMemoRes.data)}`);
+      dispatch(deleteMemo(memoID));
+    } catch (error) {
+      console.log(`메모 삭제 실패: ${error}`);
+    }
   };
 
   const goToDetail = () => {
@@ -29,7 +49,7 @@ const MemoItem = ({ memo }) => {
               <TagBtnText>{memo.tag_name}</TagBtnText>
             </TagBtn>
           ) : null}
-          <Bookmark onPress={onBookmarkTouch}>
+          <Bookmark onPress={() => onBookmarkTouch(memo)}>
             {memo.is_marked ? (
               <BookmarkImg source={require('../assets/fulledBookmark.png')} />
             ) : (
