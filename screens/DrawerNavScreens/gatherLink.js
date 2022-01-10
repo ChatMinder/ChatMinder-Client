@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Button, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import RNUrlPreview from 'react-native-url-preview';
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
 import TextContainer from '../../shared/components/TextContainer';
 import styled, { css } from 'styled-components/native';
+import palette from '../../shared/palette';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -26,24 +28,36 @@ import {
   BookmarkBox,
 } from '../../shared/styles/HeaderStyle';
 import {
+  TagBox,
   Container,
   TextBox,
   DateItem,
+  BoxContainer,
+  BookmarkItem,
+  BookmarkBox2,
+  TextItem,
 } from '../../shared/styles/TextContainerStyle';
 
 const goBack = require('../../shared/assets/GoBack.png');
 const search = require('../../shared/assets/search.png');
+const empty = require('../../shared/assets/emptyBookmark.png');
+const fulled = require('../../shared/assets/fulledBookmark.png');
 
 const gatherLink = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
   //console.log('memoData: ', memoData);
   const dispatch = useDispatch();
   const [links, setLinks] = useState([]);
-  const [onSearchChange, renderState] = useSearch(memoData);
+  const [onSearchChange, renderState] = useSearch();
   const [choice, setChoice] = useState('all');
 
   useEffect(() => {
     getLinks();
+    //console.log(renderState);
+    // console.log(
+    //   'url',
+    //   <RNUrlPreview text={'https://naver.com, https://naver.com'} />
+    // );
     navigation.setOptions({
       headerStyle: {
         height: 120,
@@ -98,7 +112,48 @@ const gatherLink = ({ navigation }) => {
   return (
     <Container>
       {links.map((memo, index) => (
-        <Text>{memo.url}</Text>
+        <TextBox key={memo.id}>
+          <DateItem>
+            {index === 0 ? (
+              <MemoDate memoTime={memo.timestamp} />
+            ) : (
+              moment.unix(links[index - 1].timestamp).format('YYYY-MM-DD') !==
+                moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                <MemoDate memoTime={memo.timestamp} />
+              )
+            )}
+          </DateItem>
+          <BoxContainer>
+            <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
+            <TextR>
+              <TextSize color={palette.gray2}>{memo.url}</TextSize>
+            </TextR>
+            <TextR>{memo.memo_text}</TextR>
+            <BookmarkBox2>
+              {memo.tag_name ? (
+                <TagBox backgroundColor={memo.tag_color}>
+                  <TextR>
+                    <TextItem>{memo.tag_name}</TextItem>
+                  </TextR>
+                </TagBox>
+              ) : (
+                <View />
+              )}
+
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('북마크');
+                }}
+              >
+                {memo.is_marked ? (
+                  <BookmarkItem source={fulled} />
+                ) : (
+                  <BookmarkItem source={empty} />
+                )}
+              </TouchableOpacity>
+            </BookmarkBox2>
+          </BoxContainer>
+        </TextBox>
       ))}
     </Container>
   );

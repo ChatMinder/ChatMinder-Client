@@ -13,8 +13,9 @@ import TextR from './TextR';
 import {
   TagBox,
   BookmarkItem,
-  BookmarkBox,
+  BookmarkBox2,
   TextItem,
+  BoxContainer,
 } from '../styles/TextContainerStyle';
 
 const empty = require('../assets/emptyBookmark.png');
@@ -53,9 +54,9 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
       }}
       onLongPress={() => handleDelete(memo.is_marked)}
     >
-      <Container>
+      <BoxContainer>
         <TextR>{memo.memo_text}</TextR>
-        <BookmarkBox>
+        <BookmarkBox2>
           {memo.tag_name ? (
             <TagBox backgroundColor={memo.tag_color}>
               <TextR>
@@ -77,19 +78,12 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
               <BookmarkItem source={empty} />
             )}
           </BookmarkButton>
-        </BookmarkBox>
-      </Container>
+        </BookmarkBox2>
+      </BoxContainer>
     </TouchableHighlight>
   );
 };
 
 export default TextContainer;
-
-const Container = styled.View`
-  background-color: white;
-  margin-bottom: 4%;
-  border-radius: 10px;
-  padding: 1.5%;
-`;
 
 const BookmarkButton = styled.TouchableHighlight``;
