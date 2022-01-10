@@ -10,6 +10,8 @@ import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
 import { checkIncludeURL } from '../checkIncludeURL';
 import { Image } from 'react-native';
 import TextR from './TextR';
+import { addTag } from '../reducers/tag';
+import { addMemo } from '../reducers/memo';
 
 const MemoInputForm = () => {
   const inputRef = useRef();
@@ -20,7 +22,7 @@ const MemoInputForm = () => {
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
   const [imgPreview, setImgPreview] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [selectedTag, setSelectedTag] = useState(0);
+  const [selectedTagID, setSelectedTagID] = useState(0);
   const [selectedNewTag, setSelectedNewTag] = useState(0);
   const [newTagColor, setNewTagColor] = useState(randomTagColor());
 
@@ -45,29 +47,37 @@ const MemoInputForm = () => {
     let isNew;
     selectedNewTag ? (isNew = true) : (isNew = false);
 
-    let memoData;
+    let sendingData;
     selectedNewTag
-      ? (memoData = {
-          is_tag_new: true,
+      ? //새 태그를 생성하는 경우
+        (sendingData = {
           tag_name: data.tag,
           tag_color: newTagColor,
           memo_text: memoText,
           url: memoURL,
           timestamp: moment().unix(),
         })
-      : (memoData = {
-          is_tag_new: false,
-          tag: selectedTag,
+      : selectedTagID
+      ? //기존 태그를 사용하는 경우
+        (sendingData = {
+          tag_id: selectedTagID,
+          memo_text: memoText,
+          url: memoURL,
+          timestamp: moment().unix(),
+        })
+      : //태그를 선택하지 않을 경우
+        (sendingData = {
           memo_text: memoText,
           url: memoURL,
           timestamp: moment().unix(),
         });
 
+    console.log('요청 보내는 데이터:', sendingData);
     //메모 생성 요청
     try {
       const addMemoRes = await axios.post(
         'https://api.chatminder.app/memos',
-        memoData,
+        sendingData,
         {
           headers: {
             'Content-Type': `application/json`,
@@ -77,7 +87,14 @@ const MemoInputForm = () => {
         }
       );
       console.log(`메모 생성 성공: ${JSON.stringify(addMemoRes.data)}`);
-      //TODO : 응답 Redux store에 저장
+      //TODO : 메모 생성 응답 Redux store에 저장
+      if (addMemoRes.data.tag) {
+        dispatch(addTag(addMemoRes.data.tag));
+        dispatch(addMemo(addMemoRes.data.memo));
+      } else {
+        dispatch(addMemo(addMemoRes.data));
+      }
+
       if (data.image && addMemoRes) {
         //TODO : 메모 생성 응답으로 온 memo_id 넣기
         data.image.append(`memo_id`, 2);
@@ -149,26 +166,27 @@ const MemoInputForm = () => {
               <TagBtnContainer
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
+                keyboardShouldPersistTaps="always"
               >
                 {tagData.map((tag) =>
                   tag.tag_name ? (
                     <TagBtn
                       margin={true}
-                      key={tag.tag}
+                      key={tag.id}
                       background={tag.tag_color}
-                      selected={selectedTag === tag.tag}
+                      selected={selectedTagID === tag.id}
                       onPress={() => {
                         // 선택된 태그를 다시 누를 시 선택 취소
-                        if (selectedTag === tag.tag) {
-                          setSelectedTag(0);
+                        if (selectedTagID === tag.id) {
+                          setSelectedTagID(0);
                           setSelectedNewTag(0);
                         } else {
-                          setSelectedTag(tag.tag);
+                          setSelectedTagID(tag.id);
                           setSelectedNewTag(0);
                         }
-                        return selectedTag === tag.tag
+                        return selectedTagID === tag.id
                           ? onChange('')
-                          : onChange(tag.tag);
+                          : onChange(tag.id);
                       }}
                     >
                       <TagBtnText>{tag.tag_name}</TagBtnText>
@@ -177,16 +195,17 @@ const MemoInputForm = () => {
                 )}
                 {/* <태그 추가하기 버튼> 렌더링 조건
                 다른 태그 버튼이 선택되지 않았을 때만 렌더링
-                ---> 이 부분이 selectedTag ===0 && 
+                ---> 이 부분이 selectedTagID ===0 && 
                 해당 버튼 자신이 선택된 상태거나, input값이 있다면 렌더링(or의 관계).
                 ---> 이 부분이 (selectedNewTag || inputValue) ? <렌더링> : null
                 */}
-                {selectedTag === 0 && (selectedNewTag || inputValue) ? (
+                {selectedTagID === 0 && (selectedNewTag || inputValue) ? (
                   <TagBtn
                     margin={true}
                     selected={selectedNewTag ? true : false}
                     background={newTagColor}
                     onPress={() => {
+                      setSelectedTagID(0);
                       // 선택된 태그를 다시 누를 시 선택 취소
                       if (selectedNewTag) {
                         setSelectedNewTag(0);

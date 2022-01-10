@@ -17,7 +17,7 @@ const Home = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
   const tagData = useSelector((state) => state.tagData);
 
-  const [onSearchChange, renderState] = useSearch(memoData);
+  const [onSearchChange, renderState] = useSearch();
   const onDeletePress = () => {
     alert('delete');
     //API 메모 삭제 로직 넣기

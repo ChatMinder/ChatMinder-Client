@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-const useSearch = (memoData) => {
+const useSearch = () => {
+  const memoData = useSelector((state) => state.memoData);
+
   const [searchText, setSearchText] = useState('');
   const [memoArr, setMemoArr] = useState(memoData);
   const [renderState, setRenderState] = useState(memoData);
 
-  //검색 시 memoArr를 수정해 주는 useEffect - memoObj에서 index0을 잘라내고 진행
+  //memoData값이 업데이트될 때 renderState도 업데이트되도록 useEffect 구현
+  useEffect(() => {
+    setRenderState(memoData);
+  }, [memoData]);
+
+  //검색 시 memoArr를 수정해 주는 useEffect
   useEffect(() => {
     setMemoArr(
-      memoData.filter(
-        (item) =>
-          item.memo_text.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.tag_name.toLowerCase().includes(searchText.toLowerCase())
+      memoData.filter((item) =>
+        item.memo_text.toLowerCase().includes(searchText.toLowerCase())
       )
     );
   }, [searchText]);
