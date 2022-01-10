@@ -44,7 +44,6 @@ const initialState = [
 const tag = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TAG: {
-      console.log('태그 store 상태:', [...state, action.tagObj]);
       return [...state, action.tagObj];
     }
     case FIX_TAG: {

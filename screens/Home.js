@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Text, View, Image } from 'react-native';
 
 import styled from 'styled-components/native';
@@ -37,6 +37,7 @@ const Home = ({ navigation }) => {
               <SearchInput
                 onChangeText={onSearchChange}
                 placeholder="내용, 태그 검색"
+                autoFocus={true}
               />
               <CancelBtn
                 onPress={() => {
@@ -71,13 +72,19 @@ const Home = ({ navigation }) => {
           ),
         });
   }, [isSearchToggled]);
+  const scrollViewRef = useRef();
   return (
     <Wrapper>
       {/* <Image
         style={{ width: '100%', height: '50%' }}
         source={{ uri: 'http://d5b0lcexvt9vq.cloudfront.net/chatminder.png' }}
       /> */}
-      <MemoContainer>
+      <MemoContainer
+        ref={scrollViewRef}
+        onContentSizeChange={() =>
+          scrollViewRef.current.scrollToEnd({ animated: true })
+        }
+      >
         {renderState.map(
           (memo, index) =>
             memo.timestamp && (

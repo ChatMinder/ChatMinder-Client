@@ -122,7 +122,6 @@ const initialState = [
 const memo = (state = initialState, action) => {
   switch (action.type) {
     case ADD_MEMO: {
-      console.log('메모 store 상태:', [...state, action.memoObj]);
       return [...state, action.memoObj];
     }
     case FIX_MEMO: {

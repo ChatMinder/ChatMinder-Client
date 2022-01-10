@@ -8,7 +8,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
 import { checkIncludeURL } from '../checkIncludeURL';
-import { Image } from 'react-native';
+import { Image, Keyboard } from 'react-native';
 import TextR from './TextR';
 import { addTag } from '../reducers/tag';
 import { addMemo } from '../reducers/memo';
@@ -20,7 +20,7 @@ const MemoInputForm = () => {
   const tagData = useSelector((state) => state.tagData);
 
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
-  const [imgPreview, setImgPreview] = useState([]);
+  const [imgPreview, setImgPreview] = useState();
   const [inputValue, setInputValue] = useState('');
   const [selectedTagID, setSelectedTagID] = useState(0);
   const [selectedNewTag, setSelectedNewTag] = useState(0);
@@ -87,19 +87,24 @@ const MemoInputForm = () => {
         }
       );
       console.log(`메모 생성 성공: ${JSON.stringify(addMemoRes.data)}`);
-      //TODO : 메모 생성 응답 Redux store에 저장
+      //메모 생성 응답 Redux store에 저장
+      let imgMemoID = 0;
       if (addMemoRes.data.tag) {
         dispatch(addTag(addMemoRes.data.tag));
         dispatch(addMemo(addMemoRes.data.memo));
+        imgMemoID = addMemoRes.data.memo.id;
+        console.log('imgMemoID값은 ', imgMemoID);
       } else {
         dispatch(addMemo(addMemoRes.data));
+        imgMemoID = addMemoRes.data.id;
+        console.log('imgMemoID값은 ', imgMemoID);
       }
 
-      if (data.image && addMemoRes) {
-        //TODO : 메모 생성 응답으로 온 memo_id 넣기
-        data.image.append(`memo_id`, 2);
+      if (data.image && imgMemoID) {
+        data.image.append(`memo_id`, imgMemoID);
         //이미지 저장 요청
         try {
+          console.log('전송하는 이미지 formData는 ', data.image);
           const addImgRes = await axios.post(
             'https://api.chatminder.app/images',
             data.image,
@@ -121,6 +126,8 @@ const MemoInputForm = () => {
       console.log(`메모 생성 실패 :  ${error}`);
       alert('메모 생성에 실패했습니다. 다시 시도해 주세요.');
     }
+    Keyboard.dismiss();
+    setIsShpBtnToggled(false);
   };
 
   const onImageUpload = async () => {
