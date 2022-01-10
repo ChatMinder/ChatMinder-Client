@@ -8,6 +8,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
 import { checkIncludeURL } from '../checkIncludeURL';
+import { Image } from 'react-native';
+import TextR from './TextR';
 
 const MemoInputForm = () => {
   const inputRef = useRef();
@@ -16,6 +18,7 @@ const MemoInputForm = () => {
   const tagData = useSelector((state) => state.tagData);
 
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
+  const [imgPreview, setImgPreview] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [selectedTag, setSelectedTag] = useState(0);
   const [selectedNewTag, setSelectedNewTag] = useState(0);
@@ -80,7 +83,6 @@ const MemoInputForm = () => {
         data.image.append(`memo_id`, 2);
         //이미지 저장 요청
         try {
-          console.log(data.image);
           const addImgRes = await axios.post(
             'https://api.chatminder.app/images',
             data.image,
@@ -111,6 +113,7 @@ const MemoInputForm = () => {
     if (res) {
       const formData = new FormData();
       formData.append(`size`, res.length);
+      setImgPreview([res[0].path, res.length]);
       res.forEach((photo, index) => {
         formData.append(`image${index}`, {
           uri: photo.path,
@@ -118,7 +121,6 @@ const MemoInputForm = () => {
           name: `image${index}.jpg`,
         });
       });
-      console.log('올리려는 이미지: ', formData);
       return formData;
     }
   };
@@ -127,15 +129,27 @@ const MemoInputForm = () => {
     <Wrapper>
       {/* Shp Button을 눌렀을 때 펼쳐지는 내용물 */}
       {isShpBtnToggled && (
-        <ShpItemContainer
-          horizontal={true}
-          keyboardShouldPersistTaps="always"
-          showsHorizontalScrollIndicator={false}
-        >
+        <ShpItemContainer keyboardShouldPersistTaps="always">
+          {imgPreview ? (
+            <ImgPreviewContainer>
+              <Image
+                source={{ uri: `${imgPreview[0]}` }}
+                style={{ width: 200, height: 150, borderRadius: 4 }}
+              />
+              {imgPreview[1] > 1 && (
+                <ImgCnt>
+                  <TextR>{imgPreview[1]}</TextR>
+                </ImgCnt>
+              )}
+            </ImgPreviewContainer>
+          ) : null}
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <>
+              <TagBtnContainer
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
                 {tagData.map((tag) =>
                   tag.tag_name ? (
                     <TagBtn
@@ -195,7 +209,7 @@ const MemoInputForm = () => {
                     </TagBtnText>
                   </TagBtn>
                 ) : null}
-              </>
+              </TagBtnContainer>
             )}
             name="tag"
           />
@@ -209,7 +223,9 @@ const MemoInputForm = () => {
           render={({ field: { onChange } }) => (
             <ImgBtnContainer
               onPress={async () => {
-                return onChange(await onImageUpload());
+                const img = await onImageUpload();
+                setIsShpBtnToggled(true);
+                return onChange(img);
               }}
             >
               <ImgBtn source={require('../assets/ImgBtn.png')} />
@@ -251,16 +267,36 @@ const MemoInputForm = () => {
 
 const Wrapper = styled.View`
   width: 100%;
-  background: #e5e5e5;
+  background: #ececef;
 `;
 
-const ShpItemContainer = styled.ScrollView`
-  flex-direction: row;
+const ShpItemContainer = styled.View`
   /* padding-bottom을 0픽셀로 설정할 경우 View가 겹쳐서 얇은 선 1줄 생기는 버그 존재 -> 임시로 0.1픽셀로 설정 */
   padding: 16px 0px 0.1px 0px;
   background: #f6f6f7;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+`;
+
+const ImgPreviewContainer = styled.View`
+  margin-bottom: 20px;
+  justify-content: center;
+  align-self: center;
+  width: 200px;
+`;
+const ImgCnt = styled.View`
+  position: absolute;
+  right: -12px;
+  top: -12px;
+  border-radius: 12px;
+  width: 24px;
+  height: 24px;
+  background: #fff388;
+  justify-content: center;
+  align-items: center;
+`;
+const TagBtnContainer = styled.ScrollView`
+  flex-direction: row;
 `;
 
 const InputWrapper = styled.View`
