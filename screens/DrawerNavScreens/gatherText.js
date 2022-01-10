@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Button } from 'react-native';
 import Search from '../../shared/components/Search';
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
+import axios from 'axios';
 
 import TextContainer from '../../shared/components/TextContainer';
 
@@ -35,13 +36,11 @@ const goBack = require('../../shared/assets/GoBack.png');
 const search = require('../../shared/assets/search.png');
 
 const gatherText = ({ navigation }) => {
-  const memoObj = useSelector((state) => state);
-  console.log('memoObj: ', memoObj);
+  const memoData = useSelector((state) => state.memoData);
+  //console.log('memoData: ', memoData);
   const dispatch = useDispatch();
-  const [onSearchChange, renderState] = useSearch(memoObj);
-  const [memos, setMemos] = useState(
-    memoObj.filter((element, index) => index > 0)
-  );
+  const [onSearchChange, renderState] = useSearch(memoData);
+
   const [choice, setChoice] = useState('all');
 
   useEffect(() => {
@@ -54,7 +53,7 @@ const gatherText = ({ navigation }) => {
       headerTitle: () => (
         <HeaderContainer>
           <TitleBox>
-            <TouchableOpacity onPress={navigation.toggleDrawer}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
               <HeaderIcon source={goBack} />
             </TouchableOpacity>
             <TextB>
@@ -82,19 +81,42 @@ const gatherText = ({ navigation }) => {
     bookmark: <Text>bookmark</Text>,
   };
 
+  const handleTest = async () => {
+    try {
+      const response = await axios.get('http://172.30.1.19:8080/memos/texts/', {
+        headers: {
+          Authorization:
+            'Bearer ' +
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNzkzMTg0LCJqdGkiOiJiZjUyMTFjMzUwZjc0YjEyYWQ2ZjcyOTllNzkzMGJkYSIsInVzZXJfaWQiOjExLCJrYWthb19pZCI6IjEyMzE0MTQiLCJrYWthb19lbWFpbCI6ImNoYXRtaW5kZXJAY2hhdG1pbmRlci5jb20ifQ.R1f4UUchte_krYbQL7soRbcVkIT-UFEbqNPBtiuafr4',
+        },
+      });
+      console.log('response >>', response.data);
+    } catch (error) {
+      console.log('Error >>', error);
+    }
+  };
+
   return (
     <View>
+      {/* <TouchableOpacity onPress={() => handleTest()}>
+        <Text>조회하기</Text>
+      </TouchableOpacity> */}
+
       <Container>
         {renderState.map(
           (memo, index) =>
             memo.timestamp && (
-              <TextBox key={memo.memoID}>
+              <TextBox key={memo.id}>
                 <DateItem>
-                  {moment
-                    .unix(renderState[index - 1].timestamp)
-                    .format('YYYY-MM-DD') !==
-                    moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                  {index === 0 ? (
                     <MemoDate memoTime={memo.timestamp} />
+                  ) : (
+                    moment
+                      .unix(renderState[index - 1].timestamp)
+                      .format('YYYY-MM-DD') !==
+                      moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                      <MemoDate memoTime={memo.timestamp} />
+                    )
                   )}
                 </DateItem>
                 <TextContainer

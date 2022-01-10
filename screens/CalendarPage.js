@@ -22,12 +22,13 @@ const calendarLeft = require('../shared/assets/calendar_left.png');
 const calendarRight = require('../shared/assets/calendar_right.png');
 
 const CalendarPage = ({ navigation }) => {
-  const memoObj = useSelector((state) => state);
+  const memoData = useSelector((state) => state.memoData);
   const [markedDates, setMarkedDates] = useState(null);
   const [dates, setDates] = useState({
-    markedDates: memoObj
-      .map((memo, index) => moment.unix(memo.timestamp).format('YYYY-MM-DD'))
-      .filter((element, index) => index > 0),
+    markedDates: memoData.map((memo, index) =>
+      moment.unix(memo.timestamp).format('YYYY-MM-DD')
+    ),
+    // .filter((element, index) => index > 0)
     marked: null,
   });
   const [pickedDate, setPickedDate] = useState('');
@@ -59,7 +60,7 @@ const CalendarPage = ({ navigation }) => {
   }
 
   const handlePlan = (day) => {
-    const dotDate = memoObj
+    const dotDate = memoData
       .filter((element, index) => index > 0)
       .filter(
         (e) => moment.unix(e.timestamp).format('YYYY-MM-DD') === day.dateString

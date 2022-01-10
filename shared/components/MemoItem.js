@@ -9,20 +9,28 @@ const MemoItem = ({ memo }) => {
     alert('북마크 누름!');
   };
 
+  const handleDelete = (memoID) => {
+    alert(`메모ID: ${memoID} -삭제`);
+  };
+
+  const goToDetail = () => {
+    alert('go to detail');
+  };
+
   return (
-    <Wrapper>
+    <Wrapper onLongPress={() => handleDelete(memo.id)}>
       <MemoWrapper>
         <MemoContainer>
-          <TextR>{memo.memoText}</TextR>
+          <TextR>{memo.memo_text}</TextR>
         </MemoContainer>
         <MemoFooter>
-          {memo.tagName ? (
-            <TagBtn background={memo.tagColor}>
-              <TagBtnText>{memo.tagName}</TagBtnText>
+          {memo.tag_name ? (
+            <TagBtn background={memo.tag_color} onPress={goToDetail}>
+              <TagBtnText>{memo.tag_name}</TagBtnText>
             </TagBtn>
           ) : null}
           <Bookmark onPress={onBookmarkTouch}>
-            {memo.isMarked ? (
+            {memo.is_marked ? (
               <BookmarkImg source={require('../assets/fulledBookmark.png')} />
             ) : (
               <BookmarkImg source={require('../assets/bookmark.png')} />
@@ -34,7 +42,7 @@ const MemoItem = ({ memo }) => {
   );
 };
 
-const Wrapper = styled.View`
+const Wrapper = styled.TouchableOpacity`
   width: 100%;
   justify-content: center;
   align-items: center;

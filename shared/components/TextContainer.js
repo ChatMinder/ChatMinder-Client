@@ -30,18 +30,18 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
       },
       {
         text: '삭제',
-        onPress: () => setMemos(memos.filter((memo) => memo.memoID !== id)),
+        onPress: () => setMemos(memos.filter((memo) => memo.id !== id)),
       },
     ]);
   };
 
   const handlePress = (memo) => {
     navigation.navigate(`${destination}`, {
-      id: memo.memoID,
-      memoText: memo.memoText,
-      tagName: memo.tagName,
-      tagColor: memo.tagColor,
-      isMarked: memo.isMarked,
+      id: memo.id,
+      memo_text: memo.memo_text,
+      tag_name: memo.tag_name,
+      tag_color: memo.tag_color,
+      is_marked: memo.is_marked,
       history: history,
     });
   };
@@ -51,15 +51,15 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
       onPress={() => {
         handlePress(memo);
       }}
-      onLongPress={() => handleDelete(memo.memoID)}
+      onLongPress={() => handleDelete(memo.is_marked)}
     >
       <Container>
-        <TextR>{memo.memoText}</TextR>
+        <TextR>{memo.memo_text}</TextR>
         <BookmarkBox>
-          {memo.tagName ? (
-            <TagBox backgroundColor={memo.tagColor}>
+          {memo.tag_name ? (
+            <TagBox backgroundColor={memo.tag_color}>
               <TextR>
-                <TextItem>{memo.tagName}</TextItem>
+                <TextItem>{memo.tag_name}</TextItem>
               </TextR>
             </TagBox>
           ) : (
@@ -71,7 +71,7 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
               console.log('북마크');
             }}
           >
-            {memo.isMarked ? (
+            {memo.is_marked ? (
               <BookmarkItem source={fulled} />
             ) : (
               <BookmarkItem source={empty} />

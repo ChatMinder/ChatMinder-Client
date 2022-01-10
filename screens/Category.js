@@ -23,8 +23,8 @@ const trashcan = require('../shared/assets/trashcan.png');
 const settings = require('../shared/assets/settings.png');
 
 const Category = ({ navigation }) => {
-  const memoObj = useSelector((state) => state);
-  //console.log('memoObj: ', memoObj);
+  const tagData = useSelector((state) => state.tagData);
+  //console.log('tagData: ', tagData);
 
   const [title, setTitle] = useState('');
 
@@ -65,20 +65,20 @@ const Category = ({ navigation }) => {
           </TextB>
         </ButtonItem>
       </ButtonBox>
-      {memoObj[0].map((tag, index) => (
-        <CategoryItem key={tag.tagID} backgroundColor={tag.tagColor}>
+      {tagData.map((tag, index) => (
+        <CategoryItem key={tag.tag} backgroundColor={tag.tag_color}>
           <TextBox
             onPress={() => {
               navigation.navigate('CategoryDetail', {
-                tagID: tag.tagID,
-                tagName: tag.tagName,
-                tagColor: tag.tagColor,
+                tag: tag.tag,
+                tag_name: tag.tag_name,
+                tag_color: tag.tag_color,
               });
             }}
           >
             <TextB>
               <TextSize fontSize="16" color="white">
-                {tag.tagName ? tag.tagName : '분류 안한 메모'}
+                {tag.tag_name ? tag.tag_name : '분류 안한 메모'}
               </TextSize>
             </TextB>
           </TextBox>
@@ -86,7 +86,7 @@ const Category = ({ navigation }) => {
             <TouchableOpacity
               onPress={() => {
                 toggleModal();
-                setTitle(tag.tagName);
+                setTitle(tag.tag_name);
               }}
             >
               <ImgItem source={settings} />

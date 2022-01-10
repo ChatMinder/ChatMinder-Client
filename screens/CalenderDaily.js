@@ -29,8 +29,8 @@ const goBack = require('../shared/assets/GoBack.png');
 const search = require('../shared/assets/search.png');
 
 const CalenderDaily = ({ route, navigation }) => {
-  const memoObj = useSelector((state) => state);
-  const [onSearchChange, renderState] = useSearch(memoObj);
+  const memoData = useSelector((state) => state.memoData);
+  const [onSearchChange, renderState] = useSearch(memoData);
   const [choice, setChoice] = useState('all');
 
   const [types, setTypes] = useState([
@@ -126,7 +126,7 @@ const CalenderDaily = ({ route, navigation }) => {
                     )
                     .map((plan) => (
                       <TextContainer
-                        key={plan.memoID}
+                        key={plan.id}
                         memo={plan}
                         navigation={navigation}
                         destination="detailText"

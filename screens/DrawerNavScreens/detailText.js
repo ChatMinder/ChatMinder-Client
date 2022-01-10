@@ -42,7 +42,7 @@ const detailText = ({ route, navigation }) => {
         >
           <BookmarkItem source={goBack} />
         </TouchableOpacity>
-        {route.params.isMarked ? (
+        {route.params.is_marked ? (
           <BookmarkItem source={fulled} />
         ) : (
           <BookmarkItem source={empty} />
@@ -50,9 +50,9 @@ const detailText = ({ route, navigation }) => {
       </BookmarkBox>
 
       <TextR>
-        <TagBox backgroundColor={route.params.tagColor}>
+        <TagBox backgroundColor={route.params.tag_color}>
           <TouchableOpacity onPress={() => toggleModal()}>
-            <TextItem>{route.params.tagName}</TextItem>
+            <TextItem>{route.params.tag_name}</TextItem>
           </TouchableOpacity>
           <View>
             <BookmarkItem source={goBackLight} />
@@ -62,7 +62,7 @@ const detailText = ({ route, navigation }) => {
 
       <Margin>
         <TextR>
-          <Text16px>{route.params.memoText}</Text16px>
+          <Text16px>{route.params.memo_text}</Text16px>
         </TextR>
       </Margin>
       <ModalListItem
