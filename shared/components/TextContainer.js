@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import RNUrlPreview from 'react-native-url-preview';
 import {
   Text,
   TouchableHighlight,
@@ -9,6 +11,7 @@ import {
 import styled, { css } from 'styled-components/native';
 import palette from '../palette';
 import TextR from './TextR';
+import { TextSize } from '../styles/FontStyle';
 
 import {
   TagBox,
@@ -55,7 +58,19 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
       onLongPress={() => handleDelete(memo.is_marked)}
     >
       <BoxContainer>
-        <TextR>{memo.memo_text}</TextR>
+        {memo.url ? (
+          <>
+            {/* TODO onLoad 로직 추가 */}
+            <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
+            <TextR>
+              <TextSize color={palette.gray2}>{memo.url}</TextSize>
+            </TextR>
+            <TextR>{memo.memo_text}</TextR>
+          </>
+        ) : (
+          <TextR>{memo.memo_text}</TextR>
+        )}
+        {/* TODO 변수명 수정, bookmark api 로직 */}
         <BookmarkBox2>
           {memo.tag_name ? (
             <TagBox backgroundColor={memo.tag_color}>

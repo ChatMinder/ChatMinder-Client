@@ -98,11 +98,11 @@ const gatherLink = ({ navigation }) => {
           headers: {
             Authorization:
               'Bearer ' +
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NTE3ODkzLCJqdGkiOiI3NDA3OGFmNjRmMGI0MzhiYjI4NGMxMmNkNGNmYmM3MiIsInVzZXJfaWQiOjcsImtha2FvX2lkIjoiMTIzNDU2Iiwia2FrYW9fZW1haWwiOiJ0ZXMzM3QyMTIzQG5hdmVyLmNvbSJ9.MhX2wqeBrcJvrmccInomG3Z-mu1xmgaBMK464IhJ_1s',
+              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
           },
         }
       );
-      console.log('response >>', response.data);
+      //console.log('response >>', response.data);
       setLinks(response.data);
     } catch (error) {
       console.log('Error >>', error);
@@ -123,36 +123,12 @@ const gatherLink = ({ navigation }) => {
               )
             )}
           </DateItem>
-          <BoxContainer>
-            <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
-            <TextR>
-              <TextSize color={palette.gray2}>{memo.url}</TextSize>
-            </TextR>
-            <TextR>{memo.memo_text}</TextR>
-            <BookmarkBox2>
-              {memo.tag_name ? (
-                <TagBox backgroundColor={memo.tag_color}>
-                  <TextR>
-                    <TextItem>{memo.tag_name}</TextItem>
-                  </TextR>
-                </TagBox>
-              ) : (
-                <View />
-              )}
-
-              <TouchableOpacity
-                onPress={() => {
-                  console.log('북마크');
-                }}
-              >
-                {memo.is_marked ? (
-                  <BookmarkItem source={fulled} />
-                ) : (
-                  <BookmarkItem source={empty} />
-                )}
-              </TouchableOpacity>
-            </BookmarkBox2>
-          </BoxContainer>
+          <TextContainer
+            memo={memo}
+            navigation={navigation}
+            destination="detailText"
+            history="태그"
+          />
         </TextBox>
       ))}
     </Container>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, Button, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+import axios from 'axios';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -27,6 +28,7 @@ const Category = ({ navigation }) => {
   //console.log('tagData: ', tagData);
 
   const [title, setTitle] = useState('');
+  const [tags, setTags] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [colors, setColors] = useState([
@@ -46,6 +48,26 @@ const Category = ({ navigation }) => {
     setModalVisible(!isModalVisible);
   };
 
+  const handleTags = async () => {
+    try {
+      const response = await axios.get('https://api.chatminder.app/tags', {
+        headers: {
+          Authorization:
+            'Bearer ' +
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
+        },
+      });
+      console.log('response >>', response.data);
+      setTags(response.data);
+    } catch (error) {
+      console.log('Error >>', error);
+    }
+  };
+
+  useEffect(() => {
+    handleTags();
+  }, []);
+
   return (
     <Wrapper>
       <ButtonBox width="100%">
@@ -61,16 +83,16 @@ const Category = ({ navigation }) => {
           <TextB>
             <TextSize fontSize="14" color="white">
               + 태그추가
-            </TextSize>{' '}
+            </TextSize>
           </TextB>
         </ButtonItem>
       </ButtonBox>
-      {tagData.map((tag, index) => (
-        <CategoryItem key={tag.tag} backgroundColor={tag.tag_color}>
+      {tags.map((tag, index) => (
+        <CategoryItem key={tag.id} backgroundColor={tag.tag_color}>
           <TextBox
             onPress={() => {
               navigation.navigate('CategoryDetail', {
-                tag: tag.tag,
+                id: tag.id,
                 tag_name: tag.tag_name,
                 tag_color: tag.tag_color,
               });

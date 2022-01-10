@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import axios from 'axios';
 
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
@@ -34,7 +35,7 @@ const search = require('../shared/assets/search.png');
 
 const CategoryDetail = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
-  const [onSearchChange, renderState] = useSearch(memoData);
+  const [onSearchChange, renderState] = useSearch();
   const [memos, setMemos] = useState(
     renderState.filter((item) => item.tag_name === route.params.tag_name)
   );
@@ -48,8 +49,29 @@ const CategoryDetail = ({ route, navigation }) => {
   ]);
 
   const [choice, setChoice] = useState('all');
+  const [tagsDetail, setTagsDetail] = useState([]);
+
+  const handleTagDetail = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.chatminder.app/tags/${route.params.id}/memos`,
+        {
+          headers: {
+            Authorization:
+              'Bearer ' +
+              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
+          },
+        }
+      );
+      console.log('response >>', response.data);
+      setTagsDetail(response.data);
+    } catch (error) {
+      console.log('Error >>', error);
+    }
+  };
 
   useEffect(() => {
+    handleTagDetail();
     navigation.setOptions({
       headerStyle: {
         height: 130,
@@ -107,10 +129,10 @@ const CategoryDetail = ({ route, navigation }) => {
         {
           all: (
             <Container>
-              {renderState
-                .filter(
-                  (item, index) => item.tag_name === route.params.tag_name
-                )
+              {tagsDetail
+                // .filter(
+                //   (item, index) => item.tag_name === route.params.tag_name
+                // )
                 .map(
                   (memo, index) =>
                     memo.timestamp && (
@@ -119,16 +141,14 @@ const CategoryDetail = ({ route, navigation }) => {
                           {index === 0 ? (
                             <MemoDate memoTime={memo.timestamp} />
                           ) : (
-                            <>
-                              {moment
-                                .unix(memos[index - 1].timestamp)
-                                .format('YYYY-MM-DD') !==
-                                moment
-                                  .unix(memo.timestamp)
-                                  .format('YYYY-MM-DD') && (
-                                <MemoDate memoTime={memo.timestamp} />
-                              )}
-                            </>
+                            moment
+                              .unix(tagsDetail[index - 1].timestamp)
+                              .format('YYYY-MM-DD') !==
+                              moment
+                                .unix(memo.timestamp)
+                                .format('YYYY-MM-DD') && (
+                              <MemoDate memoTime={memo.timestamp} />
+                            )
                           )}
                         </DateItem>
 
