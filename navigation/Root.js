@@ -18,6 +18,8 @@ const Nav = createNativeStackNavigator();
 const Root = () => {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth);
+  //로그인 기능 동작하려면 아래 useState 기본값 false로 변경해야 함!
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   //이미 토큰이 리덕스에 저장된 경우(직접 카카오로그인)
   useEffect(() => {
@@ -48,7 +50,6 @@ const Root = () => {
       }
     }
   }, [isLoggedIn]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <Nav.Navigator screenOptions={{ presentation: 'modal' }}>
