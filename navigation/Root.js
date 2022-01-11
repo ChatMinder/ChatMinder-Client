@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from './Tabs';
 import Drawers from './Drawers';
@@ -6,12 +6,51 @@ import LogIn from '../screens/LogIn';
 import MyPage from '../screens/MyPage';
 import CalenderDaily from '../screens/CalenderDaily';
 import CategoryDetail from '../screens/CategoryDetail';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoginState } from '../shared/reducers/auth';
+import { GetMemo, GetTags } from '../shared/API';
+import { setMemos } from '../shared/reducers/memo';
+import { setTags } from '../shared/reducers/tag';
 
 const Nav = createNativeStackNavigator();
 
 const Root = () => {
-  //로그인 성공하면 REDUX에 토큰 저장하고 로그인 상태 불러와서 setIsLoggedIn 업데이트!
+  const dispatch = useDispatch();
+  const authData = useSelector((state) => state.auth);
+  //로그인 기능 동작하려면 아래 useState 기본값 false로 변경해야 함!
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  //이미 토큰이 리덕스에 저장된 경우(직접 카카오로그인)
+  useEffect(() => {
+    if (authData.isLoggedIn) {
+      setIsLoggedIn(true);
+    }
+  }, [authData]);
+
+  //직접 로그인하는 경우가 아니라면 AsyncStorage에 토큰이 있다면 로그인
+  useEffect(async () => {
+    const storedToken = await AsyncStorage.getItem('ChatMinderAccessToken');
+    if (storedToken) {
+      dispatch(setLoginState(storedToken));
+      setIsLoggedIn(true);
+    }
+    // await AsyncStorage.removeItem('ChatMinderAccessToken');
+  }, []);
+
+  useEffect(async () => {
+    if (isLoggedIn) {
+      try {
+        const getMemoRes = await GetMemo(authData.accessToken);
+        dispatch(setMemos(getMemoRes.data));
+        const getTagRes = await GetTags(authData.accessToken);
+        dispatch(setTags(getTagRes.data));
+      } catch (error) {
+        console.log(`메모 가져오기 실패: ${error}`);
+      }
+    }
+  }, [isLoggedIn]);
+
   return (
     <Nav.Navigator screenOptions={{ presentation: 'modal' }}>
       {isLoggedIn ? (
