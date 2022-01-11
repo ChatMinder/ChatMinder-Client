@@ -7,7 +7,6 @@ import {
   Alert,
 } from 'react-native';
 import styled from 'styled-components/native';
-import axios from 'axios';
 import { GetTags, DeleteTag } from '../shared/API';
 
 import { useDispatch } from 'react-redux';
@@ -142,7 +141,6 @@ const Category = ({ navigation }) => {
         ))}
       </TagScroll>
       <ModalItem
-        //handleNewTag={handleNewTag}
         isModalVisible={isModalVisible}
         title={title}
         toggleModal={toggleModal}

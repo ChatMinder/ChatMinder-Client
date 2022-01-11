@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button, TouchableOpacity, TextInput } from 'react-native';
 import Modal from 'react-native-modal';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { PostTag, PatchTag } from '../API';
 
 import {
   StyledSafeAreaView,
@@ -25,14 +27,8 @@ import { FontStyle } from '../styles/FontStyle';
 
 const cancel = require('../assets/cancel.png');
 
-const ModalItem = ({
-  //handleNewTag,
-  isModalVisible,
-  title,
-  //colors,
-  toggleModal,
-  setStateValue,
-}) => {
+const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
+  const token = useSelector((state) => state.auth.accessToken);
   const [subTitle, setSubTitle] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
 
@@ -127,20 +123,10 @@ const ModalItem = ({
       tag_color: selectedColor,
     };
     try {
-      const response = await axios.post(
-        'https://api.chatminder.app/tags',
-        formData,
-        {
-          headers: {
-            Authorization:
-              'Bearer ' +
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
-          },
-        }
-      );
-      console.log('response >>', response.data);
+      const postTagRes = await PostTag(token, formData);
+      console.log('postTagRes 성공: ', postTagRes.data);
     } catch (error) {
-      console.log('Error >>', error);
+      console.log('postTagRes 실패: ', error);
     }
   };
 
@@ -150,20 +136,10 @@ const ModalItem = ({
       tag_color: selectedColor,
     };
     try {
-      const response = await axios.patch(
-        `https://api.chatminder.app/tags/${id}`,
-        formData,
-        {
-          headers: {
-            Authorization:
-              'Bearer ' +
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
-          },
-        }
-      );
-      console.log('response >>', response.data);
+      const patchTagRes = await PatchTag(token, formData, id);
+      console.log('patchTag 성공: ', patchTagRes.data);
     } catch (error) {
-      console.log('Error >>', error);
+      console.log('patchTag 실패: ', error);
     }
   };
 
