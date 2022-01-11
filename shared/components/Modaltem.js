@@ -29,11 +29,12 @@ const ModalItem = ({
   //handleNewTag,
   isModalVisible,
   title,
-  colors,
+  //colors,
   toggleModal,
   setStateValue,
 }) => {
   const [subTitle, setSubTitle] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
 
   const SendData = () => {
     setStateValue(subTitle);
@@ -43,10 +44,23 @@ const ModalItem = ({
   //   () => {};
   // }, [subTitle]);
 
+  const [colors, setColors] = useState([
+    { id: 0, colorValue: `${palette.blue}`, colorName: 'blue' },
+    { id: 1, colorValue: `${palette.lightBlue}`, colorName: 'lightBlue' },
+    { id: 2, colorValue: `${palette.lightGreen}`, colorName: 'lightGreen' },
+    { id: 3, colorValue: `${palette.green}`, colorName: 'green' },
+    { id: 4, colorValue: `${palette.blueGreen}`, colorName: 'blueGreen' },
+    { id: 5, colorValue: `${palette.purple}`, colorName: 'purple' },
+    { id: 6, colorValue: `${palette.pink}`, colorName: 'pink' },
+    { id: 7, colorValue: `${palette.orange}`, colorName: 'orange' },
+    { id: 8, colorValue: `${palette.lightOrange}`, colorName: 'lightOrange' },
+    { id: 9, colorValue: `${palette.yellow}`, colorName: 'yellow' },
+  ]);
+
   const handleNewTag = async () => {
     const formData = {
       tag_name: subTitle,
-      tag_color: '#B282CC',
+      tag_color: selectedColor,
     };
     try {
       const response = await axios.post(
@@ -108,7 +122,7 @@ const ModalItem = ({
             {colors.map((color) => (
               <TouchableOpacity
                 key={color.id}
-                onPress={() => console.log(color.colorName)}
+                onPress={() => setSelectedColor(color.colorValue)}
               >
                 <ColorItem backgroundColor={color.colorValue} />
               </TouchableOpacity>

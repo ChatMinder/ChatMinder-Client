@@ -38,18 +38,6 @@ const Category = ({ navigation }) => {
   const [tags, setTags] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [colors, setColors] = useState([
-    { id: 0, colorValue: `${palette.blue}`, colorName: 'blue' },
-    { id: 1, colorValue: `${palette.lightBlue}`, colorName: 'lightBlue' },
-    { id: 2, colorValue: `${palette.lightGreen}`, colorName: 'lightGreen' },
-    { id: 3, colorValue: `${palette.green}`, colorName: 'green' },
-    { id: 4, colorValue: `${palette.blueGreen}`, colorName: 'blueGreen' },
-    { id: 5, colorValue: `${palette.purple}`, colorName: 'purple' },
-    { id: 6, colorValue: `${palette.pink}`, colorName: 'pink' },
-    { id: 7, colorValue: `${palette.orange}`, colorName: 'orange' },
-    { id: 8, colorValue: `${palette.lightOrange}`, colorName: 'lightOrange' },
-    { id: 9, colorValue: `${palette.yellow}`, colorName: 'yellow' },
-  ]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -167,7 +155,7 @@ const Category = ({ navigation }) => {
         //handleNewTag={handleNewTag}
         isModalVisible={isModalVisible}
         title={title}
-        colors={colors}
+        //colors={colors}
         toggleModal={toggleModal}
         setStateValue={setStateValue}
       />
