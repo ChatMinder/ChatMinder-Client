@@ -9,6 +9,9 @@ import CategoryDetail from '../screens/CategoryDetail';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginState } from '../shared/reducers/auth';
+import { GetMemo, GetTags } from '../shared/API';
+import { setMemos } from '../shared/reducers/memo';
+import { setTags } from '../shared/reducers/tag';
 
 const Nav = createNativeStackNavigator();
 
@@ -26,7 +29,6 @@ const Root = () => {
   //직접 로그인하는 경우가 아니라면 AsyncStorage에 토큰이 있다면 로그인
   useEffect(async () => {
     const storedToken = await AsyncStorage.getItem('ChatMinderAccessToken');
-    console.log(storedToken);
     if (storedToken) {
       dispatch(setLoginState(storedToken));
       setIsLoggedIn(true);
@@ -34,6 +36,18 @@ const Root = () => {
     // await AsyncStorage.removeItem('ChatMinderAccessToken');
   }, []);
 
+  useEffect(async () => {
+    if (isLoggedIn) {
+      try {
+        const getMemoRes = await GetMemo();
+        dispatch(setMemos(getMemoRes.data));
+        const getTagRes = await GetTags();
+        dispatch(setTags(getTagRes.data));
+      } catch (error) {
+        console.log(`메모 가져오기 실패: ${error}`);
+      }
+    }
+  }, [isLoggedIn]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
