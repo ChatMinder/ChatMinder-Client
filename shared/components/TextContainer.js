@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import RNUrlPreview from 'react-native-url-preview';
 import {
   Text,
   TouchableHighlight,
@@ -9,12 +11,14 @@ import {
 import styled, { css } from 'styled-components/native';
 import palette from '../palette';
 import TextR from './TextR';
+import { TextSize } from '../styles/FontStyle';
 
 import {
   TagBox,
   BookmarkItem,
-  BookmarkBox,
+  BookmarkBox2,
   TextItem,
+  BoxContainer,
 } from '../styles/TextContainerStyle';
 
 const empty = require('../assets/emptyBookmark.png');
@@ -53,9 +57,21 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
       }}
       onLongPress={() => handleDelete(memo.is_marked)}
     >
-      <Container>
-        <TextR>{memo.memo_text}</TextR>
-        <BookmarkBox>
+      <BoxContainer>
+        {memo.url ? (
+          <>
+            {/* TODO onLoad 로직 추가 */}
+            <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
+            <TextR>
+              <TextSize color={palette.gray2}>{memo.url}</TextSize>
+            </TextR>
+            <TextR>{memo.memo_text}</TextR>
+          </>
+        ) : (
+          <TextR>{memo.memo_text}</TextR>
+        )}
+        {/* TODO 변수명 수정, bookmark api 로직 */}
+        <BookmarkBox2>
           {memo.tag_name ? (
             <TagBox backgroundColor={memo.tag_color}>
               <TextR>
@@ -77,19 +93,12 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
               <BookmarkItem source={empty} />
             )}
           </BookmarkButton>
-        </BookmarkBox>
-      </Container>
+        </BookmarkBox2>
+      </BoxContainer>
     </TouchableHighlight>
   );
 };
 
 export default TextContainer;
-
-const Container = styled.View`
-  background-color: white;
-  margin-bottom: 4%;
-  border-radius: 10px;
-  padding: 1.5%;
-`;
 
 const BookmarkButton = styled.TouchableHighlight``;

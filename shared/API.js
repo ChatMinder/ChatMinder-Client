@@ -66,3 +66,27 @@ export const GetTags = async (token) =>
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+//태그 삭제
+export const DeleteTag = async (token, id) =>
+  await axios.delete(`https://api.chatminder.app/tags/${id}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+//태그 생성
+export const PostTag = async (token, data) =>
+  await axios.post('https://api.chatminder.app/tags', data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+//태그 수정
+export const PatchTag = async (token, data, id) =>
+  await axios.patch(`https://api.chatminder.app/tags/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });

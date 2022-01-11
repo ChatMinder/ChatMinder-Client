@@ -130,7 +130,7 @@ const CalenderDaily = ({ route, navigation }) => {
                         memo={plan}
                         navigation={navigation}
                         destination="detailText"
-                        history="CalenderDaily"
+                        history="캘린더"
                       />
                     ))}
                 </>
