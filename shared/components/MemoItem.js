@@ -11,7 +11,7 @@ const MemoItem = ({ memo }) => {
 
   const onBookmarkTouch = async (memo) => {
     let data = {
-      memo: memo.id,
+      memo_id: memo.id,
       is_marked: memo.is_marked,
     };
     try {

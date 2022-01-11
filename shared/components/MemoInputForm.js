@@ -10,14 +10,14 @@ import { checkIncludeURL } from '../checkIncludeURL';
 import { Image } from 'react-native';
 import TextR from './TextR';
 import { addTag } from '../reducers/tag';
-import { addMemo } from '../reducers/memo';
+import { addImgInMemo, addMemo } from '../reducers/memo';
 import { PostImage, PostMemo } from '../API';
 
 const MemoInputForm = () => {
   const dispatch = useDispatch();
   const memoData = useSelector((state) => state.memoData);
   const tagData = useSelector((state) => state.tagData);
-
+  console.log(JSON.stringify(memoData));
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
   const [imgPreview, setImgPreview] = useState();
   const [inputValue, setInputValue] = useState('');
@@ -95,7 +95,9 @@ const MemoInputForm = () => {
         try {
           const addImgRes = await PostImage(data.image);
           console.log(`이미지 저장 성공: ${JSON.stringify(addImgRes.data)}`);
-          //TODO : 응답 url Redux store에 저장
+          //응답 image 객체 Redux store에 저장
+          //TODO
+          dispatch(addImgInMemo(currentMemoID, addImgRes.data.data));
         } catch (error) {
           console.log(`이미지 저장 실패 : ${error}`);
           alert('이미지 저장에 실패했습니다. 다시 시도해 주세요.');
