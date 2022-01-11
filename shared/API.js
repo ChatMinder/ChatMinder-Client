@@ -90,3 +90,11 @@ export const PatchTag = async (token, data, id) =>
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+//태그별 메모조회
+export const GetTagsDetail = async (token, id) =>
+  await axios.get(`https://api.chatminder.app/tags/${id}/memos`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
