@@ -45,7 +45,8 @@ const ModalItem = ({
     //   title.title ? setSubTitle(title.title) : setSubTitle('');
     // }
     //console.log('title: ', title);
-    console.log('subTitle:', subTitle), () => {};
+    //console.log('subTitle:', subTitle)
+    () => {};
   }, [subTitle, title.title]);
 
   const [colors, setColors] = useState([

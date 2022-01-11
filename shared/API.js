@@ -66,3 +66,11 @@ export const GetTags = async (token) =>
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+//태그 삭제
+export const DeleteTag = async (token, id) =>
+  await axios.delete(`https://api.chatminder.app/tags/${id}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });

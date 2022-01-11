@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import axios from 'axios';
+import { GetTags, DeleteTag } from '../shared/API';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -32,6 +33,7 @@ const settings = require('../shared/assets/settings.png');
 const Category = ({ navigation }) => {
   const tagData = useSelector((state) => state.tagData);
   //console.log('tagData: ', tagData);
+  const token = useSelector((state) => state.auth.accessToken);
 
   const [title, setTitle] = useState({
     id: 0,
@@ -53,35 +55,19 @@ const Category = ({ navigation }) => {
 
   const handleTags = async () => {
     try {
-      const response = await axios.get('https://api.chatminder.app/tags', {
-        headers: {
-          Authorization:
-            'Bearer ' +
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
-        },
-      });
-      //console.log('response >>', response.data);
-      setTags(response.data);
+      const getTagsRes = await GetTags(token);
+      setTags(getTagsRes.data);
     } catch (error) {
-      console.log('Error >>', error);
+      console.log(`getTags 실패: ${error}`);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(
-        `https://api.chatminder.app/tags/${id}`,
-        {
-          headers: {
-            Authorization:
-              'Bearer ' +
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
-          },
-        }
-      );
-      console.log('response >>', response.data);
+      const deleteTagRes = await DeleteTag(token, id);
+      console.log('deleteTag 성공: ', deleteTagRes.data);
     } catch (error) {
-      console.log('Error >>', error);
+      console.log('deleteTag 실패', error);
     }
   };
 
