@@ -1,5 +1,3 @@
-import palette from '../palette';
-
 // 액션 타입 정의
 const SET_TAGS = 'SET_TAGS';
 const ADD_TAG = 'ADD_TAG';

@@ -1,61 +1,42 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Text, View, Button } from 'react-native';
-import {
-  KakaoOAuthToken,
-  KakaoProfile,
-  getProfile as getKakaoProfile,
-  login,
-  logout,
-  unlink,
-  getAccessToken,
-} from '@react-native-seoul/kakao-login';
+import { login } from '@react-native-seoul/kakao-login';
+import { PostLogIn } from '../shared/API';
+import { useDispatch } from 'react-redux';
+import { setLoginState } from '../shared/reducers/auth';
 
-function LogIn() {
-  const [kakaoResponse, setKakaoResponse] =
-    useState('아직 응답 받지 못하였습니다.');
-  const [serverResponse, setServerResponse] =
-    useState('아직 응답 받지 못하였습니다.');
-  const [kakaoAccessToken, setKakaoAccessToken] =
-    useState('아직 응답 받지 못하였습니다.');
-  const [serverAccessToken, setServerAccessToken] =
-    useState('아직 응답 받지 못하였습니다.');
+const LogIn = () => {
+  const dispatch = useDispatch();
 
-  const signInWithKakao = async () => {
+  const [kakaoAccessToken, setKakaoAccessToken] = useState('');
+
+  const loginAtOnce = async () => {
+    //카카오 로그인
     try {
       const token = await login();
-      setKakaoResponse(JSON.stringify(token));
+      console.log(`카카오 로그인 성공: ${JSON.stringify(token)}`);
       setKakaoAccessToken(token.accessToken);
-    } catch (e) {
-      console.log('error' + e);
+    } catch (error) {
+      console.log(`카카오 로그인 실패: ${error}`);
     }
-  };
-
-  const sendAccesToken = () => {
-    const url = 'https://api.chatminder.app/auth/kakao';
-    console.log(kakaoAccessToken);
-    axios
-      .post(url, {
+    //
+    try {
+      let data = {
         kakao_access_token: kakaoAccessToken,
-      })
-      .then((res) => {
-        console.log(res);
-        const resdata = JSON.stringify(res.data);
-        setServerResponse(resdata);
-      })
-      .catch((e) => console.log(e));
+      };
+      const logInRes = await PostLogIn(data);
+      console.log(`챗마인더 로그인 성공: ${JSON.stringify(logInRes.data)}`);
+      dispatch(setLoginState(logInRes.data.data.access));
+    } catch (error) {
+      console.log(`챗마인더 로그인 실패: ${error}`);
+    }
   };
 
   return (
     <View>
-      <Button title="Kakao Login" onPress={signInWithKakao} />
-      <Button title="Send Access Token" onPress={sendAccesToken} />
-      <Text />
-      <Text>Kakao Server response : {kakaoResponse}</Text>
-      <Text />
-      <Text>ChatMinder Server response : {serverResponse}</Text>
+      <Button title="카카오 로그인" onPress={loginAtOnce} />
     </View>
   );
-}
+};
 
 export default LogIn;

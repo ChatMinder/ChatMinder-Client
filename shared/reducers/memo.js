@@ -1,5 +1,3 @@
-import palette from '../palette';
-
 // 액션 타입 정의
 const SET_MEMOS = 'SET_MEMOS';
 const ADD_MEMO = 'ADD_MEMO';
