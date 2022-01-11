@@ -1,13 +1,14 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { DeleteMemo, PostBookmark } from '../API';
-import { bookmarkMemo, deleteMemo } from '../reducers/memo';
+import { bookmarkMemo, delMemo } from '../reducers/memo';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
 import TextR from './TextR';
 
 const MemoItem = ({ memo }) => {
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.accessToken);
 
   const onBookmarkTouch = async (memo) => {
     let data = {
@@ -15,7 +16,7 @@ const MemoItem = ({ memo }) => {
       is_marked: memo.is_marked,
     };
     try {
-      const bookmarkRes = await PostBookmark(data);
+      const bookmarkRes = await PostBookmark(token, data);
       console.log(`북마크 성공: ${JSON.stringify(bookmarkRes.data)}`);
       dispatch(bookmarkMemo(memo.id, bookmarkRes.data));
     } catch (error) {
@@ -25,9 +26,9 @@ const MemoItem = ({ memo }) => {
 
   const handleDelete = async (memoID) => {
     try {
-      const delMemoRes = await DeleteMemo(memoID);
+      const delMemoRes = await DeleteMemo(token, memoID);
       console.log(`메모 삭제 성공: ${JSON.stringify(delMemoRes.data)}`);
-      dispatch(deleteMemo(memoID));
+      dispatch(delMemo(memoID));
     } catch (error) {
       console.log(`메모 삭제 실패: ${error}`);
     }

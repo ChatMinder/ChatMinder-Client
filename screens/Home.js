@@ -19,6 +19,8 @@ import { setTags } from '../shared/reducers/tag';
 const Home = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
   const tagData = useSelector((state) => state.tagData);
+  const token = useSelector((state) => state.auth.accessToken);
+
   const dispatch = useDispatch();
 
   const [onSearchChange, renderState] = useSearch();
@@ -77,9 +79,9 @@ const Home = ({ navigation }) => {
   const onRefresh = async () => {
     setLoading(true);
     try {
-      const getMemoRes = await GetMemo();
+      const getMemoRes = await GetMemo(token);
       dispatch(setMemos(getMemoRes.data));
-      const getTagRes = await GetTags();
+      const getTagRes = await GetTags(token);
       dispatch(setTags(getTagRes.data));
       setLoading(false);
     } catch (error) {

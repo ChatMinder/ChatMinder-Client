@@ -41,9 +41,9 @@ const Root = () => {
   useEffect(async () => {
     if (isLoggedIn) {
       try {
-        const getMemoRes = await GetMemo();
+        const getMemoRes = await GetMemo(authData.accessToken);
         dispatch(setMemos(getMemoRes.data));
-        const getTagRes = await GetTags();
+        const getTagRes = await GetTags(authData.accessToken);
         dispatch(setTags(getTagRes.data));
       } catch (error) {
         console.log(`메모 가져오기 실패: ${error}`);

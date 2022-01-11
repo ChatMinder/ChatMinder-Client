@@ -20,7 +20,7 @@ export const fixMemo = (memoID, fixedMemo) => ({
   memoID,
   fixedMemo,
 });
-export const deleteMemo = (memoID) => ({
+export const delMemo = (memoID) => ({
   type: DELETE_MEMO,
   memoID,
 });

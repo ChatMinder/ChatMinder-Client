@@ -9,7 +9,7 @@ export const PostLogIn = async (data) =>
   await axios.post('https://api.chatminder.app/auth/kakao', data);
 
 //메모 조회
-export const GetMemo = async () =>
+export const GetMemo = async (token) =>
   await axios.get('https://api.chatminder.app/memos', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -17,7 +17,7 @@ export const GetMemo = async () =>
   });
 
 //메모 생성
-export const PostMemo = async (data) =>
+export const PostMemo = async (token, data) =>
   await axios.post('https://api.chatminder.app/memos', data, {
     headers: {
       'Content-Type': `application/json`,
@@ -26,7 +26,7 @@ export const PostMemo = async (data) =>
   });
 
 //이미지 저장
-export const PostImage = async (image) =>
+export const PostImage = async (token, image) =>
   await axios.post('https://api.chatminder.app/images', image, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -34,7 +34,7 @@ export const PostImage = async (image) =>
   });
 
 //메모 삭제
-export const DeleteMemo = async (ID) =>
+export const DeleteMemo = async (token, ID) =>
   await axios.delete(`https://api.chatminder.app/memos/${ID}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -42,7 +42,7 @@ export const DeleteMemo = async (ID) =>
   });
 
 //메모 수정
-export const FixMemo = async (ID, data) =>
+export const PatchMemo = async (token, ID, data) =>
   await axios.patch(`https://api.chatminder.app/memos/${ID}`, data, {
     headers: {
       'Content-Type': `application/json`,
@@ -51,7 +51,7 @@ export const FixMemo = async (ID, data) =>
   });
 
 //북마크
-export const PostBookmark = async (data) =>
+export const PostBookmark = async (token, data) =>
   await axios.post(`https://api.chatminder.app/memos/bookmark`, data, {
     headers: {
       'Content-Type': `application/json`,
@@ -60,7 +60,7 @@ export const PostBookmark = async (data) =>
   });
 
 //태그 조회
-export const GetTags = async () =>
+export const GetTags = async (token) =>
   await axios.get('https://api.chatminder.app/tags', {
     headers: {
       Authorization: `Bearer ${accessToken}`,

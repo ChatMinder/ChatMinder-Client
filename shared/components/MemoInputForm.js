@@ -17,6 +17,8 @@ const MemoInputForm = () => {
   const dispatch = useDispatch();
   const memoData = useSelector((state) => state.memoData);
   const tagData = useSelector((state) => state.tagData);
+  const token = useSelector((state) => state.auth.accessToken);
+
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
   const [imgPreview, setImgPreview] = useState();
   const [inputValue, setInputValue] = useState('');
@@ -75,7 +77,7 @@ const MemoInputForm = () => {
     console.log('요청 보내는 데이터:', sendingData);
     //메모 생성 요청
     try {
-      const addMemoRes = await PostMemo(sendingData);
+      const addMemoRes = await PostMemo(token, sendingData);
       console.log(`메모 생성 성공: ${JSON.stringify(addMemoRes.data)}`);
       //메모 생성 응답 Redux store에 저장
       let currentMemoID = 0;
@@ -92,7 +94,7 @@ const MemoInputForm = () => {
         data.image.append(`memo_id`, currentMemoID);
         //이미지 저장 요청
         try {
-          const addImgRes = await PostImage(data.image);
+          const addImgRes = await PostImage(token, data.image);
           console.log(`이미지 저장 성공: ${JSON.stringify(addImgRes.data)}`);
           //응답 image 객체 Redux store에 저장
           //TODO
