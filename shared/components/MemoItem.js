@@ -17,7 +17,7 @@ const MemoItem = ({ memo }) => {
     try {
       const bookmarkRes = await PostBookmark(data);
       console.log(`북마크 성공: ${JSON.stringify(bookmarkRes.data)}`);
-      dispatch(bookmarkMemo(bookmarkRes.data));
+      dispatch(bookmarkMemo(memo.id, bookmarkRes.data));
     } catch (error) {
       console.log(`북마크 실패: ${error}`);
     }
