@@ -1,138 +1,79 @@
-import palette from '../palette';
-
 // 액션 타입 정의
+const SET_MEMOS = 'SET_MEMOS';
 const ADD_MEMO = 'ADD_MEMO';
 const ADD_IMG_IN_MEMO = 'ADD_IMG_IN_MEMO';
 const FIX_MEMO = 'FIX_MEMO';
 const DELETE_MEMO = 'DELETE_MEMO';
+const BOOKMARK_MEMO = 'BOOKMARK_MEMO';
 
 //액션 생성함수 만들기
-
-export const addMemo = (memoObj) => ({
+export const setMemos = (memoArr) => ({
+  type: SET_MEMOS,
+  memoArr,
+});
+export const addMemo = (newMemo) => ({
   type: ADD_MEMO,
-  memoObj,
+  newMemo,
 });
-export const fixMemo = () => ({
+export const fixMemo = (memoID, fixedMemo) => ({
   type: FIX_MEMO,
+  memoID,
+  fixedMemo,
 });
-export const deleteMemo = () => ({
+export const deleteMemo = (memoID) => ({
   type: DELETE_MEMO,
+  memoID,
 });
-export const addImgInMemo = () => ({
+export const addImgInMemo = (images) => ({
   type: ADD_IMG_IN_MEMO,
+  images,
+});
+export const bookmarkMemo = (memoID, fixedMemo) => ({
+  type: BOOKMARK_MEMO,
+  memoID,
+  fixedMemo,
 });
 
 //초기 상태 선언
 // const initialState = []
 
 //테스트용 더미 데이터
-const initialState = [
-  {
-    tag_id: 1,
-    tag_name: '과제준비물먹을거',
-    tag_color: `${palette.blue}`,
-    id: 1,
-    timestamp: 1638668525,
-    memo_text: '프론트엔드 과제',
-    images: '',
-    url: '',
-    is_marked: true,
-  },
-  {
-    tag_id: 1,
-    tag_name: '과제준비물먹을거',
-    tag_color: `${palette.blue}`,
-    id: 2,
-    timestamp: 1638668925,
-    memo_text: '교양 과제',
-    images: '',
-    url: '',
-    is_marked: false,
-  },
-  {
-    tag_id: 2,
-    tag_name: '준비물',
-    tag_color: `${palette.lightOrange}`,
-    id: 3,
-    timestamp: 1638668926,
-    memo_text:
-      '물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 물로켓 ',
-    images: '',
-    url: '',
-    is_marked: true,
-  },
-  {
-    tag_id: 3,
-    tag_name: '먹을거',
-    tag_color: `${palette.green}`,
-    id: 4,
-    timestamp: 1640668525,
-    memo_text: 'abc',
-    images: '',
-    url: '',
-    is_marked: false,
-  },
-  {
-    tag_id: 2,
-    tag_name: '준비물',
-    tag_color: `${palette.lightOrange}`,
-    id: 5,
-    timestamp: 1640668601,
-    memo_text: '고무동력기',
-    images: '',
-    url: '',
-    is_marked: false,
-  },
-  {
-    tag_id: 1,
-    tag_name: '과제준비물먹을거',
-    tag_color: `${palette.blue}`,
-    id: 6,
-    timestamp: 1640668658,
-    memo_text: '자료구조 과제',
-    images: '',
-    url: 'naver.com',
-    is_marked: false,
-  },
-  {
-    tag_id: null,
-    tag_name: null,
-    tag_color: null,
-    id: 7,
-    timestamp: 1640668659,
-    memo_text: '빈 카테고리',
-    images: '',
-    url: '',
-    is_marked: false,
-  },
-  {
-    tag_id: null,
-    tag_name: null,
-    tag_color: null,
-    id: 8,
-    timestamp: 1640668670,
-    memo_text: '빈 카테고리 캬캬',
-    images: '',
-    url: '',
-    is_marked: false,
-  },
-];
+const initialState = [];
 
 //리듀서 선언
 const memo = (state = initialState, action) => {
   switch (action.type) {
+    case SET_MEMOS: {
+      return action.memoArr;
+    }
     case ADD_MEMO: {
-      console.log('메모 store 상태:', [...state, action.memoObj]);
-      return [...state, action.memoObj];
+      return [...state, action.newMemo];
     }
     case FIX_MEMO: {
-      return [...state];
+      //memoID로 state에서 메모 객체를 찾아서 응답 받은 메모 객체로 replace
+      const newState = state.map((memo) =>
+        memo.id === action.memoID ? action.fixedMemo : memo
+      );
+      return newState;
     }
     case DELETE_MEMO: {
-      return [...state];
+      //action.memoID로 전체 메모 배열에서 해당 메모 객체 삭제
+      const newState = state.filter((memo) => memo.id !== action.memoID);
+      return newState;
     }
     case ADD_IMG_IN_MEMO: {
-      return [...state];
+      //응답으로 오는 배열 전체 메모 배열에서 해당 메모 객체 안에 images라는 변수에 넣기
+      const newState = state.map((memo, index) =>
+        index === state.length - 1 ? { ...memo, images: action.images } : memo
+      );
+      return newState;
+    }
+    case BOOKMARK_MEMO: {
+      //memoID로 state에서 메모 객체를 찾아서 응답 받은 메모 객체로 replace
+      const newState = state.map((memo) =>
+        memo.id === action.memoID ? action.fixedMemo : memo
+      );
+      return newState;
     }
     default:
       return state;

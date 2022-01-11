@@ -1,61 +1,42 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Text, View, Button } from 'react-native';
-import {
-  KakaoOAuthToken,
-  KakaoProfile,
-  getProfile as getKakaoProfile,
-  login,
-  logout,
-  unlink,
-  getAccessToken,
-} from '@react-native-seoul/kakao-login';
+import { login } from '@react-native-seoul/kakao-login';
+import { PostLogIn } from '../shared/API';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { setLoginState } from '../shared/reducers/auth';
 
-function LogIn() {
-  const [kakaoResponse, setKakaoResponse] =
-    useState('아직 응답 받지 못하였습니다.');
-  const [serverResponse, setServerResponse] =
-    useState('아직 응답 받지 못하였습니다.');
-  const [kakaoAccessToken, setKakaoAccessToken] =
-    useState('아직 응답 받지 못하였습니다.');
-  const [serverAccessToken, setServerAccessToken] =
-    useState('아직 응답 받지 못하였습니다.');
+const LogIn = () => {
+  const dispatch = useDispatch();
 
-  const signInWithKakao = async () => {
+  const loginAtOnce = async () => {
     try {
-      const token = await login();
-      setKakaoResponse(JSON.stringify(token));
-      setKakaoAccessToken(token.accessToken);
-    } catch (e) {
-      console.log('error' + e);
+      //카카오 로그인
+      const kakaoRes = await login();
+      console.log(`카카오 로그인 성공: ${JSON.stringify(kakaoRes)}`);
+      //챗마인더 로그인
+      const Sendingdata = {
+        kakao_access_token: kakaoRes.accessToken,
+      };
+      const logInRes = await PostLogIn(Sendingdata);
+      const ChatMinderAccessToken = logInRes.data.data.access;
+      console.log(`챗마인더 로그인 성공: ${JSON.stringify(logInRes.data)}`);
+      //Async Storage에 로그인 상태 저장
+      await AsyncStorage.setItem(
+        'ChatMinderAccessToken',
+        ChatMinderAccessToken
+      );
+      dispatch(setLoginState(ChatMinderAccessToken));
+    } catch (error) {
+      console.log(error);
     }
-  };
-
-  const sendAccesToken = () => {
-    const url = 'https://api.chatminder.app/auth/kakao';
-    console.log(kakaoAccessToken);
-    axios
-      .post(url, {
-        kakao_access_token: kakaoAccessToken,
-      })
-      .then((res) => {
-        console.log(res);
-        const resdata = JSON.stringify(res.data);
-        setServerResponse(resdata);
-      })
-      .catch((e) => console.log(e));
   };
 
   return (
     <View>
-      <Button title="Kakao Login" onPress={signInWithKakao} />
-      <Button title="Send Access Token" onPress={sendAccesToken} />
-      <Text />
-      <Text>Kakao Server response : {kakaoResponse}</Text>
-      <Text />
-      <Text>ChatMinder Server response : {serverResponse}</Text>
+      <Button title="카카오 로그인" onPress={loginAtOnce} />
     </View>
   );
-}
+};
 
 export default LogIn;

@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import axios from 'axios';
 import styled from 'styled-components/native';
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -11,16 +10,15 @@ import { checkIncludeURL } from '../checkIncludeURL';
 import { Image } from 'react-native';
 import TextR from './TextR';
 import { addTag } from '../reducers/tag';
-import { addMemo } from '../reducers/memo';
+import { addImgInMemo, addMemo } from '../reducers/memo';
+import { PostImage, PostMemo } from '../API';
 
 const MemoInputForm = () => {
-  const inputRef = useRef();
   const dispatch = useDispatch();
   const memoData = useSelector((state) => state.memoData);
   const tagData = useSelector((state) => state.tagData);
-
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
-  const [imgPreview, setImgPreview] = useState([]);
+  const [imgPreview, setImgPreview] = useState();
   const [inputValue, setInputValue] = useState('');
   const [selectedTagID, setSelectedTagID] = useState(0);
   const [selectedNewTag, setSelectedNewTag] = useState(0);
@@ -29,6 +27,8 @@ const MemoInputForm = () => {
   const {
     control,
     handleSubmit,
+    reset,
+    resetField,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -75,43 +75,28 @@ const MemoInputForm = () => {
     console.log('요청 보내는 데이터:', sendingData);
     //메모 생성 요청
     try {
-      const addMemoRes = await axios.post(
-        'https://api.chatminder.app/memos',
-        sendingData,
-        {
-          headers: {
-            'Content-Type': `application/json`,
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
-          },
-        }
-      );
+      const addMemoRes = await PostMemo(sendingData);
       console.log(`메모 생성 성공: ${JSON.stringify(addMemoRes.data)}`);
-      //TODO : 메모 생성 응답 Redux store에 저장
+      //메모 생성 응답 Redux store에 저장
+      let currentMemoID = 0;
       if (addMemoRes.data.tag) {
         dispatch(addTag(addMemoRes.data.tag));
         dispatch(addMemo(addMemoRes.data.memo));
+        currentMemoID = addMemoRes.data.memo.id;
       } else {
         dispatch(addMemo(addMemoRes.data));
+        currentMemoID = addMemoRes.data.id;
       }
 
-      if (data.image && addMemoRes) {
-        //TODO : 메모 생성 응답으로 온 memo_id 넣기
-        data.image.append(`memo_id`, 2);
+      if (data.image && currentMemoID) {
+        data.image.append(`memo_id`, currentMemoID);
         //이미지 저장 요청
         try {
-          const addImgRes = await axios.post(
-            'https://api.chatminder.app/images',
-            data.image,
-            {
-              headers: {
-                Authorization:
-                  'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
-              },
-            }
-          );
+          const addImgRes = await PostImage(data.image);
           console.log(`이미지 저장 성공: ${JSON.stringify(addImgRes.data)}`);
-          //TODO : 응답 url Redux store에 저장
+          //응답 image 객체 Redux store에 저장
+          //TODO
+          dispatch(addImgInMemo(addImgRes.data.data));
         } catch (error) {
           console.log(`이미지 저장 실패 : ${error}`);
           alert('이미지 저장에 실패했습니다. 다시 시도해 주세요.');
@@ -121,6 +106,10 @@ const MemoInputForm = () => {
       console.log(`메모 생성 실패 :  ${error}`);
       alert('메모 생성에 실패했습니다. 다시 시도해 주세요.');
     }
+    setImgPreview();
+    setSelectedNewTag(0);
+    setInputValue('');
+    reset();
   };
 
   const onImageUpload = async () => {
@@ -213,9 +202,8 @@ const MemoInputForm = () => {
                       } else {
                         setNewTagColor(newTagColor);
                         setSelectedNewTag(inputValue);
-                        //태그 추가하기 버튼 다시 눌러서 취소할 경우, Input창은 비워지나 inputValue는 초기화되지 않는 버그 있음
                         setInputValue('');
-                        inputRef.current.setNativeProps({ text: '' });
+                        resetField('memo');
                       }
                       return selectedNewTag
                         ? onChange('')
@@ -263,7 +251,6 @@ const MemoInputForm = () => {
               <InputMemo
                 multiline={true}
                 onBlur={onBlur}
-                ref={inputRef}
                 onChangeText={(value) => {
                   setInputValue(value);
                   return onChange(value);
