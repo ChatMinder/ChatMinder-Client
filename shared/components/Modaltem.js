@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, TouchableOpacity, TextInput } from 'react-native';
 import Modal from 'react-native-modal';
+import { useForm, Controller } from 'react-hook-form';
 
 import {
   StyledSafeAreaView,
@@ -24,7 +25,24 @@ import { FontStyle } from '../styles/FontStyle';
 
 const cancel = require('../assets/cancel.png');
 
-const ModalItem = ({ isModalVisible, title, colors, toggleModal }) => {
+const ModalItem = ({
+  handleNewTag,
+  isModalVisible,
+  title,
+  colors,
+  toggleModal,
+  setStateValue,
+}) => {
+  const [subTitle, setSubTitle] = useState('');
+
+  const SendData = () => {
+    setStateValue(subTitle);
+  };
+
+  useEffect(() => {
+    // console.log('title', title, 'sub', subTitle);
+  }, []);
+
   return (
     <StyledSafeAreaView>
       <Modal
@@ -33,7 +51,11 @@ const ModalItem = ({ isModalVisible, title, colors, toggleModal }) => {
       >
         <StyledModalContainer2>
           <ClosedBox>
-            <TouchableOpacity onPress={toggleModal}>
+            <TouchableOpacity
+              onPress={() => {
+                toggleModal();
+              }}
+            >
               <ImgItem source={cancel} />
             </TouchableOpacity>
           </ClosedBox>
@@ -42,12 +64,16 @@ const ModalItem = ({ isModalVisible, title, colors, toggleModal }) => {
               <TextSize color={palette.gray2}>제목</TextSize>
             </TextR>
           </TitleBox>
+
           <TitleBox marginBottom="30">
             <TextInput
               placeholder="태그를 입력해주세요"
-              onChangeText={(text) => setTitle(text)}
-              value={title}
+              type="text"
+              onChangeText={(text) => {
+                setSubTitle(text);
+              }}
             />
+
             <InputBox />
           </TitleBox>
           <TitleBox>
@@ -66,7 +92,12 @@ const ModalItem = ({ isModalVisible, title, colors, toggleModal }) => {
             ))}
           </ColorBox>
 
-          <CloseButton onPress={toggleModal}>
+          <CloseButton
+            onPress={() => {
+              SendData();
+              toggleModal();
+            }}
+          >
             <TextB>
               <TextSize fontSize="18" color={palette.white}>
                 완료

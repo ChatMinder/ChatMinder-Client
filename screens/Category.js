@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, Button, TouchableOpacity } from 'react-native';
+import { Text, Button, TouchableOpacity, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import axios from 'axios';
 
@@ -28,6 +28,7 @@ const Category = ({ navigation }) => {
   //console.log('tagData: ', tagData);
 
   const [title, setTitle] = useState('');
+  const [stateValue, setStateValue] = useState('');
   const [tags, setTags] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -48,6 +49,10 @@ const Category = ({ navigation }) => {
     setModalVisible(!isModalVisible);
   };
 
+  useEffect(() => {
+    handleTags();
+  }, []);
+
   const handleTags = async () => {
     try {
       const response = await axios.get('https://api.chatminder.app/tags', {
@@ -57,16 +62,35 @@ const Category = ({ navigation }) => {
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
         },
       });
-      console.log('response >>', response.data);
+      //console.log('response >>', response.data);
       setTags(response.data);
     } catch (error) {
       console.log('Error >>', error);
     }
   };
 
-  useEffect(() => {
-    handleTags();
-  }, []);
+  const handleNewTag = async () => {
+    const formData = {
+      tag_name: title,
+      tag_color: '#B282CC',
+    };
+    try {
+      const response = await axios.post(
+        'https://api.chatminder.app/tags',
+        formData,
+        {
+          headers: {
+            Authorization:
+              'Bearer ' +
+              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
+          },
+        }
+      );
+      //console.log('response >>', response.data);
+    } catch (error) {
+      console.log('Error >>', error);
+    }
+  };
 
   return (
     <Wrapper>
@@ -87,43 +111,48 @@ const Category = ({ navigation }) => {
           </TextB>
         </ButtonItem>
       </ButtonBox>
-      {tags.map((tag, index) => (
-        <CategoryItem key={tag.id} backgroundColor={tag.tag_color}>
-          <TextBox
-            onPress={() => {
-              navigation.navigate('CategoryDetail', {
-                id: tag.id,
-                tag_name: tag.tag_name,
-                tag_color: tag.tag_color,
-              });
-            }}
-          >
-            <TextB>
-              <TextSize fontSize="16" color="white">
-                {tag.tag_name ? tag.tag_name : '분류 안한 메모'}
-              </TextSize>
-            </TextB>
-          </TextBox>
-          <ImgBox>
-            <TouchableOpacity
+      <TagScroll>
+        {tags.map((tag, index) => (
+          <CategoryItem key={tag.id} backgroundColor={tag.tag_color}>
+            <TextBox
               onPress={() => {
-                toggleModal();
-                setTitle(tag.tag_name);
+                navigation.navigate('CategoryDetail', {
+                  id: tag.id,
+                  tag_name: tag.tag_name,
+                  tag_color: tag.tag_color,
+                });
               }}
             >
-              <ImgItem source={settings} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <ImgItem source={trashcan} />
-            </TouchableOpacity>
-          </ImgBox>
-        </CategoryItem>
-      ))}
+              <TextB>
+                <TextSize fontSize="16" color="white">
+                  {tag.tag_name ? tag.tag_name : '분류 안한 메모'}
+                </TextSize>
+              </TextB>
+            </TextBox>
+            <ImgBox>
+              <TouchableOpacity
+                onPress={() => {
+                  toggleModal();
+                  setTitle(tag.tag_name);
+                }}
+              >
+                <ImgItem source={settings} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <ImgItem source={trashcan} />
+              </TouchableOpacity>
+            </ImgBox>
+          </CategoryItem>
+        ))}
+        <Text>{stateValue}</Text>
+      </TagScroll>
       <ModalItem
+        handleNewTag={handleNewTag}
         isModalVisible={isModalVisible}
         title={title}
         colors={colors}
         toggleModal={toggleModal}
+        setStateValue={setStateValue}
       />
     </Wrapper>
   );
@@ -137,4 +166,8 @@ const ButtonItem = styled.TouchableOpacity`
   background-color: ${palette.main};
   border-radius: 5px;
   padding: 3px 7px;
+`;
+
+const TagScroll = styled.ScrollView`
+  height: 90%;
 `;
