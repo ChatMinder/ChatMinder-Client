@@ -129,38 +129,34 @@ const CategoryDetail = ({ route, navigation }) => {
         {
           all: (
             <Container>
-              {tagsDetail
-                // .filter(
-                //   (item, index) => item.tag_name === route.params.tag_name
-                // )
-                .map(
-                  (memo, index) =>
-                    memo.timestamp && (
-                      <TextBox key={memo.id}>
-                        <DateItem>
-                          {index === 0 ? (
-                            <MemoDate memoTime={memo.timestamp} />
-                          ) : (
+              {tagsDetail.map(
+                (memo, index) =>
+                  memo.timestamp && (
+                    <TextBox key={memo.id}>
+                      <DateItem>
+                        {index === 0 ? (
+                          <MemoDate memoTime={memo.timestamp} />
+                        ) : (
+                          moment
+                            .unix(tagsDetail[index - 1].timestamp)
+                            .format('YYYY-MM-DD') !==
                             moment
-                              .unix(tagsDetail[index - 1].timestamp)
-                              .format('YYYY-MM-DD') !==
-                              moment
-                                .unix(memo.timestamp)
-                                .format('YYYY-MM-DD') && (
-                              <MemoDate memoTime={memo.timestamp} />
-                            )
-                          )}
-                        </DateItem>
+                              .unix(memo.timestamp)
+                              .format('YYYY-MM-DD') && (
+                            <MemoDate memoTime={memo.timestamp} />
+                          )
+                        )}
+                      </DateItem>
 
-                        <TextContainer
-                          memo={memo}
-                          navigation={navigation}
-                          destination="detailText"
-                          history="태그"
-                        />
-                      </TextBox>
-                    )
-                )}
+                      <TextContainer
+                        memo={memo}
+                        navigation={navigation}
+                        destination="detailText"
+                        history="태그"
+                      />
+                    </TextBox>
+                  )
+              )}
             </Container>
           ),
           image: <Text>image</Text>,
