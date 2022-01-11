@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, Image } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Text, View, Image, RefreshControl } from 'react-native';
 
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
 import Search from '../shared/components/Search';
@@ -12,16 +12,16 @@ import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextR from '../shared/components/TextR';
+import { GetMemo, GetTags } from '../shared/API';
+import { setMemos } from '../shared/reducers/memo';
+import { setTags } from '../shared/reducers/tag';
 
 const Home = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
   const tagData = useSelector((state) => state.tagData);
+  const dispatch = useDispatch();
 
   const [onSearchChange, renderState] = useSearch();
-  const onDeletePress = () => {
-    alert('delete');
-    //API 메모 삭제 로직 넣기
-  };
 
   const [isSearchToggled, setIsSearchToggled] = useState(false);
 
@@ -73,6 +73,19 @@ const Home = ({ navigation }) => {
         });
   }, [isSearchToggled]);
   const scrollViewRef = useRef();
+  const [loading, setLoading] = useState(false);
+  const onRefresh = async () => {
+    setLoading(true);
+    try {
+      const getMemoRes = await GetMemo();
+      dispatch(setMemos(getMemoRes.data));
+      const getTagRes = await GetTags();
+      dispatch(setTags(getTagRes.data));
+      setLoading(false);
+    } catch (error) {
+      console.log(`새로고침 메모 가져오기 실패: ${error}`);
+    }
+  };
   return (
     <Wrapper>
       {/* <Image
@@ -83,6 +96,9 @@ const Home = ({ navigation }) => {
         ref={scrollViewRef}
         onContentSizeChange={() =>
           scrollViewRef.current.scrollToEnd({ animated: true })
+        }
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={onRefresh} />
         }
       >
         {renderState.map(

@@ -16,7 +16,6 @@ import { PostImage, PostMemo } from '../API';
 const MemoInputForm = () => {
   const dispatch = useDispatch();
   const memoData = useSelector((state) => state.memoData);
-  console.log(memoData);
   const tagData = useSelector((state) => state.tagData);
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
   const [imgPreview, setImgPreview] = useState();
