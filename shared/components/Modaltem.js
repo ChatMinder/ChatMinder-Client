@@ -41,11 +41,11 @@ const ModalItem = ({
   };
 
   useEffect(() => {
-    {
-      title.title ? setSubTitle(title.title) : setSubTitle('');
-    }
+    // {
+    //   title.title ? setSubTitle(title.title) : setSubTitle('');
+    // }
     //console.log('title: ', title);
-    //console.log('subTitle:', subTitle), () => {};
+    console.log('subTitle:', subTitle), () => {};
   }, [subTitle, title.title]);
 
   const [colors, setColors] = useState([
@@ -143,6 +143,29 @@ const ModalItem = ({
     }
   };
 
+  const handleEdit = async (id) => {
+    const formData = {
+      tag_name: subTitle,
+      tag_color: selectedColor,
+    };
+    try {
+      const response = await axios.patch(
+        `https://api.chatminder.app/tags/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization:
+              'Bearer ' +
+              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
+          },
+        }
+      );
+      console.log('response >>', response.data);
+    } catch (error) {
+      console.log('Error >>', error);
+    }
+  };
+
   return (
     <StyledSafeAreaView>
       <Modal
@@ -172,7 +195,7 @@ const ModalItem = ({
               onChangeText={(text) => {
                 setSubTitle(text);
               }}
-              value={subTitle}
+              //value={subTitle}
             />
 
             <InputBox />
@@ -189,6 +212,7 @@ const ModalItem = ({
                 onPress={() => {
                   //handleColor(color.id);
                   setSelectedColor(color.colorValue);
+                  console.log(color.colorName);
                 }}
               >
                 <ColorItem backgroundColor={color.colorValue} />
@@ -201,6 +225,9 @@ const ModalItem = ({
               SendData();
               //handleNewTag();
               toggleModal();
+              {
+                title.id ? handleEdit(title.id) : handleNewTag();
+              }
             }}
           >
             <TextB>

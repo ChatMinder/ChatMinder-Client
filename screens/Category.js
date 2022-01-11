@@ -48,6 +48,7 @@ const Category = ({ navigation }) => {
 
   useEffect(() => {
     handleTags();
+    //console.log(title);
   }, [tags]);
 
   const handleTags = async () => {
@@ -70,29 +71,6 @@ const Category = ({ navigation }) => {
     try {
       const response = await axios.delete(
         `https://api.chatminder.app/tags/${id}`,
-        {
-          headers: {
-            Authorization:
-              'Bearer ' +
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
-          },
-        }
-      );
-      console.log('response >>', response.data);
-    } catch (error) {
-      console.log('Error >>', error);
-    }
-  };
-
-  const handleEdit = async (id) => {
-    const formData = {
-      tag_name: stateValue,
-      tag_color: selectedColor,
-    };
-    try {
-      const response = await axios.patch(
-        `https://api.chatminder.app/tags/${id}`,
-        formData,
         {
           headers: {
             Authorization:
@@ -148,7 +126,7 @@ const Category = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => {
                   toggleModal();
-                  setTitle({ title: tag.tag_name });
+                  setTitle({ id: tag.id, title: tag.tag_name });
                 }}
               >
                 <ImgItem source={settings} />
@@ -181,7 +159,6 @@ const Category = ({ navigation }) => {
         //handleNewTag={handleNewTag}
         isModalVisible={isModalVisible}
         title={title}
-        //colors={colors}
         toggleModal={toggleModal}
         setStateValue={setStateValue}
       />
