@@ -5,11 +5,14 @@ import { PostLogIn } from '../shared/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { setLoginState } from '../shared/reducers/auth';
+import Loader from '../shared/components/Loader';
 
 const LogIn = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const loginAtOnce = async () => {
+    setLoading(true);
     try {
       //카카오 로그인
       const kakaoRes = await login();
@@ -30,12 +33,19 @@ const LogIn = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   return (
-    <View>
-      <Button title="카카오 로그인" onPress={loginAtOnce} />
-    </View>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <View>
+          <Button title="카카오 로그인" onPress={loginAtOnce} />
+        </View>
+      )}
+    </>
   );
 };
 
