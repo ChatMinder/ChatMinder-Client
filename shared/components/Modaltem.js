@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, TouchableOpacity, TextInput } from 'react-native';
 import Modal from 'react-native-modal';
-import { useForm, Controller } from 'react-hook-form';
+import axios from 'axios';
 
 import {
   StyledSafeAreaView,
@@ -26,7 +26,7 @@ import { FontStyle } from '../styles/FontStyle';
 const cancel = require('../assets/cancel.png');
 
 const ModalItem = ({
-  handleNewTag,
+  //handleNewTag,
   isModalVisible,
   title,
   colors,
@@ -39,9 +39,32 @@ const ModalItem = ({
     setStateValue(subTitle);
   };
 
-  useEffect(() => {
-    // console.log('title', title, 'sub', subTitle);
-  }, []);
+  // useEffect(() => {
+  //   () => {};
+  // }, [subTitle]);
+
+  const handleNewTag = async () => {
+    const formData = {
+      tag_name: subTitle,
+      tag_color: '#B282CC',
+    };
+    try {
+      const response = await axios.post(
+        'https://api.chatminder.app/tags',
+        formData,
+        {
+          headers: {
+            Authorization:
+              'Bearer ' +
+              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
+          },
+        }
+      );
+      console.log('response >>', response.data);
+    } catch (error) {
+      console.log('Error >>', error);
+    }
+  };
 
   return (
     <StyledSafeAreaView>
@@ -95,6 +118,7 @@ const ModalItem = ({
           <CloseButton
             onPress={() => {
               SendData();
+              handleNewTag();
               toggleModal();
             }}
           >

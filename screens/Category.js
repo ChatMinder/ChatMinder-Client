@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Text, Button, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  Text,
+  Button,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import styled from 'styled-components/native';
 import axios from 'axios';
 
@@ -51,7 +57,7 @@ const Category = ({ navigation }) => {
 
   useEffect(() => {
     handleTags();
-  }, []);
+  }, [tags, isModalVisible]);
 
   const handleTags = async () => {
     try {
@@ -69,15 +75,10 @@ const Category = ({ navigation }) => {
     }
   };
 
-  const handleNewTag = async () => {
-    const formData = {
-      tag_name: title,
-      tag_color: '#B282CC',
-    };
+  const handleDelete = async (id) => {
     try {
-      const response = await axios.post(
-        'https://api.chatminder.app/tags',
-        formData,
+      const response = await axios.delete(
+        `https://api.chatminder.app/tags/${id}`,
         {
           headers: {
             Authorization:
@@ -86,7 +87,7 @@ const Category = ({ navigation }) => {
           },
         }
       );
-      //console.log('response >>', response.data);
+      console.log('response >>', response.data);
     } catch (error) {
       console.log('Error >>', error);
     }
@@ -138,16 +139,32 @@ const Category = ({ navigation }) => {
               >
                 <ImgItem source={settings} />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
+                    {
+                      text: '취소',
+                      onPress: () => alert('취소되었습니다.'),
+                      style: 'cancel',
+                    },
+                    {
+                      text: '삭제',
+                      onPress: () => {
+                        handleDelete(tag.id);
+                        alert('삭제되었습니다.');
+                      },
+                    },
+                  ]);
+                }}
+              >
                 <ImgItem source={trashcan} />
               </TouchableOpacity>
             </ImgBox>
           </CategoryItem>
         ))}
-        <Text>{stateValue}</Text>
       </TagScroll>
       <ModalItem
-        handleNewTag={handleNewTag}
+        //handleNewTag={handleNewTag}
         isModalVisible={isModalVisible}
         title={title}
         colors={colors}
