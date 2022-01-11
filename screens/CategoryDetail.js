@@ -63,7 +63,7 @@ const CategoryDetail = ({ route, navigation }) => {
           },
         }
       );
-      console.log('response >>', response.data);
+      //console.log('response >>', response.data);
       setTagsDetail(response.data);
     } catch (error) {
       console.log('Error >>', error);

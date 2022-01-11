@@ -40,22 +40,85 @@ const ModalItem = ({
     setStateValue(subTitle);
   };
 
-  // useEffect(() => {
-  //   () => {};
-  // }, [subTitle]);
+  useEffect(() => {
+    {
+      title.title ? setSubTitle(title.title) : setSubTitle('');
+    }
+    //console.log('title: ', title);
+    //console.log('subTitle:', subTitle), () => {};
+  }, [subTitle, title.title]);
 
   const [colors, setColors] = useState([
-    { id: 0, colorValue: `${palette.blue}`, colorName: 'blue' },
-    { id: 1, colorValue: `${palette.lightBlue}`, colorName: 'lightBlue' },
-    { id: 2, colorValue: `${palette.lightGreen}`, colorName: 'lightGreen' },
-    { id: 3, colorValue: `${palette.green}`, colorName: 'green' },
-    { id: 4, colorValue: `${palette.blueGreen}`, colorName: 'blueGreen' },
-    { id: 5, colorValue: `${palette.purple}`, colorName: 'purple' },
-    { id: 6, colorValue: `${palette.pink}`, colorName: 'pink' },
-    { id: 7, colorValue: `${palette.orange}`, colorName: 'orange' },
-    { id: 8, colorValue: `${palette.lightOrange}`, colorName: 'lightOrange' },
-    { id: 9, colorValue: `${palette.yellow}`, colorName: 'yellow' },
+    {
+      id: 0,
+      colorValue: `${palette.blue}`,
+      colorName: 'blue',
+      isSelected: false,
+    },
+    {
+      id: 1,
+      colorValue: `${palette.lightBlue}`,
+      colorName: 'lightBlue',
+      isSelected: false,
+    },
+    {
+      id: 2,
+      colorValue: `${palette.lightGreen}`,
+      colorName: 'lightGreen',
+      isSelected: false,
+    },
+    {
+      id: 3,
+      colorValue: `${palette.green}`,
+      colorName: 'green',
+      isSelected: false,
+    },
+    {
+      id: 4,
+      colorValue: `${palette.blueGreen}`,
+      colorName: 'blueGreen',
+      isSelected: false,
+    },
+    {
+      id: 5,
+      colorValue: `${palette.purple}`,
+      colorName: 'purple',
+      isSelected: false,
+    },
+    {
+      id: 6,
+      colorValue: `${palette.pink}`,
+      colorName: 'pink',
+      isSelected: false,
+    },
+    {
+      id: 7,
+      colorValue: `${palette.orange}`,
+      colorName: 'orange',
+      isSelected: false,
+    },
+    {
+      id: 8,
+      colorValue: `${palette.lightOrange}`,
+      colorName: 'lightOrange',
+      isSelected: false,
+    },
+    {
+      id: 9,
+      colorValue: `${palette.yellow}`,
+      colorName: 'yellow',
+      isSelected: false,
+    },
   ]);
+
+  // const handleColor = (idx) => {
+  //   setColors(
+  //     colors.map((color) =>
+  //       color.id === idx ? { ...color, isSelected: !color.isSelected } : color
+  //     )
+  //   );
+  //   console.log(colors);
+  // };
 
   const handleNewTag = async () => {
     const formData = {
@@ -109,6 +172,7 @@ const ModalItem = ({
               onChangeText={(text) => {
                 setSubTitle(text);
               }}
+              value={subTitle}
             />
 
             <InputBox />
@@ -122,7 +186,10 @@ const ModalItem = ({
             {colors.map((color) => (
               <TouchableOpacity
                 key={color.id}
-                onPress={() => setSelectedColor(color.colorValue)}
+                onPress={() => {
+                  //handleColor(color.id);
+                  setSelectedColor(color.colorValue);
+                }}
               >
                 <ColorItem backgroundColor={color.colorValue} />
               </TouchableOpacity>
@@ -132,7 +199,7 @@ const ModalItem = ({
           <CloseButton
             onPress={() => {
               SendData();
-              handleNewTag();
+              //handleNewTag();
               toggleModal();
             }}
           >

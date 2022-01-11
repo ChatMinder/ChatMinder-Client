@@ -33,7 +33,10 @@ const Category = ({ navigation }) => {
   const tagData = useSelector((state) => state.tagData);
   //console.log('tagData: ', tagData);
 
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState({
+    id: 0,
+    title: '',
+  });
   const [stateValue, setStateValue] = useState('');
   const [tags, setTags] = useState([]);
 
@@ -45,7 +48,7 @@ const Category = ({ navigation }) => {
 
   useEffect(() => {
     handleTags();
-  }, [tags, isModalVisible]);
+  }, [tags]);
 
   const handleTags = async () => {
     try {
@@ -81,6 +84,29 @@ const Category = ({ navigation }) => {
     }
   };
 
+  const handleEdit = async (id) => {
+    const formData = {
+      tag_name: stateValue,
+      tag_color: selectedColor,
+    };
+    try {
+      const response = await axios.patch(
+        `https://api.chatminder.app/tags/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization:
+              'Bearer ' +
+              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
+          },
+        }
+      );
+      console.log('response >>', response.data);
+    } catch (error) {
+      console.log('Error >>', error);
+    }
+  };
+
   return (
     <Wrapper>
       <ButtonBox width="100%">
@@ -89,7 +115,7 @@ const Category = ({ navigation }) => {
         </TextB>
         <ButtonItem
           onPress={() => {
-            setTitle('');
+            setTitle({ title: '' });
             toggleModal();
           }}
         >
@@ -122,7 +148,7 @@ const Category = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => {
                   toggleModal();
-                  setTitle(tag.tag_name);
+                  setTitle({ title: tag.tag_name });
                 }}
               >
                 <ImgItem source={settings} />
