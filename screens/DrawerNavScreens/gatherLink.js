@@ -96,17 +96,7 @@ const gatherLink = ({ navigation }) => {
 
   const getLinks = async () => {
     try {
-      const getLinksRes = await axios.get(
-        'https://api.chatminder.app/memos/links',
-        {
-          headers: {
-            Authorization:
-              'Bearer ' +
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
-          },
-        }
-      );
-      //const getLinksRes = await GetLinks(token);
+      const getLinksRes = await GetLinks(token);
       console.log('getLinks 성공: ', getLinksRes.data);
       setLinks(getLinksRes.data);
       setRefreshing(false);

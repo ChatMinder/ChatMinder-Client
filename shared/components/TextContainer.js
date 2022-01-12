@@ -12,7 +12,7 @@ import styled, { css } from 'styled-components/native';
 import palette from '../palette';
 import TextR from './TextR';
 import { TextSize } from '../styles/FontStyle';
-import { DeleteMemo } from '../API';
+import { DeleteMemo, PostBookmark } from '../API';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -39,6 +39,19 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
       console.log('deleteMemoRes 성공: ', deleteMemoRes.data);
     } catch (error) {
       console.log('deleteMemoRes 실패', error);
+    }
+  };
+
+  const handleBookmark = async (memo) => {
+    const formData = {
+      memo_id: memo.id,
+      is_marked: memo.is_marked,
+    };
+    try {
+      const postBookmarkRes = await PostBookmark(token, formData);
+      console.log('postBookmarkRes 성공: ', postBookmarkRes.data);
+    } catch (error) {
+      console.log(`postBookmarkRes 실패: ${error}`);
     }
   };
 
@@ -103,7 +116,7 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
 
           <BookmarkButton
             onPress={() => {
-              console.log('북마크');
+              handleBookmark(memo);
             }}
           >
             {memo.is_marked ? (
