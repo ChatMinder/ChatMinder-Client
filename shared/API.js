@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const accessToken = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM`;
 
+const token2 = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NjY1NDU3LCJqdGkiOiI2NmRjZDQ5ZWEzMjc0NjI4YTBjMzI1MWZlMzg1MmNlYiIsInVzZXJfaWQiOjE4LCJrYWthb19pZCI6IjIwNTgyODM0NjYiLCJrYWthb19lbWFpbCI6ImFuZHlhYWE3OEBnbWFpbC5jb20ifQ.ClcvAg-F7TT1ABh47n5K20p51QgrUSnVLny6qx9qoTY`;
+
 //회원가입 및 로그인
 export const PostLogIn = async (data) =>
   await axios.post('https://api.chatminder.app/auth/kakao', data);

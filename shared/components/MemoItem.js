@@ -1,10 +1,12 @@
 import React from 'react';
+import { Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { DeleteMemo, PostBookmark } from '../API';
 import { bookmarkMemo, delMemo } from '../reducers/memo';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
 import TextR from './TextR';
+import ChatBubblePoint from '../assets/ChatBubblePoint.svg';
 
 const MemoItem = ({ memo }) => {
   const dispatch = useDispatch();
@@ -123,8 +125,28 @@ const MemoItem = ({ memo }) => {
   };
 
   return (
-    <Wrapper onLongPress={() => handleDelete(memo.id)}>
+    <Wrapper
+      onLongPress={() => {
+        Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
+          {
+            text: '취소',
+            onPress: () => alert('취소되었습니다.'),
+            style: 'cancel',
+          },
+          {
+            text: '삭제',
+            onPress: () => {
+              alert('삭제되었습니다.');
+              handleDelete(memo.id);
+            },
+          },
+        ]);
+      }}
+    >
       <MemoWrapper>
+        <PointContainer>
+          <ChatBubblePoint />
+        </PointContainer>
         <MemoContainer>
           <Images imgCnt={memo.images.length} />
           <TextR>{memo.memo_text}</TextR>
@@ -162,6 +184,11 @@ const MemoWrapper = styled.View`
   margin: 12px;
   border-radius: 8px;
   background: #fcfcfc;
+`;
+const PointContainer = styled.View`
+  position: absolute;
+  top: 2px;
+  right: -6px;
 `;
 
 const MemoContainer = styled.View`
