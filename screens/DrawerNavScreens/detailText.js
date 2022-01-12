@@ -43,11 +43,10 @@ const detailText = ({ route, navigation }) => {
     setEditable(!editable);
   };
 
-  // const handleChange = (e) => {
-  //   setInputText();
-  // };
-
-  const handleEditMemo = async () => {
+  const handleEditMemo = async (id) => {
+    const formData = {
+      memo_text: inputText,
+    };
     try {
       const patchMemoRes = await PatchMemo(token, id, formData);
       console.log('patchMemoRes 성공: ', patchMemoRes.data);
@@ -99,17 +98,30 @@ const detailText = ({ route, navigation }) => {
       <Margin>
         <TextR>
           {editable ? (
-            <TextInput placeholder="메모 입력해주세요" />
+            <View>
+              <TextInput
+                placeholder={route.params.memo_text}
+                type="text"
+                onChangeText={(text) => {
+                  setInputText(text);
+                  //console.log(inputText);
+                }}
+                value={inputText}
+              />
+            </View>
           ) : (
-            //<TouchableOpacity >
             <TextSize fontSize="16" onPress={() => onEdit()}>
               {route.params.memo_text}
             </TextSize>
-            //</TouchableOpacity>
           )}
         </TextR>
       </Margin>
-      <SaveButton onPress={() => onEdit()}>
+      <SaveButton
+        onPress={() => {
+          onEdit();
+          handleEditMemo(route.params.id);
+        }}
+      >
         <TextR>
           <TextSize color="white" fontSize="18">
             저장하기
@@ -145,4 +157,5 @@ const SaveButton = styled.TouchableOpacity`
   justify-content: center;
   border-radius: 8px;
   height: 48px;
+  margin-top: 50px;
 `;
