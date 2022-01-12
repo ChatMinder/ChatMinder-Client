@@ -30,8 +30,9 @@ export const TagBox = styled.View`
 `;
 
 export const BookmarkItem = styled.Image`
-  width: 15px;
-  height: 15px;
+  width: ${(props) => props.width || '15'}px;
+  height: ${(props) => props.height || '15'}px;
+  margin-right: ${(props) => props.marginRight || '0'}px;
 `;
 
 export const BookmarkBox2 = styled.View`

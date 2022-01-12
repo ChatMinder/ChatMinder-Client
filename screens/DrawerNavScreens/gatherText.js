@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, Button } from 'react-native';
+import styled from 'styled-components/native';
 import Search from '../../shared/components/Search';
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
 import axios from 'axios';
+import { GetTexts } from '../../shared/API';
 
 import TextContainer from '../../shared/components/TextContainer';
 
@@ -38,12 +40,25 @@ const search = require('../../shared/assets/search.png');
 const gatherText = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
   //console.log('memoData: ', memoData);
+  const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
-  const [onSearchChange, renderState] = useSearch(memoData);
+  const [onSearchChange, renderState] = useSearch();
+  const [texts, setTexts] = useState([]);
 
   const [choice, setChoice] = useState('all');
 
+  const handleTexts = async () => {
+    try {
+      const getTextRes = await GetTexts(token);
+      setTexts(getTextRes.data);
+      console.log('getTextRes 성공: ', getTextRes.data);
+    } catch (error) {
+      console.log(`getTextRes 실패: ${error}`);
+    }
+  };
+
   useEffect(() => {
+    handleTexts();
     navigation.setOptions({
       headerStyle: {
         height: 120,
@@ -74,63 +89,46 @@ const gatherText = ({ navigation }) => {
         </HeaderContainer>
       ),
     });
-  });
+  }, []);
 
   const handleTab = {
     all: <Text>all</Text>,
     bookmark: <Text>bookmark</Text>,
   };
 
-  const handleTest = async () => {
-    try {
-      const response = await axios.get('http://172.30.1.19:8080/memos/texts/', {
-        headers: {
-          Authorization:
-            'Bearer ' +
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQxNzkzMTg0LCJqdGkiOiJiZjUyMTFjMzUwZjc0YjEyYWQ2ZjcyOTllNzkzMGJkYSIsInVzZXJfaWQiOjExLCJrYWthb19pZCI6IjEyMzE0MTQiLCJrYWthb19lbWFpbCI6ImNoYXRtaW5kZXJAY2hhdG1pbmRlci5jb20ifQ.R1f4UUchte_krYbQL7soRbcVkIT-UFEbqNPBtiuafr4',
-        },
-      });
-      console.log('response >>', response.data);
-    } catch (error) {
-      console.log('Error >>', error);
-    }
-  };
-
   return (
-    <View>
-      {/* <TouchableOpacity onPress={() => handleTest()}>
-        <Text>조회하기</Text>
-      </TouchableOpacity> */}
-
+    <Scroll>
       <Container>
-        {renderState.map(
-          (memo, index) =>
-            memo.timestamp && (
-              <TextBox key={memo.id}>
-                <DateItem>
-                  {index === 0 ? (
-                    <MemoDate memoTime={memo.timestamp} />
-                  ) : (
-                    moment
-                      .unix(renderState[index - 1].timestamp)
-                      .format('YYYY-MM-DD') !==
-                      moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
-                      <MemoDate memoTime={memo.timestamp} />
-                    )
-                  )}
-                </DateItem>
-                <TextContainer
-                  memo={memo}
-                  navigation={navigation}
-                  destination="detailText"
-                  history="gatherText"
-                />
-              </TextBox>
-            )
-        )}
+        {texts.map((memo, index) => (
+          <TextBox key={memo.id}>
+            <DateItem>
+              {index === 0 ? (
+                <MemoDate memoTime={memo.timestamp} />
+              ) : (
+                moment
+                  .unix(renderState[index - 1].timestamp)
+                  .format('YYYY-MM-DD') !==
+                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                  <MemoDate memoTime={memo.timestamp} />
+                )
+              )}
+            </DateItem>
+            <TextContainer
+              key={memo.id}
+              memo={memo}
+              navigation={navigation}
+              destination="detailText"
+              history="gatherText"
+            />
+          </TextBox>
+        ))}
       </Container>
-    </View>
+    </Scroll>
   );
 };
 
 export default gatherText;
+
+const Scroll = styled.ScrollView`
+  height: 90%;
+`;

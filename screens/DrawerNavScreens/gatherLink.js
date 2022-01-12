@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Button, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import { GetLinks } from '../../shared/API';
 import RNUrlPreview from 'react-native-url-preview';
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
@@ -46,6 +47,7 @@ const fulled = require('../../shared/assets/fulledBookmark.png');
 const gatherLink = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
   //console.log('memoData: ', memoData);
+  const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
   const [links, setLinks] = useState([]);
   const [onSearchChange, renderState] = useSearch();
@@ -92,7 +94,7 @@ const gatherLink = ({ navigation }) => {
 
   const getLinks = async () => {
     try {
-      const response = await axios.get(
+      const getLinksRes = await axios.get(
         'https://api.chatminder.app/memos/links',
         {
           headers: {
@@ -102,37 +104,45 @@ const gatherLink = ({ navigation }) => {
           },
         }
       );
-      //console.log('response >>', response.data);
-      setLinks(response.data);
+      //const getLinksRes = await GetLinks(token);
+      console.log('getLinks 성공: ', getLinksRes.data);
+      setLinks(getLinksRes.data);
     } catch (error) {
-      console.log('Error >>', error);
+      console.log('getLinks 실패', error);
     }
   };
 
   return (
-    <Container>
-      {links.map((memo, index) => (
-        <TextBox key={memo.id}>
-          <DateItem>
-            {index === 0 ? (
-              <MemoDate memoTime={memo.timestamp} />
-            ) : (
-              moment.unix(links[index - 1].timestamp).format('YYYY-MM-DD') !==
-                moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+    <Scroll>
+      <Container>
+        {links.map((memo, index) => (
+          <TextBox key={memo.id}>
+            <DateItem>
+              {index === 0 ? (
                 <MemoDate memoTime={memo.timestamp} />
-              )
-            )}
-          </DateItem>
-          <TextContainer
-            memo={memo}
-            navigation={navigation}
-            destination="detailText"
-            history="태그"
-          />
-        </TextBox>
-      ))}
-    </Container>
+              ) : (
+                moment.unix(links[index - 1].timestamp).format('YYYY-MM-DD') !==
+                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                  <MemoDate memoTime={memo.timestamp} />
+                )
+              )}
+            </DateItem>
+            <TextContainer
+              key={memo.id}
+              memo={memo}
+              navigation={navigation}
+              destination="detailText"
+              history="gatherLink"
+            />
+          </TextBox>
+        ))}
+      </Container>
+    </Scroll>
   );
 };
 
 export default gatherLink;
+
+const Scroll = styled.ScrollView`
+  height: 90%;
+`;

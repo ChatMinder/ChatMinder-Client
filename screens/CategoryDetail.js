@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import axios from 'axios';
+import { GetTagsDetail } from '../shared/API';
 
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
@@ -35,6 +36,7 @@ const search = require('../shared/assets/search.png');
 
 const CategoryDetail = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
+  const token = useSelector((state) => state.auth.accessToken);
   const [onSearchChange, renderState] = useSearch();
   const [memos, setMemos] = useState(
     renderState.filter((item) => item.tag_name === route.params.tag_name)
@@ -53,20 +55,11 @@ const CategoryDetail = ({ route, navigation }) => {
 
   const handleTagDetail = async () => {
     try {
-      const response = await axios.get(
-        `https://api.chatminder.app/tags/${route.params.id}/memos`,
-        {
-          headers: {
-            Authorization:
-              'Bearer ' +
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM',
-          },
-        }
-      );
-      //console.log('response >>', response.data);
-      setTagsDetail(response.data);
+      const getTagsDetail = await GetTagsDetail(token, route.params.id);
+      console.log('getTagsDetail 성공: ', getTagsDetail.data);
+      setTagsDetail(getTagsDetail.data);
     } catch (error) {
-      console.log('Error >>', error);
+      console.log('getTagsDetail 실패', error);
     }
   };
 
