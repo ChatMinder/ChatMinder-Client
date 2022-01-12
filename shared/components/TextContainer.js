@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RNUrlPreview from 'react-native-url-preview';
 import {
@@ -30,6 +30,8 @@ const fulled = require('../assets/fulledBookmark.png');
 
 const TextContainer = ({ memo, navigation, destination, history }) => {
   const token = useSelector((state) => state.auth.accessToken);
+
+  //useEffect(() => {}, [memo]);
 
   const handleDelete = async (id) => {
     try {
@@ -69,7 +71,6 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
             onPress: () => {
               alert('삭제되었습니다.');
               handleDelete(memo.id);
-              //setMemos(memos.filter((memo) => memo.id !== id));
             },
           },
         ]);
