@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, TouchableOpacity } from 'react-native';
+import { Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
 import styled from 'styled-components/native';
 import TextR from '../../shared/components/TextR';
 import palette from '../../shared/palette';
@@ -25,7 +25,8 @@ const edit = require('../../shared/assets/Edit.png');
 const detailText = ({ route, navigation }) => {
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
-
+  const [inputText, setInputText] = useState('');
+  const [editable, setEditable] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
@@ -37,6 +38,14 @@ const detailText = ({ route, navigation }) => {
       headerShown: false,
     });
   });
+
+  const onEdit = () => {
+    setEditable(!editable);
+  };
+
+  // const handleChange = (e) => {
+  //   setInputText();
+  // };
 
   const handleEditMemo = async () => {
     try {
@@ -89,9 +98,24 @@ const detailText = ({ route, navigation }) => {
 
       <Margin>
         <TextR>
-          <Text16px>{route.params.memo_text}</Text16px>
+          {editable ? (
+            <TextInput placeholder="메모 입력해주세요" />
+          ) : (
+            //<TouchableOpacity >
+            <TextSize fontSize="16" onPress={() => onEdit()}>
+              {route.params.memo_text}
+            </TextSize>
+            //</TouchableOpacity>
+          )}
         </TextR>
       </Margin>
+      <SaveButton onPress={() => onEdit()}>
+        <TextR>
+          <TextSize color="white" fontSize="18">
+            저장하기
+          </TextSize>
+        </TextR>
+      </SaveButton>
       <ModalListItem
         isModalVisible={isModalVisible}
         toggleModal={toggleModal}
@@ -101,10 +125,6 @@ const detailText = ({ route, navigation }) => {
 };
 
 export default detailText;
-
-const Text16px = styled.Text`
-  font-size: 16px;
-`;
 
 const Wrapper = styled.View`
   margin: 20px 15px;
@@ -117,4 +137,12 @@ const Margin = styled.View`
 const Buttons = styled.View`
   flex-direction: row;
   align-items: center;
+`;
+
+const SaveButton = styled.TouchableOpacity`
+  background-color: ${palette.main};
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  height: 48px;
 `;
