@@ -47,6 +47,16 @@ const gatherText = ({ navigation }) => {
 
   const [choice, setChoice] = useState('all');
 
+  const handleTexts = async () => {
+    try {
+      const getTextRes = await GetTexts(token);
+      setTexts(getTextRes.data);
+      console.log('getTextRes 성공: ', getTextRes.data);
+    } catch (error) {
+      console.log(`getTextRes 실패: ${error}`);
+    }
+  };
+
   useEffect(() => {
     handleTexts();
     navigation.setOptions({
@@ -84,16 +94,6 @@ const gatherText = ({ navigation }) => {
   const handleTab = {
     all: <Text>all</Text>,
     bookmark: <Text>bookmark</Text>,
-  };
-
-  const handleTexts = async () => {
-    try {
-      const getTextRes = await GetTexts(token);
-      setTexts(getTextRes.data);
-      console.log('getTextRes 성공: ', getTextRes.data);
-    } catch (error) {
-      console.log(`getTextRes 실패: ${error}`);
-    }
   };
 
   return (

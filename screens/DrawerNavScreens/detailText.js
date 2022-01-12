@@ -25,7 +25,7 @@ const edit = require('../../shared/assets/Edit.png');
 const detailText = ({ route, navigation }) => {
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState(route.params.memo_text);
   const [editable, setEditable] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -64,7 +64,7 @@ const detailText = ({ route, navigation }) => {
           <BookmarkItem source={goBack} />
         </TouchableOpacity>
         <Buttons>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => onEdit()}>
             <BookmarkItem
               source={edit}
               width="24"
@@ -110,9 +110,7 @@ const detailText = ({ route, navigation }) => {
               />
             </View>
           ) : (
-            <TextSize fontSize="16" onPress={() => onEdit()}>
-              {route.params.memo_text}
-            </TextSize>
+            <TextSize fontSize="16">{inputText}</TextSize>
           )}
         </TextR>
       </Margin>
@@ -129,6 +127,7 @@ const detailText = ({ route, navigation }) => {
         </TextR>
       </SaveButton>
       <ModalListItem
+        key={route.params.id}
         isModalVisible={isModalVisible}
         toggleModal={toggleModal}
       />
