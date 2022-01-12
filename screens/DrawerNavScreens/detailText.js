@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
 import styled from 'styled-components/native';
+import RNUrlPreview from 'react-native-url-preview';
 import TextR from '../../shared/components/TextR';
 import palette from '../../shared/palette';
 import { TextSize } from '../../shared/styles/FontStyle';
@@ -96,6 +97,16 @@ const detailText = ({ route, navigation }) => {
       )}
 
       <Margin>
+        {route.params.url && (
+          <LinkView>
+            <RNUrlPreview
+              text={`${route.params.memo_text}, ${route.params.url}`}
+            />
+            <TextR>
+              <TextSize color={palette.gray2}>{route.params.url}</TextSize>
+            </TextR>
+          </LinkView>
+        )}
         <TextR>
           {editable ? (
             <View>
@@ -157,4 +168,8 @@ const SaveButton = styled.TouchableOpacity`
   border-radius: 8px;
   height: 48px;
   margin-top: 50px;
+`;
+
+const LinkView = styled.View`
+  margin: 5px;
 `;
