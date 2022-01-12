@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, Button } from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Button,
+  RefreshControl,
+} from 'react-native';
 import styled from 'styled-components/native';
 import Search from '../../shared/components/Search';
 import useSearch from '../../shared/hooks/useSearch';
@@ -46,12 +52,14 @@ const gatherText = ({ navigation }) => {
   const [texts, setTexts] = useState([]);
 
   const [choice, setChoice] = useState('all');
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleTexts = async () => {
     try {
       const getTextRes = await GetTexts(token);
       setTexts(getTextRes.data);
       console.log('getTextRes 성공: ', getTextRes.data);
+      setRefreshing(false);
     } catch (error) {
       console.log(`getTextRes 실패: ${error}`);
     }
@@ -91,13 +99,22 @@ const gatherText = ({ navigation }) => {
     });
   }, []);
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    handleTexts();
+  };
+
   const handleTab = {
     all: <Text>all</Text>,
     bookmark: <Text>bookmark</Text>,
   };
 
   return (
-    <Scroll>
+    <Scroll
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <Container>
         {texts.map((memo, index) => (
           <TextBox key={memo.id}>

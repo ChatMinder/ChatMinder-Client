@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Button, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import axios from 'axios';
 import { GetLinks } from '../../shared/API';
 import RNUrlPreview from 'react-native-url-preview';
@@ -52,14 +58,10 @@ const gatherLink = ({ navigation }) => {
   const [links, setLinks] = useState([]);
   const [onSearchChange, renderState] = useSearch();
   const [choice, setChoice] = useState('all');
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getLinks();
-    //console.log(renderState);
-    // console.log(
-    //   'url',
-    //   <RNUrlPreview text={'https://naver.com, https://naver.com'} />
-    // );
     navigation.setOptions({
       headerStyle: {
         height: 120,
@@ -107,13 +109,23 @@ const gatherLink = ({ navigation }) => {
       //const getLinksRes = await GetLinks(token);
       console.log('getLinks 성공: ', getLinksRes.data);
       setLinks(getLinksRes.data);
+      setRefreshing(false);
     } catch (error) {
       console.log('getLinks 실패', error);
     }
   };
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    getLinks();
+  };
+
   return (
-    <Scroll>
+    <Scroll
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <Container>
         {links.map((memo, index) => (
           <TextBox key={memo.id}>
