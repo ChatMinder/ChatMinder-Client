@@ -59,6 +59,22 @@ export const PostBookmark = async (token, data) =>
     },
   });
 
+//링크 모아보기
+export const GetLinks = async (token) =>
+  await axios.get('https://api.chatminder.app/memos/links', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+//텍스트 모아보기
+export const GetTexts = async (token) =>
+  await axios.get('https://api.chatminder.app/memos/texts', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
 //태그 조회
 export const GetTags = async (token) =>
   await axios.get('https://api.chatminder.app/tags', {

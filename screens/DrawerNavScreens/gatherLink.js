@@ -113,29 +113,30 @@ const gatherLink = ({ navigation }) => {
   };
 
   return (
-    <Container>
-      {links.map((memo, index) => (
-        <TextBox key={memo.id}>
-          <DateItem>
-            {index === 0 ? (
-              <MemoDate memoTime={memo.timestamp} />
-            ) : (
-              moment.unix(links[index - 1].timestamp).format('YYYY-MM-DD') !==
-                moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+    <Scroll>
+      <Container>
+        {links.map((memo, index) => (
+          <TextBox key={memo.id}>
+            <DateItem>
+              {index === 0 ? (
                 <MemoDate memoTime={memo.timestamp} />
-              )
-            )}
-          </DateItem>
-          <TextContainer
-            memo={memo}
-            navigation={navigation}
-            destination="detailText"
-            history="태그"
-          />
-        </TextBox>
-      ))}
-    </Container>
+              ) : (
+                moment.unix(links[index - 1].timestamp).format('YYYY-MM-DD') !==
+                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                  <MemoDate memoTime={memo.timestamp} />
+                )
+              )}
+            </DateItem>
+            <TextContainer memo={memo} navigation={navigation} history="태그" />
+          </TextBox>
+        ))}
+      </Container>
+    </Scroll>
   );
 };
 
 export default gatherLink;
+
+const Scroll = styled.ScrollView`
+  height: 90%;
+`;
