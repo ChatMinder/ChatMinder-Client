@@ -12,6 +12,9 @@ import TextR from './TextR';
 import { addTag } from '../reducers/tag';
 import { addImgInMemo, addMemo } from '../reducers/memo';
 import { PostImage, PostMemo } from '../API';
+import InputShpBtn from '../assets/InputShpBtn.svg';
+import ImgBtn from '../assets/ImgBtn.svg';
+import SubmitBtn from '../assets/SubmitBtn.svg';
 
 const MemoInputForm = () => {
   const dispatch = useDispatch();
@@ -237,14 +240,14 @@ const MemoInputForm = () => {
                 return onChange(img);
               }}
             >
-              <ImgBtn source={require('../assets/ImgBtn.png')} />
+              <ImgBtn />
             </ImgBtnContainer>
           )}
           name="image"
         />
         <MemoInputContainer>
           <ShpBtnContainer onPress={() => setIsShpBtnToggled(!isShpBtnToggled)}>
-            <ShpBtn source={require('../assets/InputShpBtn.png')} />
+            <InputShpBtn />
           </ShpBtnContainer>
           {/* 메모 텍스트 input */}
           <Controller
@@ -265,7 +268,7 @@ const MemoInputForm = () => {
             rules={{ required: true }}
           />
           <SubmitBtnContainer onPress={handleSubmit(onSubmit)}>
-            <SubmitBtn source={require('../assets/SubmitBtn.png')} />
+            <SubmitBtn />
           </SubmitBtnContainer>
         </MemoInputContainer>
       </InputWrapper>
@@ -323,10 +326,6 @@ const ImgBtnContainer = styled.TouchableOpacity`
   border-radius: 18px;
   background: #fafaff;
 `;
-const ImgBtn = styled.Image`
-  width: 16px;
-  height: 16px;
-`;
 
 const MemoInputContainer = styled.View`
   flex-direction: row;
@@ -340,10 +339,7 @@ const ShpBtnContainer = styled.TouchableOpacity`
   /* margin-left: 16px; */
   padding: 16px 0px 16px 16px;
 `;
-const ShpBtn = styled.Image`
-  width: 16px;
-  height: 16px;
-`;
+
 const InputMemo = styled.TextInput`
   height: 100%;
   margin: 0px 5px;
@@ -355,10 +351,6 @@ const SubmitBtnContainer = styled.TouchableOpacity`
   position: absolute;
   right: 0;
   padding: 16px;
-`;
-const SubmitBtn = styled.Image`
-  width: 16px;
-  height: 16px;
 `;
 
 export default MemoInputForm;

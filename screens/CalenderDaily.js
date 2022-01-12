@@ -17,7 +17,6 @@ import {
   HeaderIcon,
   NoVisibleBox,
   InputBox,
-  SearchIcon,
   ButtonBox2,
 } from '../shared/styles/HeaderStyle';
 import TextR from '../shared/components/TextR';
@@ -25,8 +24,8 @@ import TextB from '../shared/components/TextB';
 import { TextSize } from '../shared/styles/FontStyle';
 import styled from 'styled-components/native';
 
-const goBack = require('../shared/assets/GoBack.png');
-const search = require('../shared/assets/search.png');
+import GoBack from '../shared/assets/GoBack.svg';
+import SearchIcon from '../shared/assets/search.svg';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
@@ -63,7 +62,7 @@ const CalenderDaily = ({ route, navigation }) => {
             <HeaderContainer paddingRight="5%">
               <TitleBox>
                 <TouchableOpacity onPress={() => navigation.navigate('캘린더')}>
-                  <HeaderIcon source={goBack} />
+                  <GoBack />
                 </TouchableOpacity>
                 <TextB>
                   <TextSize fontSize="18">
@@ -76,7 +75,7 @@ const CalenderDaily = ({ route, navigation }) => {
               </TitleBox>
 
               <InputBox>
-                <SearchIcon source={search} />
+                <SearchIcon />
                 <SearchInput
                   onChangeText={onSearchChange}
                   placeholder="내용, 태그 검색"

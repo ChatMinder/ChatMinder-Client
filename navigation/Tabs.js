@@ -1,7 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import styled from 'styled-components/native';
-import { Ionicons } from '@expo/vector-icons';
+import HomeIcon from '../shared/assets/Home.svg';
+import TagIcon from '../shared/assets/Tag.svg';
+import CalendarIcon from '../shared/assets/Calendar.svg';
+import TintHomeIcon from '../shared/assets/TintHome.svg';
+import TintTagIcon from '../shared/assets/TintTag.svg';
+import TintCalendarIcon from '../shared/assets/TintCalendar.svg';
+
 import Calendar from '../screens/CalendarPage';
 import Category from '../screens/Category';
 import Drawers from './Drawers';
@@ -39,11 +45,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return focused ? (
-              <Icon source={require('../shared/assets/TintTag.png')} />
-            ) : (
-              <Icon source={require('../shared/assets/Tag.png')} />
-            );
+            return focused ? <TintTagIcon /> : <TagIcon />;
           },
         }}
       />
@@ -53,11 +55,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return focused ? (
-              <Icon source={require('../shared/assets/TintHome.png')} />
-            ) : (
-              <Icon source={require('../shared/assets/Home.png')} />
-            );
+            return focused ? <TintHomeIcon /> : <HomeIcon />;
           },
         }}
       />
@@ -67,11 +65,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return focused ? (
-              <Icon source={require('../shared/assets/TintCalendar.png')} />
-            ) : (
-              <Icon source={require('../shared/assets/Calendar.png')} />
-            );
+            return focused ? <TintCalendarIcon /> : <CalendarIcon />;
           },
         }}
       />

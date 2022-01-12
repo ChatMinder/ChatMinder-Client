@@ -16,10 +16,10 @@ import TextB from '../shared/components/TextB';
 import TextR from '../shared/components/TextR';
 import { TextSize } from '../shared/styles/FontStyle';
 
-const settings = require('../shared/assets/settings.png');
-const trashcan = require('../shared/assets/trashcan.png');
-const calendarLeft = require('../shared/assets/calendar_left.png');
-const calendarRight = require('../shared/assets/calendar_right.png');
+import Settings from '../shared/assets/settings.svg';
+import Trashcan from '../shared/assets/trashcan.svg';
+import CalendarLeft from '../shared/assets/calendar_left.svg';
+import CalendarRight from '../shared/assets/calendar_right.svg';
 
 const CalendarPage = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
@@ -80,11 +80,7 @@ const CalendarPage = ({ navigation }) => {
       <CalenderBox>
         <Calendar
           renderArrow={(direction) =>
-            direction === 'left' ? (
-              <ImgItem width="24" height="24" source={calendarLeft} />
-            ) : (
-              <ImgItem width="24" height="24" source={calendarRight} />
-            )
+            direction === 'left' ? <CalendarLeft /> : <CalendarRight />
           }
           onDayPress={(day) => {
             handlePlan(day);
@@ -147,10 +143,10 @@ const CalendarPage = ({ navigation }) => {
             </TextBox>
             <ImgBox>
               <TouchableOpacity>
-                <ImgItem source={settings} />
+                <Settings />
               </TouchableOpacity>
               <TouchableOpacity>
-                <ImgItem source={trashcan} />
+                <Trashcan />
               </TouchableOpacity>
             </ImgBox>
           </CategoryItem>

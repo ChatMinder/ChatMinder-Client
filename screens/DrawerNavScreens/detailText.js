@@ -17,11 +17,11 @@ import {
 
 import ModalListItem from '../../shared/components/ModalListItem';
 
-const empty = require('../../shared/assets/emptyBookmark.png');
-const fulled = require('../../shared/assets/fulledBookmark.png');
-const goBack = require('../../shared/assets/GoBack.png');
-const goBackLight = require('../../shared/assets/goBack_light.png');
-const edit = require('../../shared/assets/Edit.png');
+import EmptyBookmark from '../../shared/assets/emptyBookmark.svg';
+import FulledBookmark from '../../shared/assets/fulledBookmark.svg';
+import GoBack from '../../shared/assets/GoBack.svg';
+import GoBackLight from '../../shared/assets/goBack_light.svg';
+import Edit from '../../shared/assets/Edit.svg';
 
 const detailText = ({ route, navigation }) => {
   const token = useSelector((state) => state.auth.accessToken);
@@ -62,22 +62,13 @@ const detailText = ({ route, navigation }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate(route.params.history)}
         >
-          <BookmarkItem source={goBack} />
+          <GoBack />
         </TouchableOpacity>
         <Buttons>
           <TouchableOpacity onPress={() => onEdit()}>
-            <BookmarkItem
-              source={edit}
-              width="24"
-              height="24"
-              marginRight="14"
-            />
+            <Edit />
           </TouchableOpacity>
-          {route.params.is_marked ? (
-            <BookmarkItem source={fulled} />
-          ) : (
-            <BookmarkItem source={empty} />
-          )}
+          {route.params.is_marked ? <FulledBookmark /> : <EmptyBookmark />}
         </Buttons>
       </BookmarkBox2>
 
@@ -88,7 +79,7 @@ const detailText = ({ route, navigation }) => {
               <TextItem>{route.params.tag_name}</TextItem>
             </TouchableOpacity>
             <View>
-              <BookmarkItem source={goBackLight} />
+              <GoBackLight />
             </View>
           </TagBox>
         </TextR>

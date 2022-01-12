@@ -5,7 +5,6 @@ import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
-import Search from '../shared/components/Search';
 import MemoInputForm from '../shared/components/MemoInputForm';
 import MemoItem from '../shared/components/MemoItem';
 import MemoDate from '../shared/components/MemoDate';
@@ -15,6 +14,9 @@ import TextR from '../shared/components/TextR';
 import { GetMemo, GetTags } from '../shared/API';
 import { setMemos } from '../shared/reducers/memo';
 import { setTags } from '../shared/reducers/tag';
+import DrawerIcon from '../shared/assets/Drawer.svg';
+import SearchIcon from '../shared/assets/search.svg';
+import LogoHome from '../shared/assets/LogoHome.svg';
 
 const Home = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
@@ -35,7 +37,7 @@ const Home = ({ navigation }) => {
           headerRight: () => null,
           headerTitle: () => (
             <HeaderContainer>
-              <SearchIcon source={require('../shared/assets/search.png')} />
+              <SearchIcon />
               <SearchInput
                 onChangeText={onSearchChange}
                 placeholder="내용, 태그 검색"
@@ -56,12 +58,12 @@ const Home = ({ navigation }) => {
           headerStyle: { backgroundColor: '#ECECEF' },
           headerLeft: () => (
             <TouchableOpacity onPress={navigation.toggleDrawer}>
-              <HomeIcon source={require('../shared/assets/Drawer.png')} />
+              <DrawerIcon />
             </TouchableOpacity>
           ),
           headerTitle: () => (
             <ProfileWrapper onPress={() => navigation.navigate('MyPage')}>
-              <Profile source={require('../shared/assets/LogoHome.png')} />
+              <LogoHome />
             </ProfileWrapper>
           ),
           headerTitleAlign: 'center',
@@ -69,7 +71,7 @@ const Home = ({ navigation }) => {
             <SearchBtnContainer
               onPress={() => setIsSearchToggled(!isSearchToggled)}
             >
-              <HomeIcon source={require('../shared/assets/Search_Home.png')} />
+              <SearchIcon />
             </SearchBtnContainer>
           ),
         });
@@ -134,7 +136,7 @@ const HeaderContainer = styled.View`
   border-radius: 15.5px;
   background: #fcfcfc;
 `;
-const SearchIcon = styled.Image`
+const SearchIconImg = styled.Image`
   align-self: center;
   margin: 0 12px 0 12px;
   width: 14.5px;
@@ -155,7 +157,6 @@ const HomeIcon = styled.Image`
 `;
 
 const ProfileWrapper = styled.TouchableOpacity``;
-const Profile = styled.Image``;
 
 const MemoContainer = styled.ScrollView`
   background: #ececef;

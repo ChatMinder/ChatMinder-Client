@@ -25,7 +25,7 @@ import palette from '../palette';
 import { ImgItem, ButtonBox } from '../styles/CategoryStyle';
 import { FontStyle } from '../styles/FontStyle';
 
-const cancel = require('../assets/cancel.png');
+import Cancel from '../assets/cancel.svg';
 
 const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   const token = useSelector((state) => state.auth.accessToken);
@@ -156,7 +156,7 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
                 toggleModal();
               }}
             >
-              <ImgItem source={cancel} />
+              <Cancel />
             </TouchableOpacity>
           </ClosedBox>
           <TitleBox>

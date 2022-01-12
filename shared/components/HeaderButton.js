@@ -3,12 +3,13 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import palette from '../palette';
 
-const image = require('../assets/ImgBtn.png');
-const imageLight = require('../assets/image_light.png');
-const link = require('../assets/link.png');
-const linkLight = require('../assets/link_light.png');
-const emptyBookmark = require('../assets/emptyBookmark.png');
-const fulledBookmark = require('../assets/fulledBookmark.png');
+import Link from '../assets/link.svg';
+import LinkLight from '../assets/link_light.svg';
+import ImageLight from '../assets/image_light.svg';
+
+import EmptyBookmark from '../assets/emptyBookmark.svg';
+import FulledBookmark from '../assets/fulledBookmark.svg';
+import ImgBtn from '../assets/ImgBtn.svg';
 
 const HeaderButton = ({ type, setChoice }) => {
   const { id, category, isSelected } = type;
@@ -46,11 +47,11 @@ const HeaderButton = ({ type, setChoice }) => {
     >
       {clicked.isClicked ? (
         <SelectedBox>
-          <ImageItem source={imageLight} />
+          <ImageLight />
         </SelectedBox>
       ) : (
         <CommonBox>
-          <ImageItem source={image} />
+          <ImgBtn />
         </CommonBox>
       )}
     </TouchableOpacity>
@@ -63,11 +64,11 @@ const HeaderButton = ({ type, setChoice }) => {
     >
       {clicked.isClicked ? (
         <SelectedBox>
-          <ImageItem source={linkLight} width={20} />
+          <LinkLight />
         </SelectedBox>
       ) : (
         <CommonBox>
-          <ImageItem source={link} width={20} />
+          <Link />
         </CommonBox>
       )}
     </TouchableOpacity>
@@ -97,11 +98,11 @@ const HeaderButton = ({ type, setChoice }) => {
     >
       {clicked.isClicked ? (
         <SelectedBox background="white">
-          <ImageItem source={fulledBookmark} />
+          <FulledBookmark />
         </SelectedBox>
       ) : (
         <CommonBox>
-          <ImageItem source={emptyBookmark} />
+          <EmptyBookmark />
         </CommonBox>
       )}
     </TouchableOpacity>

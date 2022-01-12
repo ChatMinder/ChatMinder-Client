@@ -26,8 +26,8 @@ import { TextSize } from '../shared/styles/FontStyle';
 
 import ModalItem from '../shared/components/Modaltem';
 
-const trashcan = require('../shared/assets/trashcan.png');
-const settings = require('../shared/assets/settings.png');
+import Trashcan from '../shared/assets/trashcan.svg';
+import Settings from '../shared/assets/settings.svg';
 
 const Category = ({ navigation }) => {
   const tagData = useSelector((state) => state.tagData);
@@ -114,7 +114,7 @@ const Category = ({ navigation }) => {
                   setTitle({ id: tag.id, title: tag.tag_name });
                 }}
               >
-                <ImgItem source={settings} />
+                <Settings />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -134,7 +134,7 @@ const Category = ({ navigation }) => {
                   ]);
                 }}
               >
-                <ImgItem source={trashcan} />
+                <Trashcan />
               </TouchableOpacity>
             </ImgBox>
           </CategoryItem>

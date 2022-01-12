@@ -15,9 +15,9 @@ import {
 } from '../styles/ModalStyle';
 
 import { ImgItem, ButtonBox } from '../styles/CategoryStyle';
-import palette from '../../shared/palette';
+import palette from '../palette';
 
-const cancel = require('../assets/cancel.png');
+import Cancel from '../assets/cancel.svg';
 
 const ModalListItem = ({ isModalVisible, toggleModal }) => {
   const tagData = useSelector((state) => state.tagData);
@@ -33,7 +33,7 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
           <ButtonBox>
             <TextR>태그 분류 수정</TextR>
             <TouchableOpacity onPress={toggleModal}>
-              <ImgItem source={cancel} />
+              <Cancel />
             </TouchableOpacity>
           </ButtonBox>
           <Scroll>

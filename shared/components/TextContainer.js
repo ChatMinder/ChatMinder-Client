@@ -25,8 +25,8 @@ import {
   BoxContainer,
 } from '../styles/TextContainerStyle';
 
-const empty = require('../assets/emptyBookmark.png');
-const fulled = require('../assets/fulledBookmark.png');
+import EmptyBookmark from '../assets/emptyBookmark.svg';
+import FulledBookmark from '../assets/fulledBookmark.svg';
 
 const TextContainer = ({ memo, navigation, destination, history }) => {
   const token = useSelector((state) => state.auth.accessToken);
@@ -106,11 +106,7 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
               console.log('북마크');
             }}
           >
-            {memo.is_marked ? (
-              <BookmarkItem source={fulled} />
-            ) : (
-              <BookmarkItem source={empty} />
-            )}
+            {memo.is_marked ? <FulledBookmark /> : <EmptyBookmark />}
           </BookmarkButton>
         </BookmarkBox2>
       </BoxContainer>

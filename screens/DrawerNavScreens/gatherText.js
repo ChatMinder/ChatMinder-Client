@@ -20,7 +20,6 @@ import {
   HeaderContainer,
   NoVisibleBox,
   InputBox,
-  SearchIcon,
   BookmarkBox,
 } from '../../shared/styles/HeaderStyle';
 
@@ -34,8 +33,8 @@ import TextR from '../../shared/components/TextR';
 import { TextSize } from '../../shared/styles/FontStyle';
 import HeaderButton from '../../shared/components/HeaderButton';
 
-const goBack = require('../../shared/assets/GoBack.png');
-const search = require('../../shared/assets/search.png');
+import GoBack from '../../shared/assets/GoBack.svg';
+import SearchIcon from '../../shared/assets/search.svg';
 
 const gatherText = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
@@ -69,7 +68,7 @@ const gatherText = ({ navigation }) => {
         <HeaderContainer>
           <TitleBox>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <HeaderIcon source={goBack} />
+              <GoBack />
             </TouchableOpacity>
             <TextB>
               <TextSize fontSize="18">텍스트 모아보기</TextSize>
@@ -77,7 +76,7 @@ const gatherText = ({ navigation }) => {
             <NoVisibleBox />
           </TitleBox>
           <InputBox>
-            <SearchIcon source={search} />
+            <SearchIcon />
             <SearchInput
               onChangeText={onSearchChange}
               placeholder="내용, 태그 검색"

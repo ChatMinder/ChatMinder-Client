@@ -7,6 +7,8 @@ import { bookmarkMemo, delMemo } from '../reducers/memo';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
 import TextR from './TextR';
 import ChatBubblePoint from '../assets/ChatBubblePoint.svg';
+import EmptyBookmark from '../assets/emptyBookmark.svg';
+import FulledBookmark from '../assets/fulledBookmark.svg';
 
 const MemoItem = ({ memo }) => {
   const dispatch = useDispatch();
@@ -158,11 +160,7 @@ const MemoItem = ({ memo }) => {
             </TagBtn>
           ) : null}
           <Bookmark onPress={() => onBookmarkTouch(memo)}>
-            {memo.is_marked ? (
-              <BookmarkImg source={require('../assets/fulledBookmark.png')} />
-            ) : (
-              <BookmarkImg source={require('../assets/bookmark.png')} />
-            )}
+            {memo.is_marked ? <FulledBookmark /> : <EmptyBookmark />}
           </Bookmark>
         </MemoFooter>
       </MemoWrapper>
@@ -253,10 +251,6 @@ const Bookmark = styled.TouchableOpacity`
   position: absolute;
   right: 0px;
   bottom: 0px;
-`;
-const BookmarkImg = styled.Image`
-  width: 16px;
-  height: 18px;
 `;
 
 export default MemoItem;
