@@ -127,7 +127,13 @@ const gatherLink = ({ navigation }) => {
                 )
               )}
             </DateItem>
-            <TextContainer memo={memo} navigation={navigation} history="태그" />
+            <TextContainer
+              key={memo.id}
+              memo={memo}
+              navigation={navigation}
+              destination="detailText"
+              history="gatherLink"
+            />
           </TextBox>
         ))}
       </Container>

@@ -99,31 +99,29 @@ const gatherText = ({ navigation }) => {
   return (
     <Scroll>
       <Container>
-        {texts.map(
-          (memo, index) =>
-            memo.timestamp && (
-              <TextBox key={memo.id}>
-                <DateItem>
-                  {index === 0 ? (
-                    <MemoDate memoTime={memo.timestamp} />
-                  ) : (
-                    moment
-                      .unix(renderState[index - 1].timestamp)
-                      .format('YYYY-MM-DD') !==
-                      moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
-                      <MemoDate memoTime={memo.timestamp} />
-                    )
-                  )}
-                </DateItem>
-                <TextContainer
-                  memo={memo}
-                  navigation={navigation}
-                  destination="detailText"
-                  history="gatherText"
-                />
-              </TextBox>
-            )
-        )}
+        {texts.map((memo, index) => (
+          <TextBox key={memo.id}>
+            <DateItem>
+              {index === 0 ? (
+                <MemoDate memoTime={memo.timestamp} />
+              ) : (
+                moment
+                  .unix(renderState[index - 1].timestamp)
+                  .format('YYYY-MM-DD') !==
+                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                  <MemoDate memoTime={memo.timestamp} />
+                )
+              )}
+            </DateItem>
+            <TextContainer
+              key={memo.id}
+              memo={memo}
+              navigation={navigation}
+              destination="detailText"
+              history="gatherText"
+            />
+          </TextBox>
+        ))}
       </Container>
     </Scroll>
   );
