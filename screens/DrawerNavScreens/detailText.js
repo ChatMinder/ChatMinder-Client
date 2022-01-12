@@ -4,6 +4,8 @@ import styled from 'styled-components/native';
 import TextR from '../../shared/components/TextR';
 import palette from '../../shared/palette';
 import { TextSize } from '../../shared/styles/FontStyle';
+import { useSelector } from 'react-redux';
+import { PatchMemo } from '../../shared/API';
 
 import {
   TagBox,
@@ -18,9 +20,11 @@ const empty = require('../../shared/assets/emptyBookmark.png');
 const fulled = require('../../shared/assets/fulledBookmark.png');
 const goBack = require('../../shared/assets/GoBack.png');
 const goBackLight = require('../../shared/assets/goBack_light.png');
+const edit = require('../../shared/assets/Edit.png');
 
 const detailText = ({ route, navigation }) => {
-  console.log(route.params);
+  const token = useSelector((state) => state.auth.accessToken);
+  //console.log(route.params);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -34,6 +38,15 @@ const detailText = ({ route, navigation }) => {
     });
   });
 
+  const handleEditMemo = async () => {
+    try {
+      const patchMemoRes = await PatchMemo(token, id, formData);
+      console.log('patchMemoRes 성공: ', patchMemoRes.data);
+    } catch (error) {
+      console.log(`patchMemoRes 실패: ${error}`);
+    }
+  };
+
   return (
     <Wrapper>
       <BookmarkBox2 marginBottom="15px">
@@ -42,11 +55,21 @@ const detailText = ({ route, navigation }) => {
         >
           <BookmarkItem source={goBack} />
         </TouchableOpacity>
-        {route.params.is_marked ? (
-          <BookmarkItem source={fulled} />
-        ) : (
-          <BookmarkItem source={empty} />
-        )}
+        <Buttons>
+          <TouchableOpacity>
+            <BookmarkItem
+              source={edit}
+              width="24"
+              height="24"
+              marginRight="14"
+            />
+          </TouchableOpacity>
+          {route.params.is_marked ? (
+            <BookmarkItem source={fulled} />
+          ) : (
+            <BookmarkItem source={empty} />
+          )}
+        </Buttons>
       </BookmarkBox2>
 
       {route.params.tag_name ? (
@@ -89,4 +112,9 @@ const Wrapper = styled.View`
 
 const Margin = styled.View`
   margin-top: 10px;
+`;
+
+const Buttons = styled.View`
+  flex-direction: row;
+  align-items: center;
 `;
