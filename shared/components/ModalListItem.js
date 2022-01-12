@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TouchableOpacity, View, Text } from 'react-native';
+import { Button, TouchableOpacity, View, Text, ScrollView } from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
@@ -36,18 +36,19 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
               <ImgItem source={cancel} />
             </TouchableOpacity>
           </ButtonBox>
-
-          {tagData.map((tag, index) =>
-            tag.tag_name ? (
-              <TagBox key={tag.id} backgroundColor={tag.tag_color}>
-                <TextB>
-                  <TextItem>{tag.tag_name}</TextItem>
-                </TextB>
-              </TagBox>
-            ) : (
-              <View key={tag.tag} />
-            )
-          )}
+          <Scroll>
+            {tagData.map((tag, index) =>
+              tag.tag_name ? (
+                <TagBox key={tag.tag} backgroundColor={tag.tag_color}>
+                  <TextB>
+                    <TextItem>{tag.tag_name}</TextItem>
+                  </TextB>
+                </TagBox>
+              ) : (
+                <View key={tag.tag} />
+              )
+            )}
+          </Scroll>
         </StyledModalContainer>
       </Modal>
     </StyledSafeAreaView>
@@ -73,4 +74,9 @@ const TagBox = styled.TouchableOpacity`
 const TextItem = styled.Text`
   color: white;
   font-size: 14px;
+`;
+
+const Scroll = styled.ScrollView`
+  width: 100%;
+  margin-left: 5%;
 `;

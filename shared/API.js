@@ -59,9 +59,57 @@ export const PostBookmark = async (token, data) =>
     },
   });
 
+//링크 모아보기
+export const GetLinks = async (token) =>
+  await axios.get('https://api.chatminder.app/memos/links', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+//텍스트 모아보기
+export const GetTexts = async (token) =>
+  await axios.get('https://api.chatminder.app/memos/texts', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
 //태그 조회
 export const GetTags = async (token) =>
   await axios.get('https://api.chatminder.app/tags', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+//태그 삭제
+export const DeleteTag = async (token, id) =>
+  await axios.delete(`https://api.chatminder.app/tags/${id}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+//태그 생성
+export const PostTag = async (token, data) =>
+  await axios.post('https://api.chatminder.app/tags', data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+//태그 수정
+export const PatchTag = async (token, data, id) =>
+  await axios.patch(`https://api.chatminder.app/tags/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+//태그별 메모조회
+export const GetTagsDetail = async (token, id) =>
+  await axios.get(`https://api.chatminder.app/tags/${id}/memos`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

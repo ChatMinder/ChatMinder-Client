@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import axios from 'axios';
+import { GetTagsDetail } from '../shared/API';
 
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
@@ -34,7 +36,8 @@ const search = require('../shared/assets/search.png');
 
 const CategoryDetail = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
-  const [onSearchChange, renderState] = useSearch(memoData);
+  const token = useSelector((state) => state.auth.accessToken);
+  const [onSearchChange, renderState] = useSearch();
   const [memos, setMemos] = useState(
     renderState.filter((item) => item.tag_name === route.params.tag_name)
   );
@@ -48,8 +51,20 @@ const CategoryDetail = ({ route, navigation }) => {
   ]);
 
   const [choice, setChoice] = useState('all');
+  const [tagsDetail, setTagsDetail] = useState([]);
+
+  const handleTagDetail = async () => {
+    try {
+      const getTagsDetail = await GetTagsDetail(token, route.params.id);
+      console.log('getTagsDetail 성공: ', getTagsDetail.data);
+      setTagsDetail(getTagsDetail.data);
+    } catch (error) {
+      console.log('getTagsDetail 실패', error);
+    }
+  };
 
   useEffect(() => {
+    handleTagDetail();
     navigation.setOptions({
       headerStyle: {
         height: 130,
@@ -107,40 +122,34 @@ const CategoryDetail = ({ route, navigation }) => {
         {
           all: (
             <Container>
-              {renderState
-                .filter(
-                  (item, index) => item.tag_name === route.params.tag_name
-                )
-                .map(
-                  (memo, index) =>
-                    memo.timestamp && (
-                      <TextBox key={memo.id}>
-                        <DateItem>
-                          {index === 0 ? (
+              {tagsDetail.map(
+                (memo, index) =>
+                  memo.timestamp && (
+                    <TextBox key={memo.id}>
+                      <DateItem>
+                        {index === 0 ? (
+                          <MemoDate memoTime={memo.timestamp} />
+                        ) : (
+                          moment
+                            .unix(tagsDetail[index - 1].timestamp)
+                            .format('YYYY-MM-DD') !==
+                            moment
+                              .unix(memo.timestamp)
+                              .format('YYYY-MM-DD') && (
                             <MemoDate memoTime={memo.timestamp} />
-                          ) : (
-                            <>
-                              {moment
-                                .unix(memos[index - 1].timestamp)
-                                .format('YYYY-MM-DD') !==
-                                moment
-                                  .unix(memo.timestamp)
-                                  .format('YYYY-MM-DD') && (
-                                <MemoDate memoTime={memo.timestamp} />
-                              )}
-                            </>
-                          )}
-                        </DateItem>
+                          )
+                        )}
+                      </DateItem>
 
-                        <TextContainer
-                          memo={memo}
-                          navigation={navigation}
-                          destination="detailText"
-                          history="태그"
-                        />
-                      </TextBox>
-                    )
-                )}
+                      <TextContainer
+                        memo={memo}
+                        navigation={navigation}
+                        destination="detailText"
+                        history="태그"
+                      />
+                    </TextBox>
+                  )
+              )}
             </Container>
           ),
           image: <Text>image</Text>,

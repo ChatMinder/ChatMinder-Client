@@ -68,9 +68,21 @@ const Drawers = () => {
     >
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="gatherImg" component={gatherImg} />
-      <Drawer.Screen name="gatherLink" component={gatherLink} />
-      <Drawer.Screen name="gatherText" component={gatherText} />
-      <Drawer.Screen name="detailText" component={detailText} />
+      <Drawer.Screen
+        name="gatherLink"
+        component={gatherLink}
+        options={{ unmountOnBlur: true }}
+      />
+      <Drawer.Screen
+        name="gatherText"
+        component={gatherText}
+        options={{ unmountOnBlur: true }}
+      />
+      <Drawer.Screen
+        name="detailText"
+        component={detailText}
+        options={{ unmountOnBlur: true }}
+      />
     </Drawer.Navigator>
   );
 };

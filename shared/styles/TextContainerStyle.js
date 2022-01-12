@@ -30,11 +30,12 @@ export const TagBox = styled.View`
 `;
 
 export const BookmarkItem = styled.Image`
-  width: 15px;
-  height: 15px;
+  width: ${(props) => props.width || '15'}px;
+  height: ${(props) => props.height || '15'}px;
+  margin-right: ${(props) => props.marginRight || '0'}px;
 `;
 
-export const BookmarkBox = styled.View`
+export const BookmarkBox2 = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
@@ -43,4 +44,11 @@ export const BookmarkBox = styled.View`
 
 export const TextItem = styled.Text`
   color: white;
+`;
+
+export const BoxContainer = styled.View`
+  background-color: white;
+  margin-bottom: 4%;
+  border-radius: 10px;
+  padding: 1.5%;
 `;

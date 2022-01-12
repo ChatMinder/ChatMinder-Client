@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Text, Button, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  Button,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import styled from 'styled-components/native';
+import { GetTags, DeleteTag } from '../shared/API';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -25,25 +32,42 @@ const settings = require('../shared/assets/settings.png');
 const Category = ({ navigation }) => {
   const tagData = useSelector((state) => state.tagData);
   //console.log('tagData: ', tagData);
+  const token = useSelector((state) => state.auth.accessToken);
 
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState({
+    id: 0,
+    title: '',
+  });
+  const [stateValue, setStateValue] = useState('');
+  const [tags, setTags] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [colors, setColors] = useState([
-    { id: 0, colorValue: `${palette.blue}`, colorName: 'blue' },
-    { id: 1, colorValue: `${palette.lightBlue}`, colorName: 'lightBlue' },
-    { id: 2, colorValue: `${palette.lightGreen}`, colorName: 'lightGreen' },
-    { id: 3, colorValue: `${palette.green}`, colorName: 'green' },
-    { id: 4, colorValue: `${palette.blueGreen}`, colorName: 'blueGreen' },
-    { id: 5, colorValue: `${palette.purple}`, colorName: 'purple' },
-    { id: 6, colorValue: `${palette.pink}`, colorName: 'pink' },
-    { id: 7, colorValue: `${palette.orange}`, colorName: 'orange' },
-    { id: 8, colorValue: `${palette.lightOrange}`, colorName: 'lightOrange' },
-    { id: 9, colorValue: `${palette.yellow}`, colorName: 'yellow' },
-  ]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+  useEffect(() => {
+    handleTags();
+    //console.log(title);
+  }, [tags]);
+
+  const handleTags = async () => {
+    try {
+      const getTagsRes = await GetTags(token);
+      setTags(getTagsRes.data);
+    } catch (error) {
+      console.log(`getTags 실패: ${error}`);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const deleteTagRes = await DeleteTag(token, id);
+      console.log('deleteTag 성공: ', deleteTagRes.data);
+    } catch (error) {
+      console.log('deleteTag 실패', error);
+    }
   };
 
   return (
@@ -54,54 +78,73 @@ const Category = ({ navigation }) => {
         </TextB>
         <ButtonItem
           onPress={() => {
-            setTitle('');
+            setTitle({ title: '' });
             toggleModal();
           }}
         >
           <TextB>
             <TextSize fontSize="14" color="white">
               + 태그추가
-            </TextSize>{' '}
+            </TextSize>
           </TextB>
         </ButtonItem>
       </ButtonBox>
-      {tagData.map((tag, index) => (
-        <CategoryItem key={tag.tag} backgroundColor={tag.tag_color}>
-          <TextBox
-            onPress={() => {
-              navigation.navigate('CategoryDetail', {
-                tag: tag.tag,
-                tag_name: tag.tag_name,
-                tag_color: tag.tag_color,
-              });
-            }}
-          >
-            <TextB>
-              <TextSize fontSize="16" color="white">
-                {tag.tag_name ? tag.tag_name : '분류 안한 메모'}
-              </TextSize>
-            </TextB>
-          </TextBox>
-          <ImgBox>
-            <TouchableOpacity
+      <TagScroll>
+        {tags.map((tag, index) => (
+          <CategoryItem key={tag.id} backgroundColor={tag.tag_color}>
+            <TextBox
               onPress={() => {
-                toggleModal();
-                setTitle(tag.tag_name);
+                navigation.navigate('CategoryDetail', {
+                  id: tag.id,
+                  tag_name: tag.tag_name,
+                  tag_color: tag.tag_color,
+                });
               }}
             >
-              <ImgItem source={settings} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <ImgItem source={trashcan} />
-            </TouchableOpacity>
-          </ImgBox>
-        </CategoryItem>
-      ))}
+              <TextB>
+                <TextSize fontSize="16" color="white">
+                  {tag.tag_name ? tag.tag_name : '분류 안한 메모'}
+                </TextSize>
+              </TextB>
+            </TextBox>
+            <ImgBox>
+              <TouchableOpacity
+                onPress={() => {
+                  toggleModal();
+                  setTitle({ id: tag.id, title: tag.tag_name });
+                }}
+              >
+                <ImgItem source={settings} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
+                    {
+                      text: '취소',
+                      onPress: () => alert('취소되었습니다.'),
+                      style: 'cancel',
+                    },
+                    {
+                      text: '삭제',
+                      onPress: () => {
+                        handleDelete(tag.id);
+                        alert('삭제되었습니다.');
+                      },
+                    },
+                  ]);
+                }}
+              >
+                <ImgItem source={trashcan} />
+              </TouchableOpacity>
+            </ImgBox>
+          </CategoryItem>
+        ))}
+      </TagScroll>
       <ModalItem
         isModalVisible={isModalVisible}
         title={title}
-        colors={colors}
         toggleModal={toggleModal}
+        setStateValue={setStateValue}
       />
     </Wrapper>
   );
@@ -115,4 +158,8 @@ const ButtonItem = styled.TouchableOpacity`
   background-color: ${palette.main};
   border-radius: 5px;
   padding: 3px 7px;
+`;
+
+const TagScroll = styled.ScrollView`
+  height: 90%;
 `;

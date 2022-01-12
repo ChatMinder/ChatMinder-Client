@@ -110,7 +110,7 @@ const CalenderDaily = ({ route, navigation }) => {
       {
         {
           all: (
-            <View>
+            <Scroll>
               {route.params.planObj.length === 0 ? (
                 <Text>일정이 없습니다.</Text>
               ) : (
@@ -130,12 +130,12 @@ const CalenderDaily = ({ route, navigation }) => {
                         memo={plan}
                         navigation={navigation}
                         destination="detailText"
-                        history="CalenderDaily"
+                        history="캘린더"
                       />
                     ))}
                 </>
               )}
-            </View>
+            </Scroll>
           ),
           image: <Text>image</Text>,
           link: <Text>link</Text>,
@@ -152,4 +152,8 @@ export default CalenderDaily;
 const Wrapper = styled.View`
   padding: 0 2%;
   margin-top: 1%;
+`;
+
+const Scroll = styled.ScrollView`
+  height: 100%;
 `;
