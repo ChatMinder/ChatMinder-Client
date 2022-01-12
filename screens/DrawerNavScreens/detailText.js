@@ -8,7 +8,7 @@ import { TextSize } from '../../shared/styles/FontStyle';
 import {
   TagBox,
   BookmarkItem,
-  BookmarkBox,
+  BookmarkBox2,
   TextItem,
 } from '../../shared/styles/TextContainerStyle';
 
@@ -20,7 +20,7 @@ const goBack = require('../../shared/assets/GoBack.png');
 const goBackLight = require('../../shared/assets/goBack_light.png');
 
 const detailText = ({ route, navigation }) => {
-  //console.log(route);
+  console.log(route.params);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -36,7 +36,7 @@ const detailText = ({ route, navigation }) => {
 
   return (
     <Wrapper>
-      <BookmarkBox marginBottom="15px">
+      <BookmarkBox2 marginBottom="15px">
         <TouchableOpacity
           onPress={() => navigation.navigate(route.params.history)}
         >
@@ -47,18 +47,22 @@ const detailText = ({ route, navigation }) => {
         ) : (
           <BookmarkItem source={empty} />
         )}
-      </BookmarkBox>
+      </BookmarkBox2>
 
-      <TextR>
-        <TagBox backgroundColor={route.params.tag_color}>
-          <TouchableOpacity onPress={() => toggleModal()}>
-            <TextItem>{route.params.tag_name}</TextItem>
-          </TouchableOpacity>
-          <View>
-            <BookmarkItem source={goBackLight} />
-          </View>
-        </TagBox>
-      </TextR>
+      {route.params.tag_name ? (
+        <TextR>
+          <TagBox backgroundColor={route.params.tag_color}>
+            <TouchableOpacity onPress={() => toggleModal()}>
+              <TextItem>{route.params.tag_name}</TextItem>
+            </TouchableOpacity>
+            <View>
+              <BookmarkItem source={goBackLight} />
+            </View>
+          </TagBox>
+        </TextR>
+      ) : (
+        <View />
+      )}
 
       <Margin>
         <TextR>
