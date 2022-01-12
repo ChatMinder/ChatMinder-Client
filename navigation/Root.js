@@ -20,7 +20,7 @@ const Root = () => {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth);
   //개발 완료되고 기본값 false로 변경하기!
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [loading, setLoading] = useState(true);
 
   //이미 토큰이 리덕스에 저장된 경우(직접 카카오로그인)
