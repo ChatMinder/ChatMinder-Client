@@ -37,7 +37,7 @@ const Home = ({ navigation }) => {
           headerRight: () => null,
           headerTitle: () => (
             <HeaderContainer>
-              <SearchIcon />
+              <SearchIcon style={{ margin: 12 }} />
               <SearchInput
                 onChangeText={onSearchChange}
                 placeholder="내용, 태그 검색"
@@ -58,7 +58,7 @@ const Home = ({ navigation }) => {
           headerStyle: { backgroundColor: '#ECECEF' },
           headerLeft: () => (
             <TouchableOpacity onPress={navigation.toggleDrawer}>
-              <DrawerIcon />
+              <DrawerIcon style={{ margin: 16 }} />
             </TouchableOpacity>
           ),
           headerTitle: () => (
@@ -71,7 +71,7 @@ const Home = ({ navigation }) => {
             <SearchBtnContainer
               onPress={() => setIsSearchToggled(!isSearchToggled)}
             >
-              <SearchIcon />
+              <SearchIcon style={{ margin: 16 }} />
             </SearchBtnContainer>
           ),
         });
@@ -127,21 +127,15 @@ const Home = ({ navigation }) => {
   );
 };
 
-const URLCheck = styled.Button``;
-
 const HeaderContainer = styled.View`
   flex-direction: row;
+  align-items: center;
   width: 328px;
   height: 32px;
   border-radius: 15.5px;
   background: #fcfcfc;
 `;
-const SearchIconImg = styled.Image`
-  align-self: center;
-  margin: 0 12px 0 12px;
-  width: 14.5px;
-  height: 14.5px;
-`;
+
 const SearchInput = styled.TextInput`
   height: 100%;
   width: 75%;
@@ -152,9 +146,6 @@ const CancelBtn = styled.TouchableOpacity`
   right: 10px;
 `;
 const SearchBtnContainer = styled.TouchableOpacity``;
-const HomeIcon = styled.Image`
-  margin: 16px;
-`;
 
 const ProfileWrapper = styled.TouchableOpacity``;
 

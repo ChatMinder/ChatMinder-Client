@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { DeleteMemo, PostBookmark } from '../API';
@@ -11,6 +12,7 @@ import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
 
 const MemoItem = ({ memo }) => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
 
@@ -36,10 +38,6 @@ const MemoItem = ({ memo }) => {
     } catch (error) {
       console.log(`메모 삭제 실패: ${error}`);
     }
-  };
-
-  const goToDetail = () => {
-    alert('go to detail');
   };
 
   const Images = ({ imgCnt }) => {
@@ -155,7 +153,16 @@ const MemoItem = ({ memo }) => {
         </MemoContainer>
         <MemoFooter>
           {memo.tag_name ? (
-            <TagBtn background={memo.tag_color} onPress={goToDetail}>
+            <TagBtn
+              background={memo.tag_color}
+              onPress={() => {
+                navigation.navigate('CategoryDetail', {
+                  id: memo.tag_id,
+                  tag_name: memo.tag_name,
+                  tag_color: memo.tag_color,
+                });
+              }}
+            >
               <TagBtnText>{memo.tag_name}</TagBtnText>
             </TagBtn>
           ) : null}

@@ -336,7 +336,6 @@ const MemoInputContainer = styled.View`
   background: #ffffff;
 `;
 const ShpBtnContainer = styled.TouchableOpacity`
-  /* margin-left: 16px; */
   padding: 16px 0px 16px 16px;
 `;
 
