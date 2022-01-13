@@ -28,6 +28,7 @@ const MemoInputForm = () => {
   const [selectedTagID, setSelectedTagID] = useState(0);
   const [selectedNewTag, setSelectedNewTag] = useState(0);
   const [newTagColor, setNewTagColor] = useState(randomTagColor());
+  const [submitNull, setSubmitNull] = useState(false);
 
   const {
     control,
@@ -44,6 +45,10 @@ const MemoInputForm = () => {
   });
 
   const onSubmit = async (data) => {
+    if (!data.memo && !data.image) {
+      setSubmitNull(true);
+      return;
+    }
     const memoURL = checkIncludeURL(data.memo);
     let memoText;
     memoURL
@@ -261,11 +266,10 @@ const MemoInputForm = () => {
                   return onChange(value);
                 }}
                 value={value}
-                placeholder={errors.memo && `메모를 입력해주세요.`}
+                placeholder={submitNull ? `메모를 입력해주세요.` : ''}
               />
             )}
             name="memo"
-            rules={{ required: true }}
           />
           <SubmitBtnContainer onPress={handleSubmit(onSubmit)}>
             <SubmitBtn />

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert } from 'react-native';
+import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
@@ -16,6 +17,7 @@ const MemoItem = ({ memo }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
+  const [showDelBtn, setShowDelBtn] = useState(false);
 
   const onBookmarkTouch = async (memo) => {
     let data = {
@@ -138,26 +140,16 @@ const MemoItem = ({ memo }) => {
   };
 
   return (
-    <Wrapper
-      onPress={() => handlePress(memo)}
-      onLongPress={() => {
-        Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
-          {
-            text: '취소',
-            onPress: () => alert('취소되었습니다.'),
-            style: 'cancel',
-          },
-          {
-            text: '삭제',
-            onPress: () => {
-              alert('삭제되었습니다.');
-              handleDelete(memo.id);
-            },
-          },
-        ]);
-      }}
-    >
-      <MemoWrapper>
+    <Wrapper>
+      {showDelBtn && (
+        <DeleteBtn onPress={() => handleDelete(memo.id)}>
+          <DeleteBtnText>삭제</DeleteBtnText>
+        </DeleteBtn>
+      )}
+      <MemoWrapper
+        onPress={() => handlePress(memo)}
+        onLongPress={() => setShowDelBtn(!showDelBtn)}
+      >
         <PointContainer>
           <ChatBubblePoint />
         </PointContainer>
@@ -194,13 +186,33 @@ const MemoItem = ({ memo }) => {
   );
 };
 
-const Wrapper = styled.TouchableOpacity`
+const SCREEN_WIDTH = Dimensions.get('window').width;
+
+const Wrapper = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
 `;
 
-const MemoWrapper = styled.View`
+const DeleteBtn = styled.TouchableOpacity`
+  width: 59px;
+  height: 32px;
+  border: 1px solid #e8eaef;
+  border-radius: 8px;
+  background: ${palette.lightPink};
+  left: ${SCREEN_WIDTH * 0.08}px;
+  top: -26px;
+  position: absolute;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+`;
+const DeleteBtnText = styled.Text`
+  font-size: 12px;
+  color: ${palette.red};
+`;
+
+const MemoWrapper = styled.TouchableOpacity`
   /* justify-content: center; */
   align-items: center;
   width: 328px;

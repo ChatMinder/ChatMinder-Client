@@ -49,6 +49,10 @@ const palette = {
 
   //URL color
   pastelBlue: '#6E81E7',
+
+  //Main delete button color
+  lightPink: '#FFC3C3',
+  red: '#D93826',
 };
 
 export default palette;
