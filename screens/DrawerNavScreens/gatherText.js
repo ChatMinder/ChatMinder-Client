@@ -45,7 +45,7 @@ const gatherText = ({ navigation }) => {
   const [texts, setTexts] = useState([]);
   const [gatherMarked, setGatherMarked] = useState(false);
   const [choice, setChoice] = useState('all');
-  const [clickedState, setClickedState] = useState(false);
+  const [clickedState, setClickedState] = useState(true);
 
   const [refreshing, setRefreshing] = useState(false);
 

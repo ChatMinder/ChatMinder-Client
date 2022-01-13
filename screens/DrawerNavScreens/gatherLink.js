@@ -46,7 +46,7 @@ const gatherLink = ({ navigation }) => {
   const [links, setLinks] = useState([]);
   const [onSearchChange, renderState] = useSearch();
   const [choice, setChoice] = useState('all');
-  const [clickedState, setClickedState] = useState(false);
+  const [clickedState, setClickedState] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
