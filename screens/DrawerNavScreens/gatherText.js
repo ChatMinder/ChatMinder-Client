@@ -50,8 +50,10 @@ const gatherText = ({ navigation }) => {
   const dispatch = useDispatch();
   const [onSearchChange, renderState] = useSearch();
   const [texts, setTexts] = useState([]);
-
+  const [gatherMarked, setGatherMarked] = useState(false);
   const [choice, setChoice] = useState('all');
+  const [clickedState, setClickedState] = useState(false);
+
   const [refreshing, setRefreshing] = useState(false);
 
   const handleTexts = async () => {
@@ -92,7 +94,11 @@ const gatherText = ({ navigation }) => {
             />
           </InputBox>
           <BookmarkBox>
-            <HeaderButton type="bookmark" setChoice={setChoice} />
+            <HeaderButton
+              type="bookmark"
+              setChoice={setChoice}
+              setClickedState={setClickedState}
+            />
           </BookmarkBox>
         </HeaderContainer>
       ),
@@ -104,46 +110,71 @@ const gatherText = ({ navigation }) => {
     handleTexts();
   };
 
-  const handleTab = {
-    all: <Text>all</Text>,
-    bookmark: <Text>bookmark</Text>,
-  };
-
   return (
     <Scroll
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <Container>
-        {texts
-          // .filter(
-          //   (elemnet) => (elemnet.url === null) & (elemnet.images.length === 0)
-          // )
-          .map((memo, index) => (
-            <TextBox key={memo.id}>
-              <DateItem>
-                {index === 0 ? (
-                  <MemoDate memoTime={memo.timestamp} />
-                ) : (
-                  moment
-                    .unix(renderState[index - 1].timestamp)
-                    .format('YYYY-MM-DD') !==
-                    moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+      {clickedState ? (
+        <Container>
+          {texts
+            // .filter(
+            //   (elemnet) => (elemnet.url === null) & (elemnet.images.length === 0)
+            // )
+            .map((memo, index) => (
+              <TextBox key={memo.id}>
+                <DateItem>
+                  {index === 0 ? (
                     <MemoDate memoTime={memo.timestamp} />
-                  )
-                )}
-              </DateItem>
-              <TextContainer
-                key={memo.id}
-                memo={memo}
-                navigation={navigation}
-                destination="detailText"
-                history="gatherText"
-              />
-            </TextBox>
-          ))}
-      </Container>
+                  ) : (
+                    moment
+                      .unix(renderState[index - 1].timestamp)
+                      .format('YYYY-MM-DD') !==
+                      moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                      <MemoDate memoTime={memo.timestamp} />
+                    )
+                  )}
+                </DateItem>
+                <TextContainer
+                  key={memo.id}
+                  memo={memo}
+                  navigation={navigation}
+                  destination="detailText"
+                  history="gatherText"
+                />
+              </TextBox>
+            ))}
+        </Container>
+      ) : (
+        <Container>
+          {texts
+            .filter((elemnet) => elemnet.is_marked === true)
+            .map((memo, index) => (
+              <TextBox key={memo.id}>
+                <DateItem>
+                  {index === 0 ? (
+                    <MemoDate memoTime={memo.timestamp} />
+                  ) : (
+                    moment
+                      .unix(renderState[index - 1].timestamp)
+                      .format('YYYY-MM-DD') !==
+                      moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                      <MemoDate memoTime={memo.timestamp} />
+                    )
+                  )}
+                </DateItem>
+                <TextContainer
+                  key={memo.id}
+                  memo={memo}
+                  navigation={navigation}
+                  destination="detailText"
+                  history="gatherText"
+                />
+              </TextBox>
+            ))}
+        </Container>
+      )}
     </Scroll>
   );
 };
