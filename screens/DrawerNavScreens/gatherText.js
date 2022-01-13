@@ -59,8 +59,8 @@ const gatherText = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    handleTexts();
+  useEffect(async () => {
+    await handleTexts();
     navigation.setOptions({
       headerStyle: {
         height: 120,
@@ -94,9 +94,9 @@ const gatherText = ({ navigation }) => {
     });
   }, []);
 
-  const onRefresh = () => {
+  const onRefresh = async () => {
     setRefreshing(true);
-    handleTexts();
+    await handleTexts();
   };
 
   return (

@@ -48,8 +48,8 @@ const gatherLink = ({ navigation }) => {
   const [clickedState, setClickedState] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    getLinks();
+  useEffect(async () => {
+    await getLinks();
     navigation.setOptions({
       headerStyle: {
         height: 120,
@@ -94,9 +94,9 @@ const gatherLink = ({ navigation }) => {
     }
   };
 
-  const onRefresh = () => {
+  const onRefresh = async () => {
     setRefreshing(true);
-    getLinks();
+    await getLinks();
   };
 
   return (
@@ -134,7 +134,7 @@ const gatherLink = ({ navigation }) => {
       ) : (
         <Container>
           {links
-            .filter((elemnet) => elemnet.is_marked === true)
+            .filter((element) => element.is_marked === true)
             .map((memo, index) => (
               <TextBox key={memo.id}>
                 <DateItem>
