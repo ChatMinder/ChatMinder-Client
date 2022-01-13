@@ -31,6 +31,7 @@ import FulledBookmark from '../../shared/assets/fulledBookmark.svg';
 import GoBack from '../../shared/assets/GoBack.svg';
 import GoBackLight from '../../shared/assets/goBack_light.svg';
 import Edit from '../../shared/assets/Edit.svg';
+const edit = require('../../shared/assets/Edit_png.png');
 
 const detailText = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -92,18 +93,20 @@ const detailText = ({ route, navigation }) => {
         </TouchableOpacity>
         <Buttons>
           <TouchableOpacity onPress={() => onEdit()}>
-            <Edit />
+            {/* <Edit style={{ marginRight: 10 }} /> */}
+            <BookmarkItem
+              source={edit}
+              width="25"
+              height="25"
+              marginRight="14"
+            />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               handleBookmark(route.params.id, route.params.is_marked);
             }}
           >
-            {isBookmarked ? (
-              <FulledBookmark width="70%" height="70%" />
-            ) : (
-              <EmptyBookmark width="80%" height="80%" />
-            )}
+            {isBookmarked ? <FulledBookmark /> : <EmptyBookmark />}
           </TouchableOpacity>
         </Buttons>
       </BookmarkBox2>
@@ -155,18 +158,24 @@ const detailText = ({ route, navigation }) => {
           </TextR>
         )}
       </Margin>
-      <SaveButton
-        onPress={() => {
-          onEdit();
-          handleEditMemo(route.params.id);
-        }}
-      >
-        <TextR>
-          <TextSize color="white" fontSize="18">
-            저장하기
-          </TextSize>
-        </TextR>
-      </SaveButton>
+
+      {!editable ? (
+        <View />
+      ) : (
+        <SaveButton
+          onPress={() => {
+            onEdit();
+            handleEditMemo(route.params.id);
+          }}
+        >
+          <TextR>
+            <TextSize color="white" fontSize="18">
+              저장하기
+            </TextSize>
+          </TextR>
+        </SaveButton>
+      )}
+
       <ModalListItem
         isModalVisible={isModalVisible}
         toggleModal={toggleModal}
@@ -190,6 +199,7 @@ export default detailText;
 
 const Wrapper = styled.View`
   margin: 20px 15px;
+  height: 100%;
 `;
 
 const Margin = styled.View`
@@ -207,7 +217,10 @@ const SaveButton = styled.TouchableOpacity`
   justify-content: center;
   border-radius: 8px;
   height: 48px;
-  margin-top: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 10%;
+  align-self: center;
 `;
 
 const LinkView = styled.View`

@@ -38,7 +38,7 @@ export const BookmarkItem = styled.Image`
 export const BookmarkBox2 = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   margin-bottom: ${(props) => props.marginBottom || '0px'};
 `;
 
