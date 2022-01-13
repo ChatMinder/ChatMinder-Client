@@ -11,11 +11,16 @@ import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
 import ImgBtn from '../assets/ImgBtn.svg';
 
-const HeaderButton = ({ type, setChoice }) => {
+const HeaderButton = ({ type, setChoice, setClickedState }) => {
   const { id, category, isSelected } = type;
   //console.log(type);
 
   const [clicked, setClicked] = useState({ isClicked: false });
+
+  const SendData = () => {
+    setClickedState(clicked.isClicked);
+    //console.log(clicked.isClicked);
+  };
 
   const onClick = () => {
     setClicked({ isClicked: !clicked.isClicked });
@@ -94,6 +99,7 @@ const HeaderButton = ({ type, setChoice }) => {
       onPress={() => {
         setChoice(category);
         onClick();
+        SendData();
       }}
     >
       {clicked.isClicked ? (
@@ -111,7 +117,7 @@ const HeaderButton = ({ type, setChoice }) => {
 
 export default HeaderButton;
 
-const CommonBox = styled.View`
+export const CommonBox = styled.View`
   border: 1px solid ${palette.borderGray};
   border-radius: 8px;
   width: 40px;
@@ -121,16 +127,16 @@ const CommonBox = styled.View`
   padding: 0px;
 `;
 
-const SelectedBox = styled(CommonBox)`
+export const SelectedBox = styled(CommonBox)`
   background-color: ${(props) => props.background || `${palette.main}`};
   border-color: ${palette.main};
 `;
 
-const ImageItem = styled.Image`
+export const ImageItem = styled.Image`
   width: ${(props) => props.width || '15'}px;
   height: ${(props) => props.height || '15'}px;
 `;
 
-const SelectedText = styled.Text`
+export const SelectedText = styled.Text`
   color: white;
 `;

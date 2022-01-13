@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, Button } from 'react-native';
+import { TouchableOpacity, RefreshControl } from 'react-native';
 import styled from 'styled-components/native';
-import Search from '../../shared/components/Search';
+
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
-import axios from 'axios';
+
 import { GetTexts } from '../../shared/API';
 
 import TextContainer from '../../shared/components/TextContainer';
@@ -29,7 +29,6 @@ import {
   DateItem,
 } from '../../shared/styles/TextContainerStyle';
 import TextB from '../../shared/components/TextB';
-import TextR from '../../shared/components/TextR';
 import { TextSize } from '../../shared/styles/FontStyle';
 import HeaderButton from '../../shared/components/HeaderButton';
 
@@ -43,14 +42,18 @@ const gatherText = ({ navigation }) => {
   const dispatch = useDispatch();
   const [onSearchChange, renderState] = useSearch();
   const [texts, setTexts] = useState([]);
-
+  const [gatherMarked, setGatherMarked] = useState(false);
   const [choice, setChoice] = useState('all');
+  const [clickedState, setClickedState] = useState(true);
+
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleTexts = async () => {
     try {
       const getTextRes = await GetTexts(token);
       setTexts(getTextRes.data);
       console.log('getTextRes 성공: ', getTextRes.data);
+      setRefreshing(false);
     } catch (error) {
       console.log(`getTextRes 실패: ${error}`);
     }
@@ -80,45 +83,87 @@ const gatherText = ({ navigation }) => {
             <SearchInput onChangeText={onSearchChange} />
           </InputBox>
           <BookmarkBox>
-            <HeaderButton type="bookmark" setChoice={setChoice} />
+            <HeaderButton
+              type="bookmark"
+              setChoice={setChoice}
+              setClickedState={setClickedState}
+            />
           </BookmarkBox>
         </HeaderContainer>
       ),
     });
   }, []);
 
-  const handleTab = {
-    all: <Text>all</Text>,
-    bookmark: <Text>bookmark</Text>,
+  const onRefresh = () => {
+    setRefreshing(true);
+    handleTexts();
   };
 
   return (
-    <Scroll>
-      <Container>
-        {texts.map((memo, index) => (
-          <TextBox key={memo.id}>
-            <DateItem>
-              {index === 0 ? (
-                <MemoDate memoTime={memo.timestamp} />
-              ) : (
-                moment
-                  .unix(renderState[index - 1].timestamp)
-                  .format('YYYY-MM-DD') !==
-                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
-                  <MemoDate memoTime={memo.timestamp} />
-                )
-              )}
-            </DateItem>
-            <TextContainer
-              key={memo.id}
-              memo={memo}
-              navigation={navigation}
-              destination="detailText"
-              history="gatherText"
-            />
-          </TextBox>
-        ))}
-      </Container>
+    <Scroll
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      {clickedState ? (
+        <Container>
+          {texts
+            // .filter(
+            //   (elemnet) => (elemnet.url === null) & (elemnet.images.length === 0)
+            // )
+            .map((memo, index) => (
+              <TextBox key={memo.id}>
+                <DateItem>
+                  {index === 0 ? (
+                    <MemoDate memoTime={memo.timestamp} />
+                  ) : (
+                    moment
+                      .unix(renderState[index - 1].timestamp)
+                      .format('YYYY-MM-DD') !==
+                      moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                      <MemoDate memoTime={memo.timestamp} />
+                    )
+                  )}
+                </DateItem>
+                <TextContainer
+                  key={memo.id}
+                  memo={memo}
+                  navigation={navigation}
+                  destination="detailText"
+                  history="gatherText"
+                />
+              </TextBox>
+            ))}
+        </Container>
+      ) : (
+        <Container>
+          {texts
+            .filter((elemnet) => elemnet.is_marked === true)
+            .map((memo, index) => (
+              <TextBox key={memo.id}>
+                <DateItem>
+                  {index === 0 ? (
+                    <MemoDate memoTime={memo.timestamp} />
+                  ) : (
+                    moment
+                      .unix(renderState[index - 1].timestamp)
+                      .format('YYYY-MM-DD') !==
+                      moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                      <MemoDate memoTime={memo.timestamp} />
+                    )
+                  )}
+                </DateItem>
+                <TextContainer
+                  key={memo.id}
+                  memo={memo}
+                  navigation={navigation}
+                  destination="detailText"
+                  history="gatherText"
+                />
+              </TextBox>
+            ))}
+        </Container>
+      )}
     </Scroll>
   );
 };

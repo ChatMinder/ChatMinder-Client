@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
+import {
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+} from 'react-native';
 import styled from 'styled-components/native';
 import RNUrlPreview from 'react-native-url-preview';
 import TextR from '../../shared/components/TextR';
 import palette from '../../shared/palette';
 import { TextSize } from '../../shared/styles/FontStyle';
 import { useSelector } from 'react-redux';
-import { PatchMemo } from '../../shared/API';
+import { useDispatch } from 'react-redux';
+import { PatchMemo, PostBookmark } from '../../shared/API';
+import { bookmarkMemo } from '../../shared/reducers/memo';
 
 import {
   TagBox,
@@ -24,11 +33,13 @@ import GoBackLight from '../../shared/assets/goBack_light.svg';
 import Edit from '../../shared/assets/Edit.svg';
 
 const detailText = ({ route, navigation }) => {
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
   const [inputText, setInputText] = useState(route.params.memo_text);
   const [editable, setEditable] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(route.params.is_marked);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -38,7 +49,7 @@ const detailText = ({ route, navigation }) => {
     navigation.setOptions({
       headerShown: false,
     });
-  });
+  }, [isBookmarked]);
 
   const onEdit = () => {
     setEditable(!editable);
@@ -56,6 +67,21 @@ const detailText = ({ route, navigation }) => {
     }
   };
 
+  const handleBookmark = async (id, is_marked) => {
+    const formData = {
+      memo_id: id,
+      is_marked: is_marked,
+    };
+    try {
+      const postBookmarkRes = await PostBookmark(token, formData);
+      console.log('postBookmarkRes 성공: ', postBookmarkRes.data);
+      setIsBookmarked(postBookmarkRes.data.is_marked);
+      dispatch(bookmarkMemo(id, postBookmarkRes.data));
+    } catch (error) {
+      console.log(`postBookmarkRes 실패: ${error}`);
+    }
+  };
+
   return (
     <Wrapper>
       <BookmarkBox2 marginBottom="15px">
@@ -68,7 +94,17 @@ const detailText = ({ route, navigation }) => {
           <TouchableOpacity onPress={() => onEdit()}>
             <Edit />
           </TouchableOpacity>
-          {route.params.is_marked ? <FulledBookmark /> : <EmptyBookmark />}
+          <TouchableOpacity
+            onPress={() => {
+              handleBookmark(route.params.id, route.params.is_marked);
+            }}
+          >
+            {isBookmarked ? (
+              <BookmarkItem source={fulled} />
+            ) : (
+              <BookmarkItem source={empty} />
+            )}
+          </TouchableOpacity>
         </Buttons>
       </BookmarkBox2>
 
@@ -98,23 +134,26 @@ const detailText = ({ route, navigation }) => {
             </TextR>
           </LinkView>
         )}
-        <TextR>
-          {editable ? (
-            <View>
-              <TextInput
-                placeholder={route.params.memo_text}
-                type="text"
-                onChangeText={(text) => {
-                  setInputText(text);
-                  //console.log(inputText);
-                }}
-                value={inputText}
-              />
-            </View>
-          ) : (
+
+        {editable ? (
+          <View>
+            <TextInput
+              autoFocus={true}
+              style={styles.inputStyle}
+              placeholder={route.params.memo_text}
+              type="text"
+              onChangeText={(text) => {
+                setInputText(text);
+                //console.log(inputText);
+              }}
+              value={inputText}
+            />
+          </View>
+        ) : (
+          <TextR>
             <TextSize fontSize="16">{inputText}</TextSize>
-          )}
-        </TextR>
+          </TextR>
+        )}
       </Margin>
       <SaveButton
         onPress={() => {
@@ -136,6 +175,17 @@ const detailText = ({ route, navigation }) => {
     </Wrapper>
   );
 };
+
+const styles = StyleSheet.create({
+  inputStyle: {
+    ...Platform.select({
+      android: {
+        fontFamily: 'NanumSquareOTF_ac',
+        fontSize: 16,
+      },
+    }),
+  },
+});
 
 export default detailText;
 
