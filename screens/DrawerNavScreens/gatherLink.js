@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Text,
-  View,
-  Button,
-  TouchableOpacity,
-  RefreshControl,
-} from 'react-native';
-import axios from 'axios';
+import { TouchableOpacity, RefreshControl } from 'react-native';
+
 import { GetLinks } from '../../shared/API';
 import RNUrlPreview from 'react-native-url-preview';
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
 import TextContainer from '../../shared/components/TextContainer';
-import styled, { css } from 'styled-components/native';
+import styled from 'styled-components/native';
 import palette from '../../shared/palette';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 import TextB from '../../shared/components/TextB';
-import TextR from '../../shared/components/TextR';
 import { TextSize } from '../../shared/styles/FontStyle';
 import HeaderButton from '../../shared/components/HeaderButton';
 
@@ -35,14 +28,9 @@ import {
   BookmarkBox,
 } from '../../shared/styles/HeaderStyle';
 import {
-  TagBox,
   Container,
   TextBox,
   DateItem,
-  BoxContainer,
-  BookmarkItem,
-  BookmarkBox2,
-  TextItem,
 } from '../../shared/styles/TextContainerStyle';
 
 const goBack = require('../../shared/assets/GoBack.png');
@@ -58,6 +46,7 @@ const gatherLink = ({ navigation }) => {
   const [links, setLinks] = useState([]);
   const [onSearchChange, renderState] = useSearch();
   const [choice, setChoice] = useState('all');
+  const [clickedState, setClickedState] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
@@ -87,7 +76,11 @@ const gatherLink = ({ navigation }) => {
             />
           </InputBox>
           <BookmarkBox>
-            <HeaderButton type="bookmark" setChoice={setChoice} />
+            <HeaderButton
+              type="bookmark"
+              setChoice={setChoice}
+              setClickedState={setClickedState}
+            />
           </BookmarkBox>
         </HeaderContainer>
       ),
@@ -116,29 +109,61 @@ const gatherLink = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <Container>
-        {links.map((memo, index) => (
-          <TextBox key={memo.id}>
-            <DateItem>
-              {index === 0 ? (
-                <MemoDate memoTime={memo.timestamp} />
-              ) : (
-                moment.unix(links[index - 1].timestamp).format('YYYY-MM-DD') !==
-                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+      {clickedState ? (
+        <Container>
+          {links.map((memo, index) => (
+            <TextBox key={memo.id}>
+              <DateItem>
+                {index === 0 ? (
                   <MemoDate memoTime={memo.timestamp} />
-                )
-              )}
-            </DateItem>
-            <TextContainer
-              key={memo.id}
-              memo={memo}
-              navigation={navigation}
-              destination="detailText"
-              history="gatherLink"
-            />
-          </TextBox>
-        ))}
-      </Container>
+                ) : (
+                  moment
+                    .unix(links[index - 1].timestamp)
+                    .format('YYYY-MM-DD') !==
+                    moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                    <MemoDate memoTime={memo.timestamp} />
+                  )
+                )}
+              </DateItem>
+              <TextContainer
+                key={memo.id}
+                memo={memo}
+                navigation={navigation}
+                destination="detailText"
+                history="gatherLink"
+              />
+            </TextBox>
+          ))}
+        </Container>
+      ) : (
+        <Container>
+          {links
+            .filter((elemnet) => elemnet.is_marked === true)
+            .map((memo, index) => (
+              <TextBox key={memo.id}>
+                <DateItem>
+                  {index === 0 ? (
+                    <MemoDate memoTime={memo.timestamp} />
+                  ) : (
+                    moment
+                      .unix(links[index - 1].timestamp)
+                      .format('YYYY-MM-DD') !==
+                      moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                      <MemoDate memoTime={memo.timestamp} />
+                    )
+                  )}
+                </DateItem>
+                <TextContainer
+                  key={memo.id}
+                  memo={memo}
+                  navigation={navigation}
+                  destination="detailText"
+                  history="gatherLink"
+                />
+              </TextBox>
+            ))}
+        </Container>
+      )}
     </Scroll>
   );
 };

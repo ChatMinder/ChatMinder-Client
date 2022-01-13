@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Button,
-  RefreshControl,
-} from 'react-native';
+import { TouchableOpacity, RefreshControl } from 'react-native';
 import styled from 'styled-components/native';
-import Search from '../../shared/components/Search';
+
 import useSearch from '../../shared/hooks/useSearch';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
-import axios from 'axios';
+
 import { GetTexts } from '../../shared/API';
 
 import TextContainer from '../../shared/components/TextContainer';
@@ -36,7 +30,6 @@ import {
   DateItem,
 } from '../../shared/styles/TextContainerStyle';
 import TextB from '../../shared/components/TextB';
-import TextR from '../../shared/components/TextR';
 import { TextSize } from '../../shared/styles/FontStyle';
 import HeaderButton from '../../shared/components/HeaderButton';
 
