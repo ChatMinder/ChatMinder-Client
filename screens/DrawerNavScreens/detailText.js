@@ -100,9 +100,9 @@ const detailText = ({ route, navigation }) => {
             }}
           >
             {isBookmarked ? (
-              <BookmarkItem source={fulled} />
+              <FulledBookmark width="70%" height="70%" />
             ) : (
-              <BookmarkItem source={empty} />
+              <EmptyBookmark width="80%" height="80%" />
             )}
           </TouchableOpacity>
         </Buttons>
@@ -168,7 +168,6 @@ const detailText = ({ route, navigation }) => {
         </TextR>
       </SaveButton>
       <ModalListItem
-        key={route.params.id}
         isModalVisible={isModalVisible}
         toggleModal={toggleModal}
       />

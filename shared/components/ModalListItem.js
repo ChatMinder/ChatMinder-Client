@@ -39,13 +39,13 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
           <Scroll>
             {tagData.map((tag, index) =>
               tag.tag_name ? (
-                <TagBox key={tag.tag} backgroundColor={tag.tag_color}>
+                <TagBox key={tag.id} backgroundColor={tag.tag_color}>
                   <TextB>
                     <TextItem>{tag.tag_name}</TextItem>
                   </TextB>
                 </TagBox>
               ) : (
-                <View key={tag.tag} />
+                <View key={tag.index} />
               )
             )}
           </Scroll>
