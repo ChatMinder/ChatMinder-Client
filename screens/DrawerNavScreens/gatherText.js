@@ -66,7 +66,7 @@ const gatherText = ({ navigation }) => {
   };
 
   useEffect(() => {
-    handleTexts();
+    //handleTexts();
     navigation.setOptions({
       headerStyle: {
         height: 120,
@@ -116,29 +116,33 @@ const gatherText = ({ navigation }) => {
       }
     >
       <Container>
-        {texts.map((memo, index) => (
-          <TextBox key={memo.id}>
-            <DateItem>
-              {index === 0 ? (
-                <MemoDate memoTime={memo.timestamp} />
-              ) : (
-                moment
-                  .unix(renderState[index - 1].timestamp)
-                  .format('YYYY-MM-DD') !==
-                  moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+        {renderState
+          .filter(
+            (elemnet) => (elemnet.url === null) & (elemnet.images.length === 0)
+          )
+          .map((memo, index) => (
+            <TextBox key={memo.id}>
+              <DateItem>
+                {index === 0 ? (
                   <MemoDate memoTime={memo.timestamp} />
-                )
-              )}
-            </DateItem>
-            <TextContainer
-              key={memo.id}
-              memo={memo}
-              navigation={navigation}
-              destination="detailText"
-              history="gatherText"
-            />
-          </TextBox>
-        ))}
+                ) : (
+                  moment
+                    .unix(renderState[index - 1].timestamp)
+                    .format('YYYY-MM-DD') !==
+                    moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                    <MemoDate memoTime={memo.timestamp} />
+                  )
+                )}
+              </DateItem>
+              <TextContainer
+                key={memo.id}
+                memo={memo}
+                navigation={navigation}
+                destination="detailText"
+                history="gatherText"
+              />
+            </TextBox>
+          ))}
       </Container>
     </Scroll>
   );

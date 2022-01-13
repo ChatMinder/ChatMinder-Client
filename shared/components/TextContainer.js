@@ -13,6 +13,7 @@ import palette from '../palette';
 import TextR from './TextR';
 import { TextSize } from '../styles/FontStyle';
 import { DeleteMemo, PostBookmark } from '../API';
+import { bookmarkMemo, delMemo } from '../reducers/memo';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -30,6 +31,7 @@ const fulled = require('../assets/fulledBookmark.png');
 
 const TextContainer = ({ memo, navigation, destination, history }) => {
   const token = useSelector((state) => state.auth.accessToken);
+  const dispatch = useDispatch();
 
   //useEffect(() => {}, [memo]);
 
@@ -50,6 +52,7 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
     try {
       const postBookmarkRes = await PostBookmark(token, formData);
       console.log('postBookmarkRes 성공: ', postBookmarkRes.data);
+      dispatch(bookmarkMemo(memo.id, postBookmarkRes.data));
     } catch (error) {
       console.log(`postBookmarkRes 실패: ${error}`);
     }
