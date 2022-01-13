@@ -71,8 +71,8 @@ const CategoryDetail = ({ route, navigation }) => {
       headerLeft: () => null,
       headerRight: () => null,
       headerTitle: () => (
-        <HeaderContainer paddingRight="5%">
-          <TitleBox>
+        <HeaderContainer paddingRight="5%" marginTop="3%">
+          <TitleBox marginBottom="3%">
             <TouchableOpacity onPress={() => navigation.navigate('태그')}>
               <GoBack />
             </TouchableOpacity>
@@ -85,7 +85,7 @@ const CategoryDetail = ({ route, navigation }) => {
           </TitleBox>
 
           <InputBox>
-            <SearchIcon />
+            <SearchIcon style={{ marginLeft: 10, marginRight: 8 }} />
             <SearchInput
               onChangeText={onSearchChange}
               placeholder="내용, 태그 검색"

@@ -52,11 +52,11 @@ const HeaderButton = ({ type, setChoice, setClickedState }) => {
     >
       {clicked.isClicked ? (
         <SelectedBox>
-          <ImageLight />
+          <ImageLight height={15} />
         </SelectedBox>
       ) : (
         <CommonBox>
-          <ImgBtn />
+          <ImgBtn height={15} />
         </CommonBox>
       )}
     </TouchableOpacity>
