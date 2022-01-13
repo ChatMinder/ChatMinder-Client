@@ -46,6 +46,9 @@ const palette = {
 
   //header
   blackGray: '#7E7E7E',
+
+  //URL color
+  pastelBlue: '#6E81E7',
 };
 
 export default palette;

@@ -7,6 +7,7 @@ import { DeleteMemo, PostBookmark } from '../API';
 import { bookmarkMemo, delMemo } from '../reducers/memo';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
 import TextR from './TextR';
+import palette from '../palette';
 import ChatBubblePoint from '../assets/ChatBubblePoint.svg';
 import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
@@ -28,6 +29,18 @@ const MemoItem = ({ memo }) => {
     } catch (error) {
       console.log(`북마크 실패: ${error}`);
     }
+  };
+
+  const handlePress = (memo) => {
+    navigation.navigate(`detailText`, {
+      id: memo.id,
+      memo_text: memo.memo_text,
+      tag_name: memo.tag_name,
+      tag_color: memo.tag_color,
+      is_marked: memo.is_marked,
+      url: memo.url,
+      history: 'Home',
+    });
   };
 
   const handleDelete = async (memoID) => {
@@ -126,6 +139,7 @@ const MemoItem = ({ memo }) => {
 
   return (
     <Wrapper
+      onPress={() => handlePress(memo)}
       onLongPress={() => {
         Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
           {
@@ -149,7 +163,12 @@ const MemoItem = ({ memo }) => {
         </PointContainer>
         <MemoContainer>
           <Images imgCnt={memo.images.length} />
-          <TextR>{memo.memo_text}</TextR>
+          {memo.memo_text ? <TextR>{memo.memo_text}</TextR> : null}
+          {memo.url && (
+            <URLContainer>
+              <URLText>{memo.url}</URLText>
+            </URLContainer>
+          )}
         </MemoContainer>
         <MemoFooter>
           {memo.tag_name ? (
@@ -199,6 +218,18 @@ const PointContainer = styled.View`
 const MemoContainer = styled.View`
   width: 100%;
   justify-content: flex-start;
+`;
+const URLContainer = styled.View`
+  border-radius: 4px;
+`;
+const URLText = styled.Text`
+  font-family: 'NanumSquareOTF_ac';
+  color: ${palette.pastelBlue};
+  text-decoration: underline;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.36px;
 `;
 const MemoImageItem = styled.View`
   width: 100%;

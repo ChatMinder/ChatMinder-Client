@@ -99,11 +99,7 @@ const detailText = ({ route, navigation }) => {
               handleBookmark(route.params.id, route.params.is_marked);
             }}
           >
-            {isBookmarked ? (
-              <BookmarkItem source={fulled} />
-            ) : (
-              <BookmarkItem source={empty} />
-            )}
+            {isBookmarked ? <FulledBookmark /> : <EmptyBookmark />}
           </TouchableOpacity>
         </Buttons>
       </BookmarkBox2>
