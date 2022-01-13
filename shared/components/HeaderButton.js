@@ -98,11 +98,11 @@ const HeaderButton = ({ type, setChoice }) => {
     >
       {clicked.isClicked ? (
         <SelectedBox background="white">
-          <FulledBookmark />
+          <FulledBookmark width="70%" height="70%" />
         </SelectedBox>
       ) : (
         <CommonBox>
-          <EmptyBookmark />
+          <EmptyBookmark width="80%" height="80%" />
         </CommonBox>
       )}
     </TouchableOpacity>

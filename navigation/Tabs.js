@@ -10,7 +10,7 @@ import TintCalendarIcon from '../shared/assets/TintCalendar.svg';
 
 import Calendar from '../screens/CalendarPage';
 import Category from '../screens/Category';
-import Drawers from './Drawers';
+import Home from '../screens/Home';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +22,7 @@ const Tabs = () => {
         backgroundColor: 'white',
       }}
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: 'white',
           height: 56,
@@ -51,9 +52,8 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="메인"
-        component={Drawers}
+        component={Home}
         options={{
-          headerShown: false,
           tabBarIcon: ({ focused }) => {
             return focused ? <TintHomeIcon /> : <HomeIcon />;
           },

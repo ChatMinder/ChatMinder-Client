@@ -1,32 +1,36 @@
 import styled from 'styled-components/native';
 import palette from '../palette';
 
-export const SearchInput = styled.TextInput``;
-
-export const InputBox = styled.View`
-  border: 1px solid ${palette.blackGray};
-  border-radius: 15px;
-  flex-direction: row;
-  align-items: center;
-  width: ${(props) => props.width || '95%'};
-`;
-
-export const TitleBox = styled.View`
-  width: ${(props) => props.width || '100%'};
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
 export const HeaderContainer = styled.View`
   align-items: center;
   width: 100%;
   padding-right: ${(props) => props.paddingRight || '0px'};
 `;
 
+export const TitleBox = styled.View`
+  width: ${(props) => props.width || '100%'};
+  /* border: 1px solid red; */
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const InputBox = styled.View`
+  border: 1px solid #e9ebf0;
+  border-radius: 15px;
+  flex-direction: row;
+  align-items: center;
+  width: ${(props) => props.width || '95%'};
+`;
+
+export const SearchInput = styled.TextInput`
+  width: 90%;
+  height: 100%;
+`;
+
 export const NoVisibleBox = styled.View`
-  width: ${(props) => props.width || '8%'}
-  height: ${(props) => props.height || '8%'}
+  width: ${(props) => props.width || '8%'};
+  height: ${(props) => props.height || '8%'};
 `;
 
 export const ButtonBox = styled.View`
@@ -53,10 +57,6 @@ export const TagBox = styled(ButtonBox)`
 export const CommonIcon = styled.Image`
   width: 16px;
   height: 16px;
-`;
-
-export const SearchIcon = styled(CommonIcon)`
-  margin: 0px 8px;
 `;
 
 export const HeaderIcon = styled(CommonIcon)`

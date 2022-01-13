@@ -141,9 +141,10 @@ const SearchInput = styled.TextInput`
   width: 75%;
 `;
 const CancelBtn = styled.TouchableOpacity`
+  padding: 10px;
   align-self: center;
   position: absolute;
-  right: 10px;
+  right: 0;
 `;
 const SearchBtnContainer = styled.TouchableOpacity``;
 

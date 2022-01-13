@@ -69,7 +69,7 @@ const gatherLink = ({ navigation }) => {
         <HeaderContainer>
           <TitleBox>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <GoBack />
+              <GoBack style={{ marginRight: 12, marginVertical: 16 }} />
             </TouchableOpacity>
             <TextB>
               <TextSize fontSize="18">링크 모아보기</TextSize>
@@ -77,11 +77,8 @@ const gatherLink = ({ navigation }) => {
             <NoVisibleBox />
           </TitleBox>
           <InputBox>
-            <SearchIcon />
-            <SearchInput
-              onChangeText={onSearchChange}
-              placeholder="내용, 태그 검색"
-            />
+            <SearchIcon style={{ marginHorizontal: 8 }} />
+            <SearchInput onChangeText={onSearchChange} />
           </InputBox>
           <BookmarkBox>
             <HeaderButton type="bookmark" setChoice={setChoice} />

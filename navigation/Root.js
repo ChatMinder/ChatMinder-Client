@@ -65,13 +65,13 @@ const Root = () => {
           {isLoggedIn ? (
             <>
               <Nav.Screen
-                name="Tabs"
-                component={Tabs}
+                name="Drawers"
+                component={Drawers}
                 options={{ headerShown: false }}
               />
               <Nav.Screen
-                name="Drawers"
-                component={Drawers}
+                name="Tabs"
+                component={Tabs}
                 options={{ headerShown: false }}
               />
               <Nav.Screen name="MyPage" component={MyPage} />

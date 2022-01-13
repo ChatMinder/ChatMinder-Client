@@ -47,8 +47,8 @@ const Category = ({ navigation }) => {
     setModalVisible(!isModalVisible);
   };
 
-  useEffect(() => {
-    handleTags();
+  useEffect(async () => {
+    await handleTags();
     //console.log(title);
   }, [tags]);
 

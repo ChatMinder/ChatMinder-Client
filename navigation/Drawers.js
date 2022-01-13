@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { TouchableOpacity, Text, SafeAreaView, ScrollView } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styled, { css } from 'styled-components/native';
-import Home from '../screens/Home';
-import LogIn from '../screens/LogIn';
 import gatherImg from '../screens/DrawerNavScreens/gatherImg';
 import gatherLink from '../screens/DrawerNavScreens/gatherLink';
 import gatherText from '../screens/DrawerNavScreens/gatherText';
 import detailText from '../screens/DrawerNavScreens/detailText';
 import TextB from '../shared/components/TextR';
 import palette from '../shared/palette';
+import Tabs from './Tabs';
 
 const Drawer = createDrawerNavigator();
 
@@ -38,7 +37,7 @@ const StyledText = styled.Text`
   font-family: 'NanumSquareOTF_ac Bold';
 `;
 
-const Drawers = () => {
+const Drawers = ({ navigation }) => {
   const SCREEN_WIDTH = Dimensions.get('window').width;
   const CustomDrawerContent = (props) => (
     <SafeAreaView>
@@ -62,7 +61,7 @@ const Drawers = () => {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
-      backBehavior="order"
+      backBehavior="initialRoute"
       screenOptions={{
         drawerStyle: {
           width: SCREEN_WIDTH * 0.43,
@@ -70,8 +69,16 @@ const Drawers = () => {
       }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="gatherImg" component={gatherImg} />
+      <Drawer.Screen
+        name="Home"
+        component={Tabs}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="gatherImg"
+        component={gatherImg}
+        options={{ unmountOnBlur: true }}
+      />
       <Drawer.Screen
         name="gatherLink"
         component={gatherLink}
