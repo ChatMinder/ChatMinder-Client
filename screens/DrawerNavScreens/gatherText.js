@@ -66,7 +66,7 @@ const gatherText = ({ navigation }) => {
   };
 
   useEffect(() => {
-    //handleTexts();
+    handleTexts();
     navigation.setOptions({
       headerStyle: {
         height: 120,
@@ -116,10 +116,10 @@ const gatherText = ({ navigation }) => {
       }
     >
       <Container>
-        {renderState
-          .filter(
-            (elemnet) => (elemnet.url === null) & (elemnet.images.length === 0)
-          )
+        {texts
+          // .filter(
+          //   (elemnet) => (elemnet.url === null) & (elemnet.images.length === 0)
+          // )
           .map((memo, index) => (
             <TextBox key={memo.id}>
               <DateItem>
