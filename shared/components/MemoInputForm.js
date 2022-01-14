@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
+import { ActivityIndicator, Dimensions, Image } from 'react-native';
+
+import moment from 'moment';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import styled from 'styled-components/native';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
+import { PostImage, PostMemo } from '../API';
 import { checkIncludeURL } from '../checkIncludeURL';
-import { Image } from 'react-native';
-import TextR from './TextR';
 import { addTag } from '../reducers/tag';
 import { addImgInMemo, addMemo } from '../reducers/memo';
-import { PostImage, PostMemo } from '../API';
+import TextR from './TextR';
+import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
 import InputShpBtn from '../assets/InputShpBtn.svg';
 import ImgBtn from '../assets/ImgBtn.svg';
 import SubmitBtn from '../assets/SubmitBtn.svg';
 
 const MemoInputForm = () => {
   const dispatch = useDispatch();
-  const memoData = useSelector((state) => state.memoData);
   const tagData = useSelector((state) => state.tagData);
   const token = useSelector((state) => state.auth.accessToken);
 
+  const [loading, setLoading] = useState(false);
   const [isShpBtnToggled, setIsShpBtnToggled] = useState(false);
   const [imgPreview, setImgPreview] = useState();
   const [inputValue, setInputValue] = useState('');
@@ -30,13 +31,7 @@ const MemoInputForm = () => {
   const [newTagColor, setNewTagColor] = useState(randomTagColor());
   const [submitNull, setSubmitNull] = useState(false);
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    resetField,
-    formState: { errors },
-  } = useForm({
+  const { control, handleSubmit, reset, resetField } = useForm({
     defaultValues: {
       tag: '',
       memo: '',
@@ -49,6 +44,7 @@ const MemoInputForm = () => {
       setSubmitNull(true);
       return;
     }
+    setLoading(true);
     const memoURL = checkIncludeURL(data.memo);
     let memoText;
     memoURL
@@ -120,6 +116,7 @@ const MemoInputForm = () => {
     setSelectedNewTag(0);
     setInputValue('');
     reset();
+    setLoading(false);
   };
 
   const onImageUpload = async () => {
@@ -143,6 +140,11 @@ const MemoInputForm = () => {
 
   return (
     <Wrapper>
+      {loading && (
+        <SpinnerWrapper>
+          <ActivityIndicator size="large" color="#ff7f6d" />
+        </SpinnerWrapper>
+      )}
       {/* Shp Button을 눌렀을 때 펼쳐지는 내용물 */}
       {isShpBtnToggled && (
         <ShpItemContainer keyboardShouldPersistTaps="always">
@@ -283,6 +285,16 @@ const MemoInputForm = () => {
 const Wrapper = styled.View`
   width: 100%;
   background: #ececef;
+`;
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+
+const SpinnerWrapper = styled.View`
+  position: absolute;
+  left: ${SCREEN_WIDTH * 0.5 - 18}px;
+  bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
+  z-index: 10;
 `;
 
 const ShpItemContainer = styled.View`

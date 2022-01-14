@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Button, PixelRatio } from 'react-native';
-import { login } from '@react-native-seoul/kakao-login';
-import { PostLogIn } from '../shared/API';
-import styled from 'styled-components/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { useDispatch } from 'react-redux';
+import { login } from '@react-native-seoul/kakao-login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import styled from 'styled-components/native';
+
+import { PostLogIn } from '../shared/API';
 import { setLoginState } from '../shared/reducers/auth';
 import Loader from '../shared/components/Loader';
 import Logo from '../shared/assets/LoginLogo.svg';
 import LogoText from '../shared/assets/LoginText.svg';
 import KakaoSymbol from '../shared/assets/KakaoSymbol.svg';
-
-import palette from '../shared/palette';
 
 const LogIn = ({ navigation }) => {
   const dispatch = useDispatch();

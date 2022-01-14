@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import styled from 'styled-components/native';
 import { GetTags, DeleteTag } from '../shared/API';
@@ -34,6 +36,7 @@ const Category = ({ navigation }) => {
   //console.log('tagData: ', tagData);
   const token = useSelector((state) => state.auth.accessToken);
 
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState({
     id: 0,
     title: '',
@@ -48,30 +51,41 @@ const Category = ({ navigation }) => {
   };
 
   useEffect(async () => {
+    setLoading(true);
     await handleTags();
     //console.log(title);
+    setLoading(false);
   }, [tags]);
 
   const handleTags = async () => {
+    setLoading(true);
     try {
       const getTagsRes = await GetTags(token);
       setTags(getTagsRes.data);
     } catch (error) {
       console.log(`getTags 실패: ${error}`);
     }
+    setLoading(false);
   };
 
   const handleDelete = async (id) => {
+    setLoading(true);
     try {
       const deleteTagRes = await DeleteTag(token, id);
       console.log('deleteTag 성공: ', deleteTagRes.data);
     } catch (error) {
       console.log('deleteTag 실패', error);
     }
+    setLoading(false);
   };
 
   return (
     <Wrapper>
+      {loading && (
+        <SpinnerWrapper>
+          <ActivityIndicator size="large" color="#ff7f6d" />
+        </SpinnerWrapper>
+      )}
       <ButtonBox width="100%">
         <TextB>
           <TextSize fontSize="20">태그</TextSize>
@@ -153,6 +167,16 @@ const Category = ({ navigation }) => {
 export default Category;
 
 const Wrapper = styled.View``;
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+
+const SpinnerWrapper = styled.View`
+  position: absolute;
+  left: ${SCREEN_WIDTH * 0.5 - 18}px;
+  bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
+  z-index: 10;
+`;
 
 const ButtonItem = styled.TouchableOpacity`
   background-color: ${palette.main};

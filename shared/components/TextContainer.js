@@ -44,7 +44,7 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
     try {
       const postBookmarkRes = await PostBookmark(token, formData);
       console.log('postBookmarkRes 성공: ', postBookmarkRes.data);
-      dispatch(bookmarkMemo(memo.id, postBookmarkRes.data));
+      dispatch(bookmarkMemo(memo.id));
     } catch (error) {
       console.log(`postBookmarkRes 실패: ${error}`);
     }

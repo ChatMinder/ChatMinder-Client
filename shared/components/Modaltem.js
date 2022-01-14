@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TouchableOpacity, TextInput } from 'react-native';
+import {
+  Button,
+  TouchableOpacity,
+  TextInput,
+  Dimensions,
+  ActivityIndicator,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -26,9 +32,11 @@ import { ImgItem, ButtonBox } from '../styles/CategoryStyle';
 import { FontStyle } from '../styles/FontStyle';
 
 import Cancel from '../assets/cancel.svg';
+import styled from 'styled-components/native';
 
 const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   const token = useSelector((state) => state.auth.accessToken);
+  const [loading, setLoading] = useState(false);
   const [subTitle, setSubTitle] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
 
@@ -118,6 +126,7 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   // };
 
   const handleNewTag = async () => {
+    setLoading(true);
     const formData = {
       tag_name: subTitle,
       tag_color: selectedColor,
@@ -128,9 +137,11 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     } catch (error) {
       console.log('postTagRes 실패: ', error);
     }
+    setLoading(false);
   };
 
   const handleEdit = async (id) => {
+    setLoading(true);
     const formData = {
       tag_name: subTitle,
       tag_color: selectedColor,
@@ -141,10 +152,17 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     } catch (error) {
       console.log('patchTag 실패: ', error);
     }
+    setLoading(false);
   };
 
   return (
     <StyledSafeAreaView>
+      {loading && (
+        <SpinnerWrapper>
+          <ActivityIndicator size="large" color="#ff7f6d" />
+        </SpinnerWrapper>
+      )}
+
       <Modal
         isVisible={isModalVisible}
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
@@ -220,3 +238,13 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
 };
 
 export default ModalItem;
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+
+const SpinnerWrapper = styled.View`
+  position: absolute;
+  left: ${SCREEN_WIDTH * 0.5 - 18}px;
+  bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
+  z-index: 10;
+`;

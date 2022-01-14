@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  ActivityIndicator,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import axios from 'axios';
@@ -49,10 +55,12 @@ const CategoryDetail = ({ route, navigation }) => {
     { id: 4, category: 'bookmark', isSelected: false },
   ]);
 
+  const [loading, setLoading] = useState(false);
   const [choice, setChoice] = useState('all');
   const [tagsDetail, setTagsDetail] = useState([]);
 
   const handleTagDetail = async () => {
+    setLoading(true);
     try {
       const getTagsDetail = await GetTagsDetail(token, route.params.id);
       console.log('getTagsDetail 성공: ', getTagsDetail.data);
@@ -60,6 +68,7 @@ const CategoryDetail = ({ route, navigation }) => {
     } catch (error) {
       console.log('getTagsDetail 실패', error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -117,6 +126,11 @@ const CategoryDetail = ({ route, navigation }) => {
 
   return (
     <View>
+      {loading && (
+        <SpinnerWrapper>
+          <ActivityIndicator size="large" color="#ff7f6d" />
+        </SpinnerWrapper>
+      )}
       {
         {
           all: (
@@ -162,3 +176,13 @@ const CategoryDetail = ({ route, navigation }) => {
 };
 
 export default CategoryDetail;
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+
+const SpinnerWrapper = styled.View`
+  position: absolute;
+  left: ${SCREEN_WIDTH * 0.5 - 18}px;
+  bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
+  z-index: 10;
+`;

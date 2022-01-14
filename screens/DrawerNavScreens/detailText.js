@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
+  Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import styled from 'styled-components/native';
 import RNUrlPreview from 'react-native-url-preview';
@@ -34,8 +36,10 @@ import Edit from '../../shared/assets/Edit.svg';
 
 const detailText = ({ route, navigation }) => {
   const dispatch = useDispatch();
+
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
+  const [loading, setLoading] = useState(true);
   const [inputText, setInputText] = useState(route.params.memo_text);
   const [editable, setEditable] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -56,6 +60,7 @@ const detailText = ({ route, navigation }) => {
   };
 
   const handleEditMemo = async (id) => {
+    setLoading(true);
     const formData = {
       memo_text: inputText,
     };
@@ -65,6 +70,7 @@ const detailText = ({ route, navigation }) => {
     } catch (error) {
       console.log(`patchMemoRes 실패: ${error}`);
     }
+    setLoading(false);
   };
 
   const handleBookmark = async (id, is_marked) => {
@@ -76,7 +82,7 @@ const detailText = ({ route, navigation }) => {
       const postBookmarkRes = await PostBookmark(token, formData);
       console.log('postBookmarkRes 성공: ', postBookmarkRes.data);
       setIsBookmarked(postBookmarkRes.data.is_marked);
-      dispatch(bookmarkMemo(id, postBookmarkRes.data));
+      dispatch(bookmarkMemo(id));
     } catch (error) {
       console.log(`postBookmarkRes 실패: ${error}`);
     }
@@ -84,6 +90,11 @@ const detailText = ({ route, navigation }) => {
 
   return (
     <Wrapper>
+      {loading && (
+        <SpinnerWrapper>
+          <ActivityIndicator size="large" color="#ff7f6d" />
+        </SpinnerWrapper>
+      )}
       <BookmarkBox2 marginBottom="15px">
         <TouchableOpacity
           onPress={() => navigation.navigate(route.params.history)}
@@ -187,6 +198,15 @@ export default detailText;
 
 const Wrapper = styled.View`
   margin: 20px 15px;
+`;
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+const SpinnerWrapper = styled.View`
+  position: absolute;
+  left: ${SCREEN_WIDTH * 0.5 - 18}px;
+  bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
+  z-index: 10;
 `;
 
 const Margin = styled.View`

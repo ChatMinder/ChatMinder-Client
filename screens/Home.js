@@ -19,11 +19,13 @@ import SearchIcon from '../shared/assets/search.svg';
 import LogoHome from '../shared/assets/LogoHome.svg';
 
 const Home = ({ navigation }) => {
+  const scrollViewRef = useRef();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
 
   const [onSearchChange, renderState] = useSearch('Main');
   const [isSearchToggled, setIsSearchToggled] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     isSearchToggled
@@ -72,8 +74,7 @@ const Home = ({ navigation }) => {
           ),
         });
   }, [isSearchToggled]);
-  const scrollViewRef = useRef();
-  const [loading, setLoading] = useState(false);
+
   const onRefresh = async () => {
     setLoading(true);
     try {
@@ -86,6 +87,7 @@ const Home = ({ navigation }) => {
       console.log(`새로고침 메모 가져오기 실패: ${error}`);
     }
   };
+
   return (
     <Wrapper>
       <MemoContainer
