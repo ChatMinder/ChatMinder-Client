@@ -11,15 +11,13 @@ import {
   InputBox,
   BookmarkBox,
 } from '../../shared/styles/HeaderStyle';
-
 import styled from 'styled-components/native';
-
+import useSearchGather from '../../shared/hooks/useSearchGather';
 import GoBack from '../../shared/assets/GoBack.svg';
 import SearchIcon from '../../shared/assets/search.svg';
 import TextB from '../../shared/components/TextB';
 import HeaderButton from '../../shared/components/HeaderButton';
 import { TextSize } from '../../shared/styles/FontStyle';
-import useSearch from '../../shared/hooks/useSearch';
 import { useSelector } from 'react-redux';
 import MemoDate from '../../shared/components/MemoDate';
 import MemoItem from '../../shared/components/MemoItem';
@@ -34,9 +32,9 @@ const gatherImg = ({ navigation }) => {
   const memoData = useSelector((state) => state.memoData);
   const token = useSelector((state) => state.auth.accessToken);
 
-  const [imgmemos, setImgMemos] = useState([]);
-  const [onSearchChange, renderState] = useSearch();
-
+  const [imgMemos, setimgMemos] = useState([]);
+  const [onSearchChange, renderState] = useSearchGather(imgMemos);
+  const [choice, setChoice] = useState('all');
   const [clickedState, setClickedState] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -61,10 +59,17 @@ const gatherImg = ({ navigation }) => {
           </TitleBox>
           <InputBox>
             <SearchIcon style={{ marginHorizontal: 8 }} />
-            <SearchInput onChangeText={onSearchChange} />
+            <SearchInput
+              onChangeText={onSearchChange}
+              placeholder="내용, 태그 검색"
+            />
           </InputBox>
           <BookmarkBox>
-            <HeaderButton type="bookmark" setClickedState={setClickedState} />
+            <HeaderButton
+              type="bookmark"
+              setChoice={setChoice}
+              setClickedState={setClickedState}
+            />
           </BookmarkBox>
         </HeaderContainer>
       ),
@@ -74,7 +79,7 @@ const gatherImg = ({ navigation }) => {
   const getImages = async () => {
     try {
       const getImagesRes = await GetImages(token);
-      setImgMemos(getImagesRes.data);
+      setimgMemos(getImagesRes.data);
       setRefreshing(false);
     } catch (error) {
       console.log('getImages 실패', error);
@@ -94,14 +99,14 @@ const gatherImg = ({ navigation }) => {
     >
       {clickedState ? (
         <Container>
-          {imgmemos.map((memo, index) => (
+          {renderState.map((memo, index) => (
             <TextBox key={memo.id}>
               <DateItem>
                 {index === 0 ? (
                   <MemoDate memoTime={memo.timestamp} />
                 ) : (
                   moment
-                    .unix(imgmemos[index - 1].timestamp)
+                    .unix(renderState[index - 1].timestamp)
                     .format('YYYY-MM-DD') !==
                     moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
                     <MemoDate memoTime={memo.timestamp} />
@@ -114,7 +119,7 @@ const gatherImg = ({ navigation }) => {
         </Container>
       ) : (
         <Container>
-          {imgmemos
+          {renderState
             .filter((element) => element.is_marked === true)
             .map((memo, index) => (
               <TextBox key={memo.id}>
@@ -123,7 +128,7 @@ const gatherImg = ({ navigation }) => {
                     <MemoDate memoTime={memo.timestamp} />
                   ) : (
                     moment
-                      .unix(imgmemos[index - 1].timestamp)
+                      .unix(renderState[index - 1].timestamp)
                       .format('YYYY-MM-DD') !==
                       moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
                       <MemoDate memoTime={memo.timestamp} />

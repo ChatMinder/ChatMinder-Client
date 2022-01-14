@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, RefreshControl } from 'react-native';
 import styled from 'styled-components/native';
 
-import useSearch from '../../shared/hooks/useSearch';
+import useSearchGather from '../../shared/hooks/useSearchGather';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
 
@@ -40,8 +40,8 @@ const gatherText = ({ navigation }) => {
   //console.log('memoData: ', memoData);
   const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
-  const [onSearchChange, renderState] = useSearch();
   const [texts, setTexts] = useState([]);
+  const [onSearchChange, renderState] = useSearchGather(texts);
   const [gatherMarked, setGatherMarked] = useState(false);
   const [choice, setChoice] = useState('all');
   const [clickedState, setClickedState] = useState(true);
@@ -80,7 +80,10 @@ const gatherText = ({ navigation }) => {
           </TitleBox>
           <InputBox>
             <SearchIcon style={{ marginHorizontal: 8 }} />
-            <SearchInput onChangeText={onSearchChange} />
+            <SearchInput
+              onChangeText={onSearchChange}
+              placeholder="내용, 태그 검색"
+            />
           </InputBox>
           <BookmarkBox>
             <HeaderButton
@@ -107,7 +110,7 @@ const gatherText = ({ navigation }) => {
     >
       {clickedState ? (
         <Container>
-          {texts
+          {renderState
             // .filter(
             //   (elemnet) => (elemnet.url === null) & (elemnet.images.length === 0)
             // )
@@ -137,8 +140,8 @@ const gatherText = ({ navigation }) => {
         </Container>
       ) : (
         <Container>
-          {texts
-            .filter((elemnet) => elemnet.is_marked === true)
+          {renderState
+            .filter((element) => element.is_marked === true)
             .map((memo, index) => (
               <TextBox key={memo.id}>
                 <DateItem>

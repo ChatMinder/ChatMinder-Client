@@ -3,7 +3,7 @@ import { TouchableOpacity, RefreshControl } from 'react-native';
 
 import { GetLinks } from '../../shared/API';
 import RNUrlPreview from 'react-native-url-preview';
-import useSearch from '../../shared/hooks/useSearch';
+import useSearchGather from '../../shared/hooks/useSearchGather';
 import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
 import TextContainer from '../../shared/components/TextContainer';
@@ -43,7 +43,7 @@ const gatherLink = ({ navigation }) => {
   const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
   const [links, setLinks] = useState([]);
-  const [onSearchChange, renderState] = useSearch();
+  const [onSearchChange, renderState] = useSearchGather(links);
   const [choice, setChoice] = useState('all');
   const [clickedState, setClickedState] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -69,7 +69,10 @@ const gatherLink = ({ navigation }) => {
           </TitleBox>
           <InputBox>
             <SearchIcon style={{ marginHorizontal: 8 }} />
-            <SearchInput onChangeText={onSearchChange} />
+            <SearchInput
+              onChangeText={onSearchChange}
+              placeholder="내용, 태그 검색"
+            />
           </InputBox>
           <BookmarkBox>
             <HeaderButton
@@ -107,14 +110,14 @@ const gatherLink = ({ navigation }) => {
     >
       {clickedState ? (
         <Container>
-          {links.map((memo, index) => (
+          {renderState.map((memo, index) => (
             <TextBox key={memo.id}>
               <DateItem>
                 {index === 0 ? (
                   <MemoDate memoTime={memo.timestamp} />
                 ) : (
                   moment
-                    .unix(links[index - 1].timestamp)
+                    .unix(renderState[index - 1].timestamp)
                     .format('YYYY-MM-DD') !==
                     moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
                     <MemoDate memoTime={memo.timestamp} />
@@ -133,7 +136,7 @@ const gatherLink = ({ navigation }) => {
         </Container>
       ) : (
         <Container>
-          {links
+          {renderState
             .filter((element) => element.is_marked === true)
             .map((memo, index) => (
               <TextBox key={memo.id}>
@@ -142,7 +145,7 @@ const gatherLink = ({ navigation }) => {
                     <MemoDate memoTime={memo.timestamp} />
                   ) : (
                     moment
-                      .unix(links[index - 1].timestamp)
+                      .unix(renderState[index - 1].timestamp)
                       .format('YYYY-MM-DD') !==
                       moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
                       <MemoDate memoTime={memo.timestamp} />
