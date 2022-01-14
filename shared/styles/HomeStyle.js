@@ -31,10 +31,10 @@ export const randomTagColor = () => {
       return '#FA7931';
     //lightOrange
     case 8:
-      return '#FFBE6C';
+      return `${palette.lightOrange}`;
     //yellow
     case 9:
-      return '#FFE665';
+      return `${palette.yellow}`;
   }
 };
 
@@ -65,11 +65,11 @@ const borderColor = (tagColor) => {
     case '#FA7931':
       return '#D44C00';
     //lightOrange
-    case '#FFBE6C':
-      return '#E99933';
+    case `${palette.lightOrange}`:
+      return `${palette.lightOrange_border}`;
     //yellow
-    case '#FFE665':
-      return '#E9C81F';
+    case `${palette.yellow}`:
+      return `${palette.yellow_border}`;
     default:
       return '#000000';
   }

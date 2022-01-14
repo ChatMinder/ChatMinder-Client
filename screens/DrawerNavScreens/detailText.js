@@ -118,7 +118,7 @@ const detailText = ({ route, navigation }) => {
               <TextItem>{route.params.tag_name}</TextItem>
             </TouchableOpacity>
             <View>
-              <GoBackLight />
+              <GoBackLight style={{ marginLeft: 2 }} />
             </View>
           </TagBox>
         </TextR>
