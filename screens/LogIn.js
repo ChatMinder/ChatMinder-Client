@@ -27,14 +27,14 @@ const LogIn = ({ navigation }) => {
         kakao_access_token: kakaoRes.accessToken,
       };
       const logInRes = await PostLogIn(Sendingdata);
-      const ChatMinderAccessToken = logInRes.data.data.access;
+      const ChatMinderTokens = logInRes.data;
       console.log(`챗마인더 로그인 성공: ${JSON.stringify(logInRes.data)}`);
-      //Async Storage에 로그인 상태 저장
+      //Async Storage에 리프레시 토큰 저장
       await AsyncStorage.setItem(
-        'ChatMinderAccessToken',
-        ChatMinderAccessToken
+        'ChatMinderRefreshToken',
+        ChatMinderTokens.refresh_token
       );
-      dispatch(setLoginState(ChatMinderAccessToken));
+      dispatch(setLoginState(ChatMinderTokens.access_token));
     } catch (error) {
       console.log(error);
     }

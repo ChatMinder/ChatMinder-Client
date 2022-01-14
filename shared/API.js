@@ -10,6 +10,10 @@ const token2 = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXN
 export const PostLogIn = async (data) =>
   await axios.post('https://api.chatminder.app/auth/kakao', data);
 
+//AsyncStorage에 토큰 저장된 유저 올바른 refresh토큰 갖고 있는지 확인
+export const CheckTokenValid = async (data) =>
+  await axios.post('https://api.chatminder.app/auth/token', data);
+
 //메모 조회
 export const GetMemo = async (token) =>
   await axios.get('https://api.chatminder.app/memos', {

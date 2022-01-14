@@ -9,7 +9,7 @@ import CategoryDetail from '../screens/CategoryDetail';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginState } from '../shared/reducers/auth';
-import { GetMemo, GetTags } from '../shared/API';
+import { CheckTokenValid, GetMemo, GetTags } from '../shared/API';
 import { setMemos } from '../shared/reducers/memo';
 import { setTags } from '../shared/reducers/tag';
 import Loader from '../shared/components/Loader';
@@ -32,13 +32,26 @@ const Root = () => {
 
   //직접 로그인하는 경우가 아니라면 AsyncStorage에 토큰이 있다면 로그인
   useEffect(async () => {
-    const storedToken = await AsyncStorage.getItem('ChatMinderAccessToken');
+    const storedToken = await AsyncStorage.getItem('ChatMinderRefreshToken');
     if (storedToken) {
-      dispatch(setLoginState(storedToken));
-      setIsLoggedIn(true);
+      try {
+        const data = {
+          refresh_token: storedToken,
+        };
+        const getTokenRes = await CheckTokenValid(data);
+        console.log(`토큰 검증 :${JSON.stringify(getTokenRes.data)}`);
+        dispatch(setLoginState(getTokenRes.data.access_token));
+        await AsyncStorage.setItem(
+          'ChatMinderRefreshToken',
+          getTokenRes.data.refresh_token
+        );
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.log(`토큰 검증 실패 ${error}`);
+      }
     }
     setLoading(false);
-    // await AsyncStorage.removeItem('ChatMinderAccessToken');
+    // await AsyncStorage.removeItem('ChatMinderRefreshToken');
   }, []);
 
   useEffect(async () => {

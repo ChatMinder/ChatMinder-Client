@@ -64,7 +64,7 @@ const Drawers = ({ navigation }) => {
       backBehavior="initialRoute"
       screenOptions={{
         drawerStyle: {
-          width: SCREEN_WIDTH * 0.43,
+          width: SCREEN_WIDTH * 0.47,
         },
       }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
