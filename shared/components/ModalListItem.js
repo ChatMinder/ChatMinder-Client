@@ -97,10 +97,7 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
     setClicked({
       isSelected: newArr,
     });
-    //console.log(clicked.isSelected);
   };
-
-  // console.log(Array(colorItems.length).fill(false));
 
   const handleColors = (tag_color) => {
     let borderThing;
@@ -175,7 +172,7 @@ const TagBox = styled.TouchableOpacity`
   margin: 0 2% 1%;
   background-color: ${(props) =>
     props.backgroundColor || `${palette.lightGreen}`};
-  border: 2.5px solid ${(props) => props.borderColor || `${palette.white}`};
+  border: 3px solid ${(props) => props.borderColor || `${palette.white}`};
   border-radius: 10px;
   height: 50px;
   width: 90%;

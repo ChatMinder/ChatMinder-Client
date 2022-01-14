@@ -36,77 +36,101 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     setStateValue(subTitle);
   };
 
-  useEffect(() => {
-    // {
-    //   title.title ? setSubTitle(title.title) : setSubTitle('');
-    // }
-    //console.log('title: ', title);
-    //console.log('subTitle:', subTitle)
-    () => {};
-  }, [subTitle, title.title]);
+  // useEffect(() => {
+  //   {
+  //     title.title ? setSubTitle(title.title) : setSubTitle('');
+  //   }
+  //   console.log('title: ', title);
+  //   console.log('subTitle:', subTitle)
+  //   () => {};
+  // }, [subTitle, title.title]);
 
   const [colors, setColors] = useState([
     {
       id: 0,
       colorValue: `${palette.blue}`,
       colorName: 'blue',
-      isSelected: false,
+      borderValue: `${palette.blue_border}`,
     },
     {
       id: 1,
       colorValue: `${palette.lightBlue}`,
       colorName: 'lightBlue',
-      isSelected: false,
+      borderValue: `${palette.lightBlue_border}`,
     },
     {
       id: 2,
       colorValue: `${palette.lightGreen}`,
       colorName: 'lightGreen',
-      isSelected: false,
+      borderValue: `${palette.lightGreen_border}`,
     },
     {
       id: 3,
       colorValue: `${palette.green}`,
       colorName: 'green',
-      isSelected: false,
+      borderValue: `${palette.green_border}`,
     },
     {
       id: 4,
       colorValue: `${palette.blueGreen}`,
       colorName: 'blueGreen',
-      isSelected: false,
+      borderValue: `${palette.blueGreen_border}`,
     },
     {
       id: 5,
       colorValue: `${palette.purple}`,
       colorName: 'purple',
-      isSelected: false,
+      borderValue: `${palette.purple_border}`,
     },
     {
       id: 6,
       colorValue: `${palette.pink}`,
       colorName: 'pink',
-      isSelected: false,
+      borderValue: `${palette.pink_border}`,
     },
     {
       id: 7,
       colorValue: `${palette.orange}`,
       colorName: 'orange',
-      isSelected: false,
+      borderValue: `${palette.orange_border}`,
     },
     {
       id: 8,
       colorValue: `${palette.lightOrange}`,
       colorName: 'lightOrange',
-      isSelected: false,
+      borderValue: `${palette.lightOrange_border}`,
     },
     {
       id: 9,
       colorValue: `${palette.yellow}`,
       colorName: 'yellow',
-      isSelected: false,
+      borderValue: `${palette.yellow_border}`,
     },
   ]);
+
+  const [clicked, setClicked] = useState({
+    isSelected: Array(colors.length).fill(false),
+  });
+
+  const handleClicked = (idx) => {
+    const newArr = Array(colors.length).fill(false);
+    newArr[idx] = true;
+    console.log(newArr);
+    setClicked({
+      isSelected: newArr,
+    });
+    console.log(clicked.isSelected);
+  };
+
+  const handleColors = (tag_color) => {
+    let borderThing;
+    colors.map((item) => {
+      if (item.colorValue === tag_color) {
+        borderThing = item.borderValue;
+      }
+    });
+    return borderThing;
+  };
 
   // const handleColor = (idx) => {
   //   setColors(
@@ -183,18 +207,34 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
             </TextR>
           </TitleBox>
           <ColorBox>
-            {colors.map((color) => (
-              <TouchableOpacity
-                key={color.id}
-                onPress={() => {
-                  //handleColor(color.id);
-                  setSelectedColor(color.colorValue);
-                  console.log(color.colorName);
-                }}
-              >
-                <ColorItem backgroundColor={color.colorValue} />
-              </TouchableOpacity>
-            ))}
+            {colors.map((color, index) =>
+              clicked.isSelected[index] ? (
+                <TouchableOpacity
+                  key={color.id}
+                  onPress={() => {
+                    setSelectedColor(color.colorValue);
+                    handleClicked(index);
+                    console.log(color.colorName);
+                  }}
+                >
+                  <ColorItem
+                    backgroundColor={color.colorValue}
+                    borderColor={handleColors(color.colorValue)}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  key={color.id}
+                  onPress={() => {
+                    setSelectedColor(color.colorValue);
+                    handleClicked(index);
+                    console.log(color.colorName);
+                  }}
+                >
+                  <ColorItem backgroundColor={color.colorValue} />
+                </TouchableOpacity>
+              )
+            )}
           </ColorBox>
 
           <CloseButton
