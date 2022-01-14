@@ -29,7 +29,7 @@ import SearchIcon from '../shared/assets/search.svg';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
-  const [onSearchChange, renderState] = useSearch(memoData);
+  const [onSearchChange, renderState] = useSearch('Main');
   const [choice, setChoice] = useState('all');
 
   const [types, setTypes] = useState([

@@ -28,10 +28,9 @@ export const addImgInMemo = (images) => ({
   type: ADD_IMG_IN_MEMO,
   images,
 });
-export const bookmarkMemo = (memoID, fixedMemo) => ({
+export const bookmarkMemo = (memoID) => ({
   type: BOOKMARK_MEMO,
   memoID,
-  fixedMemo,
 });
 
 //초기 상태 선언
@@ -71,7 +70,9 @@ const memo = (state = initialState, action) => {
     case BOOKMARK_MEMO: {
       //memoID로 state에서 메모 객체를 찾아서 응답 받은 메모 객체로 replace
       const newState = state.map((memo) =>
-        memo.id === action.memoID ? action.fixedMemo : memo
+        memo.id === action.memoID
+          ? { ...memo, is_marked: !memo.is_marked }
+          : memo
       );
       return newState;
     }

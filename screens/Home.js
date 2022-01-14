@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Text, View, Image, RefreshControl } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { RefreshControl } from 'react-native';
 
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,14 +19,10 @@ import SearchIcon from '../shared/assets/search.svg';
 import LogoHome from '../shared/assets/LogoHome.svg';
 
 const Home = ({ navigation }) => {
-  const memoData = useSelector((state) => state.memoData);
-  const tagData = useSelector((state) => state.tagData);
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
 
-  const dispatch = useDispatch();
-
-  const [onSearchChange, renderState] = useSearch();
-
+  const [onSearchChange, renderState] = useSearch('Main');
   const [isSearchToggled, setIsSearchToggled] = useState(false);
 
   useEffect(() => {

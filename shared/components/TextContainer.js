@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import RNUrlPreview from 'react-native-url-preview';
 import {
   Text,
@@ -12,8 +11,8 @@ import styled, { css } from 'styled-components/native';
 import palette from '../palette';
 import TextR from './TextR';
 import { TextSize } from '../styles/FontStyle';
-import { DeleteMemo, PostBookmark } from '../API';
-import { bookmarkMemo, delMemo } from '../reducers/memo';
+import { PostBookmark } from '../API';
+import { bookmarkMemo } from '../reducers/memo';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -36,15 +35,6 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
   const [showDelBtn, setShowDelBtn] = useState(false);
 
   //useEffect(() => {}, [memo]);
-
-  const handleDelete = async (id) => {
-    try {
-      const deleteMemoRes = await DeleteMemo(token, id);
-      console.log('deleteMemoRes 성공: ', deleteMemoRes.data);
-    } catch (error) {
-      console.log('deleteMemoRes 실패', error);
-    }
-  };
 
   const handleBookmark = async (memo) => {
     const formData = {

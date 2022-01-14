@@ -36,10 +36,10 @@ import SearchIcon from '../shared/assets/search.svg';
 const CategoryDetail = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
   const token = useSelector((state) => state.auth.accessToken);
-  const [onSearchChange, renderState] = useSearch();
-  const [memos, setMemos] = useState(
-    renderState.filter((item) => item.tag_name === route.params.tag_name)
-  );
+  const [onSearchChange, renderState] = useSearch('Main');
+  // const [memos, setMemos] = useState(
+  //   renderState.filter((item) => item.tag_name === route.params.tag_name)
+  // );
 
   const [types, setTypes] = useState([
     { id: 0, category: 'all', isSelected: false },
@@ -113,7 +113,7 @@ const CategoryDetail = ({ route, navigation }) => {
     });
   }, []);
 
-  console.log(memos);
+  // console.log(memos);
 
   return (
     <View>

@@ -1,45 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { RefreshControl, Text, TouchableOpacity, View } from 'react-native';
-import { GetImages } from '../../shared/API';
+import { TouchableOpacity } from 'react-native';
 
+import moment from 'moment';
+import styled from 'styled-components/native';
+
+import useSearch from '../../shared/hooks/useSearch';
+import TextB from '../../shared/components/TextB';
+import MemoDate from '../../shared/components/MemoDate';
+import MemoItem from '../../shared/components/MemoItem';
+import { TextSize } from '../../shared/styles/FontStyle';
+import HeaderButton from '../../shared/components/HeaderButton';
 import {
   SearchInput,
   TitleBox,
-  HeaderIcon,
   HeaderContainer,
   NoVisibleBox,
   InputBox,
   BookmarkBox,
 } from '../../shared/styles/HeaderStyle';
-import styled from 'styled-components/native';
-import useSearchGather from '../../shared/hooks/useSearchGather';
-import GoBack from '../../shared/assets/GoBack.svg';
-import SearchIcon from '../../shared/assets/search.svg';
-import TextB from '../../shared/components/TextB';
-import HeaderButton from '../../shared/components/HeaderButton';
-import { TextSize } from '../../shared/styles/FontStyle';
-import { useSelector } from 'react-redux';
-import MemoDate from '../../shared/components/MemoDate';
-import MemoItem from '../../shared/components/MemoItem';
-import moment from 'moment';
 import {
   Container,
   DateItem,
   TextBox,
 } from '../../shared/styles/TextContainerStyle';
+import GoBack from '../../shared/assets/GoBack.svg';
+import SearchIcon from '../../shared/assets/search.svg';
 
 const gatherImg = ({ navigation }) => {
-  const memoData = useSelector((state) => state.memoData);
-  const token = useSelector((state) => state.auth.accessToken);
-
-  const [imgMemos, setimgMemos] = useState([]);
-  const [onSearchChange, renderState] = useSearchGather(imgMemos);
+  const [onSearchChange, renderState] = useSearch('Img');
   const [choice, setChoice] = useState('all');
   const [clickedState, setClickedState] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(async () => {
-    await getImages();
+  useEffect(() => {
     navigation.setOptions({
       headerStyle: {
         height: 120,
@@ -76,27 +68,8 @@ const gatherImg = ({ navigation }) => {
     });
   }, []);
 
-  const getImages = async () => {
-    try {
-      const getImagesRes = await GetImages(token);
-      setimgMemos(getImagesRes.data);
-      setRefreshing(false);
-    } catch (error) {
-      console.log('getImages 실패', error);
-    }
-  };
-
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await getImages();
-  };
-
   return (
-    <Scroll
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+    <Scroll>
       {clickedState ? (
         <Container>
           {renderState.map((memo, index) => (

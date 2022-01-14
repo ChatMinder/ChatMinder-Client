@@ -1,28 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, RefreshControl } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
-import { GetLinks } from '../../shared/API';
-import RNUrlPreview from 'react-native-url-preview';
-import useSearchGather from '../../shared/hooks/useSearchGather';
-import MemoDate from '../../shared/components/MemoDate';
 import moment from 'moment';
-import TextContainer from '../../shared/components/TextContainer';
 import styled from 'styled-components/native';
-import palette from '../../shared/palette';
 
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-
+import useSearch from '../../shared/hooks/useSearch';
 import TextB from '../../shared/components/TextB';
+import MemoDate from '../../shared/components/MemoDate';
 import { TextSize } from '../../shared/styles/FontStyle';
 import HeaderButton from '../../shared/components/HeaderButton';
-import EmptyBookmark from '../../shared/assets/emptyBookmark.svg';
-import FulledBookmark from '../../shared/assets/fulledBookmark.svg';
-
+import TextContainer from '../../shared/components/TextContainer';
 import {
   SearchInput,
   TitleBox,
-  HeaderIcon,
   HeaderContainer,
   NoVisibleBox,
   InputBox,
@@ -33,23 +23,15 @@ import {
   TextBox,
   DateItem,
 } from '../../shared/styles/TextContainerStyle';
-
 import GoBack from '../../shared/assets/GoBack.svg';
 import SearchIcon from '../../shared/assets/search.svg';
 
 const gatherLink = ({ navigation }) => {
-  const memoData = useSelector((state) => state.memoData);
-  //console.log('memoData: ', memoData);
-  const token = useSelector((state) => state.auth.accessToken);
-  const dispatch = useDispatch();
-  const [links, setLinks] = useState([]);
-  const [onSearchChange, renderState] = useSearchGather(links);
+  const [onSearchChange, renderState] = useSearch('Link');
   const [choice, setChoice] = useState('all');
   const [clickedState, setClickedState] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(async () => {
-    await getLinks();
+  useEffect(() => {
     navigation.setOptions({
       headerStyle: {
         height: 120,
@@ -86,28 +68,8 @@ const gatherLink = ({ navigation }) => {
     });
   }, []);
 
-  const getLinks = async () => {
-    try {
-      const getLinksRes = await GetLinks(token);
-      console.log('getLinks 성공: ', getLinksRes.data);
-      setLinks(getLinksRes.data);
-      setRefreshing(false);
-    } catch (error) {
-      console.log('getLinks 실패', error);
-    }
-  };
-
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await getLinks();
-  };
-
   return (
-    <Scroll
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+    <Scroll>
       {clickedState ? (
         <Container>
           {renderState.map((memo, index) => (

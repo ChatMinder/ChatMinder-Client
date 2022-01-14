@@ -27,8 +27,8 @@ const MemoItem = ({ memo }) => {
     try {
       const bookmarkRes = await PostBookmark(token, data);
       console.log(`북마크 성공: ${JSON.stringify(bookmarkRes.data)}`);
-      dispatch(bookmarkMemo(memo.id, bookmarkRes.data));
     } catch (error) {
+      dispatch(bookmarkMemo(memo.id));
       console.log(`북마크 실패: ${error}`);
     }
   };
@@ -163,7 +163,12 @@ const MemoItem = ({ memo }) => {
               <TagBtnText>{memo.tag_name}</TagBtnText>
             </TagBtn>
           ) : null}
-          <Bookmark onPress={() => onBookmarkTouch(memo)}>
+          <Bookmark
+            onPress={() => {
+              dispatch(bookmarkMemo(memo.id));
+              onBookmarkTouch(memo);
+            }}
+          >
             {memo.is_marked ? <FulledBookmark /> : <EmptyBookmark />}
           </Bookmark>
         </MemoFooter>
