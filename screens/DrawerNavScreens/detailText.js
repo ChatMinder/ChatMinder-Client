@@ -33,6 +33,7 @@ import FulledBookmark from '../../shared/assets/fulledBookmark.svg';
 import GoBack from '../../shared/assets/GoBack.svg';
 import GoBackLight from '../../shared/assets/goBack_light.svg';
 import Edit from '../../shared/assets/Edit.svg';
+const edit = require('../../shared/assets/Edit_png.png');
 
 const detailText = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -103,7 +104,13 @@ const detailText = ({ route, navigation }) => {
         </TouchableOpacity>
         <Buttons>
           <TouchableOpacity onPress={() => onEdit()}>
-            <Edit />
+            {/* <Edit style={{ marginRight: 10 }} /> */}
+            <BookmarkItem
+              source={edit}
+              width="25"
+              height="25"
+              marginRight="14"
+            />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -122,7 +129,7 @@ const detailText = ({ route, navigation }) => {
               <TextItem>{route.params.tag_name}</TextItem>
             </TouchableOpacity>
             <View>
-              <GoBackLight />
+              <GoBackLight style={{ marginLeft: 2 }} />
             </View>
           </TagBox>
         </TextR>
@@ -162,20 +169,25 @@ const detailText = ({ route, navigation }) => {
           </TextR>
         )}
       </Margin>
-      <SaveButton
-        onPress={() => {
-          onEdit();
-          handleEditMemo(route.params.id);
-        }}
-      >
-        <TextR>
-          <TextSize color="white" fontSize="18">
-            저장하기
-          </TextSize>
-        </TextR>
-      </SaveButton>
+
+      {!editable ? (
+        <View />
+      ) : (
+        <SaveButton
+          onPress={() => {
+            onEdit();
+            handleEditMemo(route.params.id);
+          }}
+        >
+          <TextR>
+            <TextSize color="white" fontSize="18">
+              저장하기
+            </TextSize>
+          </TextR>
+        </SaveButton>
+      )}
+
       <ModalListItem
-        key={route.params.id}
         isModalVisible={isModalVisible}
         toggleModal={toggleModal}
       />
@@ -198,6 +210,7 @@ export default detailText;
 
 const Wrapper = styled.View`
   margin: 20px 15px;
+  height: 100%;
 `;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -224,7 +237,10 @@ const SaveButton = styled.TouchableOpacity`
   justify-content: center;
   border-radius: 8px;
   height: 48px;
-  margin-top: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 10%;
+  align-self: center;
 `;
 
 const LinkView = styled.View`

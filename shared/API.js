@@ -128,3 +128,14 @@ export const GetTagsDetail = async (token, id) =>
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+//태그 내에 있는 메모 필터링
+export const GetFilterTags = async (token, id, link, image, text) =>
+  await axios.get(
+    `https://api.chatminder.app/tags/${id}?${link}&${image}&${text}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );

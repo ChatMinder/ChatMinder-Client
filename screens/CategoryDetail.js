@@ -9,7 +9,7 @@ import {
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import axios from 'axios';
-import { GetTagsDetail } from '../shared/API';
+import { GetTagsDetail, GetFilterTags } from '../shared/API';
 
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
@@ -46,24 +46,25 @@ const CategoryDetail = ({ route, navigation }) => {
   // const [memos, setMemos] = useState(
   //   renderState.filter((item) => item.tag_name === route.params.tag_name)
   // );
+  const [clickedState, setClickedState] = useState(true);
 
   const [types, setTypes] = useState([
-    { id: 0, category: 'all', isSelected: false },
-    { id: 1, category: 'image', isSelected: false },
-    { id: 2, category: 'link', isSelected: false },
-    { id: 3, category: 'text', isSelected: false },
-    { id: 4, category: 'bookmark', isSelected: false },
+    { id: 0, category: 'image', isSelected: true },
+    { id: 1, category: 'link', isSelected: true },
+    { id: 2, category: 'text', isSelected: true },
+    { id: 3, category: 'bookmark', isSelected: false },
   ]);
 
   const [loading, setLoading] = useState(false);
-  const [choice, setChoice] = useState('all');
   const [tagsDetail, setTagsDetail] = useState([]);
+  const [filterArr, setFilterArr] = useState([]);
+  const [concatArr, setConcatArr] = useState([]);
 
   const handleTagDetail = async () => {
     setLoading(true);
     try {
       const getTagsDetail = await GetTagsDetail(token, route.params.id);
-      console.log('getTagsDetail 성공: ', getTagsDetail.data);
+      //console.log('getTagsDetail 성공: ', getTagsDetail.data);
       setTagsDetail(getTagsDetail.data);
     } catch (error) {
       console.log('getTagsDetail 실패', error);
@@ -71,8 +72,35 @@ const CategoryDetail = ({ route, navigation }) => {
     setLoading(false);
   };
 
+  const handleFilter = async (link, image, text) => {
+    try {
+      const getFilterTags = await GetFilterTags(
+        token,
+        route.params.id,
+        link,
+        image,
+        text
+      );
+      console.log('getFilterTags 성공: ', getFilterTags.data.data);
+      setTagsDetail(getFilterTags.data.data);
+    } catch (error) {
+      console.log('getFilterTags 실패', error);
+    }
+  };
+
+  // const handleArr = (item) => {
+  //   let newArr = [];
+  //   concatArr.includes(item)
+  //     ? (newArr = concatArr.filter((element) => element !== item))
+  //     : (newArr = concatArr.concat(item));
+  //   setConcatArr((concatArr) => newArr);
+  //   console.log(concatArr);
+  // };
+
   useEffect(() => {
     handleTagDetail();
+    // handleArr(filterArr);
+    // handleFilter(concatArr);
     navigation.setOptions({
       headerStyle: {
         height: 130,
@@ -80,8 +108,8 @@ const CategoryDetail = ({ route, navigation }) => {
       headerLeft: () => null,
       headerRight: () => null,
       headerTitle: () => (
-        <HeaderContainer paddingRight="5%">
-          <TitleBox>
+        <HeaderContainer paddingRight="5%" marginTop="3%">
+          <TitleBox marginBottom="3%">
             <TouchableOpacity onPress={() => navigation.navigate('태그')}>
               <GoBack />
             </TouchableOpacity>
@@ -94,7 +122,7 @@ const CategoryDetail = ({ route, navigation }) => {
           </TitleBox>
 
           <InputBox>
-            <SearchIcon />
+            <SearchIcon style={{ marginLeft: 10, marginRight: 8 }} />
             <SearchInput
               onChangeText={onSearchChange}
               placeholder="내용, 태그 검색"
@@ -104,17 +132,18 @@ const CategoryDetail = ({ route, navigation }) => {
             <TagBox>
               {types.map(
                 (type, index) =>
-                  index < 4 && (
+                  index < 3 && (
                     <HeaderButton
                       type={type}
                       key={type.id}
-                      setChoice={setChoice}
+                      handleFilter={handleFilter}
+                      setFilterArr={setFilterArr}
                     />
                   )
               )}
             </TagBox>
             <View>
-              <HeaderButton type={types[4]} setChoice={setChoice} />
+              <HeaderButton type={types[3]} setClickedState={setClickedState} />
             </View>
           </ButtonBox2>
         </HeaderContainer>
@@ -122,56 +151,77 @@ const CategoryDetail = ({ route, navigation }) => {
     });
   }, []);
 
-  // console.log(memos);
+  //console.log(memos);
 
   return (
-    <View>
+    <Scroll>
       {loading && (
         <SpinnerWrapper>
           <ActivityIndicator size="large" color="#ff7f6d" />
         </SpinnerWrapper>
       )}
-      {
-        {
-          all: (
-            <Container>
-              {tagsDetail.map(
-                (memo, index) =>
-                  memo.timestamp && (
-                    <TextBox key={memo.id}>
-                      <DateItem>
-                        {index === 0 ? (
-                          <MemoDate memoTime={memo.timestamp} />
-                        ) : (
-                          moment
-                            .unix(tagsDetail[index - 1].timestamp)
-                            .format('YYYY-MM-DD') !==
-                            moment
-                              .unix(memo.timestamp)
-                              .format('YYYY-MM-DD') && (
-                            <MemoDate memoTime={memo.timestamp} />
-                          )
-                        )}
-                      </DateItem>
+      {clickedState ? (
+        <Container>
+          {tagsDetail.map(
+            (memo, index) =>
+              memo.timestamp && (
+                <TextBox key={memo.id}>
+                  <DateItem>
+                    {index === 0 ? (
+                      <MemoDate memoTime={memo.timestamp} />
+                    ) : (
+                      moment
+                        .unix(tagsDetail[index - 1].timestamp)
+                        .format('YYYY-MM-DD') !==
+                        moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                        <MemoDate memoTime={memo.timestamp} />
+                      )
+                    )}
+                  </DateItem>
 
-                      <TextContainer
-                        memo={memo}
-                        navigation={navigation}
-                        destination="detailText"
-                        history="태그"
-                      />
-                    </TextBox>
-                  )
-              )}
-            </Container>
-          ),
-          image: <Text>image</Text>,
-          link: <Text>link</Text>,
-          text: <Text>text</Text>,
-          bookmark: <Text>bookmark</Text>,
-        }[choice]
-      }
-    </View>
+                  <TextContainer
+                    memo={memo}
+                    navigation={navigation}
+                    destination="detailText"
+                    history="태그"
+                  />
+                </TextBox>
+              )
+          )}
+        </Container>
+      ) : (
+        <Container>
+          {tagsDetail
+            .filter((elemnet) => elemnet.is_marked === true)
+            .map(
+              (memo, index) =>
+                memo.timestamp && (
+                  <TextBox key={memo.id}>
+                    <DateItem>
+                      {index === 0 ? (
+                        <MemoDate memoTime={memo.timestamp} />
+                      ) : (
+                        moment
+                          .unix(tagsDetail[index - 1].timestamp)
+                          .format('YYYY-MM-DD') !==
+                          moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                          <MemoDate memoTime={memo.timestamp} />
+                        )
+                      )}
+                    </DateItem>
+
+                    <TextContainer
+                      memo={memo}
+                      navigation={navigation}
+                      destination="detailText"
+                      history="태그"
+                    />
+                  </TextBox>
+                )
+            )}
+        </Container>
+      )}
+    </Scroll>
   );
 };
 
@@ -185,4 +235,8 @@ const SpinnerWrapper = styled.View`
   left: ${SCREEN_WIDTH * 0.5 - 18}px;
   bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
   z-index: 10;
+`;
+
+const Scroll = styled.ScrollView`
+  height: 90%;
 `;

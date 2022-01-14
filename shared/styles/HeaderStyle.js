@@ -4,15 +4,16 @@ import palette from '../palette';
 export const HeaderContainer = styled.View`
   align-items: center;
   width: 100%;
+  margin-top: ${(props) => props.marginTop || '0px'};
   padding-right: ${(props) => props.paddingRight || '0px'};
 `;
 
 export const TitleBox = styled.View`
   width: ${(props) => props.width || '100%'};
-  /* border: 1px solid red; */
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: ${(props) => props.marginBottom || '0px'};
 `;
 
 export const InputBox = styled.View`
@@ -29,8 +30,8 @@ export const SearchInput = styled.TextInput`
 `;
 
 export const NoVisibleBox = styled.View`
-  width: ${(props) => props.width || '8%'};
-  height: ${(props) => props.height || '8%'};
+  width: ${(props) => props.width || '3%'};
+  height: ${(props) => props.height || '3%'};
 `;
 
 export const ButtonBox = styled.View`
@@ -51,7 +52,7 @@ export const BookmarkBox = styled.View`
 `;
 
 export const TagBox = styled(ButtonBox)`
-  width: 200px;
+  width: 140px;
 `;
 
 export const CommonIcon = styled.Image`

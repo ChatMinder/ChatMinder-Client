@@ -49,6 +49,7 @@ export const ColorItem = styled.View`
   height: 46px;
   background-color: ${(props) =>
     props.backgroundColor || `${palette.lightGreen}`};
+  border: 3.5px solid ${(props) => props.borderColor || `${palette.white}`};
   margin: 0 12px 8px 0;
 `;
 

@@ -67,7 +67,7 @@ const CalendarPage = ({ navigation }) => {
       );
     setPlanObj(dotDate);
     setPickedDate(day.dateString);
-    // console.log('plan', planObj);
+    //console.log('plan', planObj);
   };
 
   return (
@@ -136,26 +136,11 @@ const CalendarPage = ({ navigation }) => {
         />
       </CalenderBox>
       <PlanBox>
-        {/* {planObj.map((plan) => (
-          <CategoryItem key={plan.memoID}>
-            <TextBox>
-              <Text> {plan.memoText}</Text>
-            </TextBox>
-            <ImgBox>
-              <TouchableOpacity>
-                <Settings />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Trashcan />
-              </TouchableOpacity>
-            </ImgBox>
-          </CategoryItem>
-        ))} */}
-
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('CalenderDaily', {
               planObj: planObj,
+              pickedDate: pickedDate,
             })
           }
           style={{
