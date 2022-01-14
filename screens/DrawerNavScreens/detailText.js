@@ -37,7 +37,7 @@ const detailText = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
-  const [inputText, setInputText] = useState(route.params.memo_text);
+  const [inputText, setInputText] = useState(route.params.memo_tex);
   const [editable, setEditable] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(route.params.is_marked);

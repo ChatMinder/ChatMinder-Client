@@ -67,7 +67,7 @@ const CalendarPage = ({ navigation }) => {
       );
     setPlanObj(dotDate);
     setPickedDate(day.dateString);
-    // console.log('plan', planObj);
+    //console.log('plan', planObj);
   };
 
   return (
@@ -156,6 +156,7 @@ const CalendarPage = ({ navigation }) => {
           onPress={() =>
             navigation.navigate('CalenderDaily', {
               planObj: planObj,
+              pickedDate: pickedDate,
             })
           }
           style={{

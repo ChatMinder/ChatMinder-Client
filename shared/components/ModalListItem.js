@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { Button, TouchableOpacity, View, Text, ScrollView } from 'react-native';
+import {
+  Button,
+  TouchableOpacity,
+  View,
+  Text,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { PatchTag } from '../API';
 import TextB from './TextB';
 import TextR from './TextR';
 
@@ -109,6 +117,19 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
     return borderThing;
   };
 
+  const handleEdit = async (id) => {
+    const formData = {
+      tag_name: subTitle,
+      tag_color: selectedColor,
+    };
+    try {
+      const patchTagRes = await PatchTag(token, formData, id);
+      console.log('patchTag 성공: ', patchTagRes.data);
+    } catch (error) {
+      console.log('patchTag 실패: ', error);
+    }
+  };
+
   return (
     <StyledSafeAreaView>
       <Modal
@@ -131,7 +152,6 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
                     backgroundColor={tag.tag_color}
                     borderColor={handleColors(tag.tag_color)}
                     onPress={() => {
-                      //setClicked(!clicked)
                       handleClicked(index);
                     }}
                   >
@@ -144,8 +164,21 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
                     key={tag.id}
                     backgroundColor={tag.tag_color}
                     onPress={() => {
-                      //setClicked(!clicked)
                       handleClicked(index);
+                      Alert.alert('수정 확인', '수정하시겠습니까?', [
+                        {
+                          text: '취소',
+                          onPress: () => alert('취소되었습니다.'),
+                          style: 'cancel',
+                        },
+                        {
+                          text: '수정',
+                          onPress: () => {
+                            alert('수정되었습니다.');
+                            toggleModal();
+                          },
+                        },
+                      ]);
                     }}
                   >
                     <TextB>

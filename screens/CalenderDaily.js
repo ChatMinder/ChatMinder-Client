@@ -29,7 +29,7 @@ import SearchIcon from '../shared/assets/search.svg';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
-  const [onSearchChange, renderState] = useSearch(memoData);
+  const [onSearchChange, renderState] = useSearch();
   const [choice, setChoice] = useState('all');
 
   const [types, setTypes] = useState([
@@ -50,58 +50,54 @@ const CalenderDaily = ({ route, navigation }) => {
   // };
 
   useEffect(() => {
-    route.params.planObj.length === 0
-      ? console.log('일정이 없음')
-      : navigation.setOptions({
-          headerStyle: {
-            height: 130,
-          },
-          headerLeft: () => null,
-          headerRight: () => null,
-          headerTitle: () => (
-            <HeaderContainer paddingRight="5%">
-              <TitleBox>
-                <TouchableOpacity onPress={() => navigation.navigate('캘린더')}>
-                  <GoBack />
-                </TouchableOpacity>
-                <TextB>
-                  <TextSize fontSize="18">
-                    {moment
-                      .unix(route.params.planObj[0].timestamp)
-                      .format('ll')}
-                  </TextSize>
-                </TextB>
-                <NoVisibleBox />
-              </TitleBox>
+    navigation.setOptions({
+      headerStyle: {
+        height: 130,
+      },
+      headerLeft: () => null,
+      headerRight: () => null,
+      headerTitle: () => (
+        <HeaderContainer paddingRight="5%" marginTop="3%">
+          <TitleBox marginBottom="3%">
+            <TouchableOpacity onPress={() => navigation.navigate('캘린더')}>
+              <GoBack height="12" width="12" />
+            </TouchableOpacity>
+            <TextB>
+              <TextSize fontSize="18">
+                {moment(route.params.pickedDate).format('YYYY년 MM월 DD일')}
+              </TextSize>
+            </TextB>
+            <NoVisibleBox />
+          </TitleBox>
 
-              <InputBox>
-                <SearchIcon />
-                <SearchInput
-                  onChangeText={onSearchChange}
-                  placeholder="내용, 태그 검색"
-                />
-              </InputBox>
+          <InputBox>
+            <SearchIcon style={{ marginLeft: 10, marginRight: 8 }} />
+            <SearchInput
+              onChangeText={onSearchChange}
+              placeholder="내용, 태그 검색"
+            />
+          </InputBox>
 
-              <ButtonBox2>
-                <TagBox>
-                  {types.map(
-                    (type, index) =>
-                      index < 4 && (
-                        <HeaderButton
-                          type={type}
-                          key={type.id}
-                          setChoice={setChoice}
-                        />
-                      )
-                  )}
-                </TagBox>
-                <View>
-                  <HeaderButton type={types[4]} setChoice={setChoice} />
-                </View>
-              </ButtonBox2>
-            </HeaderContainer>
-          ),
-        });
+          <ButtonBox2>
+            <TagBox>
+              {types.map(
+                (type, index) =>
+                  index < 4 && (
+                    <HeaderButton
+                      type={type}
+                      key={type.id}
+                      setChoice={setChoice}
+                    />
+                  )
+              )}
+            </TagBox>
+            <View>
+              <HeaderButton type={types[4]} setChoice={setChoice} />
+            </View>
+          </ButtonBox2>
+        </HeaderContainer>
+      ),
+    });
   }, []);
 
   return (
@@ -111,7 +107,7 @@ const CalenderDaily = ({ route, navigation }) => {
           all: (
             <Scroll>
               {route.params.planObj.length === 0 ? (
-                <Text>일정이 없습니다.</Text>
+                <TextR>일정이 없습니다.</TextR>
               ) : (
                 <>
                   <MemoDate memoTime={route.params.planObj[0].timestamp} />

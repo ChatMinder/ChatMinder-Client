@@ -30,8 +30,8 @@ export const SearchInput = styled.TextInput`
 `;
 
 export const NoVisibleBox = styled.View`
-  width: ${(props) => props.width || '8%'};
-  height: ${(props) => props.height || '8%'};
+  width: ${(props) => props.width || '3%'};
+  height: ${(props) => props.height || '3%'};
 `;
 
 export const ButtonBox = styled.View`
