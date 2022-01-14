@@ -30,7 +30,7 @@ import SearchIcon from '../shared/assets/search.svg';
 const CalenderDaily = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
   const [onSearchChange, renderState] = useSearch();
-  const [choice, setChoice] = useState('image');
+  const [clickedState, setClickedState] = useState(true);
 
   const [types, setTypes] = useState([
     { id: 0, category: 'image', isSelected: false },
@@ -81,17 +81,11 @@ const CalenderDaily = ({ route, navigation }) => {
             <TagBox>
               {types.map(
                 (type, index) =>
-                  index < 3 && (
-                    <HeaderButton
-                      type={type}
-                      key={type.id}
-                      setChoice={setChoice}
-                    />
-                  )
+                  index < 3 && <HeaderButton type={type} key={type.id} />
               )}
             </TagBox>
             <View>
-              <HeaderButton type={types[3]} setChoice={setChoice} />
+              <HeaderButton type={types[3]} setClickedState={setClickedState} />
             </View>
           </ButtonBox2>
         </HeaderContainer>
@@ -101,32 +95,62 @@ const CalenderDaily = ({ route, navigation }) => {
 
   return (
     <Wrapper>
-      <Scroll>
-        {route.params.planObj.length === 0 ? (
-          <TextR>일정이 없습니다.</TextR>
-        ) : (
-          <>
-            <MemoDate memoTime={route.params.planObj[0].timestamp} />
-            {renderState
-              .filter(
-                (item) =>
-                  moment.unix(item.timestamp).format('YYYY-MM-DD') ===
-                  moment
-                    .unix(route.params.planObj[0].timestamp)
-                    .format('YYYY-MM-DD')
-              )
-              .map((plan) => (
-                <TextContainer
-                  key={plan.id}
-                  memo={plan}
-                  navigation={navigation}
-                  destination="detailText"
-                  history="캘린더"
-                />
-              ))}
-          </>
-        )}
-      </Scroll>
+      {clickedState ? (
+        <Scroll>
+          {route.params.planObj.length === 0 ? (
+            <TextR>일정이 없습니다.</TextR>
+          ) : (
+            <>
+              <MemoDate memoTime={route.params.planObj[0].timestamp} />
+              {renderState
+                .filter(
+                  (item) =>
+                    moment.unix(item.timestamp).format('YYYY-MM-DD') ===
+                    moment
+                      .unix(route.params.planObj[0].timestamp)
+                      .format('YYYY-MM-DD')
+                )
+                .map((plan) => (
+                  <TextContainer
+                    key={plan.id}
+                    memo={plan}
+                    navigation={navigation}
+                    destination="detailText"
+                    history="캘린더"
+                  />
+                ))}
+            </>
+          )}
+        </Scroll>
+      ) : (
+        <Scroll>
+          {route.params.planObj.length === 0 ? (
+            <TextR>일정이 없습니다.</TextR>
+          ) : (
+            <>
+              <MemoDate memoTime={route.params.planObj[0].timestamp} />
+              {renderState
+                .filter((elemnet) => elemnet.is_marked === true)
+                .filter(
+                  (item) =>
+                    moment.unix(item.timestamp).format('YYYY-MM-DD') ===
+                    moment
+                      .unix(route.params.planObj[0].timestamp)
+                      .format('YYYY-MM-DD')
+                )
+                .map((plan) => (
+                  <TextContainer
+                    key={plan.id}
+                    memo={plan}
+                    navigation={navigation}
+                    destination="detailText"
+                    history="캘린더"
+                  />
+                ))}
+            </>
+          )}
+        </Scroll>
+      )}
     </Wrapper>
   );
 };
