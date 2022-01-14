@@ -28,10 +28,12 @@ import {
 
 import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
+import DeleteButton from './DeleteButton';
 
 const TextContainer = ({ memo, navigation, destination, history }) => {
   const token = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
+  const [showDelBtn, setShowDelBtn] = useState(false);
 
   //useEffect(() => {}, [memo]);
 
@@ -75,57 +77,45 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
       onPress={() => {
         handlePress(memo);
       }}
-      onLongPress={() => {
-        Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
-          {
-            text: '취소',
-            onPress: () => alert('취소되었습니다.'),
-            style: 'cancel',
-          },
-          {
-            text: '삭제',
-            onPress: () => {
-              alert('삭제되었습니다.');
-              handleDelete(memo.id);
-            },
-          },
-        ]);
-      }}
+      onLongPress={() => setShowDelBtn(!showDelBtn)}
     >
-      <BoxContainer>
-        {memo.url ? (
-          <>
-            {/* TODO onLoad 로직 추가 */}
-            <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
-            <TextR>
-              <TextSize color={palette.gray2}>{memo.url}</TextSize>
-            </TextR>
-            <TextR>{memo.memo_text}</TextR>
-          </>
-        ) : (
-          <TextR>{memo.memo_text}</TextR>
-        )}
-        {/* TODO 변수명 수정, bookmark api 로직 */}
-        <BookmarkBox2>
-          {memo.tag_name ? (
-            <TagBox backgroundColor={memo.tag_color}>
+      <>
+        {showDelBtn && <DeleteButton memoID={memo.id} />}
+        <BoxContainer>
+          {memo.url ? (
+            <>
+              {/* TODO onLoad 로직 추가 */}
+              <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
               <TextR>
-                <TextItem>{memo.tag_name}</TextItem>
+                <TextSize color={palette.gray2}>{memo.url}</TextSize>
               </TextR>
-            </TagBox>
+              <TextR>{memo.memo_text}</TextR>
+            </>
           ) : (
-            <View />
+            <TextR>{memo.memo_text}</TextR>
           )}
+          {/* TODO 변수명 수정, bookmark api 로직 */}
+          <BookmarkBox2>
+            {memo.tag_name ? (
+              <TagBox backgroundColor={memo.tag_color}>
+                <TextR>
+                  <TextItem>{memo.tag_name}</TextItem>
+                </TextR>
+              </TagBox>
+            ) : (
+              <View />
+            )}
 
-          <BookmarkButton
-            onPress={() => {
-              handleBookmark(memo);
-            }}
-          >
-            {memo.is_marked ? <FulledBookmark /> : <EmptyBookmark />}
-          </BookmarkButton>
-        </BookmarkBox2>
-      </BoxContainer>
+            <BookmarkButton
+              onPress={() => {
+                handleBookmark(memo);
+              }}
+            >
+              {memo.is_marked ? <FulledBookmark /> : <EmptyBookmark />}
+            </BookmarkButton>
+          </BookmarkBox2>
+        </BoxContainer>
+      </>
     </TouchableHighlight>
   );
 };

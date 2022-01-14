@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Alert } from 'react-native';
 import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { DeleteMemo, PostBookmark } from '../API';
-import { bookmarkMemo, delMemo } from '../reducers/memo';
+import { PostBookmark } from '../API';
+import { bookmarkMemo } from '../reducers/memo';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
+import DeleteButton from './DeleteButton';
 import TextR from './TextR';
 import palette from '../palette';
 import ChatBubblePoint from '../assets/ChatBubblePoint.svg';
@@ -43,16 +43,6 @@ const MemoItem = ({ memo }) => {
       url: memo.url,
       history: 'Home',
     });
-  };
-
-  const handleDelete = async (memoID) => {
-    try {
-      const delMemoRes = await DeleteMemo(token, memoID);
-      console.log(`메모 삭제 성공: ${JSON.stringify(delMemoRes.data)}`);
-      dispatch(delMemo(memoID));
-    } catch (error) {
-      console.log(`메모 삭제 실패: ${error}`);
-    }
   };
 
   const Images = ({ imgCnt }) => {
@@ -141,11 +131,7 @@ const MemoItem = ({ memo }) => {
 
   return (
     <Wrapper>
-      {showDelBtn && (
-        <DeleteBtn onPress={() => handleDelete(memo.id)}>
-          <DeleteBtnText>삭제</DeleteBtnText>
-        </DeleteBtn>
-      )}
+      {showDelBtn && <DeleteButton memoID={memo.id} />}
       <MemoWrapper
         onPress={() => handlePress(memo)}
         onLongPress={() => setShowDelBtn(!showDelBtn)}
@@ -192,24 +178,6 @@ const Wrapper = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
-`;
-
-const DeleteBtn = styled.TouchableOpacity`
-  width: 59px;
-  height: 32px;
-  border: 1px solid #e8eaef;
-  border-radius: 8px;
-  background: ${palette.lightPink};
-  left: ${SCREEN_WIDTH * 0.08}px;
-  top: -26px;
-  position: absolute;
-  z-index: 1;
-  justify-content: center;
-  align-items: center;
-`;
-const DeleteBtnText = styled.Text`
-  font-size: 12px;
-  color: ${palette.red};
 `;
 
 const MemoWrapper = styled.TouchableOpacity`
@@ -294,8 +262,6 @@ const MemoFooter = styled.View`
   width: 100%;
   height: 26px;
 `;
-
-const Tag = styled.TouchableOpacity``;
 
 const Bookmark = styled.TouchableOpacity`
   position: absolute;

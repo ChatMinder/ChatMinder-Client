@@ -74,9 +74,7 @@ const gatherImg = ({ navigation }) => {
   const getImages = async () => {
     try {
       const getImagesRes = await GetImages(token);
-      console.log('getImages 성공: ', getImagesRes.data);
-      //응답 data..ㅋ
-      setImgMemos(getImagesRes.data.data);
+      setImgMemos(getImagesRes.data);
       setRefreshing(false);
     } catch (error) {
       console.log('getImages 실패', error);
