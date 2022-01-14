@@ -52,7 +52,7 @@ export const BookmarkBox = styled.View`
 `;
 
 export const TagBox = styled(ButtonBox)`
-  width: 200px;
+  width: 140px;
 `;
 
 export const CommonIcon = styled.Image`

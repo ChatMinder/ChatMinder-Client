@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import palette from '../palette';
@@ -11,7 +11,13 @@ import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
 import ImgBtn from '../assets/ImgBtn.svg';
 
-const HeaderButton = ({ type, setChoice, setClickedState }) => {
+const HeaderButton = ({
+  type,
+  setClickedState,
+  handleFilter,
+  setFilterArr,
+  handleArr,
+}) => {
   const { id, category, isSelected } = type;
   //console.log(type);
 
@@ -22,32 +28,20 @@ const HeaderButton = ({ type, setChoice, setClickedState }) => {
     //console.log(clicked.isClicked);
   };
 
+  const SendCategory = (item) => {
+    setFilterArr(() => item);
+  };
+
   const onClick = () => {
     setClicked({ isClicked: !clicked.isClicked });
   };
 
-  return category === 'all' ? (
+  return category === 'image' ? (
     <TouchableOpacity
       onPress={() => {
-        setChoice(category);
         onClick();
-      }}
-    >
-      {clicked.isClicked ? (
-        <SelectedBox>
-          <SelectedText>전체</SelectedText>
-        </SelectedBox>
-      ) : (
-        <CommonBox>
-          <Text>전체</Text>
-        </CommonBox>
-      )}
-    </TouchableOpacity>
-  ) : category === 'image' ? (
-    <TouchableOpacity
-      onPress={() => {
-        setChoice(category);
-        onClick();
+        SendCategory(type.category);
+        handleFilter(type.category);
       }}
     >
       {clicked.isClicked ? (
@@ -63,8 +57,9 @@ const HeaderButton = ({ type, setChoice, setClickedState }) => {
   ) : category === 'link' ? (
     <TouchableOpacity
       onPress={() => {
-        setChoice(category);
         onClick();
+        SendCategory(type.category);
+        handleFilter(type.category);
       }}
     >
       {clicked.isClicked ? (
@@ -80,8 +75,9 @@ const HeaderButton = ({ type, setChoice, setClickedState }) => {
   ) : category === 'text' ? (
     <TouchableOpacity
       onPress={() => {
-        setChoice(category);
         onClick();
+        SendCategory(type.category);
+        handleFilter(type.category);
       }}
     >
       {clicked.isClicked ? (
@@ -97,7 +93,6 @@ const HeaderButton = ({ type, setChoice, setClickedState }) => {
   ) : (
     <TouchableOpacity
       onPress={() => {
-        setChoice(category);
         onClick();
         SendData();
       }}
