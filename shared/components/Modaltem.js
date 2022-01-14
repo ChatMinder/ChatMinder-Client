@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TouchableOpacity, TextInput } from 'react-native';
+import { Button, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -29,7 +29,7 @@ import Cancel from '../assets/cancel.svg';
 
 const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   const token = useSelector((state) => state.auth.accessToken);
-  const [subTitle, setSubTitle] = useState('');
+  const [subTitle, setSubTitle] = useState(title.title);
   const [selectedColor, setSelectedColor] = useState('');
 
   const SendData = () => {
@@ -132,15 +132,6 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     return borderThing;
   };
 
-  // const handleColor = (idx) => {
-  //   setColors(
-  //     colors.map((color) =>
-  //       color.id === idx ? { ...color, isSelected: !color.isSelected } : color
-  //     )
-  //   );
-  //   console.log(colors);
-  // };
-
   const handleNewTag = async () => {
     const formData = {
       tag_name: subTitle,
@@ -191,12 +182,13 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
 
           <TitleBox marginBottom="30">
             <TextInput
-              placeholder="태그를 입력해주세요"
+              style={styles.inputStyle}
+              placeholder={title.title ? title.title : '태그를 입력해주세요'}
               type="text"
               onChangeText={(text) => {
                 setSubTitle(text);
               }}
-              //value={subTitle}
+              value={subTitle || title.title}
             />
 
             <InputBox />
@@ -258,5 +250,16 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     </StyledSafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  inputStyle: {
+    ...Platform.select({
+      android: {
+        fontFamily: 'NanumSquareOTF_ac',
+        fontSize: 16,
+      },
+    }),
+  },
+});
 
 export default ModalItem;
