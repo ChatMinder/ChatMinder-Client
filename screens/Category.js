@@ -55,7 +55,7 @@ const Category = ({ navigation }) => {
     await handleTags();
     //console.log(title);
     setLoading(false);
-  }, [tags]);
+  }, []);
 
   const handleTags = async () => {
     setLoading(true);

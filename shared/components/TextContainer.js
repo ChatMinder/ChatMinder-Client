@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import RNUrlPreview from 'react-native-url-preview';
-import {
-  Text,
-  TouchableHighlight,
-  Alert,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Text, Alert, TouchableOpacity, View } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import palette from '../palette';
 import TextR from './TextR';
@@ -63,7 +57,7 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
   };
 
   return (
-    <TouchableHighlight
+    <TouchableOpacity
       onPress={() => {
         handlePress(memo);
       }}
@@ -106,10 +100,10 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
           </BookmarkBox2>
         </BoxContainer>
       </>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
 export default TextContainer;
 
-const BookmarkButton = styled.TouchableHighlight``;
+const BookmarkButton = styled.TouchableOpacity``;
