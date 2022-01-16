@@ -12,6 +12,7 @@ import {
 import styled from 'styled-components/native';
 import RNUrlPreview from 'react-native-url-preview';
 import TextR from '../../shared/components/TextR';
+import TextB from '../../shared/components/TextB';
 import palette from '../../shared/palette';
 import { TextSize } from '../../shared/styles/FontStyle';
 import { useSelector } from 'react-redux';
@@ -111,7 +112,7 @@ const detailText = ({ route, navigation }) => {
           <ActivityIndicator size="large" color="#ff7f6d" />
         </SpinnerWrapper>
       )} */}
-      <BookmarkBox2 marginBottom="15px">
+      <BookmarkBox2 style={{ marginBottom: 20 }}>
         <TouchableOpacity
           onPress={() => navigation.navigate(route.params.history)}
         >
@@ -138,8 +139,16 @@ const detailText = ({ route, navigation }) => {
       </BookmarkBox2>
 
       {route.params.tag_name ? (
-        <TextR>
-          <TagBox backgroundColor={route.params.tag_color}>
+        <TextB>
+          <TagBox
+            style={{
+              paddingTop: 7,
+              paddingBottom: 7,
+              paddingLeft: 10,
+              paddingRight: 10,
+            }}
+            backgroundColor={route.params.tag_color}
+          >
             <TouchableOpacity onPress={() => toggleModal()}>
               <TextItem>{route.params.tag_name}</TextItem>
             </TouchableOpacity>
@@ -147,12 +156,12 @@ const detailText = ({ route, navigation }) => {
               <GoBackLight style={{ marginLeft: 2 }} />
             </View>
           </TagBox>
-        </TextR>
+        </TextB>
       ) : (
         <View />
       )}
 
-      <Margin>
+      <View style={{ marginTop: 10 }}>
         {route.params.url && (
           <LinkView>
             <RNUrlPreview
@@ -182,7 +191,7 @@ const detailText = ({ route, navigation }) => {
             <TextSize fontSize="16">{inputText}</TextSize>
           </TextR>
         )}
-      </Margin>
+      </View>
 
       {!editable ? (
         <View />
@@ -235,10 +244,6 @@ const SpinnerWrapper = styled.View`
   left: ${SCREEN_WIDTH * 0.5 - 18}px;
   bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
   z-index: 10;
-`;
-
-const Margin = styled.View`
-  margin-top: 10px;
 `;
 
 const Buttons = styled.View`

@@ -4,6 +4,7 @@ import { Text, Alert, TouchableOpacity, View } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import palette from '../palette';
 import TextR from './TextR';
+import TextB from './TextB';
 import { TextSize } from '../styles/FontStyle';
 import { PostBookmark } from '../API';
 import { bookmarkMemo } from '../reducers/memo';
@@ -83,9 +84,9 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
           <BookmarkBox2>
             {memo.tag_name ? (
               <TagBox backgroundColor={memo.tag_color}>
-                <TextR>
+                <TextB>
                   <TextItem>{memo.tag_name}</TextItem>
-                </TextR>
+                </TextB>
               </TagBox>
             ) : (
               <View />

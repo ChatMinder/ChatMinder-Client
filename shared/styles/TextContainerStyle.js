@@ -21,8 +21,8 @@ export const DateItem = styled.View`
 export const TagBox = styled.View`
   background-color: ${(props) =>
     props.backgroundColor || `${palette.lightGreen}`};
-  border-radius: 5px;
-  padding: 0 5px;
+  border-radius: 8px;
+  padding: 3px 10px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
