@@ -79,6 +79,11 @@ export const TagBtn = styled.TouchableOpacity`
   background: ${(props) => props.background || randomTagColor()};
   ${(props) =>
     props.selected && `border: 2.5px solid ${borderColor(props.background)}`}
+  ${(props) => {
+    if (props.iamNotSelected && props.somethingIsSelected) {
+      return `opacity: 0.1`;
+    }
+  }}
   ${(props) => props.margin && `margin-left: 12px`}
   padding: 0px 10px;
   border-radius: 8px;

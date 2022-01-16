@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Text,
-  Button,
   TouchableOpacity,
-  ScrollView,
   Alert,
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import styled from 'styled-components/native';
-import { GetTags, DeleteTag } from '../shared/API';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components/native';
 import palette from '../shared/palette';
 
+import { deleteTag, setTags } from '../shared/reducers/tag';
+import { setMemos } from '../shared/reducers/memo';
+import { GetTags, DeleteTag, GetMemo } from '../shared/API';
 import {
   CategoryItem,
   TextBox,
@@ -25,15 +24,13 @@ import {
 import TextB from '../shared/components/TextB';
 import TextR from '../shared/components/TextR';
 import { TextSize } from '../shared/styles/FontStyle';
-
 import ModalItem from '../shared/components/Modaltem';
-
 import Trashcan from '../shared/assets/trashcan.svg';
 import Settings from '../shared/assets/settings.svg';
 
 const Category = ({ navigation }) => {
+  const dispatch = useDispatch();
   const tagData = useSelector((state) => state.tagData);
-  //console.log('tagData: ', tagData);
   const token = useSelector((state) => state.auth.accessToken);
 
   const [loading, setLoading] = useState(false);
@@ -42,7 +39,6 @@ const Category = ({ navigation }) => {
     title: '',
   });
   const [stateValue, setStateValue] = useState('');
-  const [tags, setTags] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -50,29 +46,16 @@ const Category = ({ navigation }) => {
     setModalVisible(!isModalVisible);
   };
 
-  useEffect(async () => {
-    setLoading(true);
-    await handleTags();
-    //console.log(title);
-    setLoading(false);
-  }, [tags]);
-
-  const handleTags = async () => {
-    setLoading(true);
-    try {
-      const getTagsRes = await GetTags(token);
-      setTags(getTagsRes.data);
-    } catch (error) {
-      console.log(`getTags 실패: ${error}`);
-    }
-    setLoading(false);
-  };
-
   const handleDelete = async (id) => {
     setLoading(true);
     try {
       const deleteTagRes = await DeleteTag(token, id);
       console.log('deleteTag 성공: ', deleteTagRes.data);
+      dispatch(deleteTag(id));
+      const getMemoRes = await GetMemo(token);
+      dispatch(setMemos(getMemoRes.data));
+      const getTagRes = await GetTags(token);
+      dispatch(setTags(getTagRes.data));
     } catch (error) {
       console.log('deleteTag 실패', error);
     }
@@ -104,8 +87,11 @@ const Category = ({ navigation }) => {
         </ButtonItem>
       </ButtonBox>
       <TagScroll>
-        {tags.map((tag, index) => (
-          <CategoryItem key={tag.id} backgroundColor={tag.tag_color}>
+        {tagData.map((tag) => (
+          <CategoryItem
+            key={tag.id}
+            backgroundColor={tag.tag_name ? tag.tag_color : palette.gray1}
+          >
             <TextBox
               onPress={() => {
                 navigation.navigate('CategoryDetail', {

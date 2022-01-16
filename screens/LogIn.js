@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { login } from '@react-native-seoul/kakao-login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -25,6 +26,7 @@ const LogIn = ({ navigation }) => {
       //챗마인더 로그인
       const Sendingdata = {
         kakao_access_token: kakaoRes.accessToken,
+        timestamp: moment().unix(),
       };
       const logInRes = await PostLogIn(Sendingdata);
       const ChatMinderTokens = logInRes.data;
