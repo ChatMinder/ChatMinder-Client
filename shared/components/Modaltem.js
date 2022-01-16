@@ -120,14 +120,6 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     isSelected: Array(colors.length).fill(false),
   });
 
-  useEffect(() => {
-    setSubTitle(title.title);
-    setSelectedColor(title.color);
-    setClicked({
-      isSelected: Array(10).fill(false),
-    });
-  }, [title]);
-
   const handleClicked = (idx) => {
     const newArr = Array(colors.length).fill(false);
     newArr[idx] = true;
@@ -147,6 +139,23 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     });
     return borderThing;
   };
+
+  useEffect(() => {
+    setSubTitle(title.title);
+    setSelectedColor(title.color);
+
+    {
+      title.color
+        ? colors.map((item) => {
+            if (item.colorValue === title.color) {
+              handleClicked(item.id);
+            }
+          })
+        : setClicked({
+            isSelected: Array(10).fill(false),
+          });
+    }
+  }, [title]);
 
   const handleNewTag = async () => {
     setLoading(true);
