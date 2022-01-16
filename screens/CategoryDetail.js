@@ -16,16 +16,7 @@ import useSearch from '../shared/hooks/useSearch';
 import HeaderButton from '../shared/components/HeaderButton';
 import TextContainer from '../shared/components/TextContainer';
 
-import {
-  SearchInput,
-  TitleBox,
-  ButtonBox2,
-  TagBox,
-  HeaderContainer,
-  HeaderIcon,
-  NoVisibleBox,
-  InputBox,
-} from '../shared/styles/HeaderStyle';
+import { TitleItem } from '../shared/styles/HeaderStyle';
 import {
   Container,
   TextBox,
@@ -105,48 +96,29 @@ const CategoryDetail = ({ route, navigation }) => {
       headerStyle: {
         height: 130,
       },
-      headerLeft: () => null,
-      headerRight: () => null,
+      headerLeft: () => (
+        <TouchableOpacity
+          hitSlop={{ top: 32, bottom: 32, left: 32, right: 32 }}
+          onPress={() => navigation.navigate('태그')}
+        >
+          <GoBack />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <HeaderButton type={types[3]} setClickedState={setClickedState} />
+      ),
       headerTitle: () => (
-        <HeaderContainer paddingRight="5%" marginTop="3%">
-          <TitleBox marginBottom="3%">
-            <TouchableOpacity onPress={() => navigation.navigate('태그')}>
-              <GoBack />
-            </TouchableOpacity>
-            <TextB>
-              <TextSize fontSize="18" color={route.params.tag_color}>
-                {route.params.tag_name}
-              </TextSize>
-            </TextB>
-            <NoVisibleBox />
-          </TitleBox>
-
-          <InputBox>
-            <SearchIcon style={{ marginLeft: 10, marginRight: 8 }} />
-            <SearchInput
-              onChangeText={onSearchChange}
-              placeholder="내용, 태그 검색"
-            />
-          </InputBox>
-          <ButtonBox2>
-            <TagBox>
-              {types.map(
-                (type, index) =>
-                  index < 3 && (
-                    <HeaderButton
-                      type={type}
-                      key={type.id}
-                      handleFilter={handleFilter}
-                      setFilterArr={setFilterArr}
-                    />
-                  )
-              )}
-            </TagBox>
-            <View>
-              <HeaderButton type={types[3]} setClickedState={setClickedState} />
-            </View>
-          </ButtonBox2>
-        </HeaderContainer>
+        <TitleItem>
+          <TextB>
+            <TextSize
+              style={{ marginTop: 16, marginBottom: 12 }}
+              fontSize="18"
+              color={route.params.tag_color}
+            >
+              {route.params.tag_name}
+            </TextSize>
+          </TextB>
+        </TitleItem>
       ),
     });
   }, []);
@@ -155,45 +127,15 @@ const CategoryDetail = ({ route, navigation }) => {
 
   return (
     <Scroll>
-      {loading && (
-        <SpinnerWrapper>
-          <ActivityIndicator size="large" color="#ff7f6d" />
-        </SpinnerWrapper>
-      )}
-      {clickedState ? (
-        <Container>
-          {tagsDetail.map(
-            (memo, index) =>
-              memo.timestamp && (
-                <TextBox key={memo.id}>
-                  <DateItem>
-                    {index === 0 ? (
-                      <MemoDate memoTime={memo.timestamp} />
-                    ) : (
-                      moment
-                        .unix(tagsDetail[index - 1].timestamp)
-                        .format('YYYY-MM-DD') !==
-                        moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
-                        <MemoDate memoTime={memo.timestamp} />
-                      )
-                    )}
-                  </DateItem>
-
-                  <TextContainer
-                    memo={memo}
-                    navigation={navigation}
-                    destination="detailText"
-                    history="태그"
-                  />
-                </TextBox>
-              )
-          )}
-        </Container>
-      ) : (
-        <Container>
-          {tagsDetail
-            .filter((elemnet) => elemnet.is_marked === true)
-            .map(
+      <Wrapper>
+        {loading && (
+          <SpinnerWrapper>
+            <ActivityIndicator size="large" color="#ff7f6d" />
+          </SpinnerWrapper>
+        )}
+        {clickedState ? (
+          <Container>
+            {tagsDetail.map(
               (memo, index) =>
                 memo.timestamp && (
                   <TextBox key={memo.id}>
@@ -219,8 +161,42 @@ const CategoryDetail = ({ route, navigation }) => {
                   </TextBox>
                 )
             )}
-        </Container>
-      )}
+          </Container>
+        ) : (
+          <Container>
+            {tagsDetail
+              .filter((elemnet) => elemnet.is_marked === true)
+              .map(
+                (memo, index) =>
+                  memo.timestamp && (
+                    <TextBox key={memo.id}>
+                      <DateItem>
+                        {index === 0 ? (
+                          <MemoDate memoTime={memo.timestamp} />
+                        ) : (
+                          moment
+                            .unix(tagsDetail[index - 1].timestamp)
+                            .format('YYYY-MM-DD') !==
+                            moment
+                              .unix(memo.timestamp)
+                              .format('YYYY-MM-DD') && (
+                            <MemoDate memoTime={memo.timestamp} />
+                          )
+                        )}
+                      </DateItem>
+
+                      <TextContainer
+                        memo={memo}
+                        navigation={navigation}
+                        destination="detailText"
+                        history="태그"
+                      />
+                    </TextBox>
+                  )
+              )}
+          </Container>
+        )}
+      </Wrapper>
     </Scroll>
   );
 };
@@ -238,5 +214,10 @@ const SpinnerWrapper = styled.View`
 `;
 
 const Scroll = styled.ScrollView`
-  height: 90%;
+  width: 100%;
+  height: 100%;
+`;
+
+const Wrapper = styled.View`
+  align-items: center;
 `;

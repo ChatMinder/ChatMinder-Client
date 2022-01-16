@@ -5,8 +5,7 @@ export const Container = styled.View`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  padding: 0 2%;
+  width: 91%;
   margin-top: 1%;
 `;
 
@@ -40,6 +39,7 @@ export const BookmarkBox2 = styled.View`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${(props) => props.marginBottom || '0px'};
+  margin-top: 1.5%;
 `;
 
 export const TextItem = styled.Text`
@@ -50,5 +50,5 @@ export const BoxContainer = styled.View`
   background-color: white;
   margin-bottom: 4%;
   border-radius: 10px;
-  padding: 1.5%;
+  padding: 2.7%;
 `;

@@ -5,11 +5,10 @@ export const CategoryItem = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 0 2% 2%;
-  padding: 0 3%;
+  margin-bottom: 4.5%;
   background-color: ${(props) => props.backgroundColor || `${palette.gray1}`};
   height: 60px;
-  border-radius: 5px;
+  border-radius: 8px;
 `;
 
 export const TextBox = styled.TouchableOpacity`
@@ -18,8 +17,6 @@ export const TextBox = styled.TouchableOpacity`
 
 export const ImgBox = styled.View`
   flex-direction: row;
-  width: 10%;
-  justify-content: space-around;
 `;
 
 export const ImgItem = styled.Image`
@@ -31,6 +28,7 @@ export const ButtonBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 5% 2%;
+  padding-top: 36px;
+  padding-bottom: 36px;
   width: ${(props) => props.width || '90%'};
 `;

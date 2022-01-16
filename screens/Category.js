@@ -22,7 +22,6 @@ import {
   ButtonBox,
 } from '../shared/styles/CategoryStyle';
 import TextB from '../shared/components/TextB';
-import TextR from '../shared/components/TextR';
 import { TextSize } from '../shared/styles/FontStyle';
 import ModalItem from '../shared/components/Modaltem';
 import Trashcan from '../shared/assets/trashcan.svg';
@@ -70,7 +69,7 @@ const Category = ({ navigation }) => {
           <ActivityIndicator size="large" color="#ff7f6d" />
         </SpinnerWrapper>
       )}
-      <ButtonBox width="100%">
+      <ButtonBox width="91%">
         <TextB>
           <TextSize fontSize="20">태그</TextSize>
         </TextB>
@@ -94,6 +93,7 @@ const Category = ({ navigation }) => {
             backgroundColor={tag.tag_color ? tag.tag_color : palette.gray1}
           >
             <TextBox
+              style={{ marginLeft: 19 }}
               onPress={() => {
                 navigation.navigate('CategoryDetail', {
                   id: tag.id,
@@ -119,7 +119,7 @@ const Category = ({ navigation }) => {
                   });
                 }}
               >
-                <Settings />
+                <Settings style={{ marginRight: 16 }} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -139,7 +139,7 @@ const Category = ({ navigation }) => {
                   ]);
                 }}
               >
-                <Trashcan />
+                <Trashcan style={{ marginRight: 19 }} />
               </TouchableOpacity>
             </ImgBox>
           </CategoryItem>
@@ -157,7 +157,9 @@ const Category = ({ navigation }) => {
 
 export default Category;
 
-const Wrapper = styled.View``;
+const Wrapper = styled.View`
+  align-items: center;
+`;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -171,10 +173,11 @@ const SpinnerWrapper = styled.View`
 
 const ButtonItem = styled.TouchableOpacity`
   background-color: ${palette.main};
-  border-radius: 5px;
-  padding: 3px 7px;
+  border-radius: 8px;
+  padding: 4px 10px;
 `;
 
 const TagScroll = styled.ScrollView`
   height: 90%;
+  width: 91%;
 `;
