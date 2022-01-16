@@ -33,7 +33,7 @@ const ModalListItem = ({ isModalVisible, toggleModal, handleEditTag }) => {
   const [tagId, setTagId] = useState(0);
 
   useEffect(() => {
-    console.log(tagId);
+    //console.log(tagId);
   }, [tagId]);
 
   const [clicked, setClicked] = useState({

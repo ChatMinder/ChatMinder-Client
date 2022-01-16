@@ -100,6 +100,8 @@ const detailText = ({ route, navigation }) => {
       const editTagRes = await PostEditTag(token, formData);
       dispatch(fixMemo(route.params.id, editTagRes.data));
       console.log('editTagRes 성공: ', editTagRes.data);
+      //alert('수정되었습니다.');
+      //navigation.navigate(route.params.history);
     } catch (error) {
       console.log(`editTagRes 실패: ${error}`);
     }
@@ -115,6 +117,7 @@ const detailText = ({ route, navigation }) => {
       <BookmarkBox2 style={{ marginBottom: 20 }}>
         <TouchableOpacity
           onPress={() => navigation.navigate(route.params.history)}
+          hitSlop={{ top: 32, bottom: 32, left: 32, right: 32 }}
         >
           <GoBack />
         </TouchableOpacity>
