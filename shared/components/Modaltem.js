@@ -37,12 +37,16 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
   const [loading, setLoading] = useState(false);
-  const [subTitle, setSubTitle] = useState(title.title);
-  const [selectedColor, setSelectedColor] = useState('');
+  const [subTitle, setSubTitle] = useState('');
+  const [selectedColor, setSelectedColor] = useState(title.color);
 
   const SendData = () => {
     setStateValue(subTitle);
   };
+
+  useEffect(() => {
+    setSubTitle(title.title);
+  }, [title]);
 
   // useEffect(() => {
   //   {
@@ -123,11 +127,11 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   const handleClicked = (idx) => {
     const newArr = Array(colors.length).fill(false);
     newArr[idx] = true;
-    console.log(newArr);
+    //console.log(newArr);
     setClicked({
       isSelected: newArr,
     });
-    console.log(clicked.isSelected);
+    //console.log(clicked.isSelected);
   };
 
   const handleColors = (tag_color) => {
@@ -212,7 +216,7 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
               onChangeText={(text) => {
                 setSubTitle(text);
               }}
-              value={subTitle || title.title}
+              value={subTitle}
             />
 
             <InputBox />
@@ -230,7 +234,7 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
                   onPress={() => {
                     setSelectedColor(color.colorValue);
                     handleClicked(index);
-                    console.log(color.colorName);
+                    //console.log(color.colorName);
                   }}
                 >
                   <ColorItem

@@ -37,6 +37,7 @@ const Category = ({ navigation }) => {
   const [title, setTitle] = useState({
     id: 0,
     title: '',
+    color: '',
   });
   const [stateValue, setStateValue] = useState('');
 
@@ -90,7 +91,7 @@ const Category = ({ navigation }) => {
         {tagData.map((tag) => (
           <CategoryItem
             key={tag.id}
-            backgroundColor={tag.tag_name ? tag.tag_color : palette.gray1}
+            backgroundColor={tag.tag_color ? tag.tag_color : palette.gray1}
           >
             <TextBox
               onPress={() => {
@@ -111,7 +112,11 @@ const Category = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => {
                   toggleModal();
-                  setTitle({ id: tag.id, title: tag.tag_name });
+                  setTitle({
+                    id: tag.id,
+                    title: tag.tag_name,
+                    color: tag.tag_color,
+                  });
                 }}
               >
                 <Settings />
