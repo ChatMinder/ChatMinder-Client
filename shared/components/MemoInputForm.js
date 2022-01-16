@@ -182,6 +182,7 @@ const MemoInputForm = () => {
                           setSelectedTagID(0);
                           setSelectedNewTag(0);
                         } else {
+                          console.log('IamReRendered', tag.id);
                           setSelectedTagID(tag.id);
                           setSelectedNewTag(0);
                         }

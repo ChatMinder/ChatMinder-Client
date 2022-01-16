@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Button,
   TouchableOpacity,
   TextInput,
   Dimensions,
@@ -8,15 +7,12 @@ import {
   StyleSheet,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { PostTag, PatchTag } from '../API';
+import { useDispatch, useSelector } from 'react-redux';
+import { PostTag, PatchTag, GetTags, GetMemo } from '../API';
 
 import {
   StyledSafeAreaView,
   StyledModalContainer2,
-  StyledModalGradeWrapper,
-  StyledModalGradeText,
   InputBox,
   ColorBox,
   ColorItem,
@@ -34,8 +30,11 @@ import { FontStyle } from '../styles/FontStyle';
 
 import Cancel from '../assets/cancel.svg';
 import styled from 'styled-components/native';
+import { fixTag, setTags, addTag } from '../reducers/tag';
+import { setMemos } from '../reducers/memo';
 
 const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
   const [loading, setLoading] = useState(false);
   const [subTitle, setSubTitle] = useState(title.title);
@@ -149,6 +148,7 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     };
     try {
       const postTagRes = await PostTag(token, formData);
+      dispatch(addTag(postTagRes.data));
       console.log('postTagRes 성공: ', postTagRes.data);
     } catch (error) {
       console.log('postTagRes 실패: ', error);
@@ -164,7 +164,12 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     };
     try {
       const patchTagRes = await PatchTag(token, formData, id);
+      // dispatch(fixTag(id, patchTagRes.data));
       console.log('patchTag 성공: ', patchTagRes.data);
+      const getMemoRes = await GetMemo(token);
+      dispatch(setMemos(getMemoRes.data));
+      const getTagRes = await GetTags(token);
+      dispatch(setTags(getTagRes.data));
     } catch (error) {
       console.log('patchTag 실패: ', error);
     }

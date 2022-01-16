@@ -2,18 +2,25 @@
 const SET_TAGS = 'SET_TAGS';
 const ADD_TAG = 'ADD_TAG';
 const FIX_TAG = 'FIX_TAG';
+const DELETE_TAG = 'DELETE_TAG';
 
 //액션 생성함수 만들기
 export const setTags = (tagArr) => ({
   type: SET_TAGS,
   tagArr,
 });
-export const addTag = (tagObj) => ({
+export const addTag = (newTag) => ({
   type: ADD_TAG,
-  tagObj,
+  newTag,
 });
-export const fixTag = () => ({
+export const fixTag = (tagID, fixedTag) => ({
   type: FIX_TAG,
+  tagID,
+  fixedTag,
+});
+export const deleteTag = (tagID) => ({
+  type: DELETE_TAG,
+  tagID,
 });
 
 //초기 상태 선언
@@ -29,10 +36,17 @@ const tag = (state = initialState, action) => {
       return action.tagArr;
     }
     case ADD_TAG: {
-      return [...state, action.tagObj];
+      return [...state, action.newTag];
     }
     case FIX_TAG: {
-      return [...state];
+      const newState = state.map((tag) =>
+        tag.id === action.tagID ? action.fixedTag : tag
+      );
+      return newState;
+    }
+    case DELETE_TAG: {
+      const newState = state.filter((tag) => tag.id !== action.tagID);
+      return newState;
     }
     default:
       return state;

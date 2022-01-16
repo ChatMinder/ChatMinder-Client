@@ -17,7 +17,7 @@ import { TextSize } from '../../shared/styles/FontStyle';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { PatchMemo, PostBookmark } from '../../shared/API';
-import { bookmarkMemo } from '../../shared/reducers/memo';
+import { bookmarkMemo, fixMemo } from '../../shared/reducers/memo';
 
 import {
   TagBox,
@@ -68,6 +68,7 @@ const detailText = ({ route, navigation }) => {
     try {
       const patchMemoRes = await PatchMemo(token, id, formData);
       console.log('patchMemoRes 성공: ', patchMemoRes.data);
+      dispatch(fixMemo(id, patchMemoRes.data));
     } catch (error) {
       console.log(`patchMemoRes 실패: ${error}`);
     }
