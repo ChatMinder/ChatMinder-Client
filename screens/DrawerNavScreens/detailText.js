@@ -97,6 +97,7 @@ const detailText = ({ route, navigation }) => {
     };
     try {
       const editTagRes = await PostEditTag(token, formData);
+      dispatch(fixMemo(route.params.id, editTagRes.data));
       console.log('editTagRes 성공: ', editTagRes.data);
     } catch (error) {
       console.log(`editTagRes 실패: ${error}`);
