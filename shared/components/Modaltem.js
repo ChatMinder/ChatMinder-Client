@@ -38,15 +38,11 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   const token = useSelector((state) => state.auth.accessToken);
   const [loading, setLoading] = useState(false);
   const [subTitle, setSubTitle] = useState('');
-  const [selectedColor, setSelectedColor] = useState(title.color);
+  const [selectedColor, setSelectedColor] = useState('');
 
   const SendData = () => {
     setStateValue(subTitle);
   };
-
-  useEffect(() => {
-    setSubTitle(title.title);
-  }, [title]);
 
   // useEffect(() => {
   //   {
@@ -123,6 +119,14 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   const [clicked, setClicked] = useState({
     isSelected: Array(colors.length).fill(false),
   });
+
+  useEffect(() => {
+    setSubTitle(title.title);
+    setSelectedColor(title.color);
+    setClicked({
+      isSelected: Array(10).fill(false),
+    });
+  }, [title]);
 
   const handleClicked = (idx) => {
     const newArr = Array(colors.length).fill(false);
