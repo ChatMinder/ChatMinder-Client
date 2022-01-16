@@ -139,3 +139,11 @@ export const GetFilterTags = async (token, id, link, image, text) =>
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+// 메모 내 태그 변경
+export const PostEditTag = async (token, data) =>
+  await axios.post(`${baseURL}/memos/tags`, data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });

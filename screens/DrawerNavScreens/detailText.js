@@ -16,7 +16,7 @@ import palette from '../../shared/palette';
 import { TextSize } from '../../shared/styles/FontStyle';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { PatchMemo, PostBookmark } from '../../shared/API';
+import { PatchMemo, PostBookmark, PostEditTag } from '../../shared/API';
 import { bookmarkMemo, fixMemo } from '../../shared/reducers/memo';
 
 import {
@@ -90,13 +90,26 @@ const detailText = ({ route, navigation }) => {
     }
   };
 
+  const handleEditTag = async (tag_id) => {
+    const formData = {
+      memo_id: route.params.id,
+      tag_id: tag_id,
+    };
+    try {
+      const editTagRes = await PostEditTag(token, formData);
+      console.log('editTagRes 성공: ', editTagRes.data);
+    } catch (error) {
+      console.log(`editTagRes 실패: ${error}`);
+    }
+  };
+
   return (
     <Wrapper>
-      {loading && (
+      {/* {loading && (
         <SpinnerWrapper>
           <ActivityIndicator size="large" color="#ff7f6d" />
         </SpinnerWrapper>
-      )}
+      )} */}
       <BookmarkBox2 marginBottom="15px">
         <TouchableOpacity
           onPress={() => navigation.navigate(route.params.history)}
@@ -159,7 +172,6 @@ const detailText = ({ route, navigation }) => {
               type="text"
               onChangeText={(text) => {
                 setInputText(text);
-                //console.log(inputText);
               }}
               value={inputText}
             />
@@ -191,6 +203,7 @@ const detailText = ({ route, navigation }) => {
       <ModalListItem
         isModalVisible={isModalVisible}
         toggleModal={toggleModal}
+        handleEditTag={handleEditTag}
       />
     </Wrapper>
   );

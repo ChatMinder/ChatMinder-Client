@@ -8,6 +8,7 @@ export const CategoryItem = styled.View`
   margin-bottom: 4.5%;
   background-color: ${(props) => props.backgroundColor || `${palette.gray1}`};
   height: 60px;
+  width: 100%;
   border-radius: 8px;
 `;
 
@@ -28,7 +29,5 @@ export const ButtonBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-top: 36px;
-  padding-bottom: 36px;
-  width: ${(props) => props.width || '90%'};
+  width: ${(props) => props.width || '100%'};
 `;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   TouchableOpacity,
@@ -27,9 +27,14 @@ import palette from '../palette';
 
 import Cancel from '../assets/cancel.svg';
 
-const ModalListItem = ({ isModalVisible, toggleModal }) => {
+const ModalListItem = ({ isModalVisible, toggleModal, handleEditTag }) => {
   const tagData = useSelector((state) => state.tagData);
   //console.log('tagData: ', tagData);
+  const [tagId, setTagId] = useState(0);
+
+  useEffect(() => {
+    console.log(tagId);
+  }, [tagId]);
 
   const [clicked, setClicked] = useState({
     isSelected: Array(tagData.length).fill(false),
@@ -101,7 +106,7 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
   const handleClicked = (idx) => {
     const newArr = Array(tagData.length).fill(false);
     newArr[idx] = true;
-    console.log(newArr);
+    //console.log(newArr);
     setClicked({
       isSelected: newArr,
     });
@@ -114,6 +119,7 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
         borderThing = item.borderValue;
       }
     });
+
     return borderThing;
   };
 
@@ -137,9 +143,20 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
         <StyledModalContainer>
-          <ButtonBox>
-            <TextR>태그 분류 수정</TextR>
-            <TouchableOpacity onPress={toggleModal}>
+          <ButtonBox style={{ marginTop: 25, marginBottom: 22 }}>
+            <View
+              style={{
+                marginLeft: 20,
+              }}
+            >
+              <TextR>태그 분류 수정</TextR>
+            </View>
+            <TouchableOpacity
+              style={{
+                marginRight: 20,
+              }}
+              onPress={toggleModal}
+            >
               <Cancel />
             </TouchableOpacity>
           </ButtonBox>
@@ -165,20 +182,8 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
                     backgroundColor={tag.tag_color}
                     onPress={() => {
                       handleClicked(index);
-                      Alert.alert('수정 확인', '수정하시겠습니까?', [
-                        {
-                          text: '취소',
-                          onPress: () => alert('취소되었습니다.'),
-                          style: 'cancel',
-                        },
-                        {
-                          text: '수정',
-                          onPress: () => {
-                            alert('수정되었습니다.');
-                            toggleModal();
-                          },
-                        },
-                      ]);
+                      setTagId(tag.id);
+                      console.log(tagId);
                     }}
                   >
                     <TextB>
@@ -191,6 +196,13 @@ const ModalListItem = ({ isModalVisible, toggleModal }) => {
               )
             )}
           </Scroll>
+          <Button
+            title="확인"
+            onPress={() => {
+              handleEditTag(tagId);
+              toggleModal();
+            }}
+          />
         </StyledModalContainer>
       </Modal>
     </StyledSafeAreaView>
@@ -203,8 +215,7 @@ const TagBox = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
   margin: 0 2% 1%;
-  background-color: ${(props) =>
-    props.backgroundColor || `${palette.lightGreen}`};
+  background-color: ${(props) => props.backgroundColor || `${palette.gray1}`};
   border: 3px solid ${(props) => props.borderColor || `${palette.white}`};
   border-radius: 10px;
   height: 50px;

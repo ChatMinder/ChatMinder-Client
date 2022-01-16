@@ -48,6 +48,7 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
     navigation.navigate(`${destination}`, {
       id: memo.id,
       memo_text: memo.memo_text,
+      tag_id: memo.tag_id,
       tag_name: memo.tag_name,
       tag_color: memo.tag_color,
       is_marked: memo.is_marked,

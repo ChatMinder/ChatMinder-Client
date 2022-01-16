@@ -70,7 +70,7 @@ const Category = ({ navigation }) => {
           <ActivityIndicator size="large" color="#ff7f6d" />
         </SpinnerWrapper>
       )}
-      <ButtonBox width="91%">
+      <ButtonBox width="91%" style={{ paddingTop: 36, paddingBottom: 46 }}>
         <TextB>
           <TextSize fontSize="20">태그</TextSize>
         </TextB>
