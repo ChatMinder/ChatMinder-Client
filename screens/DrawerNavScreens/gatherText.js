@@ -22,6 +22,8 @@ import {
   Container,
   TextBox,
   DateItem,
+  Wrapper,
+  Scroll,
 } from '../../shared/styles/TextContainerStyle';
 import GoBack from '../../shared/assets/GoBack.svg';
 import SearchIcon from '../../shared/assets/search.svg';
@@ -70,37 +72,10 @@ const gatherText = ({ navigation }) => {
 
   return (
     <Scroll>
-      {clickedState ? (
-        <Container>
-          {renderState.map((memo, index) => (
-            <TextBox key={memo.id}>
-              <DateItem>
-                {index === 0 ? (
-                  <MemoDate memoTime={memo.timestamp} />
-                ) : (
-                  moment
-                    .unix(renderState[index - 1].timestamp)
-                    .format('YYYY-MM-DD') !==
-                    moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
-                    <MemoDate memoTime={memo.timestamp} />
-                  )
-                )}
-              </DateItem>
-              <TextContainer
-                key={memo.id}
-                memo={memo}
-                navigation={navigation}
-                destination="detailText"
-                history="gatherText"
-              />
-            </TextBox>
-          ))}
-        </Container>
-      ) : (
-        <Container>
-          {renderState
-            .filter((element) => element.is_marked === true)
-            .map((memo, index) => (
+      <Wrapper>
+        {clickedState ? (
+          <Container>
+            {renderState.map((memo, index) => (
               <TextBox key={memo.id}>
                 <DateItem>
                   {index === 0 ? (
@@ -123,14 +98,39 @@ const gatherText = ({ navigation }) => {
                 />
               </TextBox>
             ))}
-        </Container>
-      )}
+          </Container>
+        ) : (
+          <Container>
+            {renderState
+              .filter((element) => element.is_marked === true)
+              .map((memo, index) => (
+                <TextBox key={memo.id}>
+                  <DateItem>
+                    {index === 0 ? (
+                      <MemoDate memoTime={memo.timestamp} />
+                    ) : (
+                      moment
+                        .unix(renderState[index - 1].timestamp)
+                        .format('YYYY-MM-DD') !==
+                        moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                        <MemoDate memoTime={memo.timestamp} />
+                      )
+                    )}
+                  </DateItem>
+                  <TextContainer
+                    key={memo.id}
+                    memo={memo}
+                    navigation={navigation}
+                    destination="detailText"
+                    history="gatherText"
+                  />
+                </TextBox>
+              ))}
+          </Container>
+        )}
+      </Wrapper>
     </Scroll>
   );
 };
 
 export default gatherText;
-
-const Scroll = styled.ScrollView`
-  height: 90%;
-`;

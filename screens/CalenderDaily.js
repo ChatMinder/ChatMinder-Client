@@ -12,15 +12,15 @@ import {
   Container,
   TextBox,
   DateItem,
+  Wrapper,
+  Scroll,
 } from '../shared/styles/TextContainerStyle';
 import { TitleItem } from '../shared/styles/HeaderStyle';
 import TextR from '../shared/components/TextR';
 import TextB from '../shared/components/TextB';
 import { TextSize } from '../shared/styles/FontStyle';
-import styled from 'styled-components/native';
 
 import GoBack from '../shared/assets/GoBack.svg';
-import SearchIcon from '../shared/assets/search.svg';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
@@ -33,15 +33,6 @@ const CalenderDaily = ({ route, navigation }) => {
     { id: 2, category: 'text', isSelected: false },
     { id: 3, category: 'bookmark', isSelected: false },
   ]);
-
-  // const onToggle = (id) => {
-  //   setTypes(
-  //     types.map((type) =>
-  //       type.id === id ? { ...type, isSelected: !type.isSelected } : type
-  //     )
-  //   );
-  //   console.log(types);
-  // };
 
   useEffect(() => {
     navigation.setOptions({
@@ -140,12 +131,3 @@ const CalenderDaily = ({ route, navigation }) => {
 };
 
 export default CalenderDaily;
-
-const Wrapper = styled.View`
-  align-items: center;
-`;
-
-const Scroll = styled.ScrollView`
-  width: 100%;
-  height: 100%;
-`;

@@ -52,3 +52,11 @@ export const BoxContainer = styled.View`
   border-radius: 10px;
   padding: 2.7%;
 `;
+
+export const Wrapper = styled.View`
+  align-items: center;
+`;
+
+export const Scroll = styled.ScrollView`
+  height: 90%;
+`;

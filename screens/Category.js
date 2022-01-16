@@ -21,6 +21,7 @@ import {
   ImgItem,
   ButtonBox,
 } from '../shared/styles/CategoryStyle';
+import { Wrapper } from '../shared/styles/TextContainerStyle';
 import TextB from '../shared/components/TextB';
 import { TextSize } from '../shared/styles/FontStyle';
 import ModalItem from '../shared/components/Modaltem';
@@ -156,10 +157,6 @@ const Category = ({ navigation }) => {
 };
 
 export default Category;
-
-const Wrapper = styled.View`
-  align-items: center;
-`;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;

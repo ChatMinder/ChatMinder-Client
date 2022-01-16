@@ -21,6 +21,8 @@ import {
   Container,
   TextBox,
   DateItem,
+  Wrapper,
+  Scroll,
 } from '../shared/styles/TextContainerStyle';
 import TextB from '../shared/components/TextB';
 import TextR from '../shared/components/TextR';
@@ -211,13 +213,4 @@ const SpinnerWrapper = styled.View`
   left: ${SCREEN_WIDTH * 0.5 - 18}px;
   bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
   z-index: 10;
-`;
-
-const Scroll = styled.ScrollView`
-  width: 100%;
-  height: 100%;
-`;
-
-const Wrapper = styled.View`
-  align-items: center;
 `;
