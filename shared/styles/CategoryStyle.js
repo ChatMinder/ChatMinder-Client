@@ -5,7 +5,7 @@ export const CategoryItem = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4.5%;
+  margin-bottom: 3%;
   background-color: ${(props) => props.backgroundColor || `${palette.gray1}`};
   height: 60px;
   width: 100%;

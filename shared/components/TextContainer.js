@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import RNUrlPreview from 'react-native-url-preview';
 import {
   Text,
-  TouchableHighlight,
   Alert,
   TouchableOpacity,
   View,
@@ -30,8 +29,16 @@ import {
 
 import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
+import { TagBtn, TagBtnText } from '../styles/HomeStyle';
 
-const TextContainer = ({ memo, navigation, destination, history }) => {
+const TextContainer = ({
+  memo,
+  navigation,
+  destination,
+  history,
+  fromTagDetail,
+  setListner,
+}) => {
   const token = useSelector((state) => state.auth.accessToken);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -47,6 +54,9 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
       const postBookmarkRes = await PostBookmark(token, formData);
       console.log('postBookmarkRes 성공: ', postBookmarkRes.data);
       dispatch(bookmarkMemo(memo.id));
+      if (fromTagDetail) {
+        setListner(true);
+      }
     } catch (error) {
       console.log(`postBookmarkRes 실패: ${error}`);
     }
@@ -72,6 +82,9 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
       const delMemoRes = await DeleteMemo(token, memoID);
       console.log(`메모 삭제 성공: ${JSON.stringify(delMemoRes.data)}`);
       dispatch(delMemo(memoID));
+      if (fromTagDetail) {
+        setListner(true);
+      }
     } catch (error) {
       console.log(`메모 삭제 실패: ${error}`);
     }
@@ -85,7 +98,8 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
           <ActivityIndicator size="large" color="#ff7f6d" />
         </SpinnerWrapper>
       )}
-      <TouchableHighlight
+      <TouchableOpacity
+        activeOpacity={0.8}
         onPress={() => {
           handlePress(memo);
         }}
@@ -120,16 +134,25 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
           {/* TODO 변수명 수정, bookmark api 로직 */}
           <BookmarkBox2>
             {memo.tag_name ? (
-              <TagBox backgroundColor={memo.tag_color}>
-                <TextB>
-                  <TextItem>{memo.tag_name}</TextItem>
-                </TextB>
-              </TagBox>
+              <TagBtn
+                hitSlop={{ top: 6, bottom: 12, left: 12, right: 12 }}
+                background={memo.tag_color}
+                onPress={() => {
+                  navigation.navigate('CategoryDetail', {
+                    id: memo.tag_id,
+                    tag_name: memo.tag_name,
+                    tag_color: memo.tag_color,
+                  });
+                }}
+              >
+                <TagBtnText>{memo.tag_name}</TagBtnText>
+              </TagBtn>
             ) : (
               <View />
             )}
 
             <BookmarkButton
+              hitSlop={{ top: 6, bottom: 12, left: 12, right: 12 }}
               onPress={() => {
                 handleBookmark(memo);
               }}
@@ -138,7 +161,7 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
             </BookmarkButton>
           </BookmarkBox2>
         </BoxContainer>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </>
   );
 };

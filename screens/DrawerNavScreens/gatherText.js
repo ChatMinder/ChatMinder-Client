@@ -100,7 +100,7 @@ const gatherText = ({ navigation }) => {
                   memo={memo}
                   navigation={navigation}
                   destination="detailText"
-                  history="gatherText"
+                  history="텍스트 모아보기"
                 />
               </TextBox>
             ))}

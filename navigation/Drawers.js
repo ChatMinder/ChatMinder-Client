@@ -44,14 +44,14 @@ const Drawers = ({ navigation }) => {
       <ScrollView>
         <MenuBox
           marginTop
-          onPress={() => props.navigation.navigate('gatherImg')}
+          onPress={() => props.navigation.navigate('이미지 모아보기')}
         >
           <StyledText>이미지 모아보기</StyledText>
         </MenuBox>
-        <MenuBox onPress={() => props.navigation.navigate('gatherLink')}>
+        <MenuBox onPress={() => props.navigation.navigate('링크 모아보기')}>
           <StyledText>링크 모아보기</StyledText>
         </MenuBox>
-        <MenuBox onPress={() => props.navigation.navigate('gatherText')}>
+        <MenuBox onPress={() => props.navigation.navigate('텍스트 모아보기')}>
           <StyledText>텍스트 모아보기</StyledText>
         </MenuBox>
       </ScrollView>
@@ -75,17 +75,17 @@ const Drawers = ({ navigation }) => {
         options={{ headerShown: false }}
       />
       <Drawer.Screen
-        name="gatherImg"
+        name="이미지 모아보기"
         component={gatherImg}
         options={{ unmountOnBlur: true }}
       />
       <Drawer.Screen
-        name="gatherLink"
+        name="링크 모아보기"
         component={gatherLink}
         options={{ unmountOnBlur: true }}
       />
       <Drawer.Screen
-        name="gatherText"
+        name="텍스트 모아보기"
         component={gatherText}
         options={{ unmountOnBlur: true }}
       />

@@ -100,7 +100,7 @@ const gatherLink = ({ navigation }) => {
                   memo={memo}
                   navigation={navigation}
                   destination="detailText"
-                  history="gatherLink"
+                  history="링크 모아보기"
                 />
               </TextBox>
             ))}

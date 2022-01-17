@@ -54,6 +54,7 @@ const CategoryDetail = ({ route, navigation }) => {
   const [tagsDetail, setTagsDetail] = useState([]);
   const [filterArr, setFilterArr] = useState([]);
   const [concatArr, setConcatArr] = useState([]);
+  const [listner, setListner] = useState(false);
 
   const handleTagDetail = async () => {
     setLoading(true);
@@ -128,6 +129,13 @@ const CategoryDetail = ({ route, navigation }) => {
     });
   }, []);
 
+  useEffect(async () => {
+    if (listner) {
+      await handleTagDetail();
+      setListner(false);
+    }
+  }, [listner]);
+
   //console.log(memos);
 
   return (
@@ -169,6 +177,8 @@ const CategoryDetail = ({ route, navigation }) => {
                         navigation={navigation}
                         destination="detailText"
                         history="태그"
+                        fromTagDetail={true}
+                        setListner={setListner}
                       />
                     </TextBox>
                   )
@@ -218,7 +228,7 @@ export default CategoryDetail;
 
 const Background = styled.View`
   background: ${palette.tagGray};
-  height: 90%;
+  height: 100%;
 `;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
