@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Dimensions, Image, Keyboard } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  Image,
+  Keyboard,
+} from 'react-native';
 
 import moment from 'moment';
 import { useForm, Controller } from 'react-hook-form';
@@ -107,12 +113,39 @@ const MemoInputForm = () => {
           dispatch(addImgInMemo(addImgRes.data.data));
         } catch (error) {
           console.log(`이미지 저장 실패 : ${error}`);
-          alert('이미지 저장에 실패했습니다. 다시 시도해 주세요.');
+          Alert.alert(
+            '알림',
+            `이미지 저장에 실패했습니다.\n다시 시도해 주세요.`
+          );
+          if (error == 'Error: Network Error') {
+            Alert.alert(
+              '알림',
+              `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+              [
+                {
+                  text: '네!',
+                  style: 'cancel',
+                },
+              ]
+            );
+          }
         }
       }
     } catch (error) {
       console.log(`메모 생성 실패 :  ${error}`);
-      alert('메모 생성에 실패했습니다. 다시 시도해 주세요.');
+      Alert.alert('알림', `메모 생성에 실패했습니다.\n다시 시도해 주세요.`);
+      if (error == 'Error: Network Error') {
+        Alert.alert(
+          '알림',
+          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+          [
+            {
+              text: '네!',
+              style: 'cancel',
+            },
+          ]
+        );
+      }
     }
     setImgPreview();
     setSelectedNewTag(0);

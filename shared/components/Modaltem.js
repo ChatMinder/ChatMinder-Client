@@ -5,6 +5,7 @@ import {
   Dimensions,
   ActivityIndicator,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -169,6 +170,18 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
       console.log('postTagRes 성공: ', postTagRes.data);
     } catch (error) {
       console.log('postTagRes 실패: ', error);
+      if (error == 'Error: Network Error') {
+        Alert.alert(
+          '알림',
+          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+          [
+            {
+              text: '네!',
+              style: 'cancel',
+            },
+          ]
+        );
+      }
     }
     setLoading(false);
   };
@@ -189,6 +202,18 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
       dispatch(setTags(getTagRes.data));
     } catch (error) {
       console.log('patchTag 실패: ', error);
+      if (error == 'Error: Network Error') {
+        Alert.alert(
+          '알림',
+          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+          [
+            {
+              text: '네!',
+              style: 'cancel',
+            },
+          ]
+        );
+      }
     }
     setLoading(false);
   };

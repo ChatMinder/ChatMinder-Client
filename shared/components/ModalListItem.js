@@ -133,6 +133,18 @@ const ModalListItem = ({ isModalVisible, toggleModal, handleEditTag }) => {
       console.log('patchTag 성공: ', patchTagRes.data);
     } catch (error) {
       console.log('patchTag 실패: ', error);
+      if (error == 'Error: Network Error') {
+        Alert.alert(
+          '알림',
+          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+          [
+            {
+              text: '네!',
+              style: 'cancel',
+            },
+          ]
+        );
+      }
     }
   };
 

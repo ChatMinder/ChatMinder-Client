@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Dimensions } from 'react-native';
+import { ActivityIndicator, Alert, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { DeleteMemo } from '../API';
@@ -20,6 +20,18 @@ const DeleteButton = ({ memoID }) => {
       dispatch(delMemo(memoID));
     } catch (error) {
       console.log(`메모 삭제 실패: ${error}`);
+      if (error == 'Error: Network Error') {
+        Alert.alert(
+          '알림',
+          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+          [
+            {
+              text: '네!',
+              style: 'cancel',
+            },
+          ]
+        );
+      }
     }
     setLoading(false);
   };

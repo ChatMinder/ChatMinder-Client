@@ -12,7 +12,7 @@ import Loader from '../shared/components/Loader';
 import Logo from '../shared/assets/LoginLogo.svg';
 import LogoText from '../shared/assets/LoginText.svg';
 import KakaoSymbol from '../shared/assets/KakaoSymbol.svg';
-import { StatusBar } from 'react-native';
+import { Alert, StatusBar } from 'react-native';
 import palette from '../shared/palette';
 
 const LogIn = ({ navigation }) => {
@@ -41,6 +41,18 @@ const LogIn = ({ navigation }) => {
       dispatch(setLoginState(ChatMinderTokens.access_token));
     } catch (error) {
       console.log(error);
+      if (error == 'Error: Network Error') {
+        Alert.alert(
+          '알림',
+          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+          [
+            {
+              text: '네!',
+              style: 'cancel',
+            },
+          ]
+        );
+      }
     }
     setLoading(false);
   };

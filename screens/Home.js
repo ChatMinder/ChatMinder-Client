@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, RefreshControl, StatusBar } from 'react-native';
+import { Alert, Dimensions, RefreshControl, StatusBar } from 'react-native';
 
 import moment from 'moment';
 import styled from 'styled-components/native';
@@ -88,6 +88,18 @@ const Home = ({ navigation }) => {
       setLoading(false);
     } catch (error) {
       console.log(`새로고침 메모 가져오기 실패: ${error}`);
+      if (error == 'Error: Network Error') {
+        Alert.alert(
+          '알림',
+          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+          [
+            {
+              text: '네!',
+              style: 'cancel',
+            },
+          ]
+        );
+      }
     }
   };
 

@@ -12,6 +12,7 @@ import { CheckTokenValid, GetMemo, GetTags } from '../shared/API';
 import { setMemos } from '../shared/reducers/memo';
 import { setTags } from '../shared/reducers/tag';
 import Loader from '../shared/components/Loader';
+import { Alert } from 'react-native';
 
 const Nav = createNativeStackNavigator();
 
@@ -47,6 +48,18 @@ const Root = () => {
         setIsLoggedIn(true);
       } catch (error) {
         console.log(`토큰 검증 실패 ${error}`);
+        if (error == 'Error: Network Error') {
+          Alert.alert(
+            '알림',
+            `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+            [
+              {
+                text: '네!',
+                style: 'cancel',
+              },
+            ]
+          );
+        }
       }
     }
     setLoading(false);
@@ -63,6 +76,18 @@ const Root = () => {
         dispatch(setTags(getTagRes.data));
       } catch (error) {
         console.log(`메모 가져오기 실패: ${error}`);
+        if (error == 'Error: Network Error') {
+          Alert.alert(
+            '알림',
+            `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+            [
+              {
+                text: '네!',
+                style: 'cancel',
+              },
+            ]
+          );
+        }
       }
       setLoading(false);
     }

@@ -31,6 +31,18 @@ const MemoItem = ({ memo }) => {
     } catch (error) {
       dispatch(bookmarkMemo(memo.id));
       console.log(`북마크 실패: ${error}`);
+      if (error == 'Error: Network Error') {
+        Alert.alert(
+          '알림',
+          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+          [
+            {
+              text: '네!',
+              style: 'cancel',
+            },
+          ]
+        );
+      }
     }
   };
 
@@ -55,6 +67,18 @@ const MemoItem = ({ memo }) => {
       dispatch(delMemo(memoID));
     } catch (error) {
       console.log(`메모 삭제 실패: ${error}`);
+      if (error == 'Error: Network Error') {
+        Alert.alert(
+          '알림',
+          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
+          [
+            {
+              text: '네!',
+              style: 'cancel',
+            },
+          ]
+        );
+      }
     }
     setLoading(false);
   };
