@@ -18,11 +18,7 @@ import {
   InputBox,
   BookmarkBox,
 } from '../../shared/styles/HeaderStyle';
-import {
-  Container,
-  DateItem,
-  TextBox,
-} from '../../shared/styles/TextContainerStyle';
+import { DateItem, TextBox } from '../../shared/styles/TextContainerStyle';
 import GoBack from '../../shared/assets/GoBack.svg';
 import SearchIcon from '../../shared/assets/search.svg';
 import palette from '../../shared/palette';
@@ -77,27 +73,28 @@ const gatherImg = ({ navigation }) => {
         barStyle="dark-content"
       />
       {clickedState ? (
-        <Container>
-          {renderState.map((memo, index) => (
-            <TextBox key={memo.id}>
-              <DateItem>
-                {index === 0 ? (
-                  <MemoDate memoTime={memo.timestamp} />
-                ) : (
-                  moment
-                    .unix(renderState[index - 1].timestamp)
-                    .format('YYYY-MM-DD') !==
-                    moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+        <>
+          {renderState.map(
+            (memo, index) =>
+              memo.timestamp && (
+                <MemoItemWrapper key={memo.id}>
+                  {index === 0 ? (
                     <MemoDate memoTime={memo.timestamp} />
-                  )
-                )}
-                <MemoItem memo={memo} />
-              </DateItem>
-            </TextBox>
-          ))}
-        </Container>
+                  ) : (
+                    moment
+                      .unix(renderState[index - 1].timestamp)
+                      .format('YYYY-MM-DD') !==
+                      moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
+                      <MemoDate memoTime={memo.timestamp} />
+                    )
+                  )}
+                  <MemoItem memo={memo} />
+                </MemoItemWrapper>
+              )
+          )}
+        </>
       ) : (
-        <Container>
+        <>
           {renderState
             .filter((element) => element.is_marked === true)
             .map((memo, index) => (
@@ -117,7 +114,7 @@ const gatherImg = ({ navigation }) => {
                 </DateItem>
               </TextBox>
             ))}
-        </Container>
+        </>
       )}
     </Scroll>
   );
@@ -127,4 +124,7 @@ export default gatherImg;
 
 const Scroll = styled.ScrollView`
   height: 90%;
+`;
+const MemoItemWrapper = styled.View`
+  width: 100%;
 `;
