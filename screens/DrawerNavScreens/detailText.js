@@ -12,6 +12,7 @@ import {
   Alert,
 } from 'react-native';
 import styled from 'styled-components/native';
+import { SliderBox } from 'react-native-image-slider-box';
 import RNUrlPreview from 'react-native-url-preview';
 import TextR from '../../shared/components/TextR';
 import TextB from '../../shared/components/TextB';
@@ -42,7 +43,11 @@ const detailText = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const baseURL = 'https://image.chatminder.app';
 
-  //console.log('images', route.params.images);
+  const [imageArr, setImageArr] = useState(
+    route.params.images.map((item) => `${baseURL}/${item.url}`)
+  );
+
+  //console.log('images', imageArr);
 
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
@@ -188,10 +193,12 @@ const detailText = ({ route, navigation }) => {
       {/* 이미지인 경우 */}
 
       <ImageBox>
-        <ImageItem
-          source={{
-            uri: `${baseURL}/${route.params.images[0].url}`,
-          }}
+        <SliderBox
+          images={imageArr}
+          onCurrentImagePressed={(index) =>
+            console.warn(`image ${index} pressed`)
+          }
+          sliderBoxHeight="100%"
         />
       </ImageBox>
 
@@ -329,9 +336,5 @@ const LinkView = styled.View`
 // 이미지
 const ImageBox = styled.View`
   height: 50%;
-`;
-
-const ImageItem = styled.Image`
-  width: 100%;
-  height: 100%;
+  margin-bottom: 20px;
 `;
