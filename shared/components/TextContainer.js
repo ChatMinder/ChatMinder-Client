@@ -83,7 +83,7 @@ const TextContainer = ({
       tag_name: memo.tag_name,
       tag_color: memo.tag_color,
       is_marked: memo.is_marked,
-      images: memo.images,
+      url: memo.url,
       history: history,
     });
   };

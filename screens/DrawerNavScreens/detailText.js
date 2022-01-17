@@ -192,15 +192,33 @@ const detailText = ({ route, navigation }) => {
 
       {/* 이미지인 경우 */}
 
-      <ImageBox>
-        <SliderBox
-          images={imageArr}
-          onCurrentImagePressed={(index) =>
-            console.warn(`image ${index} pressed`)
-          }
-          sliderBoxHeight="100%"
-        />
-      </ImageBox>
+      {route.params.images.length !== 0 ? (
+        <ImageBox>
+          <SliderBox
+            images={imageArr}
+            onCurrentImagePressed={(index) =>
+              console.warn(`image ${index} pressed`)
+            }
+            sliderBoxHeight="100%"
+          />
+        </ImageBox>
+      ) : (
+        <View />
+      )}
+
+      {/* 링크인 경우 */}
+      {route.params.url && (
+        <LinkView>
+          <TextB>
+            <TextSize color="black" fontSize="18">
+              {route.params.url}
+            </TextSize>
+          </TextB>
+          <RNUrlPreview
+            text={`${route.params.memo_text}, ${route.params.url}`}
+          />
+        </LinkView>
+      )}
 
       {/* 텍스트인 경우 */}
       {route.params.tag_name ? (
@@ -209,7 +227,6 @@ const detailText = ({ route, navigation }) => {
             style={{
               paddingTop: 7,
               paddingBottom: 7,
-              paddingLeft: 10,
               paddingRight: 10,
             }}
             backgroundColor={route.params.tag_color}
@@ -227,17 +244,6 @@ const detailText = ({ route, navigation }) => {
       )}
 
       <View style={{ marginTop: 10 }}>
-        {route.params.url && (
-          <LinkView>
-            <RNUrlPreview
-              text={`${route.params.memo_text}, ${route.params.url}`}
-            />
-            <TextR>
-              <TextSize color={palette.gray2}>{route.params.url}</TextSize>
-            </TextR>
-          </LinkView>
-        )}
-
         {editable ? (
           <View>
             <TextInput
@@ -330,7 +336,7 @@ const SaveButton = styled.TouchableOpacity`
 `;
 
 const LinkView = styled.View`
-  margin: 5px;
+  margin-bottom: 20px;
 `;
 
 // 이미지
@@ -338,3 +344,5 @@ const ImageBox = styled.View`
   height: 50%;
   margin-bottom: 20px;
 `;
+
+const LinkBox = styled.View``;
