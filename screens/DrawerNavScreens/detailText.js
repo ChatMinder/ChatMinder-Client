@@ -221,6 +221,7 @@ const detailText = ({ route, navigation }) => {
         {editable ? (
           <View>
             <TextInput
+              multiline={true}
               autoFocus={true}
               style={styles.inputStyle}
               placeholder={route.params.memo_text}

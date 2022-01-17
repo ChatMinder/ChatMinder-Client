@@ -13,6 +13,7 @@ import ChatBubblePoint from '../assets/ChatBubblePoint.svg';
 import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
 import { TextSize } from '../styles/FontStyle';
+import CaptionText from './CaptionText';
 
 const MemoItem = ({ memo }) => {
   const navigation = useNavigation();
@@ -197,20 +198,8 @@ const MemoItem = ({ memo }) => {
         </PointContainer>
         <MemoContainer onPress={() => handlePress(memo)}>
           <Images imgCnt={memo.images.length} />
-          {memo.url && (
-            <URLContainer>
-              {memo.url && (
-                <>
-                  {/* TODO onLoad 로직 추가 */}
-                  <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
-                  <TextR>
-                    <TextSize color={palette.gray2}>{memo.url}</TextSize>
-                  </TextR>
-                </>
-              )}
-            </URLContainer>
-          )}
-          {memo.memo_text ? <TextR>{memo.memo_text}</TextR> : null}
+
+          <CaptionText memo={memo} />
         </MemoContainer>
         <MemoFooter>
           {memo.tag_name ? (
@@ -243,8 +232,6 @@ const MemoItem = ({ memo }) => {
   );
 };
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-
 const Wrapper = styled.View`
   width: 100%;
   justify-content: center;
@@ -275,18 +262,7 @@ const MemoContainer = styled.View`
   width: 100%;
   justify-content: flex-start;
 `;
-const URLContainer = styled.View`
-  border-radius: 4px;
-`;
-const URLText = styled.Text`
-  font-family: 'NanumSquareOTF_ac';
-  color: ${palette.pastelBlue};
-  text-decoration: underline;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: -0.36px;
-`;
+
 const MemoImageItem = styled.View`
   width: 100%;
   height: 225px;
@@ -334,7 +310,7 @@ const ImgOverflowText = styled.Text`
 
 const MemoFooter = styled.View`
   flex-direction: row;
-  margin-top: 16px;
+  margin-top: 12px;
   width: 100%;
   height: 26px;
 `;
