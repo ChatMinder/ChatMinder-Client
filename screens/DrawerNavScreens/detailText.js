@@ -40,6 +40,9 @@ const edit = require('../../shared/assets/Edit_png.png');
 
 const detailText = ({ route, navigation }) => {
   const dispatch = useDispatch();
+  const baseURL = 'https://image.chatminder.app';
+
+  //console.log('images', route.params.images);
 
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
@@ -165,7 +168,6 @@ const detailText = ({ route, navigation }) => {
         </TouchableOpacity>
         <Buttons>
           <TouchableOpacity onPress={() => onEdit()}>
-            {/* <Edit style={{ marginRight: 10 }} /> */}
             <BookmarkItem
               source={edit}
               width="25"
@@ -183,6 +185,17 @@ const detailText = ({ route, navigation }) => {
         </Buttons>
       </BookmarkBox2>
 
+      {/* 이미지인 경우 */}
+
+      <ImageBox>
+        <ImageItem
+          source={{
+            uri: `${baseURL}/${route.params.images[0].url}`,
+          }}
+        />
+      </ImageBox>
+
+      {/* 텍스트인 경우 */}
       {route.params.tag_name ? (
         <TextB>
           <TagBox
@@ -311,4 +324,14 @@ const SaveButton = styled.TouchableOpacity`
 
 const LinkView = styled.View`
   margin: 5px;
+`;
+
+// 이미지
+const ImageBox = styled.View`
+  height: 50%;
+`;
+
+const ImageItem = styled.Image`
+  width: 100%;
+  height: 100%;
 `;

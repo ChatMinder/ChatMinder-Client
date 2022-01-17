@@ -15,6 +15,8 @@ import TextB from './TextB';
 import { TextSize } from '../styles/FontStyle';
 import { DeleteMemo, PostBookmark } from '../API';
 import { bookmarkMemo, delMemo } from '../reducers/memo';
+import Images from '../components/Images';
+import CaptionText from './CaptionText';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -42,8 +44,6 @@ const TextContainer = ({
   const token = useSelector((state) => state.auth.accessToken);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
-  //useEffect(() => {}, [memo]);
 
   const handleBookmark = async (memo) => {
     const formData = {
@@ -77,12 +77,13 @@ const TextContainer = ({
   const handlePress = (memo) => {
     navigation.navigate(`${destination}`, {
       id: memo.id,
+      images: memo.images,
       memo_text: memo.memo_text,
       tag_id: memo.tag_id,
       tag_name: memo.tag_name,
       tag_color: memo.tag_color,
       is_marked: memo.is_marked,
-      url: memo.url,
+      images: memo.images,
       history: history,
     });
   };
@@ -143,19 +144,9 @@ const TextContainer = ({
         }}
       >
         <BoxContainer>
-          {memo.url ? (
-            <>
-              {/* TODO onLoad 로직 추가 */}
-              <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
-              <TextR>
-                <TextSize color={palette.gray2}>{memo.url}</TextSize>
-              </TextR>
-              <TextR>{memo.memo_text}</TextR>
-            </>
-          ) : (
-            <TextR>{memo.memo_text}</TextR>
-          )}
-          {/* TODO 변수명 수정, bookmark api 로직 */}
+          <Images imgCnt={memo.images.length} memo={memo} />
+          <CaptionText memo={memo} />
+
           <BookmarkBox2>
             {memo.tag_name ? (
               <TagBtn
@@ -203,3 +194,16 @@ const SpinnerWrapper = styled.View`
   bottom: ${SCREEN_HEIGHT * 0.1 + 18}px;
   z-index: 10;
 `;
+
+// {memo.url ? (
+//   <>
+//     {/* TODO onLoad 로직 추가 */}
+//     <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
+//     <TextR>
+//       <TextSize color={palette.gray2}>{memo.url}</TextSize>
+//     </TextR>
+//     <TextR>{memo.memo_text}</TextR>
+//   </>
+// ) : (
+//   <TextR>{memo.memo_text}</TextR>
+// )}
