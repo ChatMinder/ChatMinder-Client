@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import styled from 'styled-components/native';
 import RNUrlPreview from 'react-native-url-preview';
@@ -41,7 +42,7 @@ const detailText = ({ route, navigation }) => {
 
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState(route.params.memo_text);
   const [editable, setEditable] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -109,11 +110,15 @@ const detailText = ({ route, navigation }) => {
 
   return (
     <Wrapper>
-      {/* {loading && (
+      <StatusBar
+        backgroundColor={palette.gatherHeaderGray}
+        barStyle="dark-content"
+      />
+      {loading && (
         <SpinnerWrapper>
           <ActivityIndicator size="large" color="#ff7f6d" />
         </SpinnerWrapper>
-      )} */}
+      )}
       <BookmarkBox2 style={{ marginBottom: 20 }}>
         <TouchableOpacity
           onPress={() => navigation.navigate(route.params.history)}

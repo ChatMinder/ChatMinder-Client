@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from './Tabs';
 import Drawers from './Drawers';
 import LogIn from '../screens/LogIn';
-import MyPage from '../screens/MyPage';
 import CalenderDaily from '../screens/CalenderDaily';
 import CategoryDetail from '../screens/CategoryDetail';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -87,7 +86,6 @@ const Root = () => {
                 component={Tabs}
                 options={{ headerShown: false }}
               />
-              <Nav.Screen name="MyPage" component={MyPage} />
               <Nav.Screen
                 name="CalenderDaily"
                 component={CalenderDaily}

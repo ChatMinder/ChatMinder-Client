@@ -4,6 +4,7 @@ import {
   Alert,
   ActivityIndicator,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 
 import { useDispatch } from 'react-redux';
@@ -64,99 +65,104 @@ const Category = ({ navigation }) => {
   };
 
   return (
-    <Wrapper>
-      {loading && (
-        <SpinnerWrapper>
-          <ActivityIndicator size="large" color="#ff7f6d" />
-        </SpinnerWrapper>
-      )}
-      <ButtonBox width="91%" style={{ paddingTop: 36, paddingBottom: 46 }}>
-        <TextB>
-          <TextSize fontSize="20">태그</TextSize>
-        </TextB>
-        <ButtonItem
-          onPress={() => {
-            setTitle({ title: '' });
-            toggleModal();
-          }}
-        >
+    <Background>
+      <Wrapper>
+        <StatusBar backgroundColor={palette.tagGray} barStyle="dark-content" />
+        {loading && (
+          <SpinnerWrapper>
+            <ActivityIndicator size="large" color="#ff7f6d" />
+          </SpinnerWrapper>
+        )}
+        <ButtonBox width="91%" style={{ paddingTop: 36, paddingBottom: 46 }}>
           <TextB>
-            <TextSize fontSize="14" color="white">
-              + 태그추가
-            </TextSize>
+            <TextSize fontSize="20">태그</TextSize>
           </TextB>
-        </ButtonItem>
-      </ButtonBox>
-      <TagScroll>
-        {tagData.map((tag) => (
-          <CategoryItem
-            key={tag.id}
-            backgroundColor={tag.tag_color ? tag.tag_color : palette.gray1}
+          <ButtonItem
+            onPress={() => {
+              setTitle({ title: '' });
+              toggleModal();
+            }}
           >
-            <TextBox
-              style={{ marginLeft: 19 }}
-              onPress={() => {
-                navigation.navigate('CategoryDetail', {
-                  id: tag.id,
-                  tag_name: tag.tag_name,
-                  tag_color: tag.tag_color,
-                });
-              }}
+            <TextB>
+              <TextSize fontSize="14" color="white">
+                + 태그추가
+              </TextSize>
+            </TextB>
+          </ButtonItem>
+        </ButtonBox>
+        <TagScroll>
+          {tagData.map((tag) => (
+            <CategoryItem
+              key={tag.id}
+              backgroundColor={tag.tag_color ? tag.tag_color : palette.gray1}
             >
-              <TextB>
-                <TextSize fontSize="16" color="white">
-                  {tag.tag_name ? tag.tag_name : '분류 안한 메모'}
-                </TextSize>
-              </TextB>
-            </TextBox>
-            <ImgBox>
-              <TouchableOpacity
+              <TextBox
+                style={{ marginLeft: 19 }}
                 onPress={() => {
-                  toggleModal();
-                  setTitle({
+                  navigation.navigate('CategoryDetail', {
                     id: tag.id,
-                    title: tag.tag_name,
-                    color: tag.tag_color,
+                    tag_name: tag.tag_name,
+                    tag_color: tag.tag_color,
                   });
                 }}
               >
-                <Settings style={{ marginRight: 16 }} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  Alert.alert('삭제 확인', '정말 삭제하시겠습니까?', [
-                    {
-                      text: '취소',
-                      onPress: () => alert('취소되었습니다.'),
-                      style: 'cancel',
-                    },
-                    {
-                      text: '삭제',
-                      onPress: () => {
-                        handleDelete(tag.id);
-                        alert('삭제되었습니다.');
+                <TextB>
+                  <TextSize fontSize="16" color="white">
+                    {tag.tag_name ? tag.tag_name : '분류 안한 메모'}
+                  </TextSize>
+                </TextB>
+              </TextBox>
+              <ImgBox>
+                <TouchableOpacity
+                  onPress={() => {
+                    toggleModal();
+                    setTitle({
+                      id: tag.id,
+                      title: tag.tag_name,
+                      color: tag.tag_color,
+                    });
+                  }}
+                >
+                  <Settings style={{ marginRight: 16 }} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    Alert.alert('삭제 확인', '정말 삭제할까요?', [
+                      {
+                        text: '취소',
+                        style: 'cancel',
                       },
-                    },
-                  ]);
-                }}
-              >
-                <Trashcan style={{ marginRight: 19 }} />
-              </TouchableOpacity>
-            </ImgBox>
-          </CategoryItem>
-        ))}
-      </TagScroll>
-      <ModalItem
-        isModalVisible={isModalVisible}
-        title={title}
-        toggleModal={toggleModal}
-        setStateValue={setStateValue}
-      />
-    </Wrapper>
+                      {
+                        text: '삭제',
+                        onPress: () => {
+                          handleDelete(tag.id);
+                        },
+                      },
+                    ]);
+                  }}
+                >
+                  <Trashcan style={{ marginRight: 19 }} />
+                </TouchableOpacity>
+              </ImgBox>
+            </CategoryItem>
+          ))}
+        </TagScroll>
+        <ModalItem
+          isModalVisible={isModalVisible}
+          title={title}
+          toggleModal={toggleModal}
+          setStateValue={setStateValue}
+        />
+      </Wrapper>
+    </Background>
   );
 };
 
 export default Category;
+
+const Background = styled.View`
+  background: ${palette.tagGray};
+`;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;

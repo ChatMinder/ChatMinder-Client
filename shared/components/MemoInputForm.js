@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Dimensions, Image } from 'react-native';
+import { ActivityIndicator, Dimensions, Image, Keyboard } from 'react-native';
 
 import moment from 'moment';
 import { useForm, Controller } from 'react-hook-form';
@@ -16,6 +16,7 @@ import { randomTagColor, TagBtn, TagBtnText } from '../styles/HomeStyle';
 import InputShpBtn from '../assets/InputShpBtn.svg';
 import ImgBtn from '../assets/ImgBtn.svg';
 import SubmitBtn from '../assets/SubmitBtn.svg';
+import palette from '../palette';
 
 const MemoInputForm = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const MemoInputForm = () => {
       setSubmitNull(true);
       return;
     }
+    Keyboard.dismiss();
     setLoading(true);
     const memoURL = checkIncludeURL(data.memo);
     let memoText;
@@ -182,7 +184,6 @@ const MemoInputForm = () => {
                           setSelectedTagID(0);
                           setSelectedNewTag(0);
                         } else {
-                          console.log('IamReRendered', tag.id);
                           setSelectedTagID(tag.id);
                           setSelectedNewTag(0);
                         }
@@ -238,46 +239,62 @@ const MemoInputForm = () => {
       {/* 메모 Input 부분 */}
       <InputWrapper>
         {/* 이미지 업로드 input */}
-        <Controller
-          control={control}
-          render={({ field: { onChange } }) => (
-            <ImgBtnContainer
-              onPress={async () => {
-                const img = await onImageUpload();
-                setIsShpBtnToggled(true);
-                return onChange(img);
-              }}
-            >
-              <ImgBtn />
-            </ImgBtnContainer>
-          )}
-          name="image"
-        />
-        <MemoInputContainer>
-          <ShpBtnContainer onPress={() => setIsShpBtnToggled(!isShpBtnToggled)}>
-            <InputShpBtn />
-          </ShpBtnContainer>
-          {/* 메모 텍스트 input */}
+        <InputContainer>
           <Controller
             control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <InputMemo
-                multiline={true}
-                onBlur={onBlur}
-                onChangeText={(value) => {
-                  setInputValue(value);
-                  return onChange(value);
+            render={({ field: { onChange } }) => (
+              <ImgBtnContainer
+                hitSlop={{ top: 16, bottom: 16, left: 16, right: 8 }}
+                onPress={async () => {
+                  const img = await onImageUpload();
+                  setIsShpBtnToggled(true);
+                  return onChange(img);
                 }}
-                value={value}
-                placeholder={submitNull ? `메모를 입력해주세요.` : ''}
-              />
+              >
+                <ImgBtn />
+              </ImgBtnContainer>
             )}
-            name="memo"
+            name="image"
           />
-          <SubmitBtnContainer onPress={handleSubmit(onSubmit)}>
-            <SubmitBtn />
-          </SubmitBtnContainer>
-        </MemoInputContainer>
+          <MemoInputContainer>
+            <ShpBtnContainer
+              hitSlop={{ top: 16, bottom: 16, left: 16, right: 16 }}
+              onPress={() => setIsShpBtnToggled(!isShpBtnToggled)}
+            >
+              <InputShpBtn />
+            </ShpBtnContainer>
+            {/* 메모 텍스트 input */}
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <InputMemo
+                  onPressIn={() => setIsShpBtnToggled(true)}
+                  multiline={true}
+                  onBlur={onBlur}
+                  onChangeText={(value) => {
+                    setInputValue(value);
+                    return onChange(value);
+                  }}
+                  value={value}
+                  placeholder={submitNull ? `메모를 입력해주세요.` : ''}
+                />
+              )}
+              name="memo"
+            />
+            {loading ? (
+              <SubmitBtnContainer>
+                <SubmitBtn />
+              </SubmitBtnContainer>
+            ) : (
+              <SubmitBtnContainer
+                hitSlop={{ top: 16, bottom: 16, left: 16, right: 16 }}
+                onPress={handleSubmit(onSubmit)}
+              >
+                <SubmitBtn />
+              </SubmitBtnContainer>
+            )}
+          </MemoInputContainer>
+        </InputContainer>
       </InputWrapper>
     </Wrapper>
   );
@@ -285,7 +302,9 @@ const MemoInputForm = () => {
 
 const Wrapper = styled.View`
   width: 100%;
-  background: #ececef;
+  elevation: 10;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 `;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -302,6 +321,7 @@ const ShpItemContainer = styled.View`
   /* padding-bottom을 0픽셀로 설정할 경우 View가 겹쳐서 얇은 선 1줄 생기는 버그 존재 -> 임시로 0.1픽셀로 설정 */
   padding: 16px 0px 0.1px 0px;
   background: #f6f6f7;
+  /* elevation: 10; */
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 `;
@@ -329,10 +349,17 @@ const TagBtnContainer = styled.ScrollView`
 
 const InputWrapper = styled.View`
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
   background: #f6f6f7;
   padding: 21px 0px;
+  width: 100%;
   height: 77px;
+`;
+const InputContainer = styled.View`
+  flex-direction: row;
+  width: 91%;
+  justify-content: space-between;
 `;
 
 const ImgBtnContainer = styled.TouchableOpacity`
@@ -347,13 +374,13 @@ const ImgBtnContainer = styled.TouchableOpacity`
 const MemoInputContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  width: 291px;
+  width: 89%;
   height: 35px;
   border-radius: 20px;
   background: #ffffff;
 `;
 const ShpBtnContainer = styled.TouchableOpacity`
-  padding: 16px 0px 16px 16px;
+  margin-left: 14px;
 `;
 
 const InputMemo = styled.TextInput`
@@ -366,7 +393,7 @@ const InputMemo = styled.TextInput`
 const SubmitBtnContainer = styled.TouchableOpacity`
   position: absolute;
   right: 0;
-  padding: 16px;
+  margin-right: 10px;
 `;
 
 export default MemoInputForm;

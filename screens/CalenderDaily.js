@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, StatusBar } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -21,6 +21,8 @@ import TextB from '../shared/components/TextB';
 import { TextSize } from '../shared/styles/FontStyle';
 
 import GoBack from '../shared/assets/GoBack.svg';
+import SearchIcon from '../shared/assets/search.svg';
+import palette from '../shared/palette';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
@@ -64,6 +66,7 @@ const CalenderDaily = ({ route, navigation }) => {
 
   return (
     <Scroll>
+      <StatusBar backgroundColor={palette.white} barStyle="dark-content" />
       <Wrapper>
         {clickedState ? (
           <Container>

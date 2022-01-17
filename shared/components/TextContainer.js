@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import RNUrlPreview from 'react-native-url-preview';
-import { Text, Alert, TouchableOpacity, View } from 'react-native';
+import {
+  Text,
+  TouchableHighlight,
+  Alert,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
 import styled, { css } from 'styled-components/native';
 import palette from '../palette';
 import TextR from './TextR';
 import TextB from './TextB';
 import { TextSize } from '../styles/FontStyle';
-import { PostBookmark } from '../API';
-import { bookmarkMemo } from '../reducers/memo';
+import { DeleteMemo, PostBookmark } from '../API';
+import { bookmarkMemo, delMemo } from '../reducers/memo';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -22,12 +30,11 @@ import {
 
 import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
-import DeleteButton from './DeleteButton';
 
 const TextContainer = ({ memo, navigation, destination, history }) => {
   const token = useSelector((state) => state.auth.accessToken);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const [showDelBtn, setShowDelBtn] = useState(false);
 
   //useEffect(() => {}, [memo]);
 
@@ -58,15 +65,45 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
     });
   };
 
+  const handleDelete = async (memoID) => {
+    setLoading(true);
+    try {
+      console.log(memoID);
+      const delMemoRes = await DeleteMemo(token, memoID);
+      console.log(`메모 삭제 성공: ${JSON.stringify(delMemoRes.data)}`);
+      dispatch(delMemo(memoID));
+    } catch (error) {
+      console.log(`메모 삭제 실패: ${error}`);
+    }
+    setLoading(false);
+  };
+
   return (
-    <TouchableOpacity
-      onPress={() => {
-        handlePress(memo);
-      }}
-      onLongPress={() => setShowDelBtn(!showDelBtn)}
-    >
-      <>
-        {showDelBtn && <DeleteButton memoID={memo.id} />}
+    <>
+      {loading && (
+        <SpinnerWrapper>
+          <ActivityIndicator size="large" color="#ff7f6d" />
+        </SpinnerWrapper>
+      )}
+      <TouchableHighlight
+        onPress={() => {
+          handlePress(memo);
+        }}
+        onLongPress={() => {
+          Alert.alert('삭제 확인', '정말 삭제할까요?', [
+            {
+              text: '취소',
+              style: 'cancel',
+            },
+            {
+              text: '삭제',
+              onPress: () => {
+                handleDelete(memo.id);
+              },
+            },
+          ]);
+        }}
+      >
         <BoxContainer>
           {memo.url ? (
             <>
@@ -101,11 +138,21 @@ const TextContainer = ({ memo, navigation, destination, history }) => {
             </BookmarkButton>
           </BookmarkBox2>
         </BoxContainer>
-      </>
-    </TouchableOpacity>
+      </TouchableHighlight>
+    </>
   );
 };
 
 export default TextContainer;
 
 const BookmarkButton = styled.TouchableOpacity``;
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+
+const SpinnerWrapper = styled.View`
+  position: absolute;
+  left: ${SCREEN_WIDTH * 0.5 - 18}px;
+  bottom: ${SCREEN_HEIGHT * 0.1 + 18}px;
+  z-index: 10;
+`;

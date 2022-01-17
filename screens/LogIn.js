@@ -12,6 +12,8 @@ import Loader from '../shared/components/Loader';
 import Logo from '../shared/assets/LoginLogo.svg';
 import LogoText from '../shared/assets/LoginText.svg';
 import KakaoSymbol from '../shared/assets/KakaoSymbol.svg';
+import { StatusBar } from 'react-native';
+import palette from '../shared/palette';
 
 const LogIn = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -55,6 +57,10 @@ const LogIn = ({ navigation }) => {
         <Loader />
       ) : (
         <Wrapper>
+          <StatusBar
+            backgroundColor={palette.logInGray}
+            barStyle="dark-content"
+          />
           <LogoContainer>
             <Logo style={{ margin: 12 }} />
             <LogoText />
@@ -76,7 +82,7 @@ const LogIn = ({ navigation }) => {
 const Wrapper = styled.View`
   width: 100%;
   height: 100%;
-  background: #f7f7fa;
+  background: ${palette.logInGray};
   justify-content: space-evenly;
   align-items: center;
 `;

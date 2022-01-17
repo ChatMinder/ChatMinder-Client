@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, StatusBar } from 'react-native';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import { useSelector } from 'react-redux';
@@ -72,6 +72,10 @@ const CalendarPage = ({ navigation }) => {
 
   return (
     <Wrapper>
+      <StatusBar
+        backgroundColor={palette.backgroundGray}
+        barStyle="dark-content"
+      />
       <Title>
         <TextB>
           <TextSize fontSize="20">캘린더</TextSize>

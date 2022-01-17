@@ -37,6 +37,15 @@ const palette = {
   borderGray: '#E3E3E3',
   //배경색
   backgroundGray: '#E5E5E5',
+  //로그인 화면 배경색
+  logInGray: '#F7F7FA',
+  //태그 화면 배경색
+  tagGray: '#F1F3F5',
+  //메인 헤더 배경색
+  mainHeaderGray: '#ECECEF',
+
+  //모아보기 헤더 색
+  gatherHeaderGray: '#FAFBFC',
 
   //캘린더 커스텀
   lightPurple: '#B1BEF8',

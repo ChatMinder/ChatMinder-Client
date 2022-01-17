@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { RefreshControl } from 'react-native';
+import { Dimensions, RefreshControl, StatusBar } from 'react-native';
 
+import moment from 'moment';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 
 import MemoInputForm from '../shared/components/MemoInputForm';
 import MemoItem from '../shared/components/MemoItem';
@@ -17,6 +17,7 @@ import { setTags } from '../shared/reducers/tag';
 import DrawerIcon from '../shared/assets/Drawer.svg';
 import SearchIcon from '../shared/assets/search.svg';
 import LogoHome from '../shared/assets/LogoHome.svg';
+import palette from '../shared/palette';
 
 const Home = ({ navigation }) => {
   const scrollViewRef = useRef();
@@ -30,7 +31,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     isSearchToggled
       ? navigation.setOptions({
-          headerStyle: { backgroundColor: '#ECECEF' },
+          headerStyle: { backgroundColor: palette.mainHeaderGray },
           headerLeft: () => null,
           headerRight: () => null,
           headerTitle: () => (
@@ -53,14 +54,16 @@ const Home = ({ navigation }) => {
           ),
         })
       : navigation.setOptions({
-          headerStyle: { backgroundColor: '#ECECEF' },
+          headerStyle: {
+            backgroundColor: palette.mainHeaderGray,
+          },
           headerLeft: () => (
             <TouchableOpacity onPress={navigation.toggleDrawer}>
               <DrawerIcon style={{ margin: 16 }} />
             </TouchableOpacity>
           ),
           headerTitle: () => (
-            <ProfileWrapper onPress={() => navigation.navigate('MyPage')}>
+            <ProfileWrapper>
               <LogoHome />
             </ProfileWrapper>
           ),
@@ -90,6 +93,10 @@ const Home = ({ navigation }) => {
 
   return (
     <Wrapper>
+      <StatusBar
+        backgroundColor={palette.mainHeaderGray}
+        barStyle="dark-content"
+      />
       <MemoContainer
         ref={scrollViewRef}
         onContentSizeChange={() =>
@@ -118,18 +125,21 @@ const Home = ({ navigation }) => {
             )
         )}
       </MemoContainer>
-      <InputContainer>
-        <MemoInputForm />
-      </InputContainer>
+      {!isSearchToggled && (
+        <InputContainer>
+          <MemoInputForm />
+        </InputContainer>
+      )}
     </Wrapper>
   );
 };
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
 const HeaderContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  width: 328px;
-  height: 32px;
+  width: ${SCREEN_WIDTH * 0.9}px;
+  height: 36px;
   border-radius: 15.5px;
   background: #fcfcfc;
 `;
@@ -146,19 +156,22 @@ const CancelBtn = styled.TouchableOpacity`
 `;
 const SearchBtnContainer = styled.TouchableOpacity``;
 
-const ProfileWrapper = styled.TouchableOpacity``;
+const ProfileWrapper = styled.View``;
 
 const MemoContainer = styled.ScrollView`
-  background: #ececef;
+  /* background: #ececef; */
 `;
 
 const MemoItemWrapper = styled.View``;
 
-const InputContainer = styled.View``;
+const InputContainer = styled.View`
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+`;
 
 const Wrapper = styled.View`
   height: 100%;
+  background: ${palette.mainHeaderGray};
 `;
-``;
 
 export default Home;

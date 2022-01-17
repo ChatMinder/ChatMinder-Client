@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-import { Dimensions } from 'react-native';
+import { ActivityIndicator, Alert, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import RNUrlPreview from 'react-native-url-preview';
 import styled from 'styled-components/native';
-import { PostBookmark } from '../API';
-import { bookmarkMemo } from '../reducers/memo';
+import { DeleteMemo, PostBookmark } from '../API';
+import { bookmarkMemo, delMemo } from '../reducers/memo';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
-import DeleteButton from './DeleteButton';
 import TextR from './TextR';
 import palette from '../palette';
 import ChatBubblePoint from '../assets/ChatBubblePoint.svg';
 import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
+import { TextSize } from '../styles/FontStyle';
 
 const MemoItem = ({ memo }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
-  const [showDelBtn, setShowDelBtn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onBookmarkTouch = async (memo) => {
     let data = {
@@ -43,6 +44,19 @@ const MemoItem = ({ memo }) => {
       url: memo.url,
       history: 'Home',
     });
+  };
+
+  const handleDelete = async (memoID) => {
+    setLoading(true);
+    try {
+      console.log(memoID);
+      const delMemoRes = await DeleteMemo(token, memoID);
+      console.log(`메모 삭제 성공: ${JSON.stringify(delMemoRes.data)}`);
+      dispatch(delMemo(memoID));
+    } catch (error) {
+      console.log(`메모 삭제 실패: ${error}`);
+    }
+    setLoading(false);
   };
 
   const Images = ({ imgCnt }) => {
@@ -131,26 +145,53 @@ const MemoItem = ({ memo }) => {
 
   return (
     <Wrapper>
-      {showDelBtn && <DeleteButton memoID={memo.id} />}
+      {loading && (
+        <SpinnerWrapper>
+          <ActivityIndicator size="large" color="#ff7f6d" />
+        </SpinnerWrapper>
+      )}
       <MemoWrapper
+        activeOpacity={0.8}
         onPress={() => handlePress(memo)}
-        onLongPress={() => setShowDelBtn(!showDelBtn)}
+        onLongPress={() => {
+          Alert.alert('삭제 확인', '정말 삭제할까요?', [
+            {
+              text: '취소',
+              style: 'cancel',
+            },
+            {
+              text: '삭제',
+              onPress: () => {
+                handleDelete(memo.id);
+              },
+            },
+          ]);
+        }}
       >
         <PointContainer>
           <ChatBubblePoint />
         </PointContainer>
-        <MemoContainer>
+        <MemoContainer onPress={() => handlePress(memo)}>
           <Images imgCnt={memo.images.length} />
-          {memo.memo_text ? <TextR>{memo.memo_text}</TextR> : null}
           {memo.url && (
             <URLContainer>
-              <URLText>{memo.url}</URLText>
+              {memo.url && (
+                <>
+                  {/* TODO onLoad 로직 추가 */}
+                  <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
+                  <TextR>
+                    <TextSize color={palette.gray2}>{memo.url}</TextSize>
+                  </TextR>
+                </>
+              )}
             </URLContainer>
           )}
+          {memo.memo_text ? <TextR>{memo.memo_text}</TextR> : null}
         </MemoContainer>
         <MemoFooter>
           {memo.tag_name ? (
             <TagBtn
+              hitSlop={{ top: 6, bottom: 12, left: 12, right: 12 }}
               background={memo.tag_color}
               onPress={() => {
                 navigation.navigate('CategoryDetail', {
@@ -164,6 +205,7 @@ const MemoItem = ({ memo }) => {
             </TagBtn>
           ) : null}
           <Bookmark
+            hitSlop={{ top: 6, bottom: 12, left: 12, right: 12 }}
             onPress={() => {
               dispatch(bookmarkMemo(memo.id));
               onBookmarkTouch(memo);
@@ -185,19 +227,24 @@ const Wrapper = styled.View`
   align-items: center;
 `;
 
+const SpinnerWrapper = styled.View`
+  position: absolute;
+  z-index: 10;
+`;
+
 const MemoWrapper = styled.TouchableOpacity`
   /* justify-content: center; */
   align-items: center;
-  width: 328px;
+  width: 90%;
   padding: 12px;
-  margin: 12px;
+  margin: 6px;
   border-radius: 8px;
   background: #fcfcfc;
 `;
 const PointContainer = styled.View`
   position: absolute;
   top: 2px;
-  right: -6px;
+  right: -4.3px;
 `;
 
 const MemoContainer = styled.View`

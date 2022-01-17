@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { StatusBar, TouchableOpacity } from 'react-native';
 
 import moment from 'moment';
 import styled from 'styled-components/native';
@@ -27,6 +27,7 @@ import {
 } from '../../shared/styles/TextContainerStyle';
 import GoBack from '../../shared/assets/GoBack.svg';
 import SearchIcon from '../../shared/assets/search.svg';
+import palette from '../../shared/palette';
 
 const gatherText = ({ navigation }) => {
   const [onSearchChange, renderState] = useSearch('Text');
@@ -36,6 +37,7 @@ const gatherText = ({ navigation }) => {
   useEffect(() => {
     navigation.setOptions({
       headerStyle: {
+        backgroundColor: palette.gatherHeaderGray,
         height: 120,
       },
       headerLeft: () => null,
@@ -72,6 +74,10 @@ const gatherText = ({ navigation }) => {
 
   return (
     <Scroll>
+      <StatusBar
+        backgroundColor={palette.gatherHeaderGray}
+        barStyle="dark-content"
+      />
       <Wrapper>
         {clickedState ? (
           <Container>

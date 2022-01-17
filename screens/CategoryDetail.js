@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -31,6 +32,7 @@ import styled from 'styled-components/native';
 
 import GoBack from '../shared/assets/GoBack.svg';
 import SearchIcon from '../shared/assets/search.svg';
+import palette from '../shared/palette';
 
 const CategoryDetail = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
@@ -96,6 +98,7 @@ const CategoryDetail = ({ route, navigation }) => {
     // handleFilter(concatArr);
     navigation.setOptions({
       headerStyle: {
+        backgroundColor: palette.gatherHeaderGray,
         height: 130,
       },
       headerLeft: () => (
@@ -128,47 +131,21 @@ const CategoryDetail = ({ route, navigation }) => {
   //console.log(memos);
 
   return (
-    <Scroll>
-      <Wrapper>
-        {loading && (
-          <SpinnerWrapper>
-            <ActivityIndicator size="large" color="#ff7f6d" />
-          </SpinnerWrapper>
-        )}
-        {clickedState ? (
-          <Container>
-            {tagsDetail.map(
-              (memo, index) =>
-                memo.timestamp && (
-                  <TextBox key={memo.id}>
-                    <DateItem>
-                      {index === 0 ? (
-                        <MemoDate memoTime={memo.timestamp} />
-                      ) : (
-                        moment
-                          .unix(tagsDetail[index - 1].timestamp)
-                          .format('YYYY-MM-DD') !==
-                          moment.unix(memo.timestamp).format('YYYY-MM-DD') && (
-                          <MemoDate memoTime={memo.timestamp} />
-                        )
-                      )}
-                    </DateItem>
-
-                    <TextContainer
-                      memo={memo}
-                      navigation={navigation}
-                      destination="detailText"
-                      history="태그"
-                    />
-                  </TextBox>
-                )
-            )}
-          </Container>
-        ) : (
-          <Container>
-            {tagsDetail
-              .filter((elemnet) => elemnet.is_marked === true)
-              .map(
+    <Background>
+      <Scroll>
+        <StatusBar
+          backgroundColor={palette.gatherHeaderGray}
+          barStyle="dark-content"
+        />
+        <Wrapper>
+          {loading && (
+            <SpinnerWrapper>
+              <ActivityIndicator size="large" color="#ff7f6d" />
+            </SpinnerWrapper>
+          )}
+          {clickedState ? (
+            <Container>
+              {tagsDetail.map(
                 (memo, index) =>
                   memo.timestamp && (
                     <TextBox key={memo.id}>
@@ -196,15 +173,53 @@ const CategoryDetail = ({ route, navigation }) => {
                     </TextBox>
                   )
               )}
-          </Container>
-        )}
-      </Wrapper>
-    </Scroll>
+            </Container>
+          ) : (
+            <Container>
+              {tagsDetail
+                .filter((elemnet) => elemnet.is_marked === true)
+                .map(
+                  (memo, index) =>
+                    memo.timestamp && (
+                      <TextBox key={memo.id}>
+                        <DateItem>
+                          {index === 0 ? (
+                            <MemoDate memoTime={memo.timestamp} />
+                          ) : (
+                            moment
+                              .unix(tagsDetail[index - 1].timestamp)
+                              .format('YYYY-MM-DD') !==
+                              moment
+                                .unix(memo.timestamp)
+                                .format('YYYY-MM-DD') && (
+                              <MemoDate memoTime={memo.timestamp} />
+                            )
+                          )}
+                        </DateItem>
+
+                        <TextContainer
+                          memo={memo}
+                          navigation={navigation}
+                          destination="detailText"
+                          history="태그"
+                        />
+                      </TextBox>
+                    )
+                )}
+            </Container>
+          )}
+        </Wrapper>
+      </Scroll>
+    </Background>
   );
 };
 
 export default CategoryDetail;
 
+const Background = styled.View`
+  background: ${palette.tagGray};
+  height: 90%;
+`;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 

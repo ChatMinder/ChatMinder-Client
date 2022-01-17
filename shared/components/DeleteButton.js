@@ -50,11 +50,12 @@ const SpinnerWrapper = styled.View`
 const DeleteBtn = styled.TouchableOpacity`
   width: 59px;
   height: 32px;
+
   border: 1px solid #e8eaef;
   border-radius: 8px;
   background: ${palette.lightPink};
-  left: ${SCREEN_WIDTH * 0.08}px;
-  top: -26px;
+  left: ${SCREEN_WIDTH * 0.05}px;
+  top: -25px;
   position: absolute;
   z-index: 1;
   justify-content: center;

@@ -16,7 +16,8 @@ const MemoDate = ({ memoTime }) => {
 const DateWrapper = styled.View`
   width: 124px;
   height: 20px;
-  margin: 6px;
+  margin-top: 12px;
+  margin-bottom: 10px;
   justify-content: center;
   align-self: center;
   background: #fcfcfc;
