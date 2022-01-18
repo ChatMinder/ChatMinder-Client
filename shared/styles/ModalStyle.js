@@ -11,7 +11,7 @@ export const StyledModalContainer = styled.View`
   flex-direction: column;
   align-items: center;
   width: 328px;
-  height: 371px;
+  height: ${(props) => props.height || '371px'}
   background-color: rgba(255, 255, 255, 1);
   border-radius: 10px;
 `;
@@ -57,10 +57,11 @@ export const CloseButton = styled.TouchableOpacity`
   background-color: ${palette.gray3};
   width: 116px;
   height: 48px;
-  border-radius: 20px;
+  border-radius: 8px;
   align-items: center;
   justify-content: center;
-  margin-top: 18px;
+  margin-top: ${(props) => props.marginTop || '18px'};
+  margin-bottom: ${(props) => props.marginBottom || '0px'};
 `;
 
 export const ClosedBox = styled.View`

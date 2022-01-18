@@ -24,6 +24,7 @@ import {
 
 import { ImgItem, ButtonBox } from '../styles/CategoryStyle';
 import palette from '../palette';
+import { TextSize } from '../styles/FontStyle';
 
 import Cancel from '../assets/cancel.svg';
 
@@ -154,7 +155,7 @@ const ModalListItem = ({ isModalVisible, toggleModal, handleEditTag }) => {
         isVisible={isModalVisible}
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
-        <StyledModalContainer>
+        <StyledModalContainer height="442px">
           <ButtonBox style={{ marginTop: 25, marginBottom: 22 }}>
             <View
               style={{
@@ -208,13 +209,19 @@ const ModalListItem = ({ isModalVisible, toggleModal, handleEditTag }) => {
               )
             )}
           </Scroll>
-          <Button
-            title="확인"
+          <CloseButton
+            marginBottom="20px"
             onPress={() => {
               handleEditTag(tagId);
               toggleModal();
             }}
-          />
+          >
+            <TextB>
+              <TextSize fontSize="18" color={palette.white}>
+                완료
+              </TextSize>
+            </TextB>
+          </CloseButton>
         </StyledModalContainer>
       </Modal>
     </StyledSafeAreaView>
