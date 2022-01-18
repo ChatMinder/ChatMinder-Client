@@ -10,9 +10,12 @@ import {
   ActivityIndicator,
   StatusBar,
   Alert,
+  Modal,
 } from 'react-native';
 import styled from 'styled-components/native';
+// TODO 혼용 안되면 택1하기
 import { SliderBox } from 'react-native-image-slider-box';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import RNUrlPreview from 'react-native-url-preview';
 import TextR from '../../shared/components/TextR';
 import TextB from '../../shared/components/TextB';
@@ -46,13 +49,13 @@ const detailText = ({ route, navigation }) => {
   const [imageArr, setImageArr] = useState(
     route.params.images.map((item) => `${baseURL}/${item.url}`)
   );
-
-  useEffect(() => {
-    console.log(route.params.images);
-    // route.params.images
-    //   ? setImageArr(route.params.images.map((item) => `${baseURL}/${item.url}`))
-    //   : null;
-  }, []);
+  let newArr = [];
+  for (let i = 0; i < imageArr.length; i++) {
+    newArr.push({
+      url: imageArr[i],
+    });
+    //console.log(newArr);
+  }
 
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
@@ -158,6 +161,16 @@ const detailText = ({ route, navigation }) => {
     }
   };
 
+  const [zoom, setZoom] = useState({
+    index: 0,
+    modalVisible: false,
+  });
+
+  const openZoom = (index) => {
+    setZoom({ index: index, modalVisible: true });
+    //console.log(imageArr[zoom.index]);
+  };
+
   return (
     <Wrapper>
       <StatusBar
@@ -198,15 +211,35 @@ const detailText = ({ route, navigation }) => {
       {/* 이미지인 경우 */}
 
       {route.params.images.length !== 0 ? (
-        <ImageBox>
-          <SliderBox
-            images={imageArr}
-            onCurrentImagePressed={(index) =>
-              console.warn(`image ${index} pressed`)
-            }
-            sliderBoxHeight="100%"
-          />
-        </ImageBox>
+        <>
+          <ImageBox>
+            <SliderBox
+              images={imageArr}
+              onCurrentImagePressed={(index) => {
+                //console.warn(`image ${index} pressed`);
+                openZoom(index);
+              }}
+              sliderBoxHeight="100%"
+            />
+          </ImageBox>
+
+          <Modal
+            visible={zoom.modalVisible}
+            transparent={true}
+            onRequestClose={() => setZoom({ ...zoom, modalVisible: false })}
+          >
+            <ImageViewer
+              imageUrls={newArr}
+              index={zoom.index}
+              onSwipeDown={() => {
+                //console.log('onSwipeDown');
+                setZoom({ ...zoom, modalVisible: false });
+              }}
+              //onMove={(data) => console.log(data)}
+              enableSwipeDown={true}
+            />
+          </Modal>
+        </>
       ) : (
         <View />
       )}

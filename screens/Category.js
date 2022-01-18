@@ -76,6 +76,8 @@ const Category = ({ navigation }) => {
     setLoading(false);
   };
 
+  //console.log(tagData);
+
   return (
     <Background>
       <Wrapper>
