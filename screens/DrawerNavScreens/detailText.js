@@ -381,6 +381,7 @@ const LinkView = styled.View`
 const ImageBox = styled.View`
   height: 50%;
   margin-bottom: 20px;
+  margin-top: 12px;
 `;
 
 const LinkBox = styled.View``;

@@ -155,7 +155,7 @@ const Category = ({ navigation }) => {
                     ]);
                   }}
                 >
-                  <Trashcan style={{ marginRight: 19 }} />
+                  <Trashcan />
                 </TouchableOpacity>
               </ImgBox>
             </CategoryItem>
