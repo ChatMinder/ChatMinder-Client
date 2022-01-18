@@ -31,10 +31,18 @@ const CalendarPage = ({ navigation }) => {
     // .filter((element, index) => index > 0)
     marked: null,
   });
-  const [pickedDate, setPickedDate] = useState('');
+  const [pickedDate, setPickedDate] = useState(moment().format('YYYY-MM-DD'));
   //console.log(dates);
 
-  const [planObj, setPlanObj] = useState([]);
+  const [planObj, setPlanObj] = useState(
+    memoData
+      .filter((element, index) => index > 0)
+      .filter(
+        (e) =>
+          moment.unix(e.timestamp).format('YYYY-MM-DD') ===
+          moment().format('YYYY-MM-DD')
+      )
+  );
 
   useEffect(() => {
     dotDates();
@@ -58,7 +66,7 @@ const CalendarPage = ({ navigation }) => {
               selected: true,
               selectedColor: `${palette.lightPurple}`,
               marked: true,
-              dotColor: `${palette.white}`,
+              dotColor: `${palette.main}`,
             },
           })
         : setMarkedDates({

@@ -142,8 +142,18 @@ const detailText = ({ route, navigation }) => {
       const editTagRes = await PostEditTag(token, formData);
       dispatch(fixMemo(route.params.id, editTagRes.data));
       console.log('editTagRes 성공: ', editTagRes.data);
-      //alert('수정되었습니다.');
-      //navigation.navigate(route.params.history);
+      Alert.alert('확인', '수정되었습니다.', [
+        {
+          text: '취소',
+          style: 'cancel',
+        },
+        {
+          text: '확인',
+          onPress: () => {
+            navigation.navigate(route.params.history);
+          },
+        },
+      ]);
     } catch (error) {
       console.log(`editTagRes 실패: ${error}`);
       if (error == 'Error: Network Error') {
@@ -209,7 +219,6 @@ const detailText = ({ route, navigation }) => {
       </BookmarkBox2>
 
       {/* 이미지인 경우 */}
-
       {route.params.images.length !== 0 ? (
         <>
           <ImageBox>
@@ -246,16 +255,19 @@ const detailText = ({ route, navigation }) => {
 
       {/* 링크인 경우 */}
       {route.params.url && (
-        <LinkView>
+        <>
           <TextB>
             <TextSize color="black" fontSize="18">
               {route.params.url}
             </TextSize>
           </TextB>
-          <RNUrlPreview
-            text={`${route.params.memo_text}, ${route.params.url}`}
-          />
-        </LinkView>
+          <LinkView>
+            <RNUrlPreview
+              text={`${route.params.memo_text}, ${route.params.url}`}
+              containerStyle={{ backgroundColor: `${palette.backgroundGray}` }}
+            />
+          </LinkView>
+        </>
       )}
 
       {/* 텍스트인 경우 */}
@@ -374,6 +386,7 @@ const SaveButton = styled.TouchableOpacity`
 `;
 
 const LinkView = styled.View`
+  margin-top: 22px;
   margin-bottom: 20px;
 `;
 
@@ -381,6 +394,7 @@ const LinkView = styled.View`
 const ImageBox = styled.View`
   height: 50%;
   margin-bottom: 20px;
+  margin-top: 12px;
 `;
 
 const LinkBox = styled.View``;

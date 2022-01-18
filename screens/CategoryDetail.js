@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Text,
-  View,
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
@@ -10,8 +8,7 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import axios from 'axios';
-import { GetTagsDetail, GetFilterTags } from '../shared/API';
+import { GetTagsDetail, GetFilterTags, GetDefaultTags } from '../shared/API';
 
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
@@ -26,13 +23,12 @@ import {
   Wrapper,
   Scroll,
 } from '../shared/styles/TextContainerStyle';
-import TextB from '../shared/components/TextB';
+import TextEB from '../shared/components/TextEB';
 import TextR from '../shared/components/TextR';
 import { TextSize } from '../shared/styles/FontStyle';
 import styled from 'styled-components/native';
 
 import GoBack from '../shared/assets/GoBack.svg';
-import SearchIcon from '../shared/assets/search.svg';
 import palette from '../shared/palette';
 
 const CategoryDetail = ({ route, navigation }) => {
@@ -53,8 +49,6 @@ const CategoryDetail = ({ route, navigation }) => {
 
   const [loading, setLoading] = useState(false);
   const [tagsDetail, setTagsDetail] = useState([]);
-  const [filterArr, setFilterArr] = useState([]);
-  const [concatArr, setConcatArr] = useState([]);
   const [listner, setListner] = useState(false);
 
   const handleTagDetail = async () => {
@@ -109,19 +103,21 @@ const CategoryDetail = ({ route, navigation }) => {
     }
   };
 
-  // const handleArr = (item) => {
-  //   let newArr = [];
-  //   concatArr.includes(item)
-  //     ? (newArr = concatArr.filter((element) => element !== item))
-  //     : (newArr = concatArr.concat(item));
-  //   setConcatArr((concatArr) => newArr);
-  //   console.log(concatArr);
-  // };
+  const handleDefaultTags = async () => {
+    try {
+      const getDefaultTags = await GetDefaultTags(token);
+      console.log('getDefaultTags 성공: ', getDefaultTags.data);
+      setTagsDetail(getDefaultTags.data);
+    } catch (error) {
+      console.log('getDefaultTags 실패', error);
+    }
+  };
 
   useEffect(() => {
-    handleTagDetail();
-    // handleArr(filterArr);
-    // handleFilter(concatArr);
+    {
+      route.params.id === -1 ? handleDefaultTags() : handleTagDetail();
+    }
+
     navigation.setOptions({
       headerShadowVisible: false,
       headerStyle: {
@@ -130,26 +126,23 @@ const CategoryDetail = ({ route, navigation }) => {
       },
       headerLeft: () => (
         <TouchableOpacity
-          hitSlop={{ top: 32, bottom: 32, left: 32, right: 32 }}
+          hitSlop={{ top: 60, bottom: 60, left: 70, right: 70 }}
           onPress={() => navigation.navigate('태그')}
         >
-          <GoBack />
+          <GoBack height="12" width="12" />
         </TouchableOpacity>
       ),
       headerRight: () => (
         <HeaderButton type={types[3]} setClickedState={setClickedState} />
       ),
+      headerTitleAlign: 'center',
       headerTitle: () => (
         <TitleItem>
-          <TextB>
-            <TextSize
-              style={{ marginTop: 16, marginBottom: 12 }}
-              fontSize="18"
-              color={route.params.tag_color}
-            >
+          <TextEB>
+            <TextSize fontSize="18" color={route.params.tag_color}>
               {route.params.tag_name}
             </TextSize>
-          </TextB>
+          </TextEB>
         </TitleItem>
       ),
     });
@@ -177,72 +170,85 @@ const CategoryDetail = ({ route, navigation }) => {
               <ActivityIndicator size="large" color="#ff7f6d" />
             </SpinnerWrapper>
           )}
-          {clickedState ? (
-            <Container>
-              {tagsDetail.map(
-                (memo, index) =>
-                  memo.timestamp && (
-                    <TextBox key={memo.id}>
-                      <DateItem>
-                        {index === 0 ? (
-                          <MemoDate memoTime={memo.timestamp} />
-                        ) : (
-                          moment
-                            .unix(tagsDetail[index - 1].timestamp)
-                            .format('YYYY-MM-DD') !==
-                            moment
-                              .unix(memo.timestamp)
-                              .format('YYYY-MM-DD') && (
-                            <MemoDate memoTime={memo.timestamp} />
-                          )
-                        )}
-                      </DateItem>
 
-                      <TextContainer
-                        memo={memo}
-                        navigation={navigation}
-                        destination="detailText"
-                        history="태그"
-                        fromTagDetail={true}
-                        setListner={setListner}
-                      />
-                    </TextBox>
-                  )
-              )}
-            </Container>
+          {tagsDetail.length === 0 ? (
+            <Info>
+              <TextR>
+                <TextSize color={palette.gray3} fontSize="14">
+                  이 날 작성한 메모가 없어요.
+                </TextSize>
+              </TextR>
+            </Info>
           ) : (
-            <Container>
-              {tagsDetail
-                .filter((elemnet) => elemnet.is_marked === true)
-                .map(
-                  (memo, index) =>
-                    memo.timestamp && (
-                      <TextBox key={memo.id}>
-                        <DateItem>
-                          {index === 0 ? (
-                            <MemoDate memoTime={memo.timestamp} />
-                          ) : (
-                            moment
-                              .unix(tagsDetail[index - 1].timestamp)
-                              .format('YYYY-MM-DD') !==
-                              moment
-                                .unix(memo.timestamp)
-                                .format('YYYY-MM-DD') && (
+            <>
+              {clickedState ? (
+                <Container>
+                  {tagsDetail.map(
+                    (memo, index) =>
+                      memo.timestamp && (
+                        <TextBox key={memo.id}>
+                          <DateItem>
+                            {index === 0 ? (
                               <MemoDate memoTime={memo.timestamp} />
-                            )
-                          )}
-                        </DateItem>
+                            ) : (
+                              moment
+                                .unix(tagsDetail[index - 1].timestamp)
+                                .format('YYYY-MM-DD') !==
+                                moment
+                                  .unix(memo.timestamp)
+                                  .format('YYYY-MM-DD') && (
+                                <MemoDate memoTime={memo.timestamp} />
+                              )
+                            )}
+                          </DateItem>
 
-                        <TextContainer
-                          memo={memo}
-                          navigation={navigation}
-                          destination="detailText"
-                          history="태그"
-                        />
-                      </TextBox>
-                    )
-                )}
-            </Container>
+                          <TextContainer
+                            memo={memo}
+                            navigation={navigation}
+                            destination="detailText"
+                            history="태그"
+                            fromTagDetail={true}
+                            setListner={setListner}
+                          />
+                        </TextBox>
+                      )
+                  )}
+                </Container>
+              ) : (
+                <Container>
+                  {tagsDetail
+                    .filter((elemnet) => elemnet.is_marked === true)
+                    .map(
+                      (memo, index) =>
+                        memo.timestamp && (
+                          <TextBox key={memo.id}>
+                            <DateItem>
+                              {index === 0 ? (
+                                <MemoDate memoTime={memo.timestamp} />
+                              ) : (
+                                moment
+                                  .unix(tagsDetail[index - 1].timestamp)
+                                  .format('YYYY-MM-DD') !==
+                                  moment
+                                    .unix(memo.timestamp)
+                                    .format('YYYY-MM-DD') && (
+                                  <MemoDate memoTime={memo.timestamp} />
+                                )
+                              )}
+                            </DateItem>
+
+                            <TextContainer
+                              memo={memo}
+                              navigation={navigation}
+                              destination="detailText"
+                              history="태그"
+                            />
+                          </TextBox>
+                        )
+                    )}
+                </Container>
+              )}
+            </>
           )}
         </Wrapper>
       </Scroll>
@@ -264,4 +270,10 @@ const SpinnerWrapper = styled.View`
   left: ${SCREEN_WIDTH * 0.5 - 18}px;
   bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
   z-index: 10;
+`;
+
+const Info = styled.View`
+  align-items: center;
+  justify-content: center;
+  margin-top: 65%;
 `;

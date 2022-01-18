@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, StatusBar } from 'react-native';
+import { TouchableOpacity, StatusBar } from 'react-native';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -12,7 +12,6 @@ import HeaderButton from '../shared/components/HeaderButton';
 import {
   Container,
   TextBox,
-  DateItem,
   Wrapper,
   Scroll,
 } from '../shared/styles/TextContainerStyle';
@@ -22,7 +21,6 @@ import TextB from '../shared/components/TextB';
 import { TextSize } from '../shared/styles/FontStyle';
 
 import GoBack from '../shared/assets/GoBack.svg';
-import SearchIcon from '../shared/assets/search.svg';
 import palette from '../shared/palette';
 
 const CalenderDaily = ({ route, navigation }) => {
@@ -53,6 +51,7 @@ const CalenderDaily = ({ route, navigation }) => {
       headerRight: () => (
         <HeaderButton type={types[3]} setClickedState={setClickedState} />
       ),
+      headerTitleAlign: 'center',
       headerTitle: () => (
         <TitleItem>
           <TextB>
@@ -108,7 +107,13 @@ const CalenderDaily = ({ route, navigation }) => {
           <Container>
             <TextBox>
               {route.params.planObj.length === 0 ? (
-                <TextR>일정이 없습니다.</TextR>
+                <Info>
+                  <TextR>
+                    <TextSize color={palette.gray3} fontSize="14">
+                      이 날 작성한 메모가 없어요.
+                    </TextSize>
+                  </TextR>
+                </Info>
               ) : (
                 <>
                   <MemoDate memoTime={route.params.planObj[0].timestamp} />

@@ -146,3 +146,11 @@ export const PostEditTag = async (token, data) =>
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+// 미분류 태그 조회
+export const GetDefaultTags = async (token) =>
+  await axios.get(`${baseURL}/tags/default/memos`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });

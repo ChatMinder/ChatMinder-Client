@@ -6,6 +6,7 @@ export const CategoryItem = styled.View`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3%;
+  padding-right: 19px;
   background-color: ${(props) => props.backgroundColor || `${palette.gray1}`};
   height: 60px;
   width: 100%;
@@ -13,7 +14,7 @@ export const CategoryItem = styled.View`
 `;
 
 export const TextBox = styled.TouchableOpacity`
-  width: 80%;
+  width: 70%;
 `;
 
 export const ImgBox = styled.View`
