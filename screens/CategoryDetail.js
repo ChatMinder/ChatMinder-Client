@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Text,
-  View,
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
@@ -10,8 +8,7 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import axios from 'axios';
-import { GetTagsDetail, GetFilterTags } from '../shared/API';
+import { GetTagsDetail, GetFilterTags, GetDefaultTags } from '../shared/API';
 
 import MemoDate from '../shared/components/MemoDate';
 import useSearch from '../shared/hooks/useSearch';
@@ -26,13 +23,11 @@ import {
   Wrapper,
   Scroll,
 } from '../shared/styles/TextContainerStyle';
-import TextB from '../shared/components/TextB';
-import TextR from '../shared/components/TextR';
+import TextEB from '../shared/components/TextEB';
 import { TextSize } from '../shared/styles/FontStyle';
 import styled from 'styled-components/native';
 
 import GoBack from '../shared/assets/GoBack.svg';
-import SearchIcon from '../shared/assets/search.svg';
 import palette from '../shared/palette';
 
 const CategoryDetail = ({ route, navigation }) => {
@@ -53,8 +48,6 @@ const CategoryDetail = ({ route, navigation }) => {
 
   const [loading, setLoading] = useState(false);
   const [tagsDetail, setTagsDetail] = useState([]);
-  const [filterArr, setFilterArr] = useState([]);
-  const [concatArr, setConcatArr] = useState([]);
   const [listner, setListner] = useState(false);
 
   const handleTagDetail = async () => {
@@ -109,19 +102,21 @@ const CategoryDetail = ({ route, navigation }) => {
     }
   };
 
-  // const handleArr = (item) => {
-  //   let newArr = [];
-  //   concatArr.includes(item)
-  //     ? (newArr = concatArr.filter((element) => element !== item))
-  //     : (newArr = concatArr.concat(item));
-  //   setConcatArr((concatArr) => newArr);
-  //   console.log(concatArr);
-  // };
+  const handleDefaultTags = async () => {
+    try {
+      const getDefaultTags = await GetDefaultTags(token);
+      console.log('getDefaultTags 성공: ', getDefaultTags.data);
+      setTagsDetail(getDefaultTags.data);
+    } catch (error) {
+      console.log('getDefaultTags 실패', error);
+    }
+  };
 
   useEffect(() => {
-    handleTagDetail();
-    // handleArr(filterArr);
-    // handleFilter(concatArr);
+    {
+      route.params.id === -1 ? handleDefaultTags() : handleTagDetail();
+    }
+
     navigation.setOptions({
       headerStyle: {
         backgroundColor: palette.gatherHeaderGray,
@@ -129,18 +124,19 @@ const CategoryDetail = ({ route, navigation }) => {
       },
       headerLeft: () => (
         <TouchableOpacity
-          hitSlop={{ top: 32, bottom: 32, left: 32, right: 32 }}
+          hitSlop={{ top: 40, bottom: 40, left: 40, right: 40 }}
           onPress={() => navigation.navigate('태그')}
         >
-          <GoBack />
+          <GoBack height="12" width="12" />
         </TouchableOpacity>
       ),
       headerRight: () => (
         <HeaderButton type={types[3]} setClickedState={setClickedState} />
       ),
+      headerTitleAlign: 'center',
       headerTitle: () => (
         <TitleItem>
-          <TextB>
+          <TextEB>
             <TextSize
               style={{ marginTop: 16, marginBottom: 12 }}
               fontSize="18"
@@ -148,7 +144,7 @@ const CategoryDetail = ({ route, navigation }) => {
             >
               {route.params.tag_name}
             </TextSize>
-          </TextB>
+          </TextEB>
         </TitleItem>
       ),
     });
@@ -176,6 +172,7 @@ const CategoryDetail = ({ route, navigation }) => {
               <ActivityIndicator size="large" color="#ff7f6d" />
             </SpinnerWrapper>
           )}
+
           {clickedState ? (
             <Container>
               {tagsDetail.map(

@@ -24,6 +24,7 @@ import {
 } from '../shared/styles/CategoryStyle';
 import { Wrapper } from '../shared/styles/TextContainerStyle';
 import TextB from '../shared/components/TextB';
+import TextEB from '../shared/components/TextEB';
 import { TextSize } from '../shared/styles/FontStyle';
 import ModalItem from '../shared/components/Modaltem';
 import Trashcan from '../shared/assets/trashcan.svg';
@@ -104,6 +105,7 @@ const Category = ({ navigation }) => {
             </TextB>
           </ButtonItem>
         </ButtonBox>
+
         <TagScroll>
           {tagData.map((tag) => (
             <CategoryItem
@@ -160,6 +162,24 @@ const Category = ({ navigation }) => {
               </ImgBox>
             </CategoryItem>
           ))}
+          <CategoryItem backgroundColor={palette.gray1}>
+            <TextBox
+              style={{ marginLeft: 19 }}
+              onPress={() => {
+                navigation.navigate('CategoryDetail', {
+                  id: -1,
+                  tag_name: '분류 안한 메모',
+                  tag_color: palette.gray1,
+                });
+              }}
+            >
+              <TextB>
+                <TextSize fontSize="16" color="white">
+                  분류 안한 메모
+                </TextSize>
+              </TextB>
+            </TextBox>
+          </CategoryItem>
         </TagScroll>
         <ModalItem
           isModalVisible={isModalVisible}

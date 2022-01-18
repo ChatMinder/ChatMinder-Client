@@ -2,12 +2,12 @@ import React from 'react';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
-const TextEB = ({ children }) => <TextBold>{children}</TextBold>;
+const TextEB = ({ children }) => <TextExtraBold>{children}</TextExtraBold>;
 
-const TextBold = styled.Text`
+const TextExtraBold = styled.Text`
   font-family: 'NanumSquareOTF_acEB';
   font-size: 18px;
-  font-weight: 800;
+  font-weight: bold;
   line-height: 20px;
   letter-spacing: -0.36px;
 `;

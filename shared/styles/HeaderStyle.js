@@ -1,4 +1,6 @@
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
+
 import palette from '../palette';
 
 export const HeaderContainer = styled.View`
@@ -16,9 +18,12 @@ export const TitleBox = styled.View`
   margin-bottom: ${(props) => props.marginBottom || '0px'};
 `;
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
+
 export const TitleItem = styled.View`
   align-items: center;
-  width: 95.5%;
+
+  width: ${SCREEN_WIDTH * 0.927}px;
 `;
 
 export const InputBox = styled.View`
