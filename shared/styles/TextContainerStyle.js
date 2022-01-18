@@ -50,7 +50,7 @@ export const BoxContainer = styled.View`
   background-color: white;
   margin-bottom: 4%;
   border-radius: 10px;
-  padding: 2.7%;
+  padding: 12px;
 `;
 
 export const Wrapper = styled.View`

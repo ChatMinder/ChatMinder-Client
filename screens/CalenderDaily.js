@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, StatusBar } from 'react-native';
+import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -72,7 +73,13 @@ const CalenderDaily = ({ route, navigation }) => {
           <Container>
             <TextBox>
               {route.params.planObj.length === 0 ? (
-                <TextR>일정이 없습니다.</TextR>
+                <Info>
+                  <TextR>
+                    <TextSize color={palette.gray3} fontSize="14">
+                      이 날 작성한 메모가 없어요.
+                    </TextSize>
+                  </TextR>
+                </Info>
               ) : (
                 <>
                   <MemoDate memoTime={route.params.planObj[0].timestamp} />
@@ -134,3 +141,9 @@ const CalenderDaily = ({ route, navigation }) => {
 };
 
 export default CalenderDaily;
+
+const Info = styled.View`
+  align-items: center;
+  justify-content: center;
+  margin-top: 65%;
+`;
