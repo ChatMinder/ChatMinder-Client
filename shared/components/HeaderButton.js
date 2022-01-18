@@ -123,6 +123,7 @@ export const CommonBox = styled.View`
 `;
 
 export const SelectedBox = styled(CommonBox)`
+  border-radius: 10px;
   background-color: ${(props) => props.background || `${palette.main}`};
   border-color: ${palette.main};
 `;

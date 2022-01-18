@@ -178,7 +178,7 @@ const CalendarPage = ({ navigation }) => {
 export default CalendarPage;
 
 const Wrapper = styled.View`
-  background-color: ${palette.backgroundGray};
+  background-color: ${palette.tagGray};
   height: 100%;
   padding: 16px;
 `;

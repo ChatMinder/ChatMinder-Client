@@ -27,6 +27,7 @@ export const InputBox = styled.View`
   flex-direction: row;
   align-items: center;
   width: ${(props) => props.width || '95%'};
+  height: 32px;
 `;
 
 export const SearchInput = styled.TextInput`

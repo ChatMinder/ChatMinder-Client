@@ -54,6 +54,7 @@ const Home = ({ navigation }) => {
           ),
         })
       : navigation.setOptions({
+          headerShadowVisible: false,
           headerStyle: {
             backgroundColor: palette.mainHeaderGray,
           },
@@ -132,7 +133,7 @@ const Home = ({ navigation }) => {
                     <MemoDate memoTime={memo.timestamp} />
                   )
                 )}
-                <MemoItem memo={memo} />
+                <MemoItem memo={memo} point={true} />
               </MemoItemWrapper>
             )
         )}
@@ -153,7 +154,6 @@ const HeaderContainer = styled.View`
   width: ${SCREEN_WIDTH * 0.9}px;
   height: 36px;
   border-radius: 15.5px;
-  background: #fcfcfc;
 `;
 
 const SearchInput = styled.TextInput`

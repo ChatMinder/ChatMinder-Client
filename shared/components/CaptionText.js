@@ -19,8 +19,8 @@ const CaptionText = ({ memo }) => {
           {memo.url && <URLText>{memo.url}</URLText>}
           <CaptionContainer>
             <TextR>
-              {memo.memo_text.slice(0, SCREEN_WIDTH / 13.3)}
-              {memo.memo_text.length > SCREEN_WIDTH / 13.3 && (
+              {memo.memo_text.slice(0, SCREEN_WIDTH / 12)}
+              {memo.memo_text.length > SCREEN_WIDTH / 12 && (
                 <>
                   <TextR>...</TextR>
                   <SeeAll> 전체보기</SeeAll>
@@ -35,9 +35,9 @@ const CaptionText = ({ memo }) => {
       {!memo.url && memo.images.length === 0 && memo.memo_text ? (
         <TextBox>
           <TextR>
-            {memo.memo_text.slice(0, (SCREEN_WIDTH * 10) / 43)}
+            {memo.memo_text.slice(0, SCREEN_WIDTH / 3)}
 
-            {memo.memo_text.length > (SCREEN_WIDTH * 10) / 43 && (
+            {memo.memo_text.length > SCREEN_WIDTH / 3 && (
               <>
                 <TextR>...</TextR>
                 <SeeAll> 전체보기</SeeAll>

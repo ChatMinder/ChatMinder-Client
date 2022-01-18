@@ -48,7 +48,7 @@ const gatherImg = ({ navigation }) => {
             <NoVisibleBox />
           </TitleBox>
           <InputBox>
-            <SearchIcon style={{ marginHorizontal: 8 }} />
+            <SearchIcon color="#7E7E7E" style={{ marginHorizontal: 8 }} />
             <SearchInput
               onChangeText={onSearchChange}
               placeholder="내용, 태그 검색"
@@ -124,6 +124,7 @@ export default gatherImg;
 
 const Scroll = styled.ScrollView`
   height: 90%;
+  background: #f1f3f5;
 `;
 const MemoItemWrapper = styled.View`
   width: 100%;

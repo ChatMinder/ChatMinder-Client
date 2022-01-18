@@ -123,6 +123,7 @@ const CategoryDetail = ({ route, navigation }) => {
     // handleArr(filterArr);
     // handleFilter(concatArr);
     navigation.setOptions({
+      headerShadowVisible: false,
       headerStyle: {
         backgroundColor: palette.gatherHeaderGray,
         height: 130,

@@ -16,7 +16,7 @@ import { TextSize } from '../styles/FontStyle';
 import CaptionText from './CaptionText';
 import Images from './Images';
 
-const MemoItem = ({ memo }) => {
+const MemoItem = ({ memo, point }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.accessToken);
@@ -112,9 +112,11 @@ const MemoItem = ({ memo }) => {
           ]);
         }}
       >
-        <PointContainer>
-          <ChatBubblePoint />
-        </PointContainer>
+        {point && (
+          <PointContainer>
+            <ChatBubblePoint />
+          </PointContainer>
+        )}
         <MemoContainer onPress={() => handlePress(memo)}>
           <Images imgCnt={memo.images.length} memo={memo} />
 

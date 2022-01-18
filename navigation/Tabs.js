@@ -22,6 +22,7 @@ const Tabs = () => {
         backgroundColor: 'white',
       }}
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           borderTopWidth: 0,
           backgroundColor: 'white',
