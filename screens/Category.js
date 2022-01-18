@@ -24,6 +24,7 @@ import {
 } from '../shared/styles/CategoryStyle';
 import { Wrapper } from '../shared/styles/TextContainerStyle';
 import TextB from '../shared/components/TextB';
+import TextR from '../shared/components/TextR';
 import TextEB from '../shared/components/TextEB';
 import { TextSize } from '../shared/styles/FontStyle';
 import ModalItem from '../shared/components/Modaltem';
@@ -98,11 +99,11 @@ const Category = ({ navigation }) => {
               toggleModal();
             }}
           >
-            <TextB>
+            <TextR>
               <TextSize fontSize="14" color="white">
                 + 태그추가
               </TextSize>
-            </TextB>
+            </TextR>
           </ButtonItem>
         </ButtonBox>
 
@@ -211,7 +212,7 @@ const SpinnerWrapper = styled.View`
 const ButtonItem = styled.TouchableOpacity`
   background-color: ${palette.main};
   border-radius: 8px;
-  padding: 4px 10px;
+  padding: 5px 10px;
 `;
 
 const TagScroll = styled.ScrollView`

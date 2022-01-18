@@ -20,11 +20,9 @@ export const TitleBox = styled.View`
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export const TitleItem = styled.View`
-  align-items: center;
-
-  width: ${SCREEN_WIDTH * 0.927}px;
-`;
+export const TitleItem = styled.View``;
+//width: ${SCREEN_WIDTH * 0.927}px;
+// align-items: center;
 
 export const InputBox = styled.View`
   border: 1px solid #e9ebf0;

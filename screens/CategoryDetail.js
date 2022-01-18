@@ -24,6 +24,7 @@ import {
   Scroll,
 } from '../shared/styles/TextContainerStyle';
 import TextEB from '../shared/components/TextEB';
+import TextR from '../shared/components/TextR';
 import { TextSize } from '../shared/styles/FontStyle';
 import styled from 'styled-components/native';
 
@@ -124,7 +125,7 @@ const CategoryDetail = ({ route, navigation }) => {
       },
       headerLeft: () => (
         <TouchableOpacity
-          hitSlop={{ top: 40, bottom: 40, left: 40, right: 40 }}
+          hitSlop={{ top: 60, bottom: 60, left: 70, right: 70 }}
           onPress={() => navigation.navigate('태그')}
         >
           <GoBack height="12" width="12" />
@@ -137,11 +138,7 @@ const CategoryDetail = ({ route, navigation }) => {
       headerTitle: () => (
         <TitleItem>
           <TextEB>
-            <TextSize
-              style={{ marginTop: 16, marginBottom: 12 }}
-              fontSize="18"
-              color={route.params.tag_color}
-            >
+            <TextSize fontSize="18" color={route.params.tag_color}>
               {route.params.tag_name}
             </TextSize>
           </TextEB>
@@ -173,72 +170,84 @@ const CategoryDetail = ({ route, navigation }) => {
             </SpinnerWrapper>
           )}
 
-          {clickedState ? (
-            <Container>
-              {tagsDetail.map(
-                (memo, index) =>
-                  memo.timestamp && (
-                    <TextBox key={memo.id}>
-                      <DateItem>
-                        {index === 0 ? (
-                          <MemoDate memoTime={memo.timestamp} />
-                        ) : (
-                          moment
-                            .unix(tagsDetail[index - 1].timestamp)
-                            .format('YYYY-MM-DD') !==
-                            moment
-                              .unix(memo.timestamp)
-                              .format('YYYY-MM-DD') && (
-                            <MemoDate memoTime={memo.timestamp} />
-                          )
-                        )}
-                      </DateItem>
-
-                      <TextContainer
-                        memo={memo}
-                        navigation={navigation}
-                        destination="detailText"
-                        history="태그"
-                        fromTagDetail={true}
-                        setListner={setListner}
-                      />
-                    </TextBox>
-                  )
-              )}
-            </Container>
+          {tagsDetail.length === 0 ? (
+            <Info>
+              <TextR>
+                <TextSize color={palette.gray3} fontSize="14">
+                  이 날 작성한 메모가 없어요.
+                </TextSize>
+              </TextR>
+            </Info>
           ) : (
-            <Container>
-              {tagsDetail
-                .filter((elemnet) => elemnet.is_marked === true)
-                .map(
-                  (memo, index) =>
-                    memo.timestamp && (
-                      <TextBox key={memo.id}>
-                        <DateItem>
-                          {index === 0 ? (
-                            <MemoDate memoTime={memo.timestamp} />
-                          ) : (
-                            moment
-                              .unix(tagsDetail[index - 1].timestamp)
-                              .format('YYYY-MM-DD') !==
-                              moment
-                                .unix(memo.timestamp)
-                                .format('YYYY-MM-DD') && (
+            <>
+              {clickedState ? (
+                <Container>
+                  {tagsDetail.map(
+                    (memo, index) =>
+                      memo.timestamp && (
+                        <TextBox key={memo.id}>
+                          <DateItem>
+                            {index === 0 ? (
                               <MemoDate memoTime={memo.timestamp} />
-                            )
-                          )}
-                        </DateItem>
+                            ) : (
+                              moment
+                                .unix(tagsDetail[index - 1].timestamp)
+                                .format('YYYY-MM-DD') !==
+                                moment
+                                  .unix(memo.timestamp)
+                                  .format('YYYY-MM-DD') && (
+                                <MemoDate memoTime={memo.timestamp} />
+                              )
+                            )}
+                          </DateItem>
 
-                        <TextContainer
-                          memo={memo}
-                          navigation={navigation}
-                          destination="detailText"
-                          history="태그"
-                        />
-                      </TextBox>
-                    )
-                )}
-            </Container>
+                          <TextContainer
+                            memo={memo}
+                            navigation={navigation}
+                            destination="detailText"
+                            history="태그"
+                            fromTagDetail={true}
+                            setListner={setListner}
+                          />
+                        </TextBox>
+                      )
+                  )}
+                </Container>
+              ) : (
+                <Container>
+                  {tagsDetail
+                    .filter((elemnet) => elemnet.is_marked === true)
+                    .map(
+                      (memo, index) =>
+                        memo.timestamp && (
+                          <TextBox key={memo.id}>
+                            <DateItem>
+                              {index === 0 ? (
+                                <MemoDate memoTime={memo.timestamp} />
+                              ) : (
+                                moment
+                                  .unix(tagsDetail[index - 1].timestamp)
+                                  .format('YYYY-MM-DD') !==
+                                  moment
+                                    .unix(memo.timestamp)
+                                    .format('YYYY-MM-DD') && (
+                                  <MemoDate memoTime={memo.timestamp} />
+                                )
+                              )}
+                            </DateItem>
+
+                            <TextContainer
+                              memo={memo}
+                              navigation={navigation}
+                              destination="detailText"
+                              history="태그"
+                            />
+                          </TextBox>
+                        )
+                    )}
+                </Container>
+              )}
+            </>
           )}
         </Wrapper>
       </Scroll>
@@ -260,4 +269,10 @@ const SpinnerWrapper = styled.View`
   left: ${SCREEN_WIDTH * 0.5 - 18}px;
   bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
   z-index: 10;
+`;
+
+const Info = styled.View`
+  align-items: center;
+  justify-content: center;
+  margin-top: 65%;
 `;

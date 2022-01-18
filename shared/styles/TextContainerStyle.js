@@ -39,7 +39,7 @@ export const BookmarkBox2 = styled.View`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${(props) => props.marginBottom || '0px'};
-  margin-top: 1.5%;
+  margin-top: 16px;
 `;
 
 export const TextItem = styled.Text`

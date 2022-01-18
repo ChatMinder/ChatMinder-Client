@@ -209,7 +209,6 @@ const detailText = ({ route, navigation }) => {
       </BookmarkBox2>
 
       {/* 이미지인 경우 */}
-
       {route.params.images.length !== 0 ? (
         <>
           <ImageBox>
@@ -246,16 +245,19 @@ const detailText = ({ route, navigation }) => {
 
       {/* 링크인 경우 */}
       {route.params.url && (
-        <LinkView>
+        <>
           <TextB>
             <TextSize color="black" fontSize="18">
               {route.params.url}
             </TextSize>
           </TextB>
-          <RNUrlPreview
-            text={`${route.params.memo_text}, ${route.params.url}`}
-          />
-        </LinkView>
+          <LinkView>
+            <RNUrlPreview
+              text={`${route.params.memo_text}, ${route.params.url}`}
+              containerStyle={{ backgroundColor: `${palette.backgroundGray}` }}
+            />
+          </LinkView>
+        </>
       )}
 
       {/* 텍스트인 경우 */}
@@ -374,6 +376,7 @@ const SaveButton = styled.TouchableOpacity`
 `;
 
 const LinkView = styled.View`
+  margin-top: 22px;
   margin-bottom: 20px;
 `;
 
