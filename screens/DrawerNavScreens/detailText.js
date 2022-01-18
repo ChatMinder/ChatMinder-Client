@@ -47,7 +47,12 @@ const detailText = ({ route, navigation }) => {
     route.params.images.map((item) => `${baseURL}/${item.url}`)
   );
 
-  //console.log('images', imageArr);
+  useEffect(() => {
+    console.log(route.params.images);
+    // route.params.images
+    //   ? setImageArr(route.params.images.map((item) => `${baseURL}/${item.url}`))
+    //   : null;
+  }, []);
 
   const token = useSelector((state) => state.auth.accessToken);
   //console.log(route.params);
