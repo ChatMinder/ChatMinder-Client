@@ -142,8 +142,18 @@ const detailText = ({ route, navigation }) => {
       const editTagRes = await PostEditTag(token, formData);
       dispatch(fixMemo(route.params.id, editTagRes.data));
       console.log('editTagRes 성공: ', editTagRes.data);
-      //alert('수정되었습니다.');
-      //navigation.navigate(route.params.history);
+      Alert.alert('확인', '수정되었습니다.', [
+        {
+          text: '취소',
+          style: 'cancel',
+        },
+        {
+          text: '확인',
+          onPress: () => {
+            navigation.navigate(route.params.history);
+          },
+        },
+      ]);
     } catch (error) {
       console.log(`editTagRes 실패: ${error}`);
       if (error == 'Error: Network Error') {

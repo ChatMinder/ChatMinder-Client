@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, StatusBar } from 'react-native';
+import { TouchableOpacity, StatusBar } from 'react-native';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -12,7 +12,6 @@ import HeaderButton from '../shared/components/HeaderButton';
 import {
   Container,
   TextBox,
-  DateItem,
   Wrapper,
   Scroll,
 } from '../shared/styles/TextContainerStyle';
@@ -22,7 +21,6 @@ import TextB from '../shared/components/TextB';
 import { TextSize } from '../shared/styles/FontStyle';
 
 import GoBack from '../shared/assets/GoBack.svg';
-import SearchIcon from '../shared/assets/search.svg';
 import palette from '../shared/palette';
 
 const CalenderDaily = ({ route, navigation }) => {
