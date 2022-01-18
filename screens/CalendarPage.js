@@ -50,13 +50,26 @@ const CalendarPage = ({ navigation }) => {
       {}
     );
     setMarkedDates(obj);
-    setMarkedDates({
-      ...obj,
-      [pickedDate]: {
-        selected: true,
-        selectedColor: `${palette.lightPurple}`,
-      },
-    });
+    {
+      dates.markedDates.includes(pickedDate)
+        ? setMarkedDates({
+            ...obj,
+            [pickedDate]: {
+              selected: true,
+              selectedColor: `${palette.lightPurple}`,
+              marked: true,
+              dotColor: `${palette.white}`,
+            },
+          })
+        : setMarkedDates({
+            ...obj,
+            [pickedDate]: {
+              selected: true,
+              selectedColor: `${palette.lightPurple}`,
+            },
+          });
+    }
+    //console.log(dates.markedDates.includes(pickedDate));
   }
 
   const handlePlan = (day) => {
@@ -88,7 +101,7 @@ const CalendarPage = ({ navigation }) => {
           }
           onDayPress={(day) => {
             handlePlan(day);
-            console.log(markedDates);
+            //console.log(markedDates);
           }}
           markedDates={markedDates}
           style={{
