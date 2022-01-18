@@ -33,18 +33,18 @@ const CaptionText = ({ memo }) => {
       ) : null}
       {/* 텍스트가 plain 텍스트일 경우 */}
       {!memo.url && memo.images.length === 0 && memo.memo_text ? (
-        <CaptionContainer>
+        <TextBox>
           <TextR>
-            {memo.memo_text.slice(0, (SCREEN_WIDTH * 10) / 13.5)}
+            {memo.memo_text.slice(0, (SCREEN_WIDTH * 10) / 43)}
 
-            {memo.memo_text.length > (SCREEN_WIDTH * 10) / 13.5 && (
+            {memo.memo_text.length > (SCREEN_WIDTH * 10) / 43 && (
               <>
                 <TextR>...</TextR>
                 <SeeAll> 전체보기</SeeAll>
               </>
             )}
           </TextR>
-        </CaptionContainer>
+        </TextBox>
       ) : null}
     </>
   );
@@ -69,6 +69,10 @@ const URLText = styled.Text`
 
 const CaptionContainer = styled.View`
   flex-direction: row;
+`;
+
+const TextBox = styled(CaptionContainer)`
+  min-height: 57px;
 `;
 
 const SeeAll = styled.Text`
