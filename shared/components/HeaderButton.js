@@ -114,7 +114,7 @@ export default HeaderButton;
 
 export const CommonBox = styled.View`
   border: 1px solid ${palette.borderGray};
-  border-radius: 8px;
+  border-radius: 10px;
   width: 40px;
   height: 20px;
   align-items: center;

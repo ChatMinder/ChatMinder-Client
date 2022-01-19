@@ -30,6 +30,7 @@ const gatherImg = ({ navigation }) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerShadowVisible: false,
       headerStyle: {
         backgroundColor: palette.gatherHeaderGray,
         height: 120,
