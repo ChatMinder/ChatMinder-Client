@@ -54,6 +54,7 @@ export const BoxContainer = styled.View`
 `;
 
 export const Wrapper = styled.View`
+  height: 100%;
   align-items: center;
 `;
 

@@ -134,7 +134,7 @@ const CategoryDetail = ({ route, navigation }) => {
             <Info>
               <TextR>
                 <TextSize color={palette.gray3} fontSize="14">
-                  이 날 작성한 메모가 없어요.
+                  이 태그에 작성한 메모가 없어요.
                 </TextSize>
               </TextR>
             </Info>

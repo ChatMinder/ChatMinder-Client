@@ -36,7 +36,6 @@ const CaptionText = ({ memo }) => {
         <TextBox>
           <TextR>
             {memo.memo_text.slice(0, SCREEN_WIDTH / 3)}
-
             {memo.memo_text.length > SCREEN_WIDTH / 3 && (
               <>
                 <TextR>...</TextR>

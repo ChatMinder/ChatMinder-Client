@@ -191,6 +191,7 @@ export default Category;
 
 const Background = styled.View`
   background: ${palette.tagGray};
+  height: 100%;
 `;
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
