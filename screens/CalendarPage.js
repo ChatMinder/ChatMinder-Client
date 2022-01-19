@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, StatusBar } from 'react-native';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { TouchableOpacity, StatusBar } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import moment from 'moment';
-import {
-  CategoryItem,
-  TextBox,
-  ImgBox,
-  ImgItem,
-} from '../shared/styles/CategoryStyle';
+import moment, { relativeTimeRounding } from 'moment';
+
 import palette from '../shared/palette';
 import TextB from '../shared/components/TextB';
 import TextR from '../shared/components/TextR';
 import { TextSize } from '../shared/styles/FontStyle';
 
-import Settings from '../shared/assets/settings.svg';
-import Trashcan from '../shared/assets/trashcan.svg';
 import CalendarLeft from '../shared/assets/calendar_left.svg';
 import CalendarRight from '../shared/assets/calendar_right.svg';
 
@@ -28,11 +21,9 @@ const CalendarPage = ({ navigation }) => {
     markedDates: memoData.map((memo, index) =>
       moment.unix(memo.timestamp).format('YYYY-MM-DD')
     ),
-    // .filter((element, index) => index > 0)
     marked: null,
   });
   const [pickedDate, setPickedDate] = useState(moment().format('YYYY-MM-DD'));
-  //console.log(dates);
 
   const [planObj, setPlanObj] = useState(
     memoData
@@ -46,7 +37,6 @@ const CalendarPage = ({ navigation }) => {
 
   useEffect(() => {
     dotDates();
-    //console.log('plan:', planObj);
   }, [planObj]);
 
   function dotDates() {
@@ -67,6 +57,15 @@ const CalendarPage = ({ navigation }) => {
               selectedColor: `${palette.lightPurple}`,
               marked: true,
               dotColor: `${palette.main}`,
+              customStyles: {
+                container: {
+                  width: 35,
+                  height: 35,
+                  borderRadius: 50,
+                  zIndex: 999,
+                  paddingTop: 3,
+                },
+              },
             },
           })
         : setMarkedDates({
@@ -74,10 +73,18 @@ const CalendarPage = ({ navigation }) => {
             [pickedDate]: {
               selected: true,
               selectedColor: `${palette.lightPurple}`,
+              customStyles: {
+                container: {
+                  width: 35,
+                  height: 35,
+                  borderRadius: 50,
+                  zIndex: 999,
+                  paddingTop: 3,
+                },
+              },
             },
           });
     }
-    //console.log(dates.markedDates.includes(pickedDate));
   }
 
   const handlePlan = (day) => {
@@ -88,7 +95,6 @@ const CalendarPage = ({ navigation }) => {
       );
     setPlanObj(dotDate);
     setPickedDate(day.dateString);
-    //console.log('plan', planObj);
   };
 
   return (
@@ -109,8 +115,9 @@ const CalendarPage = ({ navigation }) => {
           }
           onDayPress={(day) => {
             handlePlan(day);
-            //console.log(markedDates);
           }}
+          //추가
+          markingType={'custom'}
           markedDates={markedDates}
           style={{
             paddingTop: 15,
@@ -122,9 +129,6 @@ const CalendarPage = ({ navigation }) => {
           theme={{
             todayTextColor: palette.lightPurple,
             todayTextFontWeight: 'bold',
-            // textMonthFontSize: 14,
-            // textDayFontSize: 13,
-            // textDayHeaderFontSize: 13,
             textDayFontFamily: 'NanumSquareOTF_ac',
             textMonthFontFamily: 'NanumSquareOTF_ac Bold',
             textDayHeaderFontFamily: 'NanumSquareOTF_ac',
@@ -152,7 +156,6 @@ const CalendarPage = ({ navigation }) => {
               },
               week: {
                 marginTop: 30,
-                //marginHorizontal: 25,
                 flexDirection: 'row',
                 justifyContent: 'space-around',
               },

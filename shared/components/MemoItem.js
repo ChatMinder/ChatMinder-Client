@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, Dimensions } from 'react-native';
+import { ActivityIndicator, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import RNUrlPreview from 'react-native-url-preview';
 import styled from 'styled-components/native';
 import { DeleteMemo, PostBookmark } from '../API';
 import { bookmarkMemo, delMemo } from '../reducers/memo';
 import { TagBtn, TagBtnText } from '../styles/HomeStyle';
-import TextR from './TextR';
-import palette from '../palette';
 import ChatBubblePoint from '../assets/ChatBubblePoint.svg';
 import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
-import { TextSize } from '../styles/FontStyle';
 import CaptionText from './CaptionText';
 import Images from './Images';
 
@@ -29,10 +25,8 @@ const MemoItem = ({ memo, point }) => {
     };
     try {
       const bookmarkRes = await PostBookmark(token, data);
-      console.log(`북마크 성공: ${JSON.stringify(bookmarkRes.data)}`);
     } catch (error) {
       dispatch(bookmarkMemo(memo.id));
-      console.log(`북마크 실패: ${error}`);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -65,12 +59,9 @@ const MemoItem = ({ memo, point }) => {
   const handleDelete = async (memoID) => {
     setLoading(true);
     try {
-      console.log(memoID);
       const delMemoRes = await DeleteMemo(token, memoID);
-      console.log(`메모 삭제 성공: ${JSON.stringify(delMemoRes.data)}`);
       dispatch(delMemo(memoID));
     } catch (error) {
-      console.log(`메모 삭제 실패: ${error}`);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',

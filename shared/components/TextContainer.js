@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import RNUrlPreview from 'react-native-url-preview';
+import React, { useState } from 'react';
 import {
-  Text,
   Alert,
   TouchableOpacity,
   View,
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import styled, { css } from 'styled-components/native';
-import palette from '../palette';
-import TextR from './TextR';
-import TextB from './TextB';
-import { TextSize } from '../styles/FontStyle';
+import styled from 'styled-components/native';
 import { DeleteMemo, PostBookmark } from '../API';
 import { bookmarkMemo, delMemo } from '../reducers/memo';
 import Images from '../components/Images';
@@ -21,13 +15,7 @@ import CaptionText from './CaptionText';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-import {
-  TagBox,
-  BookmarkItem,
-  BookmarkBox2,
-  TextItem,
-  BoxContainer,
-} from '../styles/TextContainerStyle';
+import { BookmarkBox2, BoxContainer } from '../styles/TextContainerStyle';
 
 import EmptyBookmark from '../assets/emptyBookmark.svg';
 import FulledBookmark from '../assets/fulledBookmark.svg';
@@ -52,13 +40,11 @@ const TextContainer = ({
     };
     try {
       const postBookmarkRes = await PostBookmark(token, formData);
-      console.log('postBookmarkRes 성공: ', postBookmarkRes.data);
       dispatch(bookmarkMemo(memo.id));
       if (fromTagDetail) {
         setListner(true);
       }
     } catch (error) {
-      console.log(`postBookmarkRes 실패: ${error}`);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -91,15 +77,12 @@ const TextContainer = ({
   const handleDelete = async (memoID) => {
     setLoading(true);
     try {
-      console.log(memoID);
       const delMemoRes = await DeleteMemo(token, memoID);
-      console.log(`메모 삭제 성공: ${JSON.stringify(delMemoRes.data)}`);
       dispatch(delMemo(memoID));
       if (fromTagDetail) {
         setListner(true);
       }
     } catch (error) {
-      console.log(`메모 삭제 실패: ${error}`);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -194,16 +177,3 @@ const SpinnerWrapper = styled.View`
   bottom: ${SCREEN_HEIGHT * 0.1 + 18}px;
   z-index: 10;
 `;
-
-// {memo.url ? (
-//   <>
-//     {/* TODO onLoad 로직 추가 */}
-//     <RNUrlPreview text={`${memo.memo_text}, ${memo.url}`} />
-//     <TextR>
-//       <TextSize color={palette.gray2}>{memo.url}</TextSize>
-//     </TextR>
-//     <TextR>{memo.memo_text}</TextR>
-//   </>
-// ) : (
-//   <TextR>{memo.memo_text}</TextR>
-// )}

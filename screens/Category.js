@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   TouchableOpacity,
   Alert,
@@ -19,13 +19,11 @@ import {
   CategoryItem,
   TextBox,
   ImgBox,
-  ImgItem,
   ButtonBox,
 } from '../shared/styles/CategoryStyle';
 import { Wrapper } from '../shared/styles/TextContainerStyle';
 import TextB from '../shared/components/TextB';
 import TextR from '../shared/components/TextR';
-import TextEB from '../shared/components/TextEB';
 import { TextSize } from '../shared/styles/FontStyle';
 import ModalItem from '../shared/components/Modaltem';
 import Trashcan from '../shared/assets/trashcan.svg';
@@ -54,14 +52,12 @@ const Category = ({ navigation }) => {
     setLoading(true);
     try {
       const deleteTagRes = await DeleteTag(token, id);
-      console.log('deleteTag 성공: ', deleteTagRes.data);
       dispatch(deleteTag(id));
       const getMemoRes = await GetMemo(token);
       dispatch(setMemos(getMemoRes.data));
       const getTagRes = await GetTags(token);
       dispatch(setTags(getTagRes.data));
     } catch (error) {
-      console.log('deleteTag 실패', error);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -77,8 +73,6 @@ const Category = ({ navigation }) => {
     }
     setLoading(false);
   };
-
-  //console.log(tagData);
 
   return (
     <Background>

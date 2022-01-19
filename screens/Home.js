@@ -88,7 +88,6 @@ const Home = ({ navigation }) => {
       dispatch(setTags(getTagRes.data));
       setLoading(false);
     } catch (error) {
-      console.log(`새로고침 메모 가져오기 실패: ${error}`);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -170,9 +169,7 @@ const SearchBtnContainer = styled.TouchableOpacity``;
 
 const ProfileWrapper = styled.View``;
 
-const MemoContainer = styled.ScrollView`
-  /* background: #ececef; */
-`;
+const MemoContainer = styled.ScrollView``;
 
 const MemoItemWrapper = styled.View``;
 

@@ -86,11 +86,9 @@ const MemoInputForm = () => {
           timestamp: moment().unix(),
         });
 
-    console.log('요청 보내는 데이터:', sendingData);
     //메모 생성 요청
     try {
       const addMemoRes = await PostMemo(token, sendingData);
-      console.log(`메모 생성 성공: ${JSON.stringify(addMemoRes.data)}`);
       //메모 생성 응답 Redux store에 저장
       let currentMemoID = 0;
       if (addMemoRes.data.tag) {
@@ -107,12 +105,9 @@ const MemoInputForm = () => {
         //이미지 저장 요청
         try {
           const addImgRes = await PostImage(token, data.image);
-          console.log(`이미지 저장 성공: ${JSON.stringify(addImgRes.data)}`);
           //응답 image 객체 Redux store에 저장
-          //TODO
           dispatch(addImgInMemo(addImgRes.data.data));
         } catch (error) {
-          console.log(`이미지 저장 실패 : ${error}`);
           Alert.alert(
             '알림',
             `이미지 저장에 실패했습니다.\n다시 시도해 주세요.`
@@ -132,7 +127,6 @@ const MemoInputForm = () => {
         }
       }
     } catch (error) {
-      console.log(`메모 생성 실패 :  ${error}`);
       Alert.alert('알림', `메모 생성에 실패했습니다.\n다시 시도해 주세요.`);
       if (error == 'Error: Network Error') {
         Alert.alert(

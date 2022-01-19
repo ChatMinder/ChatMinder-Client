@@ -4,10 +4,6 @@ import axios from 'axios';
 
 const baseURL = `https://api.chatminder.app`;
 
-const accessToken = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NDg3OTYxLCJqdGkiOiJkNmYzYzVhZmZmY2M0MDc3Yjc0ZjdlOWVlOTk4ODViOCIsInVzZXJfaWQiOjE3LCJrYWthb19pZCI6IjEyMTIxMjIiLCJrYWthb19lbWFpbCI6InNlZTJvbkBuYXZlci5jb20ifQ.iVV5L4qhSmx2c8s50LC3Xe7J4u14ZNwf0ja2EKDLeoM`;
-
-const token2 = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQyNTM1NTU4LCJqdGkiOiIxZTVlOGYwYzc2YjU0M2E5YTkyNmFhZGYwNGE0ZmIwZCIsInVzZXJfaWQiOjIxLCJrYWthb19pZCI6IjIwNTgyODM0NjYiLCJrYWthb19lbWFpbCI6ImFuZHlhYWE3OEBnbWFpbC5jb20ifQ.zmCxDhNFEyRLhfU-qtIV5-AC0fXgmnsbqbdoziO29Rw`;
-
 //회원가입 및 로그인
 export const PostLogIn = async (data) =>
   await axios.post(`${baseURL}/auth/kakao`, data);
@@ -20,7 +16,7 @@ export const CheckTokenValid = async (data) =>
 export const GetMemo = async (token) =>
   await axios.get(`${baseURL}/memos`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -29,7 +25,7 @@ export const PostMemo = async (token, data) =>
   await axios.post(`${baseURL}/memos`, data, {
     headers: {
       'Content-Type': `application/json`,
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -37,7 +33,7 @@ export const PostMemo = async (token, data) =>
 export const PostImage = async (token, image) =>
   await axios.post(`${baseURL}/images`, image, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -45,7 +41,7 @@ export const PostImage = async (token, image) =>
 export const DeleteMemo = async (token, ID) =>
   await axios.delete(`${baseURL}/memos/${ID}`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -54,7 +50,7 @@ export const PatchMemo = async (token, ID, data) =>
   await axios.patch(`${baseURL}/memos/${ID}`, data, {
     headers: {
       'Content-Type': `application/json`,
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -63,7 +59,7 @@ export const PostBookmark = async (token, data) =>
   await axios.post(`${baseURL}/memos/bookmark`, data, {
     headers: {
       'Content-Type': `application/json`,
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -71,7 +67,7 @@ export const PostBookmark = async (token, data) =>
 export const GetImages = async (token) =>
   await axios.get(`${baseURL}/memos/images`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -79,7 +75,7 @@ export const GetImages = async (token) =>
 export const GetLinks = async (token) =>
   await axios.get(`${baseURL}/memos/links`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -87,7 +83,7 @@ export const GetLinks = async (token) =>
 export const GetTexts = async (token) =>
   await axios.get(`${baseURL}/memos/texts`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -95,7 +91,7 @@ export const GetTexts = async (token) =>
 export const GetTags = async (token) =>
   await axios.get(`${baseURL}/tags`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -103,7 +99,7 @@ export const GetTags = async (token) =>
 export const DeleteTag = async (token, id) =>
   await axios.delete(`${baseURL}/tags/${id}`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -111,7 +107,7 @@ export const DeleteTag = async (token, id) =>
 export const PostTag = async (token, data) =>
   await axios.post(`${baseURL}/tags`, data, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -119,7 +115,7 @@ export const PostTag = async (token, data) =>
 export const PatchTag = async (token, data, id) =>
   await axios.patch(`${baseURL}/tags/${id}`, data, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -127,7 +123,7 @@ export const PatchTag = async (token, data, id) =>
 export const GetTagsDetail = async (token, id) =>
   await axios.get(`${baseURL}/tags/${id}/memos`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -135,7 +131,7 @@ export const GetTagsDetail = async (token, id) =>
 export const GetFilterTags = async (token, id, link, image, text) =>
   await axios.get(`${baseURL}/tags/${id}?${link}&${image}&${text}`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -143,7 +139,7 @@ export const GetFilterTags = async (token, id, link, image, text) =>
 export const PostEditTag = async (token, data) =>
   await axios.post(`${baseURL}/memos/tags`, data, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -151,6 +147,6 @@ export const PostEditTag = async (token, data) =>
 export const GetDefaultTags = async (token) =>
   await axios.get(`${baseURL}/tags/default/memos`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });

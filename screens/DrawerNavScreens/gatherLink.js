@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar, TouchableOpacity } from 'react-native';
 
 import moment from 'moment';
-import styled from 'styled-components/native';
 
 import useSearch from '../../shared/hooks/useSearch';
 import TextB from '../../shared/components/TextB';
@@ -36,6 +35,7 @@ const gatherLink = ({ navigation }) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerShadowVisible: false,
       headerStyle: {
         backgroundColor: palette.gatherHeaderGray,
         height: 120,

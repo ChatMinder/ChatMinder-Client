@@ -19,8 +19,7 @@ const Nav = createNativeStackNavigator();
 const Root = () => {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth);
-  //개발 완료되고 기본값 false로 변경하기!
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
   //이미 토큰이 리덕스에 저장된 경우(직접 카카오로그인)
@@ -39,7 +38,6 @@ const Root = () => {
           refresh_token: storedToken,
         };
         const getTokenRes = await CheckTokenValid(data);
-        console.log(`토큰 검증 :${JSON.stringify(getTokenRes.data)}`);
         dispatch(setLoginState(getTokenRes.data.access_token));
         await AsyncStorage.setItem(
           'ChatMinderRefreshToken',
@@ -47,7 +45,6 @@ const Root = () => {
         );
         setIsLoggedIn(true);
       } catch (error) {
-        console.log(`토큰 검증 실패 ${error}`);
         if (error == 'Error: Network Error') {
           Alert.alert(
             '알림',
@@ -75,7 +72,6 @@ const Root = () => {
         const getTagRes = await GetTags(authData.accessToken);
         dispatch(setTags(getTagRes.data));
       } catch (error) {
-        console.log(`메모 가져오기 실패: ${error}`);
         if (error == 'Error: Network Error') {
           Alert.alert(
             '알림',

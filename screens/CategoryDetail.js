@@ -11,7 +11,6 @@ import moment from 'moment';
 import { GetTagsDetail, GetFilterTags, GetDefaultTags } from '../shared/API';
 
 import MemoDate from '../shared/components/MemoDate';
-import useSearch from '../shared/hooks/useSearch';
 import HeaderButton from '../shared/components/HeaderButton';
 import TextContainer from '../shared/components/TextContainer';
 
@@ -32,12 +31,7 @@ import GoBack from '../shared/assets/GoBack.svg';
 import palette from '../shared/palette';
 
 const CategoryDetail = ({ route, navigation }) => {
-  const memoData = useSelector((state) => state.memoData);
   const token = useSelector((state) => state.auth.accessToken);
-  const [onSearchChange, renderState] = useSearch('Main');
-  // const [memos, setMemos] = useState(
-  //   renderState.filter((item) => item.tag_name === route.params.tag_name)
-  // );
   const [clickedState, setClickedState] = useState(true);
 
   const [types, setTypes] = useState([
@@ -55,10 +49,8 @@ const CategoryDetail = ({ route, navigation }) => {
     setLoading(true);
     try {
       const getTagsDetail = await GetTagsDetail(token, route.params.id);
-      //console.log('getTagsDetail 성공: ', getTagsDetail.data);
       setTagsDetail(getTagsDetail.data);
     } catch (error) {
-      console.log('getTagsDetail 실패', error);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -75,42 +67,11 @@ const CategoryDetail = ({ route, navigation }) => {
     setLoading(false);
   };
 
-  const handleFilter = async (link, image, text) => {
-    try {
-      const getFilterTags = await GetFilterTags(
-        token,
-        route.params.id,
-        link,
-        image,
-        text
-      );
-      console.log('getFilterTags 성공: ', getFilterTags.data.data);
-      setTagsDetail(getFilterTags.data.data);
-    } catch (error) {
-      console.log('getFilterTags 실패', error);
-      if (error == 'Error: Network Error') {
-        Alert.alert(
-          '알림',
-          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
-          [
-            {
-              text: '네!',
-              style: 'cancel',
-            },
-          ]
-        );
-      }
-    }
-  };
-
   const handleDefaultTags = async () => {
     try {
       const getDefaultTags = await GetDefaultTags(token);
-      console.log('getDefaultTags 성공: ', getDefaultTags.data);
       setTagsDetail(getDefaultTags.data);
-    } catch (error) {
-      console.log('getDefaultTags 실패', error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -154,8 +115,6 @@ const CategoryDetail = ({ route, navigation }) => {
       setListner(false);
     }
   }, [listner]);
-
-  //console.log(memos);
 
   return (
     <Background>

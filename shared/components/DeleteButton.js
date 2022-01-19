@@ -14,12 +14,9 @@ const DeleteButton = ({ memoID }) => {
   const handleDelete = async (memoID) => {
     setLoading(true);
     try {
-      console.log(memoID);
       const delMemoRes = await DeleteMemo(token, memoID);
-      console.log(`메모 삭제 성공: ${JSON.stringify(delMemoRes.data)}`);
       dispatch(delMemo(memoID));
     } catch (error) {
-      console.log(`메모 삭제 실패: ${error}`);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
