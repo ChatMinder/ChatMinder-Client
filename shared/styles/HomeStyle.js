@@ -7,28 +7,28 @@ export const randomTagColor = () => {
   switch (randomNum) {
     //blue
     case 0:
-      return '#5DA7EF';
+      return `${palette.blue}`;
     //lightBlue
     case 1:
-      return '#9ECBFF';
+      return `${palette.lightBlue}`;
     //lightGreen
     case 2:
-      return '#C8D769';
+      return `${palette.lightGreen}`;
     //green
     case 3:
-      return '#50B093';
+      return `${palette.green}`;
     //blueGreen
     case 4:
-      return '#81C7BA';
+      return `${palette.blueGreen}`;
     //purple
     case 5:
-      return '#B282CC';
+      return `${palette.purple}`;
     //pink
     case 6:
-      return '#F85C5D';
+      return `${palette.pink}`;
     //orange
     case 7:
-      return '#FA7931';
+      return `${palette.orange}`;
     //lightOrange
     case 8:
       return `${palette.lightOrange}`;
@@ -41,29 +41,29 @@ export const randomTagColor = () => {
 const borderColor = (tagColor) => {
   switch (tagColor) {
     //blue
-    case '#5DA7EF':
-      return '#2673BD';
+    case `${palette.blue}`:
+      return `${palette.blue_border}`;
     //lightBlue
-    case '#9ECBFF':
-      return '#6DA0DB';
+    case `${palette.lightBlue}`:
+      return `${palette.lightBlue_border}`;
     //lightGreen
-    case '#C8D769':
-      return '#A2B141';
+    case `${palette.lightGreen}`:
+      return `${palette.lightGreen_border}`;
     //green
-    case '#50B093':
-      return '#0E805D';
+    case `${palette.green}`:
+      return `${palette.green_border}`;
     //blueGreen
-    case '#81C7BA':
-      return '#468D80';
+    case `${palette.blueGreen}`:
+      return `${palette.blueGreen_border}`;
     //purple
-    case '#B282CC':
-      return '#933AC3';
+    case `${palette.purple}`:
+      return `${palette.purple_border}`;
     //pink
-    case '#F85C5D':
-      return '#DD1617';
+    case `${palette.pink}`:
+      return `${palette.pink_border}`;
     //orange
-    case '#FA7931':
-      return '#D44C00';
+    case `${palette.orange}`:
+      return `${palette.orange_border}`;
     //lightOrange
     case `${palette.lightOrange}`:
       return `${palette.lightOrange_border}`;

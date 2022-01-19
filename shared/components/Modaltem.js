@@ -192,6 +192,7 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
       tag_name: subTitle,
       tag_color: selectedColor,
     };
+    console.log(formData);
     try {
       const patchTagRes = await PatchTag(token, formData, id);
       // dispatch(fixTag(id, patchTagRes.data));
