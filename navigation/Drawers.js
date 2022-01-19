@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Dimensions } from 'react-native';
-import { TouchableOpacity, Text, SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import styled, { css } from 'styled-components/native';
 import gatherImg from '../screens/DrawerNavScreens/gatherImg';
 import gatherLink from '../screens/DrawerNavScreens/gatherLink';
 import gatherText from '../screens/DrawerNavScreens/gatherText';
 import detailText from '../screens/DrawerNavScreens/detailText';
-import TextB from '../shared/components/TextR';
 import palette from '../shared/palette';
 import Tabs from './Tabs';
 

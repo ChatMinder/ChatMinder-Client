@@ -26,9 +26,6 @@ import TextR from './TextR';
 import TextB from './TextB';
 import palette from '../palette';
 
-import { ImgItem, ButtonBox } from '../styles/CategoryStyle';
-import { FontStyle } from '../styles/FontStyle';
-
 import Cancel from '../assets/cancel.svg';
 import styled from 'styled-components/native';
 import { fixTag, setTags, addTag } from '../reducers/tag';
@@ -44,15 +41,6 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   const SendData = () => {
     setStateValue(subTitle);
   };
-
-  // useEffect(() => {
-  //   {
-  //     title.title ? setSubTitle(title.title) : setSubTitle('');
-  //   }
-  //   console.log('title: ', title);
-  //   console.log('subTitle:', subTitle)
-  //   () => {};
-  // }, [subTitle, title.title]);
 
   const [colors, setColors] = useState([
     {
@@ -124,11 +112,9 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
   const handleClicked = (idx) => {
     const newArr = Array(colors.length).fill(false);
     newArr[idx] = true;
-    //console.log(newArr);
     setClicked({
       isSelected: newArr,
     });
-    //console.log(clicked.isSelected);
   };
 
   const handleColors = (tag_color) => {
@@ -167,9 +153,7 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     try {
       const postTagRes = await PostTag(token, formData);
       dispatch(addTag(postTagRes.data));
-      console.log('postTagRes 성공: ', postTagRes.data);
     } catch (error) {
-      console.log('postTagRes 실패: ', error);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -195,13 +179,11 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
     try {
       const patchTagRes = await PatchTag(token, formData, id);
       // dispatch(fixTag(id, patchTagRes.data));
-      console.log('patchTag 성공: ', patchTagRes.data);
       const getMemoRes = await GetMemo(token);
       dispatch(setMemos(getMemoRes.data));
       const getTagRes = await GetTags(token);
       dispatch(setTags(getTagRes.data));
     } catch (error) {
-      console.log('patchTag 실패: ', error);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -272,7 +254,6 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
                   onPress={() => {
                     setSelectedColor(color.colorValue);
                     handleClicked(index);
-                    //console.log(color.colorName);
                   }}
                 >
                   <ColorItem
@@ -286,7 +267,6 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
                   onPress={() => {
                     setSelectedColor(color.colorValue);
                     handleClicked(index);
-                    console.log(color.colorName);
                   }}
                 >
                   <ColorItem backgroundColor={color.colorValue} />

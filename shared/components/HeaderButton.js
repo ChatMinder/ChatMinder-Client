@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Text, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import palette from '../palette';
 
@@ -19,13 +19,11 @@ const HeaderButton = ({
   handleArr,
 }) => {
   const { id, category, isSelected } = type;
-  //console.log(type);
 
   const [clicked, setClicked] = useState({ isClicked: false });
 
   const SendData = () => {
     setClickedState(clicked.isClicked);
-    //console.log(clicked.isClicked);
   };
 
   const SendCategory = (item) => {

@@ -24,7 +24,6 @@ const LogIn = ({ navigation }) => {
     try {
       //카카오 로그인
       const kakaoRes = await login();
-      console.log(`카카오 로그인 성공: ${JSON.stringify(kakaoRes)}`);
       //챗마인더 로그인
       const Sendingdata = {
         kakao_access_token: kakaoRes.accessToken,
@@ -32,7 +31,6 @@ const LogIn = ({ navigation }) => {
       };
       const logInRes = await PostLogIn(Sendingdata);
       const ChatMinderTokens = logInRes.data;
-      console.log(`챗마인더 로그인 성공: ${JSON.stringify(logInRes.data)}`);
       //Async Storage에 리프레시 토큰 저장
       await AsyncStorage.setItem(
         'ChatMinderRefreshToken',
@@ -40,7 +38,6 @@ const LogIn = ({ navigation }) => {
       );
       dispatch(setLoginState(ChatMinderTokens.access_token));
     } catch (error) {
-      console.log(error);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Text,
   View,
-  Button,
   TouchableOpacity,
   TextInput,
   StyleSheet,
@@ -13,7 +11,6 @@ import {
   Modal,
 } from 'react-native';
 import styled from 'styled-components/native';
-// TODO 혼용 안되면 택1하기
 import { SliderBox } from 'react-native-image-slider-box';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNUrlPreview from 'react-native-url-preview';
@@ -39,7 +36,6 @@ import EmptyBookmark from '../../shared/assets/emptyBookmark.svg';
 import FulledBookmark from '../../shared/assets/fulledBookmark.svg';
 import GoBack from '../../shared/assets/GoBack.svg';
 import GoBackLight from '../../shared/assets/goBack_light.svg';
-import Edit from '../../shared/assets/Edit.svg';
 const edit = require('../../shared/assets/Edit_png.png');
 
 const detailText = ({ route, navigation }) => {
@@ -54,11 +50,9 @@ const detailText = ({ route, navigation }) => {
     newArr.push({
       url: imageArr[i],
     });
-    //console.log(newArr);
   }
 
   const token = useSelector((state) => state.auth.accessToken);
-  //console.log(route.params);
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState(route.params.memo_text);
   const [editable, setEditable] = useState(false);
@@ -86,10 +80,8 @@ const detailText = ({ route, navigation }) => {
     };
     try {
       const patchMemoRes = await PatchMemo(token, id, formData);
-      console.log('patchMemoRes 성공: ', patchMemoRes.data);
       dispatch(fixMemo(id, patchMemoRes.data));
     } catch (error) {
-      console.log(`patchMemoRes 실패: ${error}`);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -113,11 +105,9 @@ const detailText = ({ route, navigation }) => {
     };
     try {
       const postBookmarkRes = await PostBookmark(token, formData);
-      console.log('postBookmarkRes 성공: ', postBookmarkRes.data);
       setIsBookmarked(postBookmarkRes.data.is_marked);
       dispatch(bookmarkMemo(id));
     } catch (error) {
-      console.log(`postBookmarkRes 실패: ${error}`);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -141,7 +131,6 @@ const detailText = ({ route, navigation }) => {
     try {
       const editTagRes = await PostEditTag(token, formData);
       dispatch(fixMemo(route.params.id, editTagRes.data));
-      console.log('editTagRes 성공: ', editTagRes.data);
       Alert.alert('확인', '수정되었습니다.', [
         {
           text: '취소',
@@ -155,7 +144,6 @@ const detailText = ({ route, navigation }) => {
         },
       ]);
     } catch (error) {
-      console.log(`editTagRes 실패: ${error}`);
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -178,7 +166,6 @@ const detailText = ({ route, navigation }) => {
 
   const openZoom = (index) => {
     setZoom({ index: index, modalVisible: true });
-    //console.log(imageArr[zoom.index]);
   };
 
   return (
@@ -225,7 +212,6 @@ const detailText = ({ route, navigation }) => {
             <SliderBox
               images={imageArr}
               onCurrentImagePressed={(index) => {
-                //console.warn(`image ${index} pressed`);
                 openZoom(index);
               }}
               sliderBoxHeight="100%"
@@ -241,10 +227,8 @@ const detailText = ({ route, navigation }) => {
               imageUrls={newArr}
               index={zoom.index}
               onSwipeDown={() => {
-                //console.log('onSwipeDown');
                 setZoom({ ...zoom, modalVisible: false });
               }}
-              //onMove={(data) => console.log(data)}
               enableSwipeDown={true}
             />
           </Modal>
@@ -396,5 +380,3 @@ const ImageBox = styled.View`
   margin-bottom: 20px;
   margin-top: 12px;
 `;
-
-const LinkBox = styled.View``;

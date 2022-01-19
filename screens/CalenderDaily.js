@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 import MemoDate from '../shared/components/MemoDate';
-import useSearch from '../shared/hooks/useSearch';
 import TextContainer from '../shared/components/TextContainer';
 import HeaderButton from '../shared/components/HeaderButton';
 
@@ -25,7 +24,6 @@ import palette from '../shared/palette';
 
 const CalenderDaily = ({ route, navigation }) => {
   const memoData = useSelector((state) => state.memoData);
-  const [onSearchChange, renderState] = useSearch('Main');
   const [clickedState, setClickedState] = useState(true);
 
   const [types, setTypes] = useState([
@@ -82,7 +80,7 @@ const CalenderDaily = ({ route, navigation }) => {
               ) : (
                 <>
                   <MemoDate memoTime={route.params.planObj[0].timestamp} />
-                  {renderState
+                  {memoData
                     .filter(
                       (item) =>
                         moment.unix(item.timestamp).format('YYYY-MM-DD') ===
@@ -117,7 +115,7 @@ const CalenderDaily = ({ route, navigation }) => {
               ) : (
                 <>
                   <MemoDate memoTime={route.params.planObj[0].timestamp} />
-                  {renderState
+                  {memoData
                     .filter((elemnet) => elemnet.is_marked === true)
                     .filter(
                       (item) =>

@@ -11,7 +11,7 @@ export const StyledModalContainer = styled.View`
   flex-direction: column;
   align-items: center;
   width: 328px;
-  height: ${(props) => props.height || '371px'}
+  height: ${(props) => props.height || '371px'};
   background-color: rgba(255, 255, 255, 1);
   border-radius: 10px;
 `;

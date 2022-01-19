@@ -24,9 +24,6 @@ export const deleteTag = (tagID) => ({
 });
 
 //초기 상태 선언
-// const initialState = []
-
-//테스트용 더미 데이터
 const initialState = [];
 
 //리듀서 선언
