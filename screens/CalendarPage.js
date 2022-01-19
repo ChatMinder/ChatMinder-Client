@@ -4,7 +4,7 @@ import { Calendar } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import moment from 'moment';
+import moment, { relativeTimeRounding } from 'moment';
 
 import palette from '../shared/palette';
 import TextB from '../shared/components/TextB';
@@ -57,6 +57,15 @@ const CalendarPage = ({ navigation }) => {
               selectedColor: `${palette.lightPurple}`,
               marked: true,
               dotColor: `${palette.main}`,
+              customStyles: {
+                container: {
+                  width: 35,
+                  height: 35,
+                  borderRadius: 50,
+                  zIndex: 999,
+                  paddingTop: 3,
+                },
+              },
             },
           })
         : setMarkedDates({
@@ -64,6 +73,15 @@ const CalendarPage = ({ navigation }) => {
             [pickedDate]: {
               selected: true,
               selectedColor: `${palette.lightPurple}`,
+              customStyles: {
+                container: {
+                  width: 35,
+                  height: 35,
+                  borderRadius: 50,
+                  zIndex: 999,
+                  paddingTop: 3,
+                },
+              },
             },
           });
     }
@@ -98,6 +116,8 @@ const CalendarPage = ({ navigation }) => {
           onDayPress={(day) => {
             handlePlan(day);
           }}
+          //추가
+          markingType={'custom'}
           markedDates={markedDates}
           style={{
             paddingTop: 15,
