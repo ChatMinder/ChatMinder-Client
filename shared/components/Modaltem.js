@@ -215,6 +215,7 @@ const ModalItem = ({ isModalVisible, title, toggleModal, setStateValue }) => {
         <StyledModalContainer2>
           <ClosedBox>
             <TouchableOpacity
+              hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
               onPress={() => {
                 toggleModal();
               }}
@@ -315,7 +316,6 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const SpinnerWrapper = styled.View`
   position: absolute;
-  left: ${SCREEN_WIDTH * 0.5 - 18}px;
   bottom: ${SCREEN_HEIGHT * 0.5 - 18}px;
   z-index: 10;
 `;

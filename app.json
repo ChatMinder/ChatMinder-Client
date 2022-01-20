@@ -1,11 +1,9 @@
 {
   "expo": {
-    "name": "ChatMinder-Client",
-    "slug": "ChatMinder-Client",
-    "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "name": "Chatminder",
+    "slug": "Chatminder",
+    "version": "1.0.2",
+    "assetBundlePatterns": ["**/*"]
   },
-  "name": "ChatMinder-Client"
+  "name": "Chatminder"
 }

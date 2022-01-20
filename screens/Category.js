@@ -125,6 +125,7 @@ const Category = ({ navigation }) => {
               </TextBox>
               <ImgBox>
                 <TouchableOpacity
+                  hitSlop={{ top: 12, bottom: 12, left: 12, right: 8 }}
                   onPress={() => {
                     toggleModal();
                     setTitle({
@@ -137,6 +138,7 @@ const Category = ({ navigation }) => {
                   <Settings style={{ marginRight: 16 }} />
                 </TouchableOpacity>
                 <TouchableOpacity
+                  hitSlop={{ top: 12, bottom: 12, left: 8, right: 12 }}
                   onPress={() => {
                     Alert.alert('삭제 확인', '정말 삭제할까요?', [
                       {
