@@ -1,129 +1,62 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Text, View, Button } from 'react-native';
+import {
+  KakaoOAuthToken,
+  KakaoProfile,
+  getProfile as getKakaoProfile,
+  login,
+  logout,
+  unlink,
+  getAccessToken,
+} from '@react-native-seoul/kakao-login';
 
-import moment from 'moment';
-import { useDispatch } from 'react-redux';
-import { login } from '@react-native-seoul/kakao-login';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import styled from 'styled-components/native';
+const LogIn = () => {
+  const [kakaoResponse, setKakaoResponse] =
+    useState('아직 응답 받지 못하였습니다.');
+  const [serverResponse, setServerResponse] =
+    useState('아직 응답 받지 못하였습니다.');
+  const [kakaoAccessToken, setKakaoAccessToken] =
+    useState('아직 응답 받지 못하였습니다.');
+  const [serverAccessToken, setServerAccessToken] =
+    useState('아직 응답 받지 못하였습니다.');
 
-import { PostLogIn } from '../shared/API';
-import { setLoginState } from '../shared/reducers/auth';
-import Loader from '../shared/components/Loader';
-import Logo from '../shared/assets/LoginLogo.svg';
-import LogoText from '../shared/assets/LoginText.svg';
-import KakaoSymbol from '../shared/assets/KakaoSymbol.svg';
-import { Alert, StatusBar } from 'react-native';
-import palette from '../shared/palette';
-
-const LogIn = ({ navigation }) => {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-
-  const loginAtOnce = async () => {
-    setLoading(true);
+  const signInWithKakao = async () => {
     try {
-      //카카오 로그인
-      const kakaoRes = await login();
-      //챗마인더 로그인
-      const Sendingdata = {
-        kakao_access_token: kakaoRes.accessToken,
-        timestamp: moment().unix(),
-      };
-      const logInRes = await PostLogIn(Sendingdata);
-      const ChatMinderTokens = logInRes.data;
-      //Async Storage에 리프레시 토큰 저장
-      await AsyncStorage.setItem(
-        'ChatMinderRefreshToken',
-        ChatMinderTokens.refresh_token
-      );
-      dispatch(setLoginState(ChatMinderTokens.access_token));
-    } catch (error) {
-      if (error == 'Error: Network Error') {
-        Alert.alert(
-          '알림',
-          `인터넷 연결이 불안정합니다.\n확인 후 다시 시도해 주세요.`,
-          [
-            {
-              text: '네!',
-              style: 'cancel',
-            },
-          ]
-        );
-      }
+      const token = await login();
+      setKakaoResponse(JSON.stringify(token));
+      setKakaoAccessToken(token.accessToken);
+    } catch (e) {
+      console.log('error' + e);
     }
-    setLoading(false);
   };
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
+  const sendAccesToken = () => {
+    // const url = "http://localhost:8000/auth/kakao";
+    const url = 'http://10.0.2.2:8000/auth/kakao';
+    console.log(kakaoAccessToken);
+    axios
+      .post(url, {
+        kakao_access_token: kakaoAccessToken,
+      })
+      .then((res) => {
+        console.log(res);
+        const resdata = JSON.stringify(res.data);
+        setServerResponse(resdata);
+      })
+      .catch((e) => console.log(e));
+  };
 
   return (
-    <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <Wrapper>
-          <StatusBar
-            backgroundColor={palette.logInGray}
-            barStyle="dark-content"
-          />
-          <LogoContainer>
-            <Logo style={{ margin: 12 }} />
-            <LogoText />
-          </LogoContainer>
-          <LoginBtnContainer>
-            <KakaoLogIn onPress={loginAtOnce}>
-              <SymbolContainer>
-                <KakaoSymbol />
-              </SymbolContainer>
-              <Label>카카오로 시작하기</Label>
-            </KakaoLogIn>
-          </LoginBtnContainer>
-        </Wrapper>
-      )}
-    </>
+    <View>
+      <Button title="Kakao Login" onPress={signInWithKakao} />
+      <Button title="Send Access Token" onPress={sendAccesToken} />
+      <Text />
+      <Text>Kakao Server response : {kakaoResponse}</Text>
+      <Text />
+      <Text>ChatMinder Server response : {serverResponse}</Text>
+    </View>
   );
 };
-
-const Wrapper = styled.View`
-  width: 100%;
-  height: 100%;
-  background: ${palette.logInGray};
-  justify-content: space-evenly;
-  align-items: center;
-`;
-const LogoContainer = styled.View`
-  justify-content: center;
-  align-items: center;
-  padding-top: 150px;
-  padding-bottom: 200px;
-`;
-const LoginBtnContainer = styled.View`
-  width: 100%;
-  height: 54px;
-  align-items: center;
-`;
-
-const KakaoLogIn = styled.TouchableOpacity`
-  background: #fee500;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  width: 90%;
-  height: 100%;
-`;
-const SymbolContainer = styled.View`
-  position: absolute;
-  left: 15px;
-`;
-const Label = styled.Text`
-  position: relative;
-  left: 15px;
-  font-size: 17px;
-`;
 
 export default LogIn;

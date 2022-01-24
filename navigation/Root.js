@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from './Tabs';
 import Drawers from './Drawers';
-import LogIn from '../screens/LogIn';
+import Starting from '../screens/Starting';
 import CalenderDaily from '../screens/CalenderDaily';
 import CategoryDetail from '../screens/CategoryDetail';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,6 +13,8 @@ import { setMemos } from '../shared/reducers/memo';
 import { setTags } from '../shared/reducers/tag';
 import Loader from '../shared/components/Loader';
 import { Alert } from 'react-native';
+import moment from 'moment';
+import LogIn from '../screens/LogIn';
 
 const Nav = createNativeStackNavigator();
 
@@ -119,7 +121,10 @@ const Root = () => {
               />
             </>
           ) : (
-            <Nav.Screen name="LogIn" component={LogIn} />
+            <>
+              <Nav.Screen name="Starting" component={Starting} />
+              <Nav.Screen name="LogIn" component={LogIn} />
+            </>
           )}
         </Nav.Navigator>
       )}
