@@ -2,11 +2,11 @@
   "expo": {
     "name": "Chatminder",
     "slug": "Chatminder",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "assetBundlePatterns": ["**/*"]
   },
   "android": {
-    "versionCode": 2,
+    "versionCode": 3,
     "package": ""
   },
   "name": "Chatminder"

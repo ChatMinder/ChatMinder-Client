@@ -12,8 +12,7 @@ import Loader from '../shared/components/Loader';
 import Logo from '../shared/assets/LoginLogo.svg';
 import LogoText from '../shared/assets/LoginText.svg';
 import KakaoSymbol from '../shared/assets/KakaoSymbol.svg';
-import ChatminderSymbol from '../shared/assets/LogoHome.svg';
-import TestSymbol from '../shared/assets/testlogo.svg';
+import ChatminderSymbol from '../shared/assets/ChatminderSymbol.svg';
 import { Alert, StatusBar } from 'react-native';
 import palette from '../shared/palette';
 
@@ -30,14 +29,12 @@ const Starting = ({ navigation }) => {
     try {
       //카카오 로그인
       const kakaoRes = await login();
-      console.log('카카오응답', JSON.stringify(kakaoRes));
       //챗마인더 로그인
       const Sendingdata = {
         kakao_access_token: kakaoRes.accessToken,
         timestamp: moment().unix(),
       };
       const logInRes = await PostLogIn(Sendingdata);
-      console.log('챗마인더서버응답', JSON.stringify(logInRes));
       const ChatMinderTokens = logInRes.data;
       //Async Storage에 리프레시 토큰 저장
       await AsyncStorage.setItem(
@@ -46,7 +43,6 @@ const Starting = ({ navigation }) => {
       );
       dispatch(setLoginState(ChatMinderTokens.access_token));
     } catch (error) {
-      console.log('에러는', JSON.stringify(error));
       if (error == 'Error: Network Error') {
         Alert.alert(
           '알림',
@@ -86,7 +82,7 @@ const Starting = ({ navigation }) => {
           <LoginBtnContainer>
             <ChatminderLogIn onPress={chatminderLogin}>
               <SymbolContainer>
-                <TestSymbol
+                <ChatminderSymbol
                   width="19"
                   height="19"
                   style={{ backgroundColor: palette.main }}

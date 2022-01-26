@@ -187,7 +187,10 @@ const detailText = ({ route, navigation }) => {
           <GoBack />
         </TouchableOpacity>
         <Buttons>
-          <TouchableOpacity onPress={() => onEdit()}>
+          <TouchableOpacity
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 0 }}
+            onPress={() => onEdit()}
+          >
             <BookmarkItem
               source={edit}
               width="25"
@@ -196,6 +199,7 @@ const detailText = ({ route, navigation }) => {
             />
           </TouchableOpacity>
           <TouchableOpacity
+            hitSlop={{ top: 12, bottom: 12, left: 6, right: 12 }}
             onPress={() => {
               handleBookmark(route.params.id, route.params.is_marked);
             }}

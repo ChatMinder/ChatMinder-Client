@@ -13,8 +13,8 @@ import { setMemos } from '../shared/reducers/memo';
 import { setTags } from '../shared/reducers/tag';
 import Loader from '../shared/components/Loader';
 import { Alert } from 'react-native';
-import moment from 'moment';
 import LogIn from '../screens/LogIn';
+import SignUp from '../screens/SignUp';
 
 const Nav = createNativeStackNavigator();
 
@@ -24,14 +24,14 @@ const Root = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  //이미 토큰이 리덕스에 저장된 경우(직접 카카오로그인)
+  //이미 토큰이 리덕스에 저장된 경우(직접 로그인)
   useEffect(() => {
     if (authData.isLoggedIn) {
       setIsLoggedIn(true);
     }
   }, [authData]);
 
-  //직접 로그인하는 경우가 아니라면 AsyncStorage에 토큰이 있다면 로그인
+  //AsyncStorage에 토큰이 저장되어 있는 경우(자동 로그인)
   useEffect(async () => {
     const storedToken = await AsyncStorage.getItem('ChatMinderRefreshToken');
     if (storedToken) {
@@ -124,6 +124,7 @@ const Root = () => {
             <>
               <Nav.Screen name="Starting" component={Starting} />
               <Nav.Screen name="LogIn" component={LogIn} />
+              <Nav.Screen name="SignUp" component={SignUp} />
             </>
           )}
         </Nav.Navigator>

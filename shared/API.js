@@ -4,7 +4,19 @@ import axios from 'axios';
 
 const baseURL = `https://api.chatminder.app`;
 
-//회원가입 및 로그인
+//챗마인더 자체 로그인
+export const CMLogIn = async (data) =>
+  await axios.post(`${baseURL}/auth/signin`, data);
+
+//챗마인더 자체 회원가입
+export const CMSignUp = async (data) =>
+  await axios.post(`${baseURL}/auth/signup`, data);
+
+//아이디 중복 확인
+export const CheckDuplicateID = async (ID) =>
+  await axios.get(`${baseURL}/auth/duplicate?login_id=${ID}`);
+
+//카카오 로그인
 export const PostLogIn = async (data) =>
   await axios.post(`${baseURL}/auth/kakao`, data);
 

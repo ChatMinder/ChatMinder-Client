@@ -14,7 +14,7 @@ import styled from 'styled-components/native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import { PostImage, PostMemo } from '../API';
-import { checkIncludeURL } from '../checkIncludeURL';
+import { checkIncludeURL } from '../RegExp';
 import { addTag } from '../reducers/tag';
 import { addImgInMemo, addMemo } from '../reducers/memo';
 import TextR from './TextR';
