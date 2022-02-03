@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">ChatMinder-Client</string>
+    <string name="app_name">Chatminder</string>
     <string name="kakao_app_key">@string/KAKAO_APP_KEY</string>
 </resources>

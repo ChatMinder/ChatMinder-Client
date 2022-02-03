@@ -136,7 +136,7 @@ android {
         applicationId "com.chatminderclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
+        versionCode 4
         versionName "1.0.3"
         resValue "string", "build_config_package", "com.chatminderclient"
     
