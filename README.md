@@ -86,7 +86,7 @@ or [Download our Application](https://play.google.com/store/apps/details?id=com.
 <br><br>
 <p>
 <img src="https://user-images.githubusercontent.com/50395394/152347302-2c7b698c-6699-466e-906f-6248d46ec50a.png" width="200">
-<img src="https://user-images.githubusercontent.com/50395394/152347411-4995abe4-1edf-4b14-b213-4f7ec3c126e8.png" width="200">
+<img src="https://user-images.githubusercontent.com/50395394/152347411-4995abe4-1edf-4b14-b213-4f7ec3c126e8.png" height="400">
 <img src="https://user-images.githubusercontent.com/50395394/152347505-6eeed730-df8e-4eb7-84a8-12ae9e7b0889.png" width="200">
 <img src="https://user-images.githubusercontent.com/50395394/152347639-3c80ad5f-75d9-47cf-862b-07877544ae67.png" width="200">
 </p>
