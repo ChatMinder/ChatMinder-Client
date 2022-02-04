@@ -129,7 +129,7 @@ or [Download our Application](https://play.google.com/store/apps/details?id=com.
 ### 메모 상세보기 창
 
 <p>
-<img src="https://media.vlpt.us/images/roum02/post/a203ab85-1c39-4c4a-a5dc-a175caab4eaa/20220118_222102-_online-video-cutter.com_-_1_.gif" width="220">
+<img src="https://user-images.githubusercontent.com/78200124/152516244-1dcb8ebc-81f7-4d4b-baf2-cfcfb46f2fdf.gif" width="220">
 <img src="https://user-images.githubusercontent.com/50395394/152347411-4995abe4-1edf-4b14-b213-4f7ec3c126e8.png" width="200">
 </p>
 
