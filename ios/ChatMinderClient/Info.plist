@@ -35,9 +35,9 @@
 	<string>106bf8fccf5807731fa7084ac4459ee9</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-	<string>kakaokompassauth</string>
-	<string>storykompassauth</string>
-	<string>kakaolink</string>
+		<string>kakaokompassauth</string>
+		<string>storykompassauth</string>
+		<string>kakaolink</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -59,6 +59,7 @@
 		<string>Gordita.otf</string>
 		<string>NanumSquareOTF_ac Bold.otf</string>
 		<string>NanumSquareOTF_ac.otf</string>
+		<string>NanumSquareOTF_acEB.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
