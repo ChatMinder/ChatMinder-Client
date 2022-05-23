@@ -1,25 +1,26 @@
-# This is a basic workflow to help you get started with Actions
-
-name: Slack notifications for dev branch
+name: Slack notifications for develop branch
 
 on:
   push:
     branches:
-      - dev
+      - develop
       - feature/*
 
   pull_request:
     branches:
-      - dev
+      - develop
       - feature/*
+
 jobs:
-  slackNotification:
-    name: Slack Notification
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
+    - name: Action-Slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        author_name: SEEWON
+        fields: repo,message,commit,author #repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest selectable (default: repo,message)
       env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-    
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+      if: always() # Pick up events even if the job fails or is canceled.
