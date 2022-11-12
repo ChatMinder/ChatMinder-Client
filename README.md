@@ -1,7 +1,7 @@
 # 내게 쓰는 더 빠른 메모, 챗마인더
 ![Logo](https://user-images.githubusercontent.com/50395394/150471967-b4ee8d49-fb64-4ca2-b1e7-32891fd9c59e.png)
-Chatminder는 메모, 이미지, 링크를 통합적으로 저장하고 관리하도록 지원하는 정보관리 어플리케이션입니다. <br>
-[구글 플레이 스토어 링크](https://play.google.com/store/apps/details?id=com.chatminderclient)
+Chatminder는 메모, 이미지, 링크를 통합적으로 저장하고 관리하도록 지원하는 정보관리 모바일 어플리케이션입니다. <br>
+Android, iOS 모두 지원합니다.
 
 ## ❓︎ About Chatminder
 메모 작성 작업이 귀찮다고 느껴보신 적 있나요? Chatminder와 함께라면 더 이상 메모 작성은 번거로운 일이 아닙니다. 하나의 텍스트바에서 메모 입력, 태그 선택, 사진 및 링크 첨부 기능을 사용할 수 있고 기존의 메모 앱보다 훨씬 빠르고 체계적으로 정보를 입력할 수 있습니다. 
